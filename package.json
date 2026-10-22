@@ -1,0 +1,9 @@
+{
+  "name": "pham-tien-dat-seo-portfolio-source",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.mjs"
+  }
+}
