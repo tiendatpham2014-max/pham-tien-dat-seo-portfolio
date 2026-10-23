@@ -5,6 +5,7 @@ const copy = {
     approachLabel:"Góc nhìn nghề nghiệp",approachTitle:"Không chỉ tối ưu để được tìm thấy.",approachLead:"Một trang có thể thu hút lượt hiển thị nhưng vẫn chưa trả lời đúng nhu cầu.",approachBody:"Tôi bắt đầu bằng cách xem người đọc đang tìm gì, trang hiện tại hứa hẹn điều gì và dữ liệu cho thấy khoảng cách ở đâu. Khi đó, thay đổi nội dung hay cấu trúc mới có lý do rõ ràng.",insightOneTitle:"Trang này có thực sự nên được index?",insightOneBody:"Khả năng crawl, nội dung hữu ích và mức độ trùng lặp cần được đọc cùng mục đích tìm kiếm.",insightTwoTitle:"Một từ khóa chưa đủ để quyết định cấu trúc trang.",insightTwoBody:"Nhóm truy vấn và vai trò của từng URL giúp chọn tạo mới, cập nhật hay hợp nhất nội dung.",insightThreeTitle:"Tăng một chỉ số không có nghĩa mọi thứ đều tốt hơn.",insightThreeBody:"Clicks, impressions, CTR và vị trí cần được đặt trong cùng bối cảnh trước khi kết luận.",
     workLabel:"Bằng chứng / GSC",workTitle:"Đọc cả thay đổi, không chỉ con số đẹp.",workIntro:"Một lát cắt organic search của website dịch vụ giải trí tại Mỹ, so sánh hai quý tương đương.",caseFigureLabel:"organic clicks, Q3/2026 so với Q3/2025",caseSummary:"Organic clicks tăng 27,1% trong khi impressions giảm 5,0%. Hai hướng thay đổi này cần được đọc cùng nhau.",metricLensLabel:"Góc đọc dữ liệu",metricTitle:"Lượt nhấp từ tìm kiếm",metricClicks:"Clicks",metricImpressions:"Impressions",metricPosition:"Vị trí",period2025:"Q3/2025 · kỳ trước",period2026:"Q3/2026 · kỳ sau",tableCaption:"Toàn bộ chỉ số GSC trong hai kỳ, ở cấp website",tableMetric:"Chỉ số",tableChange:"Thay đổi",tableClicks:"Organic clicks",tableImpressions:"Impressions",tablePosition:"Vị trí trung bình",tableNonbrand:"Non-brand clicks*",tableNonbrandCtr:"Non-brand CTR*",changeClicks:"+27,1%",changeImpressions:"−5,0%",changeCtr:"+0,34 điểm %",changePosition:"Cải thiện 5,0 vị trí",changeNonbrand:"+31,9%",changeNonbrandCtr:"+0,37 điểm %",
     caseContribution:"Vai trò tham gia: nghiên cứu nhu cầu tìm kiếm, nội dung SEO, tối ưu on-page và đọc dữ liệu để đề xuất cải tiến.",caseCaveat:"Giới hạn diễn giải: đây là số liệu của toàn website và đội ngũ, không quy riêng cho một cá nhân. Trang mới cũng đóng góp vào tăng trưởng; non-brand là ước tính loại truy vấn chứa tên thương hiệu, có thể bỏ sót biến thể.",caseSource:"Nguồn: Google Search Console · Web · 01/07–30/09/2025 và 01/07–30/09/2026, 92 ngày mỗi kỳ. Vị trí trung bình được tính theo lượt hiển thị.",
+    storyOverline:"ĐỌC DỮ LIỆU THEO TỪNG LỚP",storyClicksLabel:"Organic clicks",storyImpressionsLabel:"Impressions",storyContextLabel:"Một bức tranh đầy đủ hơn",storySitewide:"DỮ LIỆU TOÀN WEBSITE · KẾT QUẢ CỦA ĐỘI NGŨ",storyClicksTitle:"Nhiều lượt nhấp hơn.",storyClicksBody:"Organic clicks tăng từ 13.795 lên 17.540 trong hai quý tương đương.",storyImpressionsTitle:"Ít lượt hiển thị hơn.",storyImpressionsBody:"Impressions giảm từ 1.358.505 xuống 1.290.541. Không thể chỉ kể phần tăng.",storyContextTitle:"Đọc hai chiều cùng nhau.",storyContextBody:"CTR cải thiện; các trang mới cũng đóng góp vào thay đổi. Đây là kết quả cấp website và đội ngũ.",
     processLabel:"Phương pháp làm việc",processTitle:"Từ câu hỏi đến vòng cải tiến.",processIntro:"Ba giai đoạn dưới đây mô tả cách tôi tiếp cận công việc SEO; đây không phải timeline của một dự án cụ thể.",processChecklist:"Việc cần kiểm tra",stepOneTitle:"Nghiên cứu & kiểm tra",stepOneQuestion:"Người tìm kiếm muốn giải quyết điều gì, và website đang cản trở ở đâu?",stepOneA:"Search intent & nhóm từ khóa",stepOneB:"Crawl, indexability & cấu trúc URL",stepOneC:"Trang đích so với nhu cầu tìm kiếm",stepTwoTitle:"Triển khai & tối ưu",stepTwoQuestion:"Thay đổi nào làm trang hữu ích hơn mà vẫn khớp mục đích tìm kiếm?",stepTwoA:"Content brief & on-page",stepTwoB:"Internal links & điều hướng nội dung",stepTwoC:"Khuyến nghị technical SEO",stepThreeTitle:"Đo lường & cải tiến",stepThreeQuestion:"Dữ liệu sau triển khai cho thấy gì, và còn điều gì cần kiểm tra?",stepThreeA:"Theo dõi clicks, impressions & CTR",stepThreeB:"Đọc theo trang, truy vấn & thời gian",stepThreeC:"Ưu tiên vòng tối ưu tiếp theo",
     skillsLabel:"Năng lực",skillsTitle:"Vấn đề. Cách làm. Đầu ra.",skillsIntro:"Thay vì liệt kê công cụ, phần này cho thấy từng nhóm công việc giải quyết điều gì.",skillTechnical:"Technical SEO",skillContent:"Chiến lược nội dung",skillAnalytics:"Phân tích dữ liệu",skillWorkflow:"Quy trình & tự động hóa",problem:"Vấn đề",approach:"Cách tiếp cận",output:"Đầu ra dạng công việc",
     technicalHeadline:"Tìm rào cản trước khi thêm nội dung.",technicalProblem:"Trang khó crawl, index hoặc phân biệt với trang trùng lặp.",technicalApproach:"Kiểm tra mẫu URL, indexability, canonical, sitemap và cấu trúc trang.",technicalOutput:"Danh sách vấn đề và khuyến nghị được ưu tiên.",
@@ -22,6 +23,7 @@ const copy = {
     approachLabel:"Editorial approach",approachTitle:"Beyond getting found.",approachLead:"A page can earn impressions and still miss the reader's need.",approachBody:"I start by examining the intent behind a search, what the page promises and where the data suggests a gap. That gives content and structural changes a clear purpose.",insightOneTitle:"Does this page deserve to be indexed?",insightOneBody:"Crawlability, usefulness and duplication need to be considered alongside search intent.",insightTwoTitle:"One keyword rarely defines a page.",insightTwoBody:"Query groups and each URL's role help determine whether to create, improve or consolidate content.",insightThreeTitle:"A rising metric is not the whole story.",insightThreeBody:"Clicks, impressions, CTR and position belong in the same context before drawing a conclusion.",
     workLabel:"Evidence / GSC",workTitle:"Read the change, not just the headline.",workIntro:"A snapshot of organic search at a US entertainment services website, across comparable quarters.",caseFigureLabel:"organic clicks, Q3 2026 vs Q3 2025",caseSummary:"Organic clicks rose 27.1% while impressions fell 5.0%. Both directions matter when interpreting the result.",metricLensLabel:"Explore the data",metricTitle:"Organic clicks",metricClicks:"Clicks",metricImpressions:"Impressions",metricPosition:"Position",period2025:"Q3 2025 · earlier",period2026:"Q3 2026 · later",tableCaption:"Complete GSC comparison across the two periods, sitewide",tableMetric:"Metric",tableChange:"Change",tableClicks:"Organic clicks",tableImpressions:"Impressions",tablePosition:"Average position",tableNonbrand:"Non-brand clicks*",tableNonbrandCtr:"Non-brand CTR*",changeClicks:"+27.1%",changeImpressions:"−5.0%",changeCtr:"+0.34 pp",changePosition:"5.0 positions better",changeNonbrand:"+31.9%",changeNonbrandCtr:"+0.37 pp",
     caseContribution:"My contribution: search-intent research, SEO content, on-page improvements and data analysis to inform next steps.",caseCaveat:"Interpretation limits: these are sitewide, team-level results, not outcomes attributed to one person. New pages contributed to growth; non-brand is a heuristic excluding queries containing the brand string and may miss variants.",caseSource:"Source: Google Search Console · Web · July 1–September 30 in 2025 and 2026, 92 days each. Average position is impression-weighted.",
+    storyOverline:"READ THE DATA IN LAYERS",storyClicksLabel:"Organic clicks",storyImpressionsLabel:"Impressions",storyContextLabel:"A fuller picture",storySitewide:"SITEWIDE DATA · TEAM-LEVEL OUTCOME",storyClicksTitle:"More clicks.",storyClicksBody:"Organic clicks rose from 13,795 to 17,540 across comparable quarters.",storyImpressionsTitle:"Fewer impressions.",storyImpressionsBody:"Impressions fell from 1,358,505 to 1,290,541. The rising number is not the whole story.",storyContextTitle:"Read both signals.",storyContextBody:"CTR improved; new pages also contributed to the change. These are sitewide, team-level results.",
     processLabel:"Working method",processTitle:"From questions to iteration.",processIntro:"These three stages describe an SEO working method, not milestones claimed for a particular client project.",processChecklist:"What I check",stepOneTitle:"Research & audit",stepOneQuestion:"What is the searcher trying to solve, and what might be holding the site back?",stepOneA:"Search intent & keyword mapping",stepOneB:"Crawl, indexability & URL structure",stepOneC:"Landing-page intent assessment",stepTwoTitle:"Implement & optimize",stepTwoQuestion:"Which changes could make the page more useful while matching its search purpose?",stepTwoA:"Content briefs & on-page SEO",stepTwoB:"Internal links & content navigation",stepTwoC:"Technical SEO recommendations",stepThreeTitle:"Measure & iterate",stepThreeQuestion:"What do the next signals show, and what should be investigated further?",stepThreeA:"Track clicks, impressions & CTR",stepThreeB:"Review pages, queries & periods",stepThreeC:"Prioritize the next iteration",
     skillsLabel:"Capabilities",skillsTitle:"Problem. Approach. Output.",skillsIntro:"These are the kinds of problems I can work on, rather than a second list of job duties.",skillTechnical:"Technical SEO",skillContent:"Content Strategy",skillAnalytics:"Analytics & Measurement",skillWorkflow:"Workflow & Automation",problem:"Problem",approach:"Approach",output:"Typical output",
     technicalHeadline:"Find search barriers before adding content.",technicalProblem:"Pages may be hard to crawl, index or distinguish from duplicates.",technicalApproach:"Review URL patterns, indexability, canonicals, sitemaps and page structure.",technicalOutput:"An issue list and prioritized recommendations.",
@@ -95,8 +97,10 @@ function setLanguage(next){
   $$("[data-value]").forEach(element=>element.textContent=formatMetric(Number(element.dataset.value),"integer"));
   $$("[data-percent]").forEach(element=>element.textContent=formatMetric(Number(element.dataset.percent),"percent"));
   $$("[data-decimal]").forEach(element=>element.textContent=formatMetric(Number(element.dataset.decimal),"decimal"));
-  $(".case-figure strong").innerHTML=(next==="vi"?"+27,1":"+27.1")+"<span>%</span>";
+  const storyValues=next==="vi"?["+27,1%","−5,0%","2 chiều"]:["+27.1%","−5.0%","2 signals"];
+  $$(".evidence-card strong").forEach((element,index)=>element.textContent=storyValues[index]);
   renderMetric();
+  updateScenes();
   requestAnimationFrame(positionIndicator);
   try{localStorage.setItem("dat-seo-language",next)}catch{}
 }
@@ -145,6 +149,44 @@ function updateComparison(){
   $("#compare-wipe").style.setProperty("--split",value+"%");
   slider.setAttribute("aria-valuetext",language==="vi"?(100-value)+"% kỳ trước, "+value+"% kỳ sau":(100-value)+"% earlier period, "+value+"% later period");
 }
+function getSceneState(items){
+  const focus=window.innerHeight*.56;
+  const centers=items.map(item=>{const rect=item.getBoundingClientRect();return rect.top+rect.height/2});
+  let progress=0;
+  for(let index=0;index<centers.length-1;index++){
+    const portion=Math.max(0,Math.min(1,(focus-centers[index])/(centers[index+1]-centers[index])));
+    if(focus>=centers[index])progress=(index+portion)/(centers.length-1);
+  }
+  if(focus>=centers.at(-1))progress=1;
+  const active=centers.reduce((best,center,index)=>Math.abs(center-focus)<Math.abs(centers[best]-focus)?index:best,0);
+  return{progress,active};
+}
+const careerArticles=$$(".career-list article"),evidenceSteps=$$(".evidence-chapters article");
+const careerPath=$(".career-path-base"),careerActivePath=$(".career-path-active"),careerMarker=$(".career-route-marker");
+const careerPathLength=careerPath.getTotalLength();
+careerActivePath.style.strokeDasharray=String(careerPathLength);
+$$("[data-career-node]").forEach((node,index)=>{const point=careerPath.getPointAtLength(careerPathLength*index/2);node.setAttribute("cx",point.x);node.setAttribute("cy",point.y)});
+function updateScenes(){
+  const career=getSceneState(careerArticles);
+  $(".career-list").style.setProperty("--career-fill",(career.progress*80).toFixed(2)+"%");
+  careerActivePath.style.strokeDashoffset=String(careerPathLength*(1-career.progress));
+  const markerPoint=careerPath.getPointAtLength(careerPathLength*career.progress);
+  careerMarker.setAttribute("cx",markerPoint.x);careerMarker.setAttribute("cy",markerPoint.y);
+  careerArticles.forEach((article,index)=>article.classList.toggle("is-current",index===career.active));
+  $("#career-count").textContent=String(career.active+1).padStart(2,"0")+" / 03";
+  $("#career-role").textContent=careerArticles[career.active].querySelector("h3").textContent;
+  const evidence=getSceneState(evidenceSteps);
+  evidenceSteps.forEach((step,index)=>step.classList.toggle("is-current",index===evidence.active));
+  $$("[data-evidence-card]").forEach((card,index)=>card.classList.toggle("is-current",index===evidence.active));
+  $("#evidence-count").textContent=String(evidence.active+1).padStart(2,"0")+" / 03";
+}
+let sceneFrame=null;
+function scheduleSceneUpdate(){
+  if(sceneFrame!==null)return;
+  sceneFrame=requestAnimationFrame(()=>{sceneFrame=null;updateScenes()});
+}
+window.addEventListener("scroll",scheduleSceneUpdate,{passive:true});
+window.addEventListener("resize",scheduleSceneUpdate);
 $$("[data-lang]").forEach(button=>button.addEventListener("click",()=>setLanguage(button.dataset.lang)));
 $("#compare-slider").addEventListener("input",updateComparison);
 $$("[data-metric]").forEach(button=>button.addEventListener("click",()=>{currentMetric=button.dataset.metric;renderMetric()}));
@@ -165,6 +207,7 @@ $("#year").textContent=new Date().getFullYear();
 try{setLanguage(localStorage.getItem("dat-seo-language")||"vi")}catch{setLanguage("vi")}
 document.documentElement.classList.remove("no-js");
 updateRail();
+updateScenes();
 if("IntersectionObserver"in window){
   const sectionObserver=new IntersectionObserver(entries=>{const seen=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);if(seen.length)setActiveSection(seen[0].target.id)},{rootMargin:"-25% 0px -55% 0px",threshold:[0,.1,.25,.5]});
   sections.forEach(id=>sectionObserver.observe(document.getElementById(id)));
