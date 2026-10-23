@@ -20,3 +20,7 @@ Phần Hero, Editorial Approach, Process, Skills và mô tả chủ đề bài v
 Ảnh GSC do chủ portfolio gửi ngày 23/10/2026 chỉ dùng để tham khảo cấu trúc giao diện phân tích hiệu suất. Ảnh có thông tin định danh, không đưa vào source hoặc bản live, không suy ra dữ liệu theo ngày từ đường biểu đồ trong ảnh. Bản công khai chỉ hiển thị số liệu Q3/2025–Q3/2026 đã được xác nhận. Chứng chỉ và ảnh cá nhân không nằm trong kế hoạch công khai theo yêu cầu riêng tư.
 
 Sau phản hồi trực tiếp của chủ portfolio, đã mở preview động của cả 9 URL React Bits Pro được gửi ngày 23/10/2026, rồi xem thêm minwang.dev. Cơ chế chuyển động được tái tạo bằng CSS/JavaScript thuần từ quan sát bố cục và tương tác: mesh và entrance; hai cảnh cuộn có thẻ xếp lớp và tiến trình nghề nghiệp; tab tự chuyển có điều kiện; rail bài viết; icon cards; footer sitemap gọn; wipe kéo/keyboard; underline chạy; timeline checklist. Không sao chép mã React hoặc nội dung demo của nguồn tham khảo. Wipe là một lớp hình trực quan, còn bảng chỉ số đầy đủ luôn đọc được.
+
+## Cập nhật theo yêu cầu giao diện tối
+
+`docs/DARK_REFERENCE_PASS.md` ghi lại lần đối chiếu mới. Nền navy của phần kinh nghiệm minwang.dev (`#142039`) trở thành trường màu chính, còn cảnh chuyển chữ dùng than `#1a1b1b`. Bổ sung cảnh Nhu cầu → Nội dung → Đo lường chạy theo cuộn giữa góc nhìn nghề nghiệp và bằng chứng GSC. Đổi minh họa đường cong kinh nghiệm thành ba thẻ vai trò xếp lớp, đồng bộ với chương đang đọc. Mã và dữ liệu tiếp tục thuộc source dự án, không dùng asset trả phí hay nội dung demo.

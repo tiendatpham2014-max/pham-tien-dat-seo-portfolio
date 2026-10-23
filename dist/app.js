@@ -1,5 +1,6 @@
 const copy = {
   vi: {
+    sceneLabel:"CÁCH TÔI ĐỌC MỘT VẤN ĐỀ SEO",sceneScroll:"CUỘN ĐỂ XEM CHUYỂN ĐỘNG ↓",sceneTitle:"Từ tín hiệu đến quyết định.",sceneWordOne:"NHU CẦU",sceneWordTwo:"NỘI DUNG",sceneWordThree:"ĐO LƯỜNG",sceneDescOne:"Hiểu điều người tìm kiếm muốn giải quyết.",sceneDescTwo:"Đặt đúng nội dung vào đúng vai trò của trang.",sceneDescThree:"Đọc kết quả và chọn bước cải thiện tiếp theo.",
     skip:"Đi tới nội dung",navWork:"Dự án",navProcess:"Quy trình",navSkills:"Chuyên môn",navWriting:"Bài viết",navJourney:"Kinh nghiệm",navContact:"Liên hệ",
     role:"SEO Executive",location:"TP. Hồ Chí Minh, Việt Nam",heroOverline:"TỪ NHU CẦU TÌM KIẾM ĐẾN NỘI DUNG VÀ DỮ LIỆU",heroName:"Phạm Tiến Đạt",heroStatement:"SEO bắt đầu từ điều người dùng thực sự cần.",heroDescription:"Tôi kết nối nhu cầu tìm kiếm, chất lượng nội dung và dữ liệu để đưa ra quyết định tối ưu có cơ sở.",viewWork:"Xem công việc ↗",getInTouch:"Liên hệ ↗",heroBottom:"Một portfolio về cách nghĩ, cách làm và bằng chứng.",scrollHint:"Cuộn để khám phá ↓",signalLabel:"Bản đồ tư duy SEO",signalIntent:"Nhu cầu tìm kiếm",signalContent:"Nội dung",signalEvidence:"Dữ liệu",signalAria:"Cách tiếp cận SEO: từ nhu cầu tìm kiếm, qua nội dung đến tín hiệu dữ liệu",signalStepsAria:"Xem từng lớp quyết định SEO",signalDetails:["Nhóm truy vấn theo điều người đọc muốn giải quyết.","Đặt mỗi trang vào một vai trò rõ trong hành trình tìm kiếm.","Đọc tín hiệu GSC để quyết định giữ, sửa hoặc thử hướng khác."],compareLabel:"So sánh trực quan",compareHint:"Kéo đường chia để xem hai kỳ dữ liệu",compareSlider:"Kéo để so sánh Q3/2025 và Q3/2026",
     approachLabel:"Góc nhìn nghề nghiệp",approachTitle:"Không chỉ tối ưu để được tìm thấy.",approachLead:"Một trang có thể thu hút lượt hiển thị nhưng vẫn chưa trả lời đúng nhu cầu.",approachBody:"Tôi bắt đầu bằng cách xem người đọc đang tìm gì, trang hiện tại hứa hẹn điều gì và dữ liệu cho thấy khoảng cách ở đâu. Khi đó, thay đổi nội dung hay cấu trúc mới có lý do rõ ràng.",insightOneTitle:"Trang này có thực sự nên được index?",insightOneBody:"Khả năng crawl, nội dung hữu ích và mức độ trùng lặp cần được đọc cùng mục đích tìm kiếm.",insightTwoTitle:"Một từ khóa chưa đủ để quyết định cấu trúc trang.",insightTwoBody:"Nhóm truy vấn và vai trò của từng URL giúp chọn tạo mới, cập nhật hay hợp nhất nội dung.",insightThreeTitle:"Tăng một chỉ số không có nghĩa mọi thứ đều tốt hơn.",insightThreeBody:"Clicks, impressions, CTR và vị trí cần được đặt trong cùng bối cảnh trước khi kết luận.",
@@ -18,6 +19,7 @@ const copy = {
     menuOpen:"Mở menu",menuClose:"Đóng menu",navigation:"Điều hướng chính",mobileNavigation:"Điều hướng trên điện thoại",metricsLabel:"Chọn chỉ số",skillsTablist:"Các nhóm năng lực SEO",railPrev:"Bài trước",railNext:"Bài tiếp theo"
   },
   en: {
+    sceneLabel:"HOW I READ AN SEO PROBLEM",sceneScroll:"SCROLL TO FOLLOW THE STORY ↓",sceneTitle:"From signal to decision.",sceneWordOne:"INTENT",sceneWordTwo:"CONTENT",sceneWordThree:"EVIDENCE",sceneDescOne:"Understand what the searcher needs to solve.",sceneDescTwo:"Give the right content a clear role on the page.",sceneDescThree:"Read the outcome and decide what to improve next.",
     skip:"Skip to content",navWork:"Work",navProcess:"Process",navSkills:"Skills",navWriting:"Writing",navJourney:"Experience",navContact:"Contact",
     role:"SEO Executive",location:"Ho Chi Minh City, Vietnam",heroOverline:"FROM SEARCH INTENT TO CONTENT AND EVIDENCE",heroName:"Dat Pham",heroStatement:"SEO starts with what people actually need.",heroDescription:"I connect search intent, content quality and evidence to make more informed SEO decisions.",viewWork:"Explore my work ↗",getInTouch:"Get in touch ↗",heroBottom:"A portfolio of thinking, practice and proof.",scrollHint:"Scroll to explore ↓",signalLabel:"SEO decision map",signalIntent:"Search intent",signalContent:"Content",signalEvidence:"Evidence",signalAria:"SEO approach: from search intent through content to evidence",signalStepsAria:"Explore each SEO decision layer",signalDetails:["Group queries by what the reader is trying to solve.","Give each page a clear role in the search journey.","Read GSC signals to keep, revise or test the next direction."],compareLabel:"Visual comparison",compareHint:"Drag the divider to explore both periods",compareSlider:"Drag to compare Q3 2025 and Q3 2026",
     approachLabel:"Editorial approach",approachTitle:"Beyond getting found.",approachLead:"A page can earn impressions and still miss the reader's need.",approachBody:"I start by examining the intent behind a search, what the page promises and where the data suggests a gap. That gives content and structural changes a clear purpose.",insightOneTitle:"Does this page deserve to be indexed?",insightOneBody:"Crawlability, usefulness and duplication need to be considered alongside search intent.",insightTwoTitle:"One keyword rarely defines a page.",insightTwoBody:"Query groups and each URL's role help determine whether to create, improve or consolidate content.",insightThreeTitle:"A rising metric is not the whole story.",insightThreeBody:"Clicks, impressions, CTR and position belong in the same context before drawing a conclusion.",
@@ -184,17 +186,15 @@ function getSceneState(items){
   return{progress,active};
 }
 const careerArticles=$$(".career-list article"),evidenceSteps=$$(".evidence-chapters article");
-const careerPath=$(".career-path-base"),careerActivePath=$(".career-path-active"),careerMarker=$(".career-route-marker");
-const careerPathLength=careerPath.getTotalLength();
-careerActivePath.style.strokeDasharray=String(careerPathLength);
-$$("[data-career-node]").forEach((node,index)=>{const point=careerPath.getPointAtLength(careerPathLength*index/2);node.setAttribute("cx",point.x);node.setAttribute("cy",point.y)});
+const careerCards=$$("[data-career-card]");
 function updateScenes(){
   if(window.scrollY<$("#work").offsetTop-window.innerHeight*.55)setActiveSection("");
   const career=getSceneState(careerArticles);
   $(".career-list").style.setProperty("--career-fill",(career.progress*80).toFixed(2)+"%");
-  careerActivePath.style.strokeDashoffset=String(careerPathLength*(1-career.progress));
-  const markerPoint=careerPath.getPointAtLength(careerPathLength*career.progress);
-  careerMarker.setAttribute("cx",markerPoint.x);careerMarker.setAttribute("cy",markerPoint.y);
+  careerCards.forEach((card,index)=>{
+    card.classList.toggle("is-current",index===career.active);
+    card.style.setProperty("--card-offset",String(index-career.active));
+  });
   careerArticles.forEach((article,index)=>article.classList.toggle("is-current",index===career.active));
   $("#career-count").textContent=String(career.active+1).padStart(2,"0")+" / 03";
   $("#career-index").textContent=String(career.active+1).padStart(2,"0");
@@ -204,11 +204,31 @@ function updateScenes(){
   evidenceSteps.forEach((step,index)=>step.classList.toggle("is-current",index===evidence.active));
   $$("[data-evidence-card]").forEach((card,index)=>card.classList.toggle("is-current",index===evidence.active));
   $("#evidence-count").textContent=String(evidence.active+1).padStart(2,"0")+" / 03";
+  updateSearchScene();
 }
 let sceneFrame=null;
 function scheduleSceneUpdate(){
   if(sceneFrame!==null)return;
   sceneFrame=requestAnimationFrame(()=>{sceneFrame=null;updateScenes()});
+}
+const searchScene=$("#search-scene"),searchWords=$$("[data-scene-word]"),searchDescriptions=$$("[data-scene-description]");
+function updateSearchScene(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const bounds=searchScene.getBoundingClientRect();
+  const distance=Math.max(1,bounds.height-window.innerHeight);
+  const progress=Math.max(0,Math.min(1,-bounds.top/distance));
+  const phase=progress*2;
+  const active=Math.max(0,Math.min(2,Math.round(phase)));
+  searchWords.forEach((word,index)=>{
+    const delta=index-phase;
+    const magnitude=Math.abs(delta);
+    word.style.opacity=String(Math.max(0,1-magnitude*1.25));
+    word.style.transform=`translate3d(${(delta*17).toFixed(2)}vw,${(delta*6).toFixed(2)}vh,0) scale(${Math.max(.82,1-magnitude*.12).toFixed(3)})`;
+    word.classList.toggle("is-current",index===active);
+  });
+  searchDescriptions.forEach((description,index)=>description.classList.toggle("is-current",index===active));
+  $("#search-scene-count").textContent=String(active+1).padStart(2,"0")+" / 03";
+  $(".search-scene-rule i").style.width=(progress*100).toFixed(1)+"%";
 }
 window.addEventListener("scroll",scheduleSceneUpdate,{passive:true});
 window.addEventListener("resize",scheduleSceneUpdate);

@@ -11,17 +11,15 @@ function getSceneState(items){
   return{progress,active};
 }
 const careerArticles=$$(".career-list article"),evidenceSteps=$$(".evidence-chapters article");
-const careerPath=$(".career-path-base"),careerActivePath=$(".career-path-active"),careerMarker=$(".career-route-marker");
-const careerPathLength=careerPath.getTotalLength();
-careerActivePath.style.strokeDasharray=String(careerPathLength);
-$$("[data-career-node]").forEach((node,index)=>{const point=careerPath.getPointAtLength(careerPathLength*index/2);node.setAttribute("cx",point.x);node.setAttribute("cy",point.y)});
+const careerCards=$$("[data-career-card]");
 function updateScenes(){
   if(window.scrollY<$("#work").offsetTop-window.innerHeight*.55)setActiveSection("");
   const career=getSceneState(careerArticles);
   $(".career-list").style.setProperty("--career-fill",(career.progress*80).toFixed(2)+"%");
-  careerActivePath.style.strokeDashoffset=String(careerPathLength*(1-career.progress));
-  const markerPoint=careerPath.getPointAtLength(careerPathLength*career.progress);
-  careerMarker.setAttribute("cx",markerPoint.x);careerMarker.setAttribute("cy",markerPoint.y);
+  careerCards.forEach((card,index)=>{
+    card.classList.toggle("is-current",index===career.active);
+    card.style.setProperty("--card-offset",String(index-career.active));
+  });
   careerArticles.forEach((article,index)=>article.classList.toggle("is-current",index===career.active));
   $("#career-count").textContent=String(career.active+1).padStart(2,"0")+" / 03";
   $("#career-index").textContent=String(career.active+1).padStart(2,"0");
@@ -31,6 +29,7 @@ function updateScenes(){
   evidenceSteps.forEach((step,index)=>step.classList.toggle("is-current",index===evidence.active));
   $$("[data-evidence-card]").forEach((card,index)=>card.classList.toggle("is-current",index===evidence.active));
   $("#evidence-count").textContent=String(evidence.active+1).padStart(2,"0")+" / 03";
+  updateSearchScene();
 }
 let sceneFrame=null;
 function scheduleSceneUpdate(){

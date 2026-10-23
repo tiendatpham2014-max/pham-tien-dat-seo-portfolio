@@ -10,6 +10,7 @@ const targets = {
     "src/html/20-main-open.html",
     "src/html/30-hero.html",
     "src/html/40-approach.html",
+    "src/html/45-search-scene.html",
     "src/html/50-evidence.html",
     "src/html/60-process.html",
     "src/html/70-skills.html",
@@ -38,6 +39,8 @@ const targets = {
     "src/css/160-career-story.css",
     "src/css/170-responsive-stories.css",
     "src/css/180-art-direction.css",
+    "src/css/185-dark-direction.css",
+    "src/css/190-search-scene.css",
   ],
   "dist/app.js": [
     "src/js/00-copy.js",
@@ -52,6 +55,7 @@ const targets = {
     "src/js/80-writing-rail.js",
     "src/js/90-comparison.js",
     "src/js/100-scroll-stories.js",
+    "src/js/105-search-scene.js",
     "src/js/110-init.js",
   ],
 };

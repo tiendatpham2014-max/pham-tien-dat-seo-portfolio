@@ -29,9 +29,9 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Bỏ link/instructions yêu cầu crawl reference thiết kế cũ trong tài liệu khác; chỉ gỡ phần lỗi thời, bảo toàn thông tin dự án.
 - Không xóa `docs/brief.md`, `docs/evidence.md`, content/evidence/spec mới, source, assets, package và hosting config.
 
-## Không crawl web tham khảo thiết kế
-- Không mở React Bits / demo / reference websites / tìm mã nguồn trả phí. Thông số UI và animation đã quy định trong local docs.
-- Được chạy localhost, kiểm tra UI thực tế, chạy git/GitHub và quy trình staging theo lệnh deploy bên dưới. Không hiểu lệnh cấm crawl là cấm test hoặc cấm push branch.
+## Nguồn tham khảo thiết kế
+- Chủ portfolio đã yêu cầu đối chiếu trực tiếp chín preview React Bits Pro và minwang.dev. Xem bản công khai để hiểu bố cục, màu và hành vi; không sao chép mã trả phí hoặc asset của nguồn.
+- `docs/DARK_REFERENCE_PASS.md` ghi ánh xạ mới từ nguồn sang từng phần của portfolio.
 
 ## Công nghệ
 - Source thực tế là static HTML/CSS/JS trong `src/`, ghép thành `dist/` bằng `npm run build`; không phải React.
@@ -39,8 +39,8 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Giữ chức năng, i18n, metric/attribution, link, bảo mật, asset và hosting config. Lưu ý bản public vẫn thể hiện vai trò SEO Executive đang tiếp diễn tại thời điểm 23/10/2026.
 
 ## Art direction
-- Muted Editorial: warm stone, soft ivory, deep slate có chọn lọc, muted teal/lavender rất ít, không pure white/neon/glow mạnh; chữ tương phản rõ.
-- Animation tinh tế, tập trung hỗ trợ đọc; tránh 2 timeline cùng animated mạnh; accessibility, reduced-motion, keyboard/touch bắt buộc.
+- Hướng hiện tại là dark navy dựa trên cảnh kinh nghiệm của minwang.dev, xen nền than cho cảnh chuyển; chữ trắng ngà, nhấn mint tiết chế, tương phản rõ.
+- Chuyển động theo cuộn là phần kể chuyện chính. Vẫn bảo đảm reduced-motion, keyboard/touch và nội dung đọc được khi JavaScript không chạy.
 
 ## Quy tắc dữ liệu
 - Không bịa kết quả cá nhân từ KPI sitewide; không giấu impressions giảm.
@@ -49,6 +49,6 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 
 ## Push và preview
 - Người dùng **cho phép Codex hoàn thiện rồi tạo nhánh redesign riêng, commit/push nhánh đó, và tạo preview/staging nếu có cách triển khai an toàn**.
-- **Không** push vào `main`, merge PR, đổi private/public, bật GitHub Pages công khai, đổi config production hoặc thay thế deploy production hiện tại nếu chưa được cho phép riêng.
+- Người dùng đã cho phép cập nhật production của Site hiện tại và xem sau. Giữ nguyên chế độ truy cập hiện tại; GitHub tiếp tục dùng nhánh redesign để tracking, không merge PR hoặc đổi private/public khi chưa được yêu cầu.
 - Nếu không thể deploy preview an toàn, cung cấp local preview + hướng dẫn chạy; đừng báo một URL không xác minh.
 - Báo cáo bằng tiếng Việt: những phần giữ/bỏ và lý do, copy bổ sung, chỗ chờ data, thay đổi source, kiểm thử thật, nhánh GitHub và preview (nếu có).

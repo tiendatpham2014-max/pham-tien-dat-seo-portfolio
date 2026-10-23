@@ -1,6 +1,8 @@
 # DESIGN_SPEC — SEO Executive Portfolio, v1.2 (muted art + content-first adaptation)
 
-**Implementation brief:** evolve the existing Phạm Tiến Đạt / Dat Pham bilingual portfolio into a premium, editorial one-page experience with graceful motion, proof-led content, and a clear contact action. **Read `docs/CONTENT_ARCHITECTURE.md` first for the editorial decision on each of the nine reference patterns. Content relevance takes precedence over mechanically implementing every decorative block.** No external source or design reference lookup is necessary or allowed.
+> Cập nhật 23/10/2026: chủ portfolio chọn hướng tối. `DARK_REFERENCE_PASS.md` và `src/css/185-dark-direction.css` quy định màu hiện tại; các giá trị màu sáng bên dưới là bản thiết kế trước đó.
+
+**Implementation brief:** evolve the existing Phạm Tiến Đạt / Dat Pham bilingual portfolio into a premium, editorial one-page experience with motion, proof-led content, and a clear contact action. **Read `docs/CONTENT_ARCHITECTURE.md` first for the editorial decision on each of the nine reference patterns. Content relevance takes precedence over mechanically implementing every decorative block.** Chủ portfolio đã yêu cầu đối chiếu trực tiếp các preview công khai.
 
 ## 0. Foundation
 
