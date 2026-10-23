@@ -186,18 +186,18 @@ function getSceneState(items){
   return{progress,active};
 }
 const careerArticles=$$(".career-list article"),evidenceSteps=$$(".evidence-chapters article");
-const careerCards=$$("[data-career-card]");
+const careerMilestones=$$("[data-career-milestone]");
 function updateScenes(){
   if(window.scrollY<$("#work").offsetTop-window.innerHeight*.55)setActiveSection("");
   const career=getSceneState(careerArticles);
   $(".career-list").style.setProperty("--career-fill",(career.progress*80).toFixed(2)+"%");
-  careerCards.forEach((card,index)=>{
-    card.classList.toggle("is-current",index===career.active);
-    card.style.setProperty("--card-offset",String(index-career.active));
-  });
+  const route=$(".career-route");
+  route.style.setProperty("--career-progress",career.progress.toFixed(4));
+  const orbitX=(45+70*career.progress)/160;
+  route.style.setProperty("--sun-y",(75+70*(1-Math.sqrt(1-(2*orbitX-1)**2))).toFixed(2)+"%");
+  careerMilestones.forEach((milestone,index)=>milestone.classList.toggle("is-current",index===career.active));
   careerArticles.forEach((article,index)=>article.classList.toggle("is-current",index===career.active));
   $("#career-count").textContent=String(career.active+1).padStart(2,"0")+" / 03";
-  $("#career-index").textContent=String(career.active+1).padStart(2,"0");
   $("#career-date").textContent=careerArticles[career.active].querySelector(":scope > span").textContent;
   $("#career-role").textContent=careerArticles[career.active].querySelector("h3").textContent;
   const evidence=getSceneState(evidenceSteps);

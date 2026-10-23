@@ -36,7 +36,7 @@
 5. SEO work process — 3-phase timeline / checklist cards.
 6. Capabilities — auto-cycling tabs for four SEO competency groups.
 7. Published writing — horizontally browsable social-post-inspired editorial article cards.
-8. Experience — concise career timeline/rail with 3 verified stages; illuminated horizon is **optional**, never forced when redundant with Process.
+8. Experience — cinematic React Bits Features 17 horizon with 3 verified stages and scroll-linked dawn.
 9. Contact — centered statement plus 3 contact-method icon cards.
 10. Footer — short grouped links/footer (2–3 useful groups; 5-column reference must not create filler).
 
@@ -149,14 +149,14 @@ This order may be adjusted to support an editorial story. **The nine design refe
 ## 8. Experience — timeline with moving illuminated horizon
 
 **Design concept**
-- The original globe/global-office metaphor is **not backed by this portfolio content**. Use a quiet, professional three-stage career rail instead. Only borrow a subtle horizon/light motion if it adds clarity; do not implement globe imagery, location nodes or office time zones.
-- Optional only: a very subdued dawn-like tonal highlight on a minimal rail. Prefer a static rule and staggered one-time reveal when Process already has connecting paths. Avoid glowing sunrise or bright beam.
+- Keep the dark sky, curved planet horizon and a dawn that travels with career progress, as seen in Features 17. Replace office and timezone labels with the three verified roles and dates.
+- Treat the horizon as the primary visual for Experience; avoid a second stack of flipping cards.
 - Milestone cards: `SEO Intern`, `SEO Contributor`, `SEO Executive`; show correct dates, organization and 2–3 factual responsibilities from content spec.
-- At desktop, a wide rail/path connects three aligned milestones; use calm horizon gradient and small moving light highlight. At mobile, convert to a vertical timeline, left rule and stacked readable cards; drop nonessential background art.
+- At desktop, the sticky horizon and the adjacent career text advance together. At mobile, keep a compact sticky horizon above the readable vertical role list.
 
 **Behavior**
 - Scroll reveals each milestone in sensible order and animates progress along the timeline.
-- One slow light sweep may loop on desktop only while section is visible, no flashing; do not invent exact per-project durations.
+- The light follows scroll progress, with no autonomous loop or flashing; do not invent exact per-project durations.
 - Duration data = employment periods provided, not estimates for unnamed projects. Never show an end date in November 2026 as completed.
 - Avoid misleading implication of three employers: the stages relate to Primas Group as in the existing source.
 

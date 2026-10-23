@@ -41,6 +41,7 @@ const targets = {
     "src/css/180-art-direction.css",
     "src/css/185-dark-direction.css",
     "src/css/190-search-scene.css",
+    "src/css/195-reactbits-horizon.css",
   ],
   "dist/app.js": [
     "src/js/00-copy.js",

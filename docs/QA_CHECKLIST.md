@@ -28,7 +28,7 @@ A task is complete only when the site works in the existing static setup and the
 - [ ] Add genuine VI/EN editorial/SEO approach copy beyond the CV; avoid repeating employment bullets in Hero, Process and Skills.
 - [ ] Skills uses Problem → Approach → Typical output (or equally clear framing), not another CV timeline.
 - [ ] Process content communicates a methodology, not fictional client milestones.
-- [ ] Features 17's globe/global-offices metaphor is **not** implemented without factual relevance; career movement is calm and nonredundant.
+- [ ] Features 17's curved horizon and dawn follow the three verified roles on desktop and mobile; no invented office/timezone claims, no repeated flipping-card deck.
 - [ ] Comparison uses accurate, easy-to-scan period data; slider is optional and only used if usable and meaningful; no fake slider.
 - [ ] Footer contains only actual links; fewer than five columns is explicitly correct.
 - [ ] Unverified project cases, screenshots, testimonials and dates are tracked in `docs/CONTENT_GAPS.md`, never rendered as empty public cards.

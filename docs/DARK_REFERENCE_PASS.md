@@ -1,20 +1,20 @@
-# Đối chiếu giao diện tối — 23/10/2026
+# Đối chiếu giao diện tối — cập nhật 24/10/2026
 
 Quan sát trực tiếp preview của cả chín URL React Bits Pro do chủ portfolio gửi và các cảnh của [minwang.dev](https://minwang.dev/). Đây là bản đồ hành vi để tiếp tục chỉnh source, không phải mã hay tài sản lấy từ các demo.
 
 ## Màu và nhịp
 
-- `minwang.dev` không tối toàn trang: hero sáng, cảnh chuyển bằng chữ lớn có nền than gần `#1a1b1b`, phần kinh nghiệm xanh navy `#142039`, phần proof than `#252623`. Bản portfolio chọn nền navy làm trục chính theo sở thích mới của chủ, xen cảnh than và dùng chữ trắng ngà.
+- React Bits là nguồn tham khảo chính. `minwang.dev` chỉ gợi ý nhịp chữ và cảnh cuộn; portfolio chọn nền navy làm trục chính, xen cảnh than và dùng chữ trắng ngà.
 - Hero 22 là vùng chữ lớn trên mesh gradient chảy. Bản portfolio giữ chuyển động nền nhưng đổi sang navy, xanh lam và tím trầm; sơ đồ Intent → Content → Evidence vẫn tương tác được.
 - Cảnh chữ khổ lớn ở minwang chuyển theo vị trí cuộn. Bản portfolio dùng ba khái niệm nghề SEO thật: Nhu cầu → Nội dung → Đo lường, với lời giải thích luôn có trong DOM.
-- Dự án trên minwang dùng thẻ xếp lớp. Portfolio chưa có ảnh/dự án được phép công bố tương ứng nên chỉ dùng nhịp xếp lớp cho dữ liệu GSC đã xác minh và ba vai trò nghề nghiệp; không dựng dự án giả.
+- Tránh lặp thẻ xếp lớp. Chương GSC chuyển chỉ số phẳng theo cuộn, còn hành trình dùng cảnh bình minh trên mép địa cầu từ Features 17.
 
 ## Từng mẫu được ánh xạ
 
 | Mẫu | Quan sát từ preview | Áp dụng |
 | --- | --- | --- |
 | Hero 22 | Flowing mesh, chữ trung tâm, entrance | Nền tối chuyển động, tên lớn, sơ đồ SEO có thể bấm |
-| Features 17 | Follow-the-sun globe cho ba văn phòng | Nhịp kể ba mốc công việc; không hiển thị globe hoặc địa điểm giả |
+| Features 17 | Bầu trời tối, vầng sáng chạy dọc đường cong địa cầu; ba nhãn sáng theo trình tự | Ba vai trò nghề nghiệp thật đồng bộ theo cuộn; giữ chân trời/địa cầu, bỏ văn phòng và múi giờ không có dữ liệu |
 | Features 4 | Tab tự chuyển, panel thông tin | Bốn nhóm năng lực với progress, dừng khi người xem chọn |
 | Social Proof 11 | Carousel bài viết dạng testimonial | Rail ba bài thật đã xuất bản, không giả review |
 | Contact 3 | Ba thẻ liên hệ có icon | Email, LinkedIn, điện thoại thật |

@@ -97,15 +97,15 @@ Purpose: deliver motion that supports comprehension and perceived quality. **Not
 - Cards hover: translateY(-2px) and a slightly darker/lighter *muted* tint/border over 200ms; article arrow translateX(3px) 180ms. No flash or glow. No perpetual automatic movement of cards.
 - On keyboard navigation, ensure focused article is scrolled into view. Optional progress dots should reflect actual scroll and not be dead controls.
 
-## 9. Experience restrained career rail (optional horizon)
+## 9. Experience scroll-linked horizon
 
-- If a dotted/connecting timeline is already featured in Process, Experience should default to a static editorial rail with one-time, gentle reveal. An additional ambient sweep is optional and should be omitted when redundant.
+- Features 17 is the primary motion reference for this section. A dawn travels over a curved planet as the viewer reads the three career roles. Process keeps its separate checklist timeline.
 
-- Desktop: a very subtle elliptical/horizon arc rendered with CSS border/pseudo-elements or a lightweight inline SVG. A muted tonal shift (not a bright light streak) glides along the path in 10–16s for one loop or slow repetition only while section visible; if it reads as a glowing beam, reduce opacity or keep it static.
+- Desktop: the dawn position is driven by scroll progress; milestone labels brighten in sequence. No automatic looping.
 - Scroll entry: milestones reveal in order; connecting path/line activates as section moves through view. Prefer scroll-based class changes or intersection events, not heavy 60fps JS.
-- Responsive mobile: vertical rule with 3 static nodes; limited one-time reveals; remove long-running light sweep if it affects readability or performance.
+- Responsive mobile: a compact sticky horizon remains visible above the vertical career list; scroll still updates its light and active role.
 - Every timeline item stays in DOM, visible in reduced-motion/no-JS environments.
-- Avoid unsupported globe/city labels, faux project-year durations, fictional progress percentages.
+- Avoid unsupported city/office labels, faux project-year durations and fictional progress percentages.
 
 ## 10. Contact cards & footer
 

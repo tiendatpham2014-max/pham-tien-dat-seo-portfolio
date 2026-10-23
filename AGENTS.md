@@ -15,7 +15,7 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 ## Quy tắc ra quyết định nội dung/UI
 - Portfolio nên cho thấy **cách nghĩ, cách làm, dự án, bằng chứng, bài viết và kinh nghiệm**, không chỉ là CV web.
 - Chỉ bắt buộc phải hiện các **chức năng nội dung có giá trị**; 9 link là 9 ý tưởng thiết kế, không bắt buộc 9 block/animation nguyên bản.
-- Features 17 (globe/office timezone) không có dữ liệu phù hợp: **không giả tạo thế giới/văn phòng**, có thể chỉ dùng career rail tĩnh/tinh tế.
+- Features 17 là nguồn chính cho cảnh hành trình nghề nghiệp: giữ bầu trời tối, vầng sáng di chuyển trên đường cong địa cầu và ba mốc sáng theo cuộn. Gắn mốc vào ba vai trò thật; không giả tạo văn phòng, múi giờ hoặc phạm vi làm việc toàn cầu.
 - Features 4 dùng cho Problem → Approach → Typical output, không lặp timeline việc làm.
 - How It Works 4: nội dung phương pháp SEO do AI soạn được, không phải lời khẳng định hoàn tất ở khách hàng cụ thể.
 - Comparison 7: dùng dữ liệu thật; nếu slider làm số liệu khó đọc, **chuyển sang thẻ so sánh/bảng**. Không ép hiệu ứng chỉ vì reference có nó.
@@ -39,7 +39,8 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Giữ chức năng, i18n, metric/attribution, link, bảo mật, asset và hosting config. Lưu ý bản public vẫn thể hiện vai trò SEO Executive đang tiếp diễn tại thời điểm 23/10/2026.
 
 ## Art direction
-- Hướng hiện tại là dark navy dựa trên cảnh kinh nghiệm của minwang.dev, xen nền than cho cảnh chuyển; chữ trắng ngà, nhấn mint tiết chế, tương phản rõ.
+- React Bits là nguồn tham khảo chính cho bố cục và chuyển động. minwang.dev chỉ là nguồn phụ cho nhịp typography/cảnh cuộn. Hướng màu hiện tại là dark navy, xen nền than; chữ trắng ngà, nhấn mint tiết chế, tương phản rõ.
+- Không lặp thẻ xếp/lật ở nhiều section. Hành trình dùng horizon theo Features 17; GSC đổi chỉ số phẳng và giữ wipe của Comparison 7.
 - Chuyển động theo cuộn là phần kể chuyện chính. Vẫn bảo đảm reduced-motion, keyboard/touch và nội dung đọc được khi JavaScript không chạy.
 
 ## Quy tắc dữ liệu

@@ -11,7 +11,7 @@
 | Navigation 15 | Cần thiết; đủ section hiện hữu | **Giữ** | Điều hướng đúng các section thực sự hiển thị. Không tạo menu dẫn đến section trống. |
 | Hero 22 | Cần thiết; dữ liệu hiện có đủ | **Giữ** | Giới thiệu cá nhân, định vị SEO, 2 CTA. Copy mới có thể viết theo nền tảng nghề nghiệp đã biết; không nhét KPI sitewide vào hero như thành tích cá nhân. |
 | Features 4 | Hữu ích nhưng có thể trùng nội dung CV/kinh nghiệm | **Giữ, viết lại theo năng lực** | 4 tab Technical / Content / Analytics / Workflow; mỗi tab mô tả câu hỏi giải quyết, cách làm, đầu ra, công cụ có bằng chứng. Không trình bày như 4 chức danh hoặc chứng chỉ. |
-| Features 17 | **Không phù hợp nguyên bản**: thế giới, múi giờ, bình minh/văn phòng không có dữ liệu tương ứng; dễ lặp timeline của How It Works 4 | **Chỉ mượn chuyển động rất nhẹ, không giữ globe** | Biến thành hành trình nghề nghiệp ngắn 3 mốc **hoặc** career rail tĩnh. Không vẽ bản đồ, quốc gia, văn phòng, thời gian dự án, global operations bịa ra. Không dùng thêm một timeline phức tạp nếu section Process đã là timeline. |
+| Features 17 | Hiệu ứng chân trời/địa cầu và ánh bình minh phù hợp để kể tiến trình nghề nghiệp; dữ liệu văn phòng/múi giờ của demo không áp dụng | **Giữ cảnh trời tối, mép địa cầu và ánh sáng theo cuộn** | Gắn ba mốc vào Intern → Contributor → Executive có thật. Không vẽ bản đồ, quốc gia, văn phòng, thời gian dự án hay global operations bịa ra. |
 | Social Proof 11 | Có 3 bài blog thật, **không có testimonial thật** | **Dùng kiểu card/rail, đổi chức năng thành Published Writing** | 3 bài Primas, topic, link gốc; viết mô tả theo tiêu đề/chủ đề đã có. Không dùng quote, avatar khách hàng, lượt thích, số lượt đọc, ngày đăng không xác minh. |
 | Comparison 7 | Có dữ liệu thật Q3/2025 vs Q3/2026; dạng *image wipe* không phải cách tối ưu nhất để đọc KPI | **Có điều kiện** | Dùng visual đối chiếu hai kỳ như một lớp tương tác phụ **chỉ nếu** dữ liệu vẫn dễ đọc và so sánh công bằng. Bắt buộc có bảng đầy đủ; nếu thanh kéo khiến số liệu khó đọc, **bỏ thanh kéo**, thay bằng two-column toggle/table rõ ràng. Không ép ví dụ trước-sau về kết quả cá nhân. |
 | How It Works 4 | **Rất phù hợp**: không cần KPI mới | **Giữ, chủ động viết nội dung** | 3 bước nghề nghiệp chung: Research & Audit → Implement & Optimize → Measure & Iterate; checklist là phương pháp, không phải tuyên bố đã hoàn thành cho một khách hàng. |
@@ -124,7 +124,7 @@ These are **non-blocking future content modules**. Do not show empty cards or lo
 
 ## F. Ưu tiên tối giản khi thiết kế
 
-- Nếu Experiences với Process đều có timeline chấm nối trùng nhau, giữ timeline được nhấn hơn cho **Process**, còn Experience dùng career list/editorial rail tĩnh hoặc reveal một lần.
+- Process giữ timeline checklist; Experience dùng đường chân trời Features 17 chạy theo cuộn và ba mốc nghề nghiệp, tránh lặp thẻ xếp/lật.
 - Nếu Comparison wipe che số liệu, thay bằng bảng/bars công bằng có thể đọc nhanh. Dữ liệu và bối cảnh được ưu tiên hơn việc mô phỏng slider.
 - Nếu Footer 5 cột làm rỗng nội dung, thu xuống 2–3 nhóm; không thêm link bịa.
 - Nếu article carousel có chỉ 3 bài và trên desktop hiển thị đủ cả 3, cho phép card grid/rail với nút phù hợp; không ép autoplay giả tạo.
