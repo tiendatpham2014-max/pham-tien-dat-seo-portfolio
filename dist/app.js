@@ -36,7 +36,6 @@ const copy = {
     menuOpen:"Open menu",menuClose:"Close menu",navigation:"Primary navigation",mobileNavigation:"Mobile navigation",metricsLabel:"Choose a metric",skillsTablist:"SEO capability groups",railPrev:"Previous article",railNext:"Next article"
   }
 };
-
 const metricData={
   clicks:{before:13795,after:17540,unit:"integer",beforeWidth:78.6,afterWidth:100,title:{vi:"Lượt nhấp từ tìm kiếm",en:"Organic clicks"},reading:{vi:"+3.745 lượt nhấp (+27,1%)",en:"+3,745 clicks (+27.1%)"}},
   impressions:{before:1358505,after:1290541,unit:"integer",beforeWidth:100,afterWidth:95,title:{vi:"Lượt hiển thị",en:"Impressions"},reading:{vi:"−67.964 lượt hiển thị (−5,0%)",en:"−67,964 impressions (−5.0%)"}},

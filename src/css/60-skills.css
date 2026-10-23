@@ -1,0 +1,114 @@
+.skills{
+  background:var(--paper)
+}
+.skill-layout{
+  display:grid;
+  grid-template-columns:minmax(260px,.4fr) minmax(0,.6fr);
+  gap:clamp(40px,8vw,125px)
+}
+.skill-tabs{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch
+}
+.skill-tabs button{
+  text-align:left;
+  border:0;
+  background:none;
+  padding:20px 22px 20px 0;
+  min-height:60px;
+  color:var(--quiet);
+  font-size:18px;
+  transition:color .2s,padding .25s var(--ease)
+}
+.skill-tabs button:hover,.skill-tabs button[aria-selected=true]{
+  color:var(--ink);
+  padding-left:15px
+}
+.skill-tabs button[aria-selected=true]{
+  font-weight:600
+}
+.skill-tabs button[aria-selected=true]:before{
+  content:"";
+  position:absolute;
+  left:0;
+  width:3px;
+  height:28px;
+  background:var(--accent)
+}
+.skill-progress{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:2px;
+  background:var(--field);
+  overflow:hidden
+}
+.skill-progress:after{
+  content:"";
+  display:block;
+  height:100%;
+  width:0;
+  background:var(--accent)
+}
+.skill-tabs.is-autoplay .skill-progress:after{
+  animation:skill-progress 7s linear forwards
+}
+@keyframes skill-progress{
+  to{
+    width:100%
+  }
+}
+.skill-panels{
+  min-height:420px;
+  background:var(--ground);
+  padding:clamp(30px,4vw,58px)
+}
+.skill-panels article{
+  animation:panel-in .32s var(--ease)
+}
+@keyframes panel-in{
+  from{
+    opacity:.25;
+    transform:translateY(8px)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+.panel-kicker{
+  font-size:14px;
+  color:var(--accent)
+}
+.skill-panels h3{
+  font:400 clamp(32px,3.3vw,50px)/1.08 Cambria,"Times New Roman",serif;
+  letter-spacing:-.035em;
+  margin:20px 0 40px;
+  max-width:610px
+}
+.skill-panels dl{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
+  margin:0
+}
+.skill-panels dt{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--accent);
+  font-weight:600
+}
+.skill-panels dd{
+  margin:12px 0 0;
+  font-size:15px;
+  line-height:1.65
+}
+.tool-line{
+  margin:38px 0 0;
+  font-size:13px;
+  color:var(--quiet)
+}

@@ -1,0 +1,230 @@
+/* The visual motif follows an SEO decision: intent, page, evidence. */
+.hero-main{
+  position:relative
+}
+.signal-lab{
+  position:absolute;
+  right:0;
+  bottom:95px;
+  width:min(29vw,410px);
+  padding:22px 24px 25px;
+  border:1px solid rgba(49,95,99,.38);
+  background:rgba(226,222,214,.72);
+  box-shadow:0 24px 70px rgba(32,39,38,.08);
+  overflow:hidden;
+  isolation:isolate
+}
+.signal-lab:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(110deg,transparent 30%,rgba(169,200,198,.25) 47%,transparent 63%);
+  transform:translateX(-130%);
+  animation:signal-sheen 8s ease-in-out infinite;
+  z-index:-1
+}
+.signal-lab-top,.signal-steps{
+  display:flex;
+  justify-content:space-between;
+  gap:12px
+}
+.signal-lab-top{
+  align-items:center;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--quiet)
+}
+.signal-live{
+  display:inline-flex;
+  align-items:center;
+  gap:9px
+}
+.signal-live i{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 0 rgba(49,95,99,.35);
+  animation:signal-ping 3s ease-out infinite
+}
+.signal-flow{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:32px 10px 21px;
+  height:36px
+}
+.signal-flow:before,.signal-flow:after{
+  content:"";
+  position:absolute;
+  left:8px;
+  right:8px;
+  top:50%;
+  height:1px;
+  background:rgba(49,95,99,.35)
+}
+.signal-flow:after{
+  right:auto;
+  width:calc(100% - 16px);
+  background:var(--accent);
+  transform:scaleX(0);
+  transform-origin:left;
+  animation:signal-line 7s ease-in-out infinite
+}
+.signal-flow span{
+  width:16px;
+  height:16px;
+  border:1px solid var(--accent);
+  border-radius:50%;
+  background:var(--paper);
+  position:relative;
+  z-index:1;
+  animation:signal-node 7s ease-in-out infinite
+}
+.signal-flow span:nth-child(2){
+  animation-delay:-4.67s
+}
+.signal-flow span:nth-child(3){
+  animation-delay:-2.34s
+}
+.signal-steps{
+  font-size:11px;
+  color:var(--quiet);
+  line-height:1.3
+}
+.signal-steps span{
+  max-width:31%;
+  text-align:center
+}
+.signal-steps span:first-child{
+  text-align:left
+}
+.signal-steps span:last-child{
+  text-align:right
+}
+@keyframes signal-line{
+  0%,8%{
+    transform:scaleX(0)
+  }
+  67%,90%{
+    transform:scaleX(1)
+  }
+  100%{
+    transform:scaleX(0)
+  }
+}
+@keyframes signal-node{
+  0%,12%,100%{
+    background:var(--paper);
+    transform:scale(1)
+  }
+  20%,35%{
+    background:var(--accent-light);
+    transform:scale(1.3)
+  }
+}
+@keyframes signal-ping{
+  0%{
+    box-shadow:0 0 0 0 rgba(49,95,99,.35)
+  }
+  70%,100%{
+    box-shadow:0 0 0 9px rgba(49,95,99,0)
+  }
+}
+@keyframes signal-sheen{
+  0%,17%{
+    transform:translateX(-130%)
+  }
+  55%,100%{
+    transform:translateX(130%)
+  }
+}
+/* Text remains in the document; motion is activated only after the observer starts. */
+.js-motion .hero-overline{
+  animation:hero-rise .7s both
+}
+.js-motion .hero h1{
+  animation:hero-rise .85s .12s both
+}
+.js-motion .hero-statement{
+  animation:hero-rise .8s .28s both
+}
+.js-motion .hero-description{
+  animation:hero-rise .8s .4s both
+}
+.js-motion .hero-actions{
+  animation:hero-rise .8s .52s both
+}
+.js-motion .signal-lab{
+  animation:hero-rise .9s .68s both
+}
+@keyframes hero-rise{
+  from{
+    opacity:0;
+    transform:translateY(28px)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)
+  }
+}
+.js-motion .section-head,.js-motion .approach-grid,.js-motion .insight-row article,.js-motion .case-overview,.js-motion .metric-stage,.js-motion .period-card,.js-motion .skill-layout,.js-motion .article-card,.js-motion .journey-layout,.js-motion .contact-heading,.js-motion .contact-methods a{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .75s var(--ease),transform .75s var(--ease)
+}
+.js-motion :is(.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.skill-layout,.article-card,.journey-layout,.contact-heading,.contact-methods a).is-visible{
+  opacity:1;
+  transform:none
+}
+.js-motion .insight-row article:nth-child(2),.js-motion .period-card:nth-child(2),.js-motion .contact-methods a:nth-child(2){
+  transition-delay:.1s
+}
+.js-motion .insight-row article:nth-child(3),.js-motion .contact-methods a:nth-child(3){
+  transition-delay:.2s
+}
+.js-motion .metric-stage:not(.is-visible) .meter span{
+  transform:scaleX(0)
+}
+.meter span{
+  transform-origin:left;
+  transition:transform 1.1s var(--ease),width .45s var(--ease)
+}
+.case-figure strong{
+  display:inline-block
+}
+.js-motion .case-overview.is-visible .case-figure strong{
+  animation:figure-settle 1s .12s both
+}
+@keyframes figure-settle{
+  from{
+    opacity:.15;
+    transform:translateY(20px);
+    clip-path:inset(100% 0 0)
+  }
+  to{
+    opacity:1;
+    transform:none;
+    clip-path:inset(0)
+  }
+}
+.signal-lab,.hero-mesh{
+  animation-play-state:running
+}
+body.page-hidden .signal-lab,body.page-hidden .signal-lab *,body.page-hidden .hero-mesh span{
+  animation-play-state:paused!important
+}
+.hero-mesh span{
+  opacity:.23;
+  filter:blur(60px)
+}
+.hero-mesh span:nth-child(1){
+  width:74%;
+  height:100%
+}
+.hero-mesh span:nth-child(2){
+  width:65%;
+  height:100%
+}

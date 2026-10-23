@@ -1,0 +1,22 @@
+.contact-methods a{
+  min-height:215px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  position:relative
+}
+.contact-methods a>span:last-child{
+  position:absolute;
+  right:25px;
+  top:28px
+}
+.method-icon{
+  width:66px;
+  height:66px;
+  font-size:23px;
+  transition:transform .45s var(--ease),border-radius .45s var(--ease)
+}
+.contact-methods a:hover .method-icon,.contact-methods a:focus-visible .method-icon{
+  transform:rotate(-8deg) scale(1.08);
+  border-radius:18px
+}

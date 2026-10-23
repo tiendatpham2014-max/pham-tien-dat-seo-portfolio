@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node dev-server.mjs"
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check && node --check dist/app.js",
+    "dev": "node scripts/build.mjs && node dev-server.mjs"
   }
 }
 
