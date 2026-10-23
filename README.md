@@ -1,43 +1,30 @@
 # Phạm Tiến Đạt — SEO Portfolio
 
-Source code for a bilingual (Vietnamese / English) personal SEO portfolio.
+Portfolio SEO song ngữ (VI/EN), xây bằng HTML, CSS và JavaScript thuần. Không có build step hoặc package runtime.
 
-## Run locally
+## Chạy local
 
-Requires Node.js 20 or newer. There are no package dependencies and no build step.
+Yêu cầu Node.js 20+. Chạy lệnh npm run dev, sau đó mở http://localhost:4173. Server chỉ lắng nghe trên 127.0.0.1.
 
-```bash
-npm run dev
-```
+## Cấu trúc
 
-Open `http://localhost:4173`. You can also edit `dist/index.html` directly: it contains the HTML, CSS, JavaScript, content, and interactions in one file. The local server binds to `127.0.0.1`.
-
-## Repository map
-
-| File | Purpose |
+| File | Vai trò |
 | --- | --- |
-| `dist/index.html` | Website source and static entry point. |
-| `.openai/hosting.json` | Static hosting configuration for the existing Sites project. |
-| `dev-server.mjs` | Dependency-free local preview server. |
-| `docs/brief.md` | Content, audience, and design direction. |
-| `docs/evidence.md` | Public-safe aggregate search data and attribution guidelines. |
-| `docs/references.md` | Design references and browser inspection status. |
-| `docs/design-direction.json` | Earlier generated design direction; optional background. |
-| `AGENTS.md` | Instructions for continuing this project in Codex. |
+| dist/index.html | Nội dung semantic và bản tiếng Việt mặc định |
+| dist/style.css | Art direction Muted Editorial, responsive, motion và reduced motion |
+| dist/app.js | Bản dịch tiếng Anh, bộ chọn GSC, tabs, navigation, menu và article rail |
+| dist/fonts/ | Be Vietnam Pro tự lưu cùng source và giấy phép |
+| dev-server.mjs | Preview static, không phụ thuộc thư viện |
+| .openai/hosting.json | Cấu hình static Sites; giữ project ID hiện có |
+| docs/CONTENT_ARCHITECTURE.md | Quyết định nội dung và đánh giá các nhóm UI |
+| docs/CONTENT_SPEC.md, docs/evidence.md | Dữ liệu được phép công bố và giới hạn diễn giải |
+| docs/CONTENT_GAPS.md | Dữ liệu cần chủ portfolio xác minh trước khi thêm case |
+| docs/DESIGN_SPEC.md, docs/MOTION_SPEC.md, docs/QA_CHECKLIST.md | Spec và tiêu chí kiểm thử |
 
-The source snapshot corresponds to the website as of October 22, 2026. The static folder is `dist/`. Import this folder as a repository or open it directly in Codex. This repository does not contain private Search Console exports, screenshots, or CV source documents.
+## Nguyên tắc nội dung
 
-## Put the entire folder on GitHub
+Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website, chịu ảnh hưởng của cả đội ngũ và thay đổi số trang. Impressions giảm 5,0% được trình bày cùng với clicks tăng 27,1%. Các đoạn về phương pháp SEO, câu hỏi nghề nghiệp và phạm vi kỹ năng là nội dung diễn giải, không được đọc như KPI cá nhân hay case đã triển khai.
 
-Create an empty repository on GitHub, then from this folder run:
+Ba liên kết bài viết Primas và thông tin liên hệ là các URL đã có trong source trước redesign. Các dự án, ảnh báo cáo, testimonial hoặc chứng chỉ chưa xác minh không được hiển thị trên site.
 
-```bash
-git init
-git add .
-git commit -m "Add SEO portfolio source"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-git push -u origin main
-```
-
-Replace the example repository URL with your own. Inspect the files before pushing to a public repository, especially your visible contact information in `dist/index.html`. GitHub Pages is not automatically enabled by this package.
+Giấy phép font nằm tại dist/fonts/LICENSE.txt.
