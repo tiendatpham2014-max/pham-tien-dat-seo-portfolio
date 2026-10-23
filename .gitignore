@@ -1,10 +1,6 @@
 node_modules/
-.DS_Store
-Thumbs.db
-*.log
-*.zip
-*.env
-.env.*
-private/
-screenshots/
-*.har
+.next/
+out/
+.npm-cache/
+.taste-skill/inspect/
+*.tsbuildinfo

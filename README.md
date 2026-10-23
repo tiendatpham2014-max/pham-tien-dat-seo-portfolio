@@ -1,43 +1,40 @@
-# Phạm Tiến Đạt — SEO Portfolio
+# Phạm Tiến Đạt · SEO portfolio
 
-Source code for a bilingual (Vietnamese / English) personal SEO portfolio.
+Portfolio song ngữ cho SEO Executive, xây lại từ bản HTML tĩnh. Nội dung tuân theo `docs/brief.md`, `docs/evidence.md` và `docs/references.md` của repository gốc.
 
-## Run locally
+## Công nghệ
 
-Requires Node.js 20 or newer. There are no package dependencies and no build step.
-
-```bash
-npm run dev
-```
-
-Open `http://localhost:4173`. You can also edit `dist/index.html` directly: it contains the HTML, CSS, JavaScript, content, and interactions in one file. The local server binds to `127.0.0.1`.
-
-## Repository map
-
-| File | Purpose |
+| Thành phần | Vai trò |
 | --- | --- |
-| `dist/index.html` | Website source and static entry point. |
-| `.openai/hosting.json` | Static hosting configuration for the existing Sites project. |
-| `dev-server.mjs` | Dependency-free local preview server. |
-| `docs/brief.md` | Content, audience, and design direction. |
-| `docs/evidence.md` | Public-safe aggregate search data and attribution guidelines. |
-| `docs/references.md` | Design references and browser inspection status. |
-| `docs/design-direction.json` | Earlier generated design direction; optional background. |
-| `AGENTS.md` | Instructions for continuing this project in Codex. |
+| Next.js 16 App Router + static export | Tạo hai trang `/` và `/en/` có HTML, metadata và canonical riêng; xuất bản dạng tĩnh |
+| React 19 + TypeScript | Thành phần tương tác: sân khấu quy trình, phép so sánh GSC, trình khám phá bài viết và menu |
+| Be Vietnam Pro (self-host qua Fontsource) | Font có glyph tiếng Việt đầy đủ, không phụ thuộc yêu cầu font từ bên ngoài |
+| Morphicons + Lucide | Chuyển động biểu tượng mở/đóng menu |
+| React Bits AnimatedContent (source-owned, giấy phép MIT) + GSAP ScrollTrigger | Hiệu ứng xuất hiện và co chữ tên theo cuộn; tôn trọng `prefers-reduced-motion` |
+| CSS thuần | Grid, bố cục responsive, chuyển tông theo từng chương, focus và hover |
+| Sharp | Tạo ảnh Open Graph 1200 × 630 từ `scripts/create-og.mjs` |
 
-The source snapshot corresponds to the website as of October 22, 2026. The static folder is `dist/`. Import this folder as a repository or open it directly in Codex. This repository does not contain private Search Console exports, screenshots, or CV source documents.
+## Thiết kế và nội dung
 
-## Put the entire folder on GitHub
+Hero đặt tên làm hình khối chính, với luồng tín hiệu chuyển động. Một sân khấu sticky mô phỏng ba bước truy vấn → nội dung → đo lường; hình minh họa là đồ họa tự dựng, còn số liệu ở bước cuối lấy từ case GSC thật. Bảng GSC có thể kéo để so sánh hai kỳ và đổi năm chỉ số. Khu vực bài viết có tab và bản xem trước liên kết đến bài đã xuất bản. Không dùng ảnh khách hàng, thành tích bịa, hay biểu đồ gán kết quả cấp website cho một cá nhân.
 
-Create an empty repository on GitHub, then from this folder run:
+Các nguồn tham khảo được xem trực tiếp: `trantrongnhan.com` (hệ thống hình khối chuyển động quanh chân dung), `hiennv.com` (nhịp mở đầu), `shaders.com` (chuyển động nền), `impeccable.style` (tương tác so sánh kéo), và `minwang.dev` (chữ lớn và kể chuyện bằng cuộn). Chỉ mượn nguyên tắc phù hợp với portfolio SEO.
+
+Bảng case so sánh GSC Quý III/2025 với Quý III/2026 theo tài liệu nguồn. Clicks, impressions, CTR, vị trí và nhóm non-brand đều giữ bối cảnh, gồm giới hạn của cách tính non-brand. Ba liên kết bài viết trỏ về bài đã xuất bản trên Primas.
+
+## Chạy và build
 
 ```bash
-git init
-git add .
-git commit -m "Add SEO portfolio source"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-git push -u origin main
+npm ci
+npm run dev
+npm run build
 ```
 
-Replace the example repository URL with your own. Inspect the files before pushing to a public repository, especially your visible contact information in `dist/index.html`. GitHub Pages is not automatically enabled by this package.
+`npm run build` tạo `out/` cho Sites static hosting. Cấu hình project nằm tại `.openai/hosting.json`.
+
+## Đã kiểm tra
+
+- Build production và TypeScript.
+- Giao diện desktop VI, phần quy trình sticky, nút chỉ số GSC, trình chọn bài viết và định dạng số theo ngôn ngữ.
+- Metadata, canonical, hreflang, Open Graph, robots và sitemap.
+- Focus hiển thị, skip link và cài đặt giảm chuyển động trong CSS/component.
