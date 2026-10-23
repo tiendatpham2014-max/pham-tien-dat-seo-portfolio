@@ -24,3 +24,9 @@ Sau phản hồi trực tiếp của chủ portfolio, đã mở preview động 
 ## Cập nhật theo yêu cầu giao diện tối
 
 `docs/DARK_REFERENCE_PASS.md` ghi lại lần đối chiếu mới. Nền navy (`#142039`) là trường màu chính, còn cảnh chuyển chữ dùng than `#1a1b1b`. Bổ sung cảnh Nhu cầu → Nội dung → Đo lường chạy theo cuộn giữa góc nhìn nghề nghiệp và bằng chứng GSC. Theo ưu tiên mới ngày 24/10, ba thẻ vai trò được thay bằng đường chân trời lấy cảm hứng từ Features 17. Vầng sáng bám tiến trình đọc và ba mốc nghề nghiệp thật. Mã và dữ liệu tiếp tục thuộc source dự án, không dùng asset trả phí hay nội dung demo.
+
+## Light/Dark và hành trình theo cuộn
+
+Dark navy hiện tại là mặc định. Nút trong header cho phép chuyển sang light màu giấy sáng và xanh lục trầm; lựa chọn được lưu bằng `localStorage` trên trình duyệt. Script nhỏ trong `<head>` áp dụng theme trước khi CSS được tải để tránh nháy màu lúc mở lại trang. Nội dung và bố cục giữ nguyên; cảnh đường chân trời vẫn là một ô trời tối trong cả hai mode để giữ độ sâu thị giác. Trạng thái nút có nhãn VI/EN.
+
+Vầng sáng hành trình lấy tiến trình từ vị trí cuộn hiện tại, cập nhật khi cuộn hoặc resize. Khi đứng yên nó không chạy tự động. Các mốc nghề nghiệp và nhãn trong ô trời đồng bộ theo tiến trình đó.

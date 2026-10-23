@@ -49,6 +49,24 @@ let language="vi",currentMetric="clicks",currentSkill=0,manualSkill=false,skillT
 const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
 const $=selector=>document.querySelector(selector);
 const $$=selector=>Array.from(document.querySelectorAll(selector));
+const THEME_STORAGE_KEY="dat-seo-theme";
+let theme=document.documentElement.dataset.theme==="light"?"light":"dark";
+function updateThemeControl(){
+  const label=language==="vi"
+    ?theme==="dark"?"Chuyển sang giao diện sáng":"Chuyển sang giao diện tối"
+    :theme==="dark"?"Switch to light theme":"Switch to dark theme";
+  const button=$("#theme-toggle");
+  button.setAttribute("aria-label",label);
+  button.title=label;
+  $('meta[name="theme-color"]').content=theme==="dark"?"#101827":"#f5f3ed";
+}
+function setTheme(next){
+  theme=next==="light"?"light":"dark";
+  if(theme==="light")document.documentElement.dataset.theme="light";
+  else delete document.documentElement.dataset.theme;
+  updateThemeControl();
+  try{localStorage.setItem(THEME_STORAGE_KEY,theme)}catch{}
+}
 let currentSignal=0;
 
 function renderSignal(){
@@ -105,6 +123,7 @@ function setLanguage(next){
   $$("[data-i18n]").forEach(element=>{const value=copy[next][element.dataset.i18n];if(value!==undefined)element.textContent=value});
   $$("[data-lang]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.lang===next)));
   $("#menu-toggle").setAttribute("aria-label",copy[next][menuOpen?"menuClose":"menuOpen"]);
+  updateThemeControl();
   $(".brand").setAttribute("aria-label",(next==="vi"?"Phạm Tiến Đạt — đầu trang":"Dat Pham — home"));
   $(".insight-row").setAttribute("aria-label",(next==="vi"?"Các câu hỏi trong công việc SEO":"Questions I ask in SEO work"));
   $(".signal-lab").setAttribute("aria-label",copy[next].signalAria);
@@ -232,6 +251,7 @@ function updateSearchScene(){
 }
 window.addEventListener("scroll",scheduleSceneUpdate,{passive:true});
 window.addEventListener("resize",scheduleSceneUpdate);
+$("#theme-toggle").addEventListener("click",()=>setTheme(theme==="dark"?"light":"dark"));
 $$("[data-lang]").forEach(button=>button.addEventListener("click",()=>setLanguage(button.dataset.lang)));
 $("#compare-slider").addEventListener("input",updateComparison);
 $$("[data-metric]").forEach(button=>button.addEventListener("click",()=>{currentMetric=button.dataset.metric;renderMetric()}));

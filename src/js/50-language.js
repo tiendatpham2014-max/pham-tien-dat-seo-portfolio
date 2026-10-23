@@ -7,6 +7,7 @@ function setLanguage(next){
   $$("[data-i18n]").forEach(element=>{const value=copy[next][element.dataset.i18n];if(value!==undefined)element.textContent=value});
   $$("[data-lang]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.lang===next)));
   $("#menu-toggle").setAttribute("aria-label",copy[next][menuOpen?"menuClose":"menuOpen"]);
+  updateThemeControl();
   $(".brand").setAttribute("aria-label",(next==="vi"?"Phạm Tiến Đạt — đầu trang":"Dat Pham — home"));
   $(".insight-row").setAttribute("aria-label",(next==="vi"?"Các câu hỏi trong công việc SEO":"Questions I ask in SEO work"));
   $(".signal-lab").setAttribute("aria-label",copy[next].signalAria);

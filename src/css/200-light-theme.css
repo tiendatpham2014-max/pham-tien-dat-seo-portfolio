@@ -1,0 +1,106 @@
+/* Light mode keeps the existing composition and the dark career horizon as an inset scene. */
+html[data-theme="light"]{
+  color-scheme:light;
+  --ground:#f5f3ed;--paper:#eeeee8;--field:#dfe6e2;--ink:#1d2c35;
+  --quiet:#4e626c;--dark:#e2eae5;--dark-field:#d9e5e0;
+  --light:#1d2c35;--light-quiet:#4d626b;--accent:#1e665f;--accent-light:#256e66
+}
+html[data-theme="light"] body{background:var(--ground);color:var(--ink)}
+html[data-theme="light"] ::selection{background:#b6dcd1;color:#182b31}
+html[data-theme="light"] :focus-visible{outline-color:#1e665f}
+html[data-theme="light"] .site-header{background:rgba(245,243,237,.96);color:var(--ink)}
+html[data-theme="light"] .site-header.is-scrolled{box-shadow:0 1px 0 rgba(29,44,53,.18)}
+html[data-theme="light"] .desktop-nav a,html[data-theme="light"] .language-switch button{color:#405761}
+html[data-theme="light"] .desktop-nav a:hover,html[data-theme="light"] .desktop-nav a[aria-current="location"],html[data-theme="light"] .language-switch button[aria-pressed=true]{color:#142d34}
+html[data-theme="light"] .language-switch span{color:#70828a}
+html[data-theme="light"] .menu-toggle span{background:#1d2c35}
+html[data-theme="light"] .mobile-nav{background:#f1f1eb;color:#1d2c35}
+html[data-theme="light"] .menu-backdrop{background:rgba(24,39,45,.52)}
+html[data-theme="light"] .theme-toggle{color:#1d5c58;border-color:#9eb9b1}
+html[data-theme="light"] .theme-toggle:hover{background:#dceae3;border-color:#1e665f}
+html[data-theme="light"] .hero{background:#f5f3ed;color:#1d2c35}
+html[data-theme="light"] .hero-mesh span:nth-child(1){background:radial-gradient(ellipse,#94c2b6 0%,transparent 66%);opacity:.45}
+html[data-theme="light"] .hero-mesh span:nth-child(2){background:radial-gradient(ellipse,#b5b8d0 0%,transparent 67%);opacity:.4}
+html[data-theme="light"] .hero-mesh span:nth-child(3){background:radial-gradient(ellipse,#a9d0cf 0%,transparent 66%);opacity:.42}
+html[data-theme="light"] .hero-meta,html[data-theme="light"] .hero-bottom{color:#50646b}
+html[data-theme="light"] .hero h1{color:#142b36;text-shadow:none}
+html[data-theme="light"] .hero-description{color:#42565e}
+html[data-theme="light"] .button.primary{background:#1e665f;color:#fff}
+html[data-theme="light"] .button.primary:hover{background:#174f4a;color:#fff}
+html[data-theme="light"] .text-link:hover{color:#1e665f}
+html[data-theme="light"] .signal-lab{background:rgba(248,249,244,.92);color:#1d2c35;border-color:rgba(41,100,92,.2);box-shadow:0 30px 70px rgba(43,72,71,.14)}
+html[data-theme="light"] .signal-steps button{color:#4b6669}
+html[data-theme="light"] .signal-steps button:hover,html[data-theme="light"] .signal-steps button[aria-pressed=true]{color:#165a52}
+html[data-theme="light"] .signal-detail{color:#334c52;border-color:rgba(40,102,95,.28)}
+html[data-theme="light"] .approach{background:#edf1eb}
+html[data-theme="light"] .approach-copy p,html[data-theme="light"] .approach .lead{color:#233943}
+html[data-theme="light"] .approach-principles{color:#1e665f}
+html[data-theme="light"] .insight-row article{background:linear-gradient(#1e665f,#1e665f) top left/52px 2px no-repeat}
+html[data-theme="light"] .insight-row p{color:#52656a}
+html[data-theme="light"] .search-scene{background:#dfe9e6;color:#19323a}
+html[data-theme="light"] .search-scene-top{color:#47636a}
+html[data-theme="light"] .search-scene-count{color:#1e665f}
+html[data-theme="light"] .search-scene-rule{background:#9cb8b4}
+html[data-theme="light"] .search-scene-rule i{background:#1e665f}
+html[data-theme="light"] .work.dark-section{background:#f0f2ed;color:#1d2c35}
+html[data-theme="light"] .dark-section .section-label{color:#1e665f}
+html[data-theme="light"] .dark-section .section-head p{color:#4b626b}
+html[data-theme="light"] .evidence-story{border-color:rgba(34,77,78,.24)}
+html[data-theme="light"] .evidence-stage-top,html[data-theme="light"] .evidence-stage-bottom{color:#3d6264}
+html[data-theme="light"] .evidence-card,html[data-theme="light"] .evidence-card:nth-child(2),html[data-theme="light"] .evidence-card:nth-child(3){border-top-color:#8eaaa5;border-bottom-color:#b5c9c4}
+html[data-theme="light"] .evidence-card>span,html[data-theme="light"] .evidence-card small{color:#306960}
+html[data-theme="light"] .evidence-card strong{color:#173b40}
+html[data-theme="light"] .story-mini-bars i{background:#287c71}
+html[data-theme="light"] .evidence-chapters article{border-color:#bdcfca}
+html[data-theme="light"] .evidence-chapters p,html[data-theme="light"] .evidence-chapters .is-current p{color:#41575f}
+html[data-theme="light"] .period-card{background:#dfe9e4}
+html[data-theme="light"] .period-card>span{color:#4d626b}
+html[data-theme="light"] .metric-picker button{color:#1d2c35;border-color:#819f9d}
+html[data-theme="light"] .metric-picker button:hover,html[data-theme="light"] .metric-picker button[aria-pressed=true]{background:#1e665f;color:#fff}
+html[data-theme="light"] .meter{background:#b5c9c5}
+html[data-theme="light"] .meter span{background:#267c71}
+html[data-theme="light"] .compare-wipe{border-color:#a7bfb9}
+html[data-theme="light"] .compare-before{background:#d9e6e0}
+html[data-theme="light"] .compare-after{background:#b8d8cf}
+html[data-theme="light"] .compare-bars i{background:#688e88}
+html[data-theme="light"] .compare-after .compare-bars i{background:#276c64}
+html[data-theme="light"] .compare-divider{border-color:#245e59}
+html[data-theme="light"] .compare-divider span{background:#f6f7f2;color:#1d2c35;border-color:#245e59}
+html[data-theme="light"] .data-table th,html[data-theme="light"] .data-table td{border-color:#c4d2ce}
+html[data-theme="light"] .process{background:#f5f3ed}
+html[data-theme="light"] .process-path{background:#acbfba}
+html[data-theme="light"] .process-step:before{border-color:#f5f3ed}
+html[data-theme="light"] .micro-label,html[data-theme="light"] .process-step li{color:#50656b}
+html[data-theme="light"] .skills{background:#e9eeea}
+html[data-theme="light"] .skill-tabs button{color:#51666b}
+html[data-theme="light"] .skill-tabs button:hover,html[data-theme="light"] .skill-tabs button[aria-selected=true]{color:#173f42}
+html[data-theme="light"] .skill-progress{background:#afc3be}
+html[data-theme="light"] .skill-panels{background:#f6f7f3}
+html[data-theme="light"] .tool-line{color:#52676d}
+html[data-theme="light"] .writing{background:#f5f3ed}
+html[data-theme="light"] .rail-controls{color:#53666d}
+html[data-theme="light"] .rail-controls button{border-color:#78928f;color:#1d2c35}
+html[data-theme="light"] .rail-controls button:hover:not(:disabled){background:#1e665f;color:#fff}
+html[data-theme="light"] .article-card{background:#e8efea}
+html[data-theme="light"] .article-card:hover,html[data-theme="light"] .article-card:focus-visible{background:#dcebe3}
+html[data-theme="light"] .article-top,html[data-theme="light"] .article-link{color:#1e665f}
+html[data-theme="light"] .article-card p,html[data-theme="light"] .writing-footer span{color:#52666d}
+html[data-theme="light"] .journey{background:#eef1ed}
+html[data-theme="light"] .journey-intro,html[data-theme="light"] .career-list p:not(.career-org){color:#465c64}
+html[data-theme="light"] .career-list article,html[data-theme="light"] .career-list article:first-child{border-color:#b5c7c3}
+html[data-theme="light"] .career-list article.is-current{border-color:#27736a}
+html[data-theme="light"] .career-list:before{background:#a9bdb8}
+html[data-theme="light"] .career-list:after{background:#26756b}
+html[data-theme="light"] .career-list-marker{border-color:#eef1ed;background:#26756b;box-shadow:0 0 0 1px #26756b}
+html[data-theme="light"] .career-list article>span,html[data-theme="light"] .career-org{color:#236a63}
+html[data-theme="light"] .contact.dark-section{background:#e1eae6;color:#1d2c35}
+html[data-theme="light"] .contact-methods a{background:#f1f5f0}
+html[data-theme="light"] .contact-methods a:hover,html[data-theme="light"] .contact-methods a:focus-visible{background:#d2e4dc}
+html[data-theme="light"] .method-icon{background:#1e665f;color:#fff}
+html[data-theme="light"] .site-footer{background:#dce8e3;color:#1d2c35}
+html[data-theme="light"] .footer-main p,html[data-theme="light"] .footer-bottom{color:#4d6269}
+html[data-theme="light"] .footer-bottom{border-color:#adc4be}
+@media(max-width:850px){
+  html[data-theme="light"] .evidence-stage{background:#f0f2ed}
+  html[data-theme="light"] .journey-visual{background:#eef1ed}
+}

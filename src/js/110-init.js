@@ -1,5 +1,6 @@
 window.addEventListener("scroll",scheduleSceneUpdate,{passive:true});
 window.addEventListener("resize",scheduleSceneUpdate);
+$("#theme-toggle").addEventListener("click",()=>setTheme(theme==="dark"?"light":"dark"));
 $$("[data-lang]").forEach(button=>button.addEventListener("click",()=>setLanguage(button.dataset.lang)));
 $("#compare-slider").addEventListener("input",updateComparison);
 $$("[data-metric]").forEach(button=>button.addEventListener("click",()=>{currentMetric=button.dataset.metric;renderMetric()}));
