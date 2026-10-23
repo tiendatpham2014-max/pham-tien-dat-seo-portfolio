@@ -16,6 +16,7 @@ const careerPathLength=careerPath.getTotalLength();
 careerActivePath.style.strokeDasharray=String(careerPathLength);
 $$("[data-career-node]").forEach((node,index)=>{const point=careerPath.getPointAtLength(careerPathLength*index/2);node.setAttribute("cx",point.x);node.setAttribute("cy",point.y)});
 function updateScenes(){
+  if(window.scrollY<$("#work").offsetTop-window.innerHeight*.55)setActiveSection("");
   const career=getSceneState(careerArticles);
   $(".career-list").style.setProperty("--career-fill",(career.progress*80).toFixed(2)+"%");
   careerActivePath.style.strokeDashoffset=String(careerPathLength*(1-career.progress));
@@ -23,6 +24,8 @@ function updateScenes(){
   careerMarker.setAttribute("cx",markerPoint.x);careerMarker.setAttribute("cy",markerPoint.y);
   careerArticles.forEach((article,index)=>article.classList.toggle("is-current",index===career.active));
   $("#career-count").textContent=String(career.active+1).padStart(2,"0")+" / 03";
+  $("#career-index").textContent=String(career.active+1).padStart(2,"0");
+  $("#career-date").textContent=careerArticles[career.active].querySelector(":scope > span").textContent;
   $("#career-role").textContent=careerArticles[career.active].querySelector("h3").textContent;
   const evidence=getSceneState(evidenceSteps);
   evidenceSteps.forEach((step,index)=>step.classList.toggle("is-current",index===evidence.active));

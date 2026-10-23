@@ -61,7 +61,7 @@
 }
 .article-card strong{
   display:block;
-  font:400 clamp(27px,2.4vw,39px)/1.16 Cambria,"Times New Roman",serif;
+  font:400 clamp(27px,2.4vw,39px)/1.16 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.025em;
   margin:58px 0 23px
 }

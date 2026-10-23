@@ -32,7 +32,7 @@
   color:var(--quiet)
 }
 .career-list h3{
-  font:400 clamp(28px,2.7vw,42px)/1.1 Cambria,"Times New Roman",serif;
+  font:400 clamp(28px,2.7vw,42px)/1.1 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.025em;
   margin:0 0 7px
 }

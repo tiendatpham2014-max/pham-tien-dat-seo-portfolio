@@ -10,6 +10,8 @@ function setLanguage(next){
   $(".brand").setAttribute("aria-label",(next==="vi"?"Phạm Tiến Đạt — đầu trang":"Dat Pham — home"));
   $(".insight-row").setAttribute("aria-label",(next==="vi"?"Các câu hỏi trong công việc SEO":"Questions I ask in SEO work"));
   $(".signal-lab").setAttribute("aria-label",copy[next].signalAria);
+  $(".signal-steps").setAttribute("aria-label",copy[next].signalStepsAria);
+  renderSignal();
   $("#desktop-nav").setAttribute("aria-label",copy[next].navigation);
   $("#mobile-nav").setAttribute("aria-label",copy[next].mobileNavigation);
   $(".metric-picker").setAttribute("aria-label",copy[next].metricsLabel);
@@ -21,7 +23,7 @@ function setLanguage(next){
   $$("[data-value]").forEach(element=>element.textContent=formatMetric(Number(element.dataset.value),"integer"));
   $$("[data-percent]").forEach(element=>element.textContent=formatMetric(Number(element.dataset.percent),"percent"));
   $$("[data-decimal]").forEach(element=>element.textContent=formatMetric(Number(element.dataset.decimal),"decimal"));
-  const storyValues=next==="vi"?["+27,1%","−5,0%","2 chiều"]:["+27.1%","−5.0%","2 signals"];
+  const storyValues=next==="vi"?["+27,1%","−5,0%","+0,34"]:["+27.1%","−5.0%","+0.34"];
   $$(".evidence-card strong").forEach((element,index)=>element.textContent=storyValues[index]);
   renderMetric();
   updateScenes();

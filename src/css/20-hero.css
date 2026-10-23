@@ -85,14 +85,14 @@
 }
 .hero h1{
   margin:0;
-  font:400 clamp(72px,10.8vw,178px)/.91 Cambria,"Times New Roman",serif;
+  font:400 clamp(72px,10.8vw,178px)/.91 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.075em;
   max-width:1180px;
   text-wrap:balance
 }
 .hero-statement{
   margin:35px 0 0;
-  font:400 clamp(28px,3.2vw,48px)/1.15 Cambria,"Times New Roman",serif;
+  font:400 clamp(28px,3.2vw,48px)/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.03em;
   max-width:690px
 }

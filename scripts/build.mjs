@@ -37,11 +37,13 @@ const targets = {
     "src/css/150-evidence-story.css",
     "src/css/160-career-story.css",
     "src/css/170-responsive-stories.css",
+    "src/css/180-art-direction.css",
   ],
   "dist/app.js": [
     "src/js/00-copy.js",
     "src/js/10-gsc-data.js",
     "src/js/20-state.js",
+    "src/js/25-signal-lab.js",
     "src/js/30-metrics.js",
     "src/js/40-navigation.js",
     "src/js/50-language.js",

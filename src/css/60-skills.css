@@ -84,7 +84,7 @@
   color:var(--accent)
 }
 .skill-panels h3{
-  font:400 clamp(32px,3.3vw,50px)/1.08 Cambria,"Times New Roman",serif;
+  font:400 clamp(32px,3.3vw,50px)/1.08 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.035em;
   margin:20px 0 40px;
   max-width:610px

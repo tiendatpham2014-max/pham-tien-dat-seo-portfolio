@@ -17,6 +17,7 @@ $("#skills").addEventListener("focusout",()=>{setTimeout(()=>{skillFocus=$("#ski
 document.addEventListener("visibilitychange",()=>{document.body.classList.toggle("page-hidden",document.hidden);scheduleSkillTimer()});reduced.addEventListener?.("change",scheduleSkillTimer);
 $("#rail-prev").addEventListener("click",()=>moveRail(-1));$("#rail-next").addEventListener("click",()=>moveRail(1));$("#article-rail").addEventListener("scroll",()=>requestAnimationFrame(updateRail),{passive:true});window.addEventListener("resize",()=>{positionIndicator();updateRail()});
 $("#year").textContent=new Date().getFullYear();
+initSignalLab();
 try{setLanguage(localStorage.getItem("dat-seo-language")||"vi")}catch{setLanguage("vi")}
 document.documentElement.classList.remove("no-js");
 updateRail();

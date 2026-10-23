@@ -30,7 +30,7 @@
   clip-path:inset(0 0 0 var(--split))
 }
 .compare-period{
-  font:400 clamp(35px,4.5vw,68px)/1 Cambria,"Times New Roman",serif;
+  font:400 clamp(35px,4.5vw,68px)/1 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.04em
 }
 .compare-bars{

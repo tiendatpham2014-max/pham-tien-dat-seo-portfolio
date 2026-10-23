@@ -42,7 +42,7 @@
   font-weight:600
 }
 .process-step h3{
-  font:400 clamp(29px,2.8vw,42px)/1.15 Cambria,"Times New Roman",serif;
+  font:400 clamp(29px,2.8vw,42px)/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.03em;
   margin:18px 0
 }

@@ -70,7 +70,7 @@
   color:#e0e9e4
 }
 .evidence-card strong{
-  font:400 clamp(67px,7vw,125px)/.85 Cambria,"Times New Roman",serif;
+  font:400 clamp(67px,7vw,125px)/.85 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.075em;
   color:#f2efe8
 }
@@ -108,7 +108,7 @@
 .evidence-chapters h3{
   max-width:650px;
   margin:22px 0;
-  font:400 clamp(46px,5vw,81px)/1.04 Cambria,"Times New Roman",serif;
+  font:400 clamp(46px,5vw,81px)/1.04 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.055em
 }
 .evidence-chapters p{

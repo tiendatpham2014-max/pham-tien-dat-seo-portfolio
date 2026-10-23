@@ -16,3 +16,15 @@ Các URL dưới đây do chủ portfolio cung cấp để định hướng bố
 | [minwang.dev](https://minwang.dev/) | GSC, kinh nghiệm | Tham khảo cơ chế scene bám theo cuộn: thẻ GSC đổi theo chương và tuyến vai trò chạy theo vị trí đọc |
 
 Ảnh GSC chủ portfolio gửi chỉ được dùng để tham khảo giao diện phân tích hiệu suất. Ảnh, URL website và các con số 16 tháng trong ảnh không thuộc repository. Dữ liệu công khai là phép so sánh Q3/2025–Q3/2026 đã xác minh trong `docs/evidence.md`.
+
+## Đối chiếu preview ngày 23/10/2026
+
+- Hero 22: nền mesh chuyển động dưới thông điệp lớn. Bản portfolio giữ nền mềm, bổ sung sơ đồ ba lớp SEO có thể bấm để đọc rõ ý nghĩa từng bước.
+- Features 4: danh sách tab tự chuyển, có panel chi tiết. Bản portfolio giữ bốn nhóm chuyên môn thật và dừng tự chuyển khi người xem tự chọn, hover hoặc focus.
+- Comparison 7: đường chia kéo giữa hai trạng thái. Bản portfolio dùng hai quý GSC có số liệu thật, vẫn có bảng đầy đủ để không phụ thuộc vào hiệu ứng.
+- Features 17: cảnh “follow the sun” và ba địa điểm văn phòng. Không có dữ liệu văn phòng toàn cầu, nên chỉ mượn nhịp kể theo cuộn cho ba mốc nghề nghiệp đã xác minh.
+- How It Works 4: các mốc đi cùng checklist. Bản portfolio dùng ba giai đoạn phương pháp SEO, không gắn ngày giả cho dự án.
+- Social Proof 11, Contact 3, Footer 11 và Navigation 15 lần lượt được diễn giải bằng rail ba bài thật, ba kênh liên hệ thật, footer liên kết thật và gạch chân điều hướng di chuyển.
+- minwang.dev: chữ rất lớn, các chương cuộn có trạng thái rõ và cảnh hành trình nghề nghiệp. Bản portfolio áp dụng typography có dấu tiếng Việt đầy đủ, cảnh GSC theo lớp và tuyến kinh nghiệm bám vị trí cuộn; không lấy ảnh chân dung hay chứng chỉ của trang tham khảo.
+
+Không dùng mã nguồn hoặc nội dung demo của các mẫu React Bits Pro. Những phần cần dữ liệu riêng vẫn chỉ ghi trong `CONTENT_GAPS.md`.
