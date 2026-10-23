@@ -8,7 +8,7 @@ import { content, type Locale } from '@/lib/content';
 export default function Header({ locale }: { locale: Locale }) {
   const c = content[locale];
   const [open, setOpen] = useState(false);
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
   const header = useRef<HTMLElement>(null);
 
   useEffect(() => {

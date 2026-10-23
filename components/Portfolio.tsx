@@ -1,7 +1,10 @@
 import Header from './Header';
 import MetricBoard from './MetricBoard';
+import ProcessStage from './ProcessStage';
+import ArticleExplorer from './ArticleExplorer';
+import HeroName from './HeroName';
 import AnimatedContent from './react-bits/AnimatedContent';
-import { articles, content, type Locale } from '@/lib/content';
+import { content, type Locale } from '@/lib/content';
 
 const reveal = { distance: 26, duration: 0.72, initialOpacity: 0.35, threshold: 0.13 } as const;
 
@@ -13,32 +16,24 @@ export default function Portfolio({ locale }: { locale: Locale }) {
       <a className="skipLink" href="#main">{c.skip}</a>
       <Header locale={locale} />
       <main id="main">
-        <section className="hero" id="top" data-tone="light" aria-labelledby="hero-title">
-          <div className="heroUpper" aria-hidden="true" />
-          <div className="heroLower" aria-hidden="true" />
-          <div className="heroText frame">
-            <AnimatedContent {...reveal} trigger="mount" distance={18} initialOpacity={0.7}>
-              <h1 id="hero-title" className="heroTitle"><span>{c.heroTop}</span><span>{c.heroBottom}</span></h1>
-            </AnimatedContent>
+        <section className="hero" id="top" data-tone="dark" aria-labelledby="hero-title">
+          <div className="heroField" aria-hidden="true"><span className="fieldLine" /><span className="fieldLine" /><span className="fieldLine" /></div>
+          <div className="heroFrame frame">
+            <div className="heroKicker"><span>SEO Executive</span><span>Search · Content · Growth</span></div>
+            <div className="heroStatement">
+              <p>{c.heroTop} {c.heroBottom}</p>
+              <a href="#case" aria-label={c.heroAction} className="heroRoundAction"><span aria-hidden="true">↘</span></a>
+            </div>
+            <HeroName locale={locale} />
+            <div className="heroFoot"><p>{c.heroIntro}</p><span>{locale === 'vi' ? 'Cuộn để khám phá ↓' : 'Scroll to explore ↓'}</span></div>
           </div>
-          <div className="heroBottomRow frame">
-            <p>{c.heroIntro}</p>
-            <a className="primaryAction" href="#case">{c.heroAction}<span aria-hidden="true">↘</span></a>
-          </div>
-          <p className="heroAside frame">{c.heroAside}</p>
         </section>
 
         <section className="approach sectionLight" id="approach" data-tone="light" aria-labelledby="approach-title">
           <div className="frame">
             <AnimatedContent {...reveal}><h2 id="approach-title" className="sectionTitle">{c.approachTitle}</h2></AnimatedContent>
             <AnimatedContent {...reveal} delay={0.06}><p className="approachLead">{c.approachLead}</p></AnimatedContent>
-            <div className="approachGrid">
-              {c.approachItems.map((item, index) => (
-                <AnimatedContent key={item.title} {...reveal} delay={index * 0.07} className="approachItem">
-                  <div><h3>{item.title}</h3><p>{item.text}</p></div>
-                </AnimatedContent>
-              ))}
-            </div>
+            <ProcessStage locale={locale} />
           </div>
         </section>
 
@@ -85,17 +80,7 @@ export default function Portfolio({ locale }: { locale: Locale }) {
               <AnimatedContent {...reveal}><h2 id="writing-title" className="sectionTitle">{c.writingTitle}</h2></AnimatedContent>
               <AnimatedContent {...reveal} delay={0.07}><p>{c.writingIntro}</p></AnimatedContent>
             </div>
-            <div className="articleList">
-              {articles.map((article, index) => (
-                <AnimatedContent {...reveal} delay={index * 0.06} key={article.href}>
-                  <a href={article.href} target="_blank" rel="noopener noreferrer" className="articleLink">
-                    <span className="articleTopic">Primas · {article.topic}</span>
-                    <span className="articleTitle">{article.title}</span>
-                    <span className="articleArrow" aria-hidden="true">↗</span>
-                  </a>
-                </AnimatedContent>
-              ))}
-            </div>
+            <ArticleExplorer locale={locale} />
             <a className="authorLink" href="https://primas.net/author/datpt/" target="_blank" rel="noopener noreferrer">{c.authorLink} <span aria-hidden="true">↗</span></a>
           </div>
         </section>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { content, type Locale } from '@/lib/content';
 
 type MetricKey = 'clicks' | 'nonbrand' | 'ctr' | 'impressions' | 'position';
@@ -17,13 +17,14 @@ const keys: MetricKey[] = ['clicks', 'nonbrand', 'ctr', 'impressions', 'position
 
 export default function MetricBoard({ locale }: { locale: Locale }) {
   const [active, setActive] = useState<MetricKey>('clicks');
+  const [split, setSplit] = useState(50);
   const c = content[locale];
   const metric = metrics[active];
   const formatter = new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {
     minimumFractionDigits: metric.digits,
     maximumFractionDigits: metric.digits
   });
-  const max = Math.max(metric.previous, metric.current);
+  const splitStyle = { '--split': `${split}%` } as CSSProperties;
 
   return (
     <div className="metricBoard" data-ui>
@@ -33,14 +34,13 @@ export default function MetricBoard({ locale }: { locale: Locale }) {
         ))}
       </div>
       <div className="metricPanel" aria-live="polite" aria-atomic="true">
-        <div className="metricRow">
-          <div className="metricRowTop"><span>{c.previous}</span><strong>{formatter.format(metric.previous)}{active === 'ctr' ? '%' : ''}</strong></div>
-          <div className="metricTrack" aria-hidden="true"><span style={{ width: `${(metric.previous / max) * 100}%` }} /></div>
+        <div className="metricReveal" style={splitStyle}>
+          <div className="metricBefore"><span>{c.previous}</span><strong>{formatter.format(metric.previous)}{active === 'ctr' ? '%' : ''}</strong></div>
+          <div className="metricAfter"><span>{c.current}</span><strong>{formatter.format(metric.current)}{active === 'ctr' ? '%' : ''}</strong></div>
+          <div className="metricDivider" aria-hidden="true"><span>↔</span></div>
         </div>
-        <div className="metricRow">
-          <div className="metricRowTop"><span>{c.current}</span><strong>{formatter.format(metric.current)}{active === 'ctr' ? '%' : ''}</strong></div>
-          <div className="metricTrack current" aria-hidden="true"><span style={{ width: `${(metric.current / max) * 100}%` }} /></div>
-        </div>
+        <label className="metricRangeLabel" htmlFor="metric-range">{locale === 'vi' ? 'Kéo để so sánh hai kỳ' : 'Drag to compare the periods'}</label>
+        <input id="metric-range" className="metricRange" type="range" min="35" max="65" value={split} onChange={event => setSplit(Number(event.target.value))} aria-valuetext={locale === 'vi' ? `Ranh giới ở ${split}%` : `Divider at ${split}%`} />
         <p className="metricDelta">{locale === 'vi' ? metric.deltaVi : metric.deltaEn}</p>
       </div>
       <p className="metricNote">{c.metricFoot}</p>
