@@ -34,8 +34,8 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Được chạy localhost, kiểm tra UI thực tế, chạy git/GitHub và quy trình staging theo lệnh deploy bên dưới. Không hiểu lệnh cấm crawl là cấm test hoặc cấm push branch.
 
 ## Công nghệ
-- Source thực tế là static HTML/CSS/JS trong `dist/index.html`, không phải React.
-- Chạy local bằng `npm run dev` (127.0.0.1:4173). Không tự chuyển stack, không thêm dependency không cần thiết.
+- Source thực tế là static HTML/CSS/JS trong `src/`, ghép thành `dist/` bằng `npm run build`; không phải React.
+- Chạy local bằng `npm run dev` (127.0.0.1:4173). Chạy `npm run check` trước khi push. Không tự chuyển stack, không thêm dependency không cần thiết.
 - Giữ chức năng, i18n, metric/attribution, link, bảo mật, asset và hosting config. Lưu ý bản public vẫn thể hiện vai trò SEO Executive đang tiếp diễn tại thời điểm 23/10/2026.
 
 ## Art direction
