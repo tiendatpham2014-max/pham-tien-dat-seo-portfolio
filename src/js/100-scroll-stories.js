@@ -18,7 +18,7 @@ function getCareerState(){
   return{progress,active:Math.round(progress*(careerStages.length-1))};
 }
 function updateScenes(){
-  if(window.scrollY<$("#work").offsetTop-window.innerHeight*.55)setActiveSection("");
+  updateActiveSection();
   const career=getCareerState();
   const journey=$("#journey"),route=$(".career-route");
   journey.style.setProperty("--career-progress",career.progress.toFixed(4));

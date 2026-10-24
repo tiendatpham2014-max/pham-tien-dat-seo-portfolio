@@ -24,8 +24,6 @@ document.documentElement.classList.remove("no-js");
 updateRail();
 updateScenes();
 if("IntersectionObserver"in window){
-  const sectionObserver=new IntersectionObserver(entries=>{const seen=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);if(seen.length)setActiveSection(seen[0].target.id)},{rootMargin:"-25% 0px -55% 0px",threshold:[0,.1,.25,.5]});
-  sections.forEach(id=>sectionObserver.observe(document.getElementById(id)));
   const skillObserver=new IntersectionObserver(entries=>{skillVisible=entries[0].isIntersecting;scheduleSkillTimer()},{threshold:.4});skillObserver.observe($("#skills"));
   const processObserver=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){$(".process-path").classList.add("is-visible");processObserver.disconnect()}},{threshold:.2});processObserver.observe($("#process"));
   if(!reduced.matches){

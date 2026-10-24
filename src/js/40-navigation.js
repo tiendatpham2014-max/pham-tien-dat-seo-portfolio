@@ -5,6 +5,14 @@ function positionIndicator(){
   indicator.style.width=a.width+"px";indicator.style.transform="translateX("+(a.left-n.left)+"px)";
 }
 function setActiveSection(id){
+  if(currentActiveSection===id)return;
+  currentActiveSection=id;
   $$("#desktop-nav a").forEach(link=>link.getAttribute("href")==="#"+id?link.setAttribute("aria-current","location"):link.removeAttribute("aria-current"));
   positionIndicator();
+}
+let currentActiveSection="";
+function updateActiveSection(){
+  const focus=window.innerHeight*.45;
+  const current=sections.find(id=>{const rect=document.getElementById(id).getBoundingClientRect();return rect.top<=focus&&rect.bottom>focus})||"";
+  setActiveSection(current);
 }

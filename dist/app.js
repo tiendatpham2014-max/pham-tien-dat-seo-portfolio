@@ -111,8 +111,16 @@ function positionIndicator(){
   indicator.style.width=a.width+"px";indicator.style.transform="translateX("+(a.left-n.left)+"px)";
 }
 function setActiveSection(id){
+  if(currentActiveSection===id)return;
+  currentActiveSection=id;
   $$("#desktop-nav a").forEach(link=>link.getAttribute("href")==="#"+id?link.setAttribute("aria-current","location"):link.removeAttribute("aria-current"));
   positionIndicator();
+}
+let currentActiveSection="";
+function updateActiveSection(){
+  const focus=window.innerHeight*.45;
+  const current=sections.find(id=>{const rect=document.getElementById(id).getBoundingClientRect();return rect.top<=focus&&rect.bottom>focus})||"";
+  setActiveSection(current);
 }
 function setLanguage(next){
   if(!copy[next])return;
@@ -212,7 +220,7 @@ function getCareerState(){
   return{progress,active:Math.round(progress*(careerStages.length-1))};
 }
 function updateScenes(){
-  if(window.scrollY<$("#work").offsetTop-window.innerHeight*.55)setActiveSection("");
+  updateActiveSection();
   const career=getCareerState();
   const journey=$("#journey"),route=$(".career-route");
   journey.style.setProperty("--career-progress",career.progress.toFixed(4));
@@ -276,8 +284,6 @@ document.documentElement.classList.remove("no-js");
 updateRail();
 updateScenes();
 if("IntersectionObserver"in window){
-  const sectionObserver=new IntersectionObserver(entries=>{const seen=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);if(seen.length)setActiveSection(seen[0].target.id)},{rootMargin:"-25% 0px -55% 0px",threshold:[0,.1,.25,.5]});
-  sections.forEach(id=>sectionObserver.observe(document.getElementById(id)));
   const skillObserver=new IntersectionObserver(entries=>{skillVisible=entries[0].isIntersecting;scheduleSkillTimer()},{threshold:.4});skillObserver.observe($("#skills"));
   const processObserver=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){$(".process-path").classList.add("is-visible");processObserver.disconnect()}},{threshold:.2});processObserver.observe($("#process"));
   if(!reduced.matches){
