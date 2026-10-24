@@ -170,12 +170,12 @@
     transform:translateY(0)
   }
 }
-.js-motion .section-head,.js-motion .approach-grid,.js-motion .insight-row article,.js-motion .case-overview,.js-motion .metric-stage,.js-motion .period-card,.js-motion .skill-layout,.js-motion .article-card,.js-motion .journey-layout,.js-motion .contact-heading,.js-motion .contact-methods a{
+.js-motion .section-head,.js-motion .approach-grid,.js-motion .insight-row article,.js-motion .case-overview,.js-motion .metric-stage,.js-motion .period-card,.js-motion .skill-layout,.js-motion .article-card,.js-motion .contact-heading,.js-motion .contact-methods a{
   opacity:0;
   transform:translateY(24px);
   transition:opacity .75s var(--ease),transform .75s var(--ease)
 }
-.js-motion :is(.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.skill-layout,.article-card,.journey-layout,.contact-heading,.contact-methods a).is-visible{
+.js-motion :is(.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.skill-layout,.article-card,.contact-heading,.contact-methods a).is-visible{
   opacity:1;
   transform:none
 }

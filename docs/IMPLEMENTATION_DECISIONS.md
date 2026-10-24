@@ -9,7 +9,7 @@
 | Process | CONTENT_SPEC §5, copy bank C4 | How It Works 4 | Ba giai đoạn phương pháp, có câu hỏi và checklist |
 | Skills | CONTENT_ARCHITECTURE C5 | Features 4 | Bốn tab Problem → Approach → Typical output |
 | Writing | CONTENT_SPEC §7 | Social Proof 11 | Đổi thành rail ba bài thật, không testimonial |
-| Experience | CONTENT_SPEC §8 | Features 17 | Ba mốc nghề nghiệp thật với bầu trời tối, vầng sáng chạy trên mép địa cầu và nhãn đang xem đồng bộ với vị trí cuộn |
+| Experience | CONTENT_SPEC §8 | Features 17 | Một section trời tối tràn chiều rộng; đường chân trời là dòng thời gian, vầng sáng và nội dung ba vai trò đi cùng vị trí cuộn |
 | Contact | CONTENT_SPEC §9 | Contact 3 | Ba kênh thật với icon card lớn và hover có chuyển động, không form giả |
 | Footer | CONTENT_SPEC §9 | Footer 11 | Hai nhóm link thật và back-to-top |
 
@@ -27,6 +27,6 @@ Sau phản hồi trực tiếp của chủ portfolio, đã mở preview động 
 
 ## Light/Dark và hành trình theo cuộn
 
-Dark navy hiện tại là mặc định. Nút trong header cho phép chuyển sang light màu giấy sáng và xanh lục trầm; lựa chọn được lưu bằng `localStorage` trên trình duyệt. Script nhỏ trong `<head>` áp dụng theme trước khi CSS được tải để tránh nháy màu lúc mở lại trang. Nội dung và bố cục giữ nguyên; cảnh đường chân trời vẫn là một ô trời tối trong cả hai mode để giữ độ sâu thị giác. Trạng thái nút có nhãn VI/EN.
+Dark navy hiện tại là mặc định. Nút trong header cho phép chuyển sang light màu giấy sáng và xanh lục trầm; lựa chọn được lưu bằng `localStorage` trên trình duyệt. Script nhỏ trong `<head>` áp dụng theme trước khi CSS được tải để tránh nháy màu lúc mở lại trang. Hành trình là một section trời tối riêng trong cả hai mode để giữ độ sâu thị giác. Trạng thái nút có nhãn VI/EN.
 
-Vầng sáng hành trình lấy tiến trình từ vị trí cuộn hiện tại, cập nhật khi cuộn hoặc resize. Khi đứng yên nó không chạy tự động. Các mốc nghề nghiệp và nhãn trong ô trời đồng bộ theo tiến trình đó.
+Vầng sáng hành trình lấy tiến trình từ vị trí cuộn hiện tại, cập nhật khi cuộn hoặc resize. Khi đứng yên nó không chạy tự động. Ba vai trò nằm trực tiếp trong cảnh chân trời; nội dung vai trò hiện tại bám theo vị trí vầng sáng, không còn khung minh họa và cột timeline tách rời.

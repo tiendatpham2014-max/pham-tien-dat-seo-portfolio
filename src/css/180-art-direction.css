@@ -1,5 +1,5 @@
 /* A single Vietnamese-complete type family keeps headings consistent on every device. */
-.hero h1,.display-heading,.evidence-chapters h3,.career-list h3,.article-card strong,.contact-heading h2,.footer-name{
+.hero h1,.display-heading,.evidence-chapters h3,.article-card strong,.contact-heading h2,.footer-name{
   font-weight:600;
   letter-spacing:-.065em;
 }
@@ -32,7 +32,7 @@
 .js-motion .signal-lab{
   animation:hero-rise .7s .32s both;
 }
-.js-motion .section-head,.js-motion .journey-layout{
+.js-motion .section-head{
   opacity:1;
   transform:none;
 }
@@ -149,33 +149,6 @@
   font-weight:600;
   line-height:1;
   letter-spacing:-.12em;
-}
-.career-route-date{
-  position:absolute;
-  z-index:2;
-  top:20px;
-  right:24px;
-  color:#d7e2dc;
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:.04em;
-}
-.career-route svg,.career-route-caption{
-  position:relative;
-  z-index:1;
-}
-.career-route-caption{
-  position:absolute;
-}
-.career-path-active{
-  stroke-width:4;
-  filter:drop-shadow(0 0 9px rgba(194,221,212,.55));
-}
-.career-route-marker{
-  transition:cx .12s linear,cy .12s linear;
-}
-.career-list h3{
-  line-height:1.15;
 }
 
 @media(max-width:1350px){

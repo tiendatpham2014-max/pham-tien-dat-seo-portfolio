@@ -31,7 +31,7 @@ if("IntersectionObserver"in window){
   if(!reduced.matches){
     document.body.classList.add("js-motion");
     const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");revealObserver.unobserve(entry.target)}})},{threshold:.08,rootMargin:"0px 0px -5% 0px"});
-    $$(".process-step,.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.journey-layout,.contact-heading,.contact-methods a").forEach(item=>revealObserver.observe(item));
+    $$(".process-step,.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a").forEach(item=>revealObserver.observe(item));
   }
 }
 document.fonts?.ready.then(positionIndicator);

@@ -8,11 +8,11 @@
 | Hero, sơ đồ Intent → Content → Evidence | `30-hero.html` | `20-hero.css`, `110-motion.css` | `00-copy.js`, `110-init.js` | `docs/DESIGN_SPEC.md`, `docs/MOTION_SPEC.md` |
 | Cách tiếp cận | `40-approach.html` | `30-approach.css` | `00-copy.js` | `docs/CONTENT_ARCHITECTURE.md` |
 | Cảnh chữ theo cuộn | `45-search-scene.html` | `185-dark-direction.css`, `190-search-scene.css` | `105-search-scene.js`, `100-scroll-stories.js` | `docs/DARK_REFERENCE_PASS.md` |
-| GSC và so sánh | `50-evidence.html` | `40-evidence.css`, `120-comparison.css`, `150-evidence-story.css`, `195-reactbits-horizon.css` | `10-gsc-data.js`, `30-metrics.js`, `90-comparison.js`, `100-scroll-stories.js` | `docs/evidence.md`; chỉ số ở cấp website, chuyển cảnh phẳng |
+| GSC và so sánh | `50-evidence.html` | `40-evidence.css`, `120-comparison.css`, `150-evidence-story.css`, `195-evidence-story.css` | `10-gsc-data.js`, `30-metrics.js`, `90-comparison.js`, `100-scroll-stories.js` | `docs/evidence.md`; chỉ số ở cấp website, chuyển cảnh phẳng |
 | Quy trình SEO | `60-process.html` | `50-process.css`, `110-motion.css` | `00-copy.js`, `110-init.js` | Nội dung phương pháp, không phải case riêng |
 | Tab kỹ năng | `70-skills.html` | `60-skills.css` | `70-skills.js`, `110-init.js` | `docs/CONTENT_SPEC.md` |
 | Bài viết thật | `80-writing.html` | `70-writing.css` | `80-writing-rail.js`, `110-init.js` | Liên kết trong `docs/evidence.md` |
-| Kinh nghiệm theo cuộn | `90-journey.html` | `80-journey.css`, `160-career-story.css`, `185-dark-direction.css`, `195-reactbits-horizon.css` | `100-scroll-stories.js` | Features 17: ba vai trò thật, bình minh chỉ chạy trên chân trời khi cuộn; giữ nền trời tối ở cả hai theme |
+| Kinh nghiệm theo cuộn | `90-journey.html` | `196-career-horizon-scene.css` | `100-scroll-stories.js` | Features 17: chân trời là nền tràn toàn section và chính là dòng thời gian; từng vai trò xuất hiện cùng vầng sáng theo cuộn, không có cột timeline riêng |
 | Liên hệ và footer | `100-contact.html`, `110-document-close.html` | `90-contact-footer.css`, `130-contact-motion.css` | `00-copy.js` | Kênh liên hệ thật |
 | Responsive, reduced motion | Tất cả section | `100-responsive-base.css`, `140-responsive-motion.css`, `170-responsive-stories.css` | `20-state.js`, `110-init.js` | `docs/QA_CHECKLIST.md` |
 
