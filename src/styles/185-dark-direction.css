@@ -16,10 +16,7 @@ body{background:var(--ground);color:var(--ink)}
 .mobile-nav{background:#142039;color:#f4f5f1}
 .menu-backdrop{background:rgba(4,9,17,.8)}
 .hero{background:#101827;color:var(--ink)}
-.hero-mesh span{width:75%;height:105%;filter:blur(48px)}
-.hero-mesh span:nth-child(1){background:radial-gradient(ellipse,#395c78 0%,transparent 66%);opacity:.62}
-.hero-mesh span:nth-child(2){background:radial-gradient(ellipse,#514879 0%,transparent 67%);opacity:.44}
-.hero-mesh span:nth-child(3){background:radial-gradient(ellipse,#1d696a 0%,transparent 66%);opacity:.35}
+.hero-aurora{opacity:.95}
 .hero-meta,.hero-bottom{color:#b9c7d0}
 .hero-overline,.section-label{color:var(--accent)}
 .hero h1{color:#f6f7f2;text-shadow:0 12px 54px rgba(0,0,0,.13)}

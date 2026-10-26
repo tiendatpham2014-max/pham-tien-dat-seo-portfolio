@@ -19,9 +19,23 @@ html[data-theme="light"] .menu-backdrop{background:rgba(24,39,45,.52)}
 html[data-theme="light"] .theme-toggle{color:#1d5c58;border-color:#9eb9b1}
 html[data-theme="light"] .theme-toggle:hover{background:#dceae3;border-color:#1e665f}
 html[data-theme="light"] .hero{background:#f5f3ed;color:#1d2c35}
-html[data-theme="light"] .hero-mesh span:nth-child(1){background:radial-gradient(ellipse,#94c2b6 0%,transparent 66%);opacity:.45}
-html[data-theme="light"] .hero-mesh span:nth-child(2){background:radial-gradient(ellipse,#b5b8d0 0%,transparent 67%);opacity:.4}
-html[data-theme="light"] .hero-mesh span:nth-child(3){background:radial-gradient(ellipse,#a9d0cf 0%,transparent 66%);opacity:.42}
+html[data-theme="light"] .hero-aurora .aurora-flow-1{
+  background-image:repeating-linear-gradient(110deg,rgba(148,194,182,.45) 0%,rgba(181,184,208,.46) 12%,rgba(169,208,207,.42) 24%,rgba(148,194,182,.45) 36%);
+  mix-blend-mode:multiply;
+  opacity:.42
+}
+html[data-theme="light"] .hero-aurora .aurora-flow-2{
+  background-image:repeating-linear-gradient(125deg,rgba(181,184,208,.38) 0%,rgba(169,208,207,.4) 15%,rgba(148,194,182,.38) 30%);
+  mix-blend-mode:multiply;
+  opacity:.35
+}
+html[data-theme="light"] .hero-aurora .aurora-center-pulse{
+  background:radial-gradient(ellipse at center,rgba(148,194,182,.35) 0%,rgba(181,184,208,.2) 48%,transparent 75%);
+  opacity:.4
+}
+html[data-theme="light"] .hero-aurora .aurora-stars{
+  opacity:.06
+}
 html[data-theme="light"] .hero-meta,html[data-theme="light"] .hero-bottom{color:#50646b}
 html[data-theme="light"] .hero h1{color:#142b36;text-shadow:none}
 html[data-theme="light"] .hero-description{color:#42565e}
