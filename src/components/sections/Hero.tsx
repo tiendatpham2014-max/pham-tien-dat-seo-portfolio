@@ -2,7 +2,12 @@ export function Hero() {
   return (
     <>
 <section className="hero" id="top" aria-labelledby="hero-title">
-  <div className="hero-mesh" aria-hidden="true"><span /><span /><span /></div>
+  <div className="hero-mesh hero-aurora" aria-hidden="true">
+    <span className="aurora-flow-1" />
+    <span className="aurora-flow-2" />
+    <span className="aurora-center-pulse" />
+    <span className="aurora-stars" />
+  </div>
   <div className="shell hero-inner">
     <div className="hero-meta"><span data-i18n="role">SEO Executive</span><span data-i18n="location">TP. Hồ Chí Minh, Việt Nam</span></div>
     <div className="hero-main">
