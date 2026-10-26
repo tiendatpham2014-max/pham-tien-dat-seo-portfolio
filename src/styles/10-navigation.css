@@ -1,9 +1,15 @@
 .site-header{
-  position:sticky;
+  position:fixed;
   top:0;
-  z-index:40;
+  left:0;
+  right:0;
+  width:100%;
+  z-index:50;
   transition:background .22s ease,box-shadow .22s ease;
-  background:rgba(214,210,202,.96)
+  background:rgba(16,24,39,.88);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 1px 0 rgba(255,255,255,.08)
 }
 .site-header.is-scrolled{
   box-shadow:0 1px 0 rgba(32,39,38,.16)

@@ -3,8 +3,9 @@
 }
 .skill-layout{
   display:grid;
-  grid-template-columns:minmax(260px,.4fr) minmax(0,.6fr);
-  gap:clamp(40px,8vw,125px)
+  grid-template-columns:minmax(220px,.38fr) minmax(0,.62fr);
+  gap:clamp(20px,4vw,50px);
+  align-items:center
 }
 .skill-tabs{
   position:relative;
@@ -16,15 +17,15 @@
   text-align:left;
   border:0;
   background:none;
-  padding:20px 22px 20px 0;
-  min-height:60px;
+  padding:clamp(10px,1.4vh,16px) clamp(10px,1.2vw,16px) clamp(10px,1.4vh,16px) 0;
+  min-height:clamp(40px,5.5vh,52px);
   color:var(--quiet);
-  font-size:18px;
+  font-size:clamp(14px,1.2vw,17px);
   transition:color .2s,padding .25s var(--ease)
 }
 .skill-tabs button:hover,.skill-tabs button[aria-selected=true]{
   color:var(--ink);
-  padding-left:15px
+  padding-left:14px
 }
 .skill-tabs button[aria-selected=true]{
   font-weight:600
@@ -34,7 +35,7 @@
   position:absolute;
   left:0;
   width:3px;
-  height:28px;
+  height:24px;
   background:var(--accent)
 }
 .skill-progress{
@@ -62,9 +63,10 @@
   }
 }
 .skill-panels{
-  min-height:420px;
+  min-height:clamp(240px,32vh,340px);
   background:var(--ground);
-  padding:clamp(30px,4vw,58px)
+  padding:clamp(18px,2.5vh,32px) clamp(20px,2.5vw,36px);
+  border-radius:16px
 }
 .skill-panels article{
   animation:panel-in .32s var(--ease)
@@ -80,35 +82,38 @@
   }
 }
 .panel-kicker{
-  font-size:14px;
-  color:var(--accent)
+  font-size:12px;
+  color:var(--accent);
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase
 }
 .skill-panels h3{
-  font:400 clamp(32px,3.3vw,50px)/1.08 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.035em;
-  margin:20px 0 40px;
+  font:600 clamp(18px,2vw,28px)/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.03em;
+  margin:clamp(8px,1vh,14px) 0 clamp(14px,2vh,22px);
   max-width:610px
 }
 .skill-panels dl{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:25px;
+  gap:clamp(12px,1.5vw,20px);
   margin:0
 }
 .skill-panels dt{
-  font-size:12px;
+  font-size:11px;
   text-transform:uppercase;
-  letter-spacing:.07em;
+  letter-spacing:.08em;
   color:var(--accent);
   font-weight:600
 }
 .skill-panels dd{
-  margin:12px 0 0;
-  font-size:15px;
-  line-height:1.65
+  margin:clamp(6px,0.8vh,10px) 0 0;
+  font-size:clamp(12px,0.95vw,14px);
+  line-height:1.5
 }
 .tool-line{
-  margin:38px 0 0;
-  font-size:13px;
+  margin:clamp(14px,2vh,24px) 0 0;
+  font-size:12px;
   color:var(--quiet)
 }

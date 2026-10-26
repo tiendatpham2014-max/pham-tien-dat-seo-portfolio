@@ -79,23 +79,26 @@
   margin-top:32px
 }
 .period-card{
-  padding:clamp(24px,3.5vw,48px);
+  padding:clamp(10px,1.4vh,18px);
+  border-radius:14px;
   background:var(--dark-field)
 }
 .period-card>span{
-  font-size:14px;
+  font-size:clamp(11px,1vw,13px);
   color:var(--light-quiet)
 }
 .period-card strong{
   display:block;
-  font:400 clamp(50px,6vw,96px)/1 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.06em;
-  margin:30px 0 35px;
+  font:600 clamp(24px,3.2vw,44px)/1 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.045em;
+  margin:clamp(6px,1vh,14px) 0;
   font-variant-numeric:tabular-nums
 }
 .meter{
-  height:8px;
-  background:#596b66
+  height:6px;
+  border-radius:3px;
+  background:#596b66;
+  overflow:hidden
 }
 .meter span{
   height:100%;
@@ -104,13 +107,13 @@
   transition:width .45s var(--ease)
 }
 .metric-reading{
-  margin:18px 0 0;
+  margin:clamp(6px,0.8vh,10px) 0 0;
   text-align:right;
   color:var(--accent-light);
-  font-size:15px
+  font-size:clamp(12px,1vw,14px)
 }
 .data-table-toggle{
-  margin-top:40px;
+  margin-top:clamp(8px,1vh,14px);
   border:1px solid rgba(255,255,255,.1);
   border-radius:14px;
   background:rgba(16,24,39,.65);
@@ -121,8 +124,8 @@
   border-color:rgba(56,189,248,.3);
 }
 .data-table-toggle summary{
-  padding:16px 24px;
-  font-size:14px;
+  padding:clamp(8px,1vh,12px) clamp(12px,1.5vw,18px);
+  font-size:clamp(12px,1vw,13px);
   font-weight:600;
   color:#38bdf8;
   cursor:pointer;
@@ -133,7 +136,9 @@
   background:rgba(56,189,248,.08);
 }
 .data-table-toggle .data-table-wrap{
-  padding:0 24px 24px;
+  padding:0 clamp(12px,1.5vw,18px) clamp(10px,1.2vh,14px);
+  max-height:25vh;
+  overflow-y:auto;
 }
 .data-table-wrap{
   max-width:100%;
@@ -142,26 +147,26 @@
 .data-table{
   width:100%;
   border-collapse:collapse;
-  font-size:15px;
-  min-width:610px;
+  font-size:clamp(12px,0.95vw,14px);
+  min-width:540px;
   font-variant-numeric:tabular-nums
 }
 .data-table caption{
   text-align:left;
-  font-size:14px;
+  font-size:12px;
   color:var(--light-quiet);
-  padding-bottom:16px
+  padding-bottom:10px
 }
 .data-table th,.data-table td{
-  padding:15px 10px;
+  padding:clamp(6px,0.8vh,10px) 8px;
   text-align:right;
-  border-bottom:1px solid rgba(226,222,214,.22)
+  border-bottom:1px solid rgba(226,222,214,.15)
 }
 .data-table th:first-child{
   text-align:left
 }
 .data-table thead th{
-  font-size:13px;
+  font-size:12px;
   color:var(--light-quiet);
   font-weight:400
 }
@@ -170,13 +175,13 @@
 }
 .case-notes{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:clamp(25px,4vw,60px);
-  margin-top:60px
+  grid-template-columns:repeat(2,1fr);
+  gap:clamp(12px,2vw,36px);
+  margin-top:clamp(8px,1.2vh,16px)
 }
 .case-notes p{
-  font-size:14px;
-  line-height:1.7;
+  font-size:clamp(11px,0.9vw,13px);
+  line-height:1.5;
   color:var(--light-quiet);
   margin:0
 }

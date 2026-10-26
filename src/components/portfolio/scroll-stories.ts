@@ -20,24 +20,16 @@ function getSceneState(items: HTMLElement[]) {
   return { progress, active };
 }
 
-function getCareerState(stages: HTMLElement[]) {
-  const rect = get("#journey").getBoundingClientRect();
-  const travel = Math.max(1, rect.height - window.innerHeight);
-  const progress = Math.max(0, Math.min(1, -rect.top / travel));
-  return { progress, active: Math.round(progress * (stages.length - 1)) };
-}
-
 export function updateScenes() {
   updateActiveSection();
-  const stages = all(".career-stage");
-  const career = getCareerState(stages);
-  const journey = get("#journey");
-  const route = get(".career-route");
-  journey.style.setProperty("--career-progress", career.progress.toFixed(4));
-  route.style.setProperty("--career-progress", career.progress.toFixed(4));
-  const orbitX = (45 + 70 * career.progress) / 160;
-  route.style.setProperty("--sun-y", `${(75 + 70 * (1 - Math.sqrt(1 - (2 * orbitX - 1) ** 2))).toFixed(2)}%`);
-  stages.forEach((stage, index) => stage.classList.toggle("is-current", index === career.active));
+  const stages = all(".career-stage, .career-stage-card");
+  if (stages.length) {
+    const journeyEl = document.querySelector<HTMLElement>("#journey");
+    if (journeyEl) {
+      journeyEl.style.setProperty("--sun-x", "85%");
+      journeyEl.style.setProperty("--sun-y", "78%");
+    }
+  }
 
   const evidenceSteps = all(".evidence-chapters article");
   if (evidenceSteps.length) {
