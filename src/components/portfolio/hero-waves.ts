@@ -27,6 +27,18 @@ export function initHeroWaves(signal: AbortSignal) {
   let lastTime = performance.now();
   let t = 0;
   let animId: number;
+  let isVisible = true;
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0]?.isIntersecting ?? true;
+      if (isVisible) {
+        lastTime = performance.now();
+      }
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+    signal.addEventListener("abort", () => observer.disconnect());
+  }
 
   // Dải sóng nước lụa siêu mịn với độ phân giải vi mô và màu sắc đa tầng
   const waveLayers = [
@@ -38,7 +50,7 @@ export function initHeroWaves(signal: AbortSignal) {
 
   function render(now: number) {
     if (signal.aborted) return;
-    if (document.hidden) {
+    if (document.hidden || !isVisible) {
       animId = requestAnimationFrame(render);
       return;
     }
