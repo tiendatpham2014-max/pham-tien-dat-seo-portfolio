@@ -52,6 +52,7 @@ Purpose: deliver motion that supports comprehension and perceived quality. **Not
 **Load entrance:**
 - Eyebrow `0ms`; title `120ms`; subtitle `260ms`; CTA group `400ms`. Use 650–800ms each; visual intro <=1.3s total.
 - Optional tiny arrow/scroll hint pulses at very low amplitude <=4px over 3–4s, disabled in reduced motion.
+- The SEO decision lab uses one illustrative situation. Its question, reading and output change only when the visitor chooses a stage or presses the next arrow; the progress line and background focus follow that choice. Reduced motion keeps every stage usable without the text transition.
 
 ## 4. Editorial intro
 
@@ -103,7 +104,8 @@ Purpose: deliver motion that supports comprehension and perceived quality. **Not
 
 - Desktop: the dawn position is driven by scroll progress; milestone labels brighten in sequence. No automatic looping.
 - Scroll entry: milestones reveal in order; connecting path/line activates as section moves through view. Prefer scroll-based class changes or intersection events, not heavy 60fps JS.
-- Responsive mobile: a compact sticky horizon remains visible above the vertical career list; scroll still updates its light and active role.
+- Responsive mobile: the same horizon and active role share one scroll-linked scene; the light follows scroll without looping.
+- The sky and role text share one sticky wrapper contained by the Experience section. The wrapper leaves before the independent Contact section begins, so neither scene nor contact cards overlap the other.
 - Every timeline item stays in DOM, visible in reduced-motion/no-JS environments.
 - Avoid unsupported city/office labels, faux project-year durations and fictional progress percentages.
 

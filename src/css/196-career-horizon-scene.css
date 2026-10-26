@@ -40,15 +40,22 @@
   background:#080d1a;
   color:#f7f5f3
 }
+.journey-sticky{
+  position:sticky;
+  top:0;
+  height:100svh;
+  overflow:hidden;
+  isolation:isolate
+}
 .journey .career-route{
   --sun-y:82.05%;
-  position:sticky;
+  position:absolute;
   z-index:0;
   isolation:isolate;
-  top:0;
+  inset:0;
   width:100%;
-  height:100svh;
-  margin:0 0 -100svh;
+  height:100%;
+  margin:0;
   border:0;
   border-radius:0;
   background:#080d1a;
@@ -82,13 +89,13 @@
 .career-horizon-markers span:nth-child(2){left:50%;top:75%}
 .career-horizon-markers span:nth-child(3){left:85%;top:82.05%}
 .journey-scene{
-  position:sticky;
+  position:absolute;
   z-index:1;
-  top:0;
+  inset:0;
   width:100%;
   max-width:none;
-  height:100svh;
-  margin:0 0 -100svh;
+  height:100%;
+  margin:0;
   pointer-events:none
 }
 .journey-heading{
@@ -132,8 +139,6 @@
 .career-stage p:not(.career-org){max-width:450px;margin:0;color:#d8e1e5;font-size:16px;line-height:1.55}
 @media(max-width:850px){
   .journey{height:320svh}
-  .journey .career-route{top:0;height:100svh;margin-bottom:-100svh}
-  .journey-scene{top:0;height:100svh;margin-bottom:-100svh}
   .journey-heading{top:13%}
   .journey .display-heading{font-size:clamp(35px,6vw,52px)}
   .journey-intro{font-size:14px}
@@ -163,6 +168,7 @@
   .career-stage.is-current{transform:translate(var(--stage-shift),0)}
 }
 .no-js .journey{height:auto;min-height:100svh;padding:100px 0}
+.no-js .journey-sticky{position:relative;height:auto;min-height:100svh;overflow:visible}
 .no-js .journey .career-route{position:absolute;inset:0;height:100%;margin:0}
 .no-js .journey-scene{position:relative;height:auto;margin:0}
 .no-js .journey-heading{position:relative;top:auto;left:var(--gutter)}

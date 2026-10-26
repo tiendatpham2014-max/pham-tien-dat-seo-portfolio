@@ -2359,15 +2359,22 @@ body{background:var(--ground);color:var(--ink)}
   background:#080d1a;
   color:#f7f5f3
 }
+.journey-sticky{
+  position:sticky;
+  top:0;
+  height:100svh;
+  overflow:hidden;
+  isolation:isolate
+}
 .journey .career-route{
   --sun-y:82.05%;
-  position:sticky;
+  position:absolute;
   z-index:0;
   isolation:isolate;
-  top:0;
+  inset:0;
   width:100%;
-  height:100svh;
-  margin:0 0 -100svh;
+  height:100%;
+  margin:0;
   border:0;
   border-radius:0;
   background:#080d1a;
@@ -2401,13 +2408,13 @@ body{background:var(--ground);color:var(--ink)}
 .career-horizon-markers span:nth-child(2){left:50%;top:75%}
 .career-horizon-markers span:nth-child(3){left:85%;top:82.05%}
 .journey-scene{
-  position:sticky;
+  position:absolute;
   z-index:1;
-  top:0;
+  inset:0;
   width:100%;
   max-width:none;
-  height:100svh;
-  margin:0 0 -100svh;
+  height:100%;
+  margin:0;
   pointer-events:none
 }
 .journey-heading{
@@ -2451,8 +2458,6 @@ body{background:var(--ground);color:var(--ink)}
 .career-stage p:not(.career-org){max-width:450px;margin:0;color:#d8e1e5;font-size:16px;line-height:1.55}
 @media(max-width:850px){
   .journey{height:320svh}
-  .journey .career-route{top:0;height:100svh;margin-bottom:-100svh}
-  .journey-scene{top:0;height:100svh;margin-bottom:-100svh}
   .journey-heading{top:13%}
   .journey .display-heading{font-size:clamp(35px,6vw,52px)}
   .journey-intro{font-size:14px}
@@ -2482,11 +2487,122 @@ body{background:var(--ground);color:var(--ink)}
   .career-stage.is-current{transform:translate(var(--stage-shift),0)}
 }
 .no-js .journey{height:auto;min-height:100svh;padding:100px 0}
+.no-js .journey-sticky{position:relative;height:auto;min-height:100svh;overflow:visible}
 .no-js .journey .career-route{position:absolute;inset:0;height:100%;margin:0}
 .no-js .journey-scene{position:relative;height:auto;margin:0}
 .no-js .journey-heading{position:relative;top:auto;left:var(--gutter)}
 .no-js .career-stages{position:relative;display:grid;gap:70px;padding:70px var(--gutter) 0}
 .no-js .career-stage,.no-js .career-stage.is-current{position:relative;top:auto;left:auto;width:auto;max-height:none;opacity:1;visibility:visible;transform:none}
+/* One illustrative SEO problem changes from intent to page decision to evidence. */
+.signal-lab{
+  width:min(32vw,445px);
+  bottom:-5px;
+  padding:18px 26px 19px;
+}
+.signal-lab::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:9%;left:7%;
+  width:45%;height:54%;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(165,225,211,.13),transparent 72%);
+  filter:blur(12px);
+  pointer-events:none;
+  transition:left .55s var(--ease)
+}
+.signal-lab[data-signal-phase="1"]::after{left:31%}
+.signal-lab[data-signal-phase="2"]::after{left:56%}
+.signal-situation{
+  margin-top:15px;
+  padding:10px 0 0;
+  border-top:1px solid rgba(185,224,219,.22)
+}
+.signal-situation span,.signal-focus-label,.signal-outcome span{
+  display:block;
+  color:var(--accent);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.16em;
+  line-height:1.3
+}
+.signal-situation p{
+  margin:7px 0 0;
+  max-width:31ch;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:500;
+  line-height:1.4
+}
+.signal-focus{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  min-height:68px;
+  margin-top:10px;
+}
+.signal-focus-index{
+  flex:none;
+  color:var(--accent);
+  opacity:.62;
+  font:600 68px/.9 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.11em
+}
+.signal-focus h2{
+  max-width:25ch;
+  margin:6px 0 0;
+  color:var(--ink);
+  font:600 clamp(20px,1.82vw,26px)/1.16 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.045em
+}
+.signal-detail{
+  min-height:2.9em;
+  margin:5px 0 0;
+  padding:0;
+  border:0;
+  color:var(--light-quiet);
+  font-size:12px;
+  line-height:1.45
+}
+.signal-flow{height:16px;margin:10px 8px 3px}
+.signal-flow span{width:12px;height:12px}
+.signal-steps{gap:6px}
+.signal-steps button{min-height:31px;font-size:11px}
+.signal-outcome{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(185,224,219,.22)
+}
+.signal-outcome span{flex:none}
+.signal-outcome strong{
+  max-width:28ch;
+  color:var(--ink);
+  font-size:12px;
+  font-weight:600;
+  line-height:1.4;
+  text-align:right
+}
+html[data-theme="light"] .signal-situation,html[data-theme="light"] .signal-outcome{border-color:rgba(40,102,95,.2)}
+html[data-theme="light"] .signal-lab::after{background:radial-gradient(ellipse,rgba(65,155,133,.16),transparent 72%)}
+@media(max-width:1350px){
+  .signal-lab{width:min(34vw,410px);bottom:55px}
+}
+@media(max-width:1100px){
+  .signal-lab{width:min(100%,520px);bottom:auto}
+}
+@media(max-width:650px){
+  .signal-lab{padding:19px 20px 21px}
+  .signal-focus{gap:12px;min-height:66px}
+  .signal-focus-index{font-size:60px}
+  .signal-focus h2{font-size:22px}
+  .signal-situation p{font-size:13px}
+  .signal-outcome{gap:12px}
+  .signal-outcome strong{font-size:11px}
+}
 html{color-scheme:dark}
 .theme-toggle{
   width:38px;height:38px;flex:0 0 38px;

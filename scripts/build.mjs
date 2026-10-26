@@ -41,6 +41,7 @@ const targets = {
     "src/css/190-search-scene.css",
     "src/css/195-evidence-story.css",
     "src/css/196-career-horizon-scene.css",
+    "src/css/197-seo-decision-lab.css",
     "src/css/198-theme-control.css",
     "src/css/200-light-theme.css",
   ],

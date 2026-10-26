@@ -3,7 +3,7 @@
 | Section | Nguồn | Nhóm mẫu | Quyết định |
 | --- | --- | --- | --- |
 | Navigation | CONTENT_SPEC §2 | Navigation 15 | Giữ; underline theo section, drawer mobile |
-| Hero | CONTENT_SPEC §1, copy bank C1 | Hero 22 | Mesh dịu, entrance có nhịp và sơ đồ ba lớp Intent → Content → Evidence điều khiển bằng nút; số 01/03–03/03 luôn khớp lớp đang xem, không dùng KPI làm thành tích cá nhân |
+| Hero | CONTENT_SPEC §1, copy bank C1 | Hero 22 | Mesh dịu, entrance có nhịp và một tình huống SEO minh họa qua ba lớp Intent → Content → Evidence; mỗi bước hiển thị câu hỏi, cách đọc và đầu ra, không dùng KPI làm thành tích cá nhân |
 | Editorial approach | CONTENT_ARCHITECTURE C2–C3 | Introduction / Features | Viết mới góc nhìn và ba câu hỏi nghề nghiệp |
 | Evidence | evidence.md, CONTENT_SPEC §4 | Comparison 7 | Ba chương đọc dữ liệu GSC cấp website với chỉ số phẳng đổi theo cuộn, tiếp theo là hai kỳ, biểu đồ wipe, bộ chọn chỉ số và bảng đầy đủ |
 | Process | CONTENT_SPEC §5, copy bank C4 | How It Works 4 | Ba giai đoạn phương pháp, có câu hỏi và checklist |
@@ -30,3 +30,5 @@ Sau phản hồi trực tiếp của chủ portfolio, đã mở preview động 
 Dark navy hiện tại là mặc định. Nút trong header cho phép chuyển sang light màu giấy sáng và xanh lục trầm; lựa chọn được lưu bằng `localStorage` trên trình duyệt. Script nhỏ trong `<head>` áp dụng theme trước khi CSS được tải để tránh nháy màu lúc mở lại trang. Hành trình là một section trời tối riêng trong cả hai mode để giữ độ sâu thị giác. Trạng thái nút có nhãn VI/EN.
 
 Vầng sáng hành trình lấy tiến trình từ vị trí cuộn hiện tại, cập nhật khi cuộn hoặc resize. Khi đứng yên nó không chạy tự động. Ba vai trò nằm trực tiếp trong cảnh chân trời; nội dung vai trò hiện tại bám theo vị trí vầng sáng, không còn khung minh họa và cột timeline tách rời.
+
+Nền và chữ của Hành trình nằm trong cùng một lớp sticky **chỉ bên trong section Hành trình**. Lớp này rời màn hình tại cuối section; Liên hệ là section riêng với nền và tiêu đề riêng, không chồng lên chân trời.
