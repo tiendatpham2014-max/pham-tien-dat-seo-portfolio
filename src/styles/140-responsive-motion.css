@@ -1,0 +1,101 @@
+@media(max-width:650px){
+  .compare-wipe{
+    height:210px
+  }
+  .compare-layer{
+    padding:20px
+  }
+  .compare-bars{
+    top:85px;
+    left:20px;
+    right:20px;
+    gap:17px
+  }
+  .compare-bars i{
+    height:12px
+  }
+  .compare-period{
+    font-size:35px
+  }
+  .compare-legend{
+    padding-inline:20px;
+    font-size:10px
+  }
+  .compare-wipe input::-webkit-slider-thumb{
+    height:210px
+  }
+  .compare-wipe input::-moz-range-thumb{
+    height:210px
+  }
+  .contact-methods a{
+    min-height:155px
+  }
+  .method-icon{
+    width:52px;
+    height:52px;
+    font-size:19px
+  }
+}
+@media(max-width:1350px){
+  .signal-lab{
+    width:320px;
+    bottom:68px
+  }
+  .hero-description{
+    max-width:540px
+  }
+}
+@media(max-width:1100px){
+  .signal-lab{
+    position:relative;
+    right:auto;
+    bottom:auto;
+    width:min(100%,520px);
+    margin-top:40px
+  }
+  .hero-main{
+    max-width:860px
+  }
+}
+@media(max-width:650px){
+  .signal-lab{
+    margin-top:32px;
+    padding:18px 19px 20px
+  }
+  .signal-flow{
+    margin:24px 10px 16px
+  }
+  .signal-steps{
+    font-size:10px
+  }
+  .hero-main{
+    padding-bottom:45px
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto
+  }
+  *,*:before,*:after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important
+  }
+  .hero-mesh span{
+    will-change:auto
+  }
+  .js-motion .process-step:not(.is-visible){
+    opacity:1;
+    transform:none
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .js-motion :is(.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.skill-layout,.article-card,.contact-heading,.contact-methods a){
+    opacity:1;
+    transform:none
+  }
+  .js-motion .metric-stage:not(.is-visible) .meter span{
+    transform:none
+  }
+}

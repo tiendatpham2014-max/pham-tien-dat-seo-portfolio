@@ -1,0 +1,37 @@
+export function Navigation() {
+  return (
+    <>
+  <header className="site-header" id="site-header">
+    <div className="shell header-inner">
+      <a className="brand" href="#top" aria-label="Phạm Tiến Đạt — đầu trang">Đạt Phạm<span aria-hidden="true">.</span></a>
+      <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính">
+        <a href="#work" data-i18n="navWork">Dự án</a>
+        <a href="#process" data-i18n="navProcess">Quy trình</a>
+        <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
+        <a href="#writing" data-i18n="navWriting">Bài viết</a>
+        <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
+        <a href="#contact" data-i18n="navContact">Liên hệ</a>
+        <span className="nav-indicator" aria-hidden="true" />
+      </nav>
+      <div className="header-actions">
+        <div className="language-switch" role="group" aria-label="Language"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+        <button className="theme-toggle" id="theme-toggle" type="button" aria-label="Chuyển sang giao diện sáng" title="Chuyển sang giao diện sáng">
+          <svg className="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx={12} cy={12} r="3.5" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
+          <svg className="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.2 15.5A8.5 8.5 0 0 1 8.5 3.8 8.5 8.5 0 1 0 20.2 15.5Z" /></svg>
+        </button>
+        <button className="menu-toggle" id="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Mở menu"><span /><span /></button>
+      </div>
+    </div>
+  </header>
+  <div className="menu-backdrop" id="menu-backdrop" hidden />
+  <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" inert>
+    <a href="#work" data-i18n="navWork">Dự án</a>
+    <a href="#process" data-i18n="navProcess">Quy trình</a>
+    <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
+    <a href="#writing" data-i18n="navWriting">Bài viết</a>
+    <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
+    <a href="#contact" data-i18n="navContact">Liên hệ</a>
+  </nav>
+    </>
+  );
+}

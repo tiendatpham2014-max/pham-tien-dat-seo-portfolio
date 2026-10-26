@@ -1,43 +1,40 @@
 # Phạm Tiến Đạt — SEO Portfolio
 
-Source code for a bilingual (Vietnamese / English) personal SEO portfolio.
+Portfolio SEO song ngữ VI/EN, viết bằng **Next.js, React và TypeScript**. Mỗi section, hiệu ứng, nhóm CSS và dữ liệu nội dung có file nguồn riêng để xem lịch sử thay đổi trên GitHub.
 
-## Run locally
+## Chạy và build
 
-Requires Node.js 20 or newer. There are no package dependencies and no build step.
+Yêu cầu Node.js 20.9+ và npm.
 
 ```bash
-npm run dev
+npm ci
+npm run dev      # http://127.0.0.1:4173
+npm run check    # kiểm tra TypeScript
+npm run build    # xuất site tĩnh vào out/
+npm run preview  # xem bản build ở http://127.0.0.1:4173
 ```
 
-Open `http://localhost:4173`. You can also edit `dist/index.html` directly: it contains the HTML, CSS, JavaScript, content, and interactions in one file. The local server binds to `127.0.0.1`.
+Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là sản phẩm sinh ra, không commit. Cấu hình `.openai/hosting.json` trỏ tới `out/`. Font Be Vietnam Pro và giấy phép nằm trong `public/fonts/`.
 
-## Repository map
+## Nơi chỉnh sửa
 
-| File | Purpose |
+| Đường dẫn | Mục đích |
 | --- | --- |
-| `dist/index.html` | Website source and static entry point. |
-| `.openai/hosting.json` | Static hosting configuration for the existing Sites project. |
-| `dev-server.mjs` | Dependency-free local preview server. |
-| `docs/brief.md` | Content, audience, and design direction. |
-| `docs/evidence.md` | Public-safe aggregate search data and attribution guidelines. |
-| `docs/references.md` | Design references and browser inspection status. |
-| `docs/design-direction.json` | Earlier generated design direction; optional background. |
-| `AGENTS.md` | Instructions for continuing this project in Codex. |
+| `src/app/layout.tsx`, `page.tsx` | Metadata, cấu trúc trang và thứ tự section |
+| `src/components/sections/` | Component React của từng section: Hero, Evidence, Skills, Journey, Contact… |
+| `src/components/portfolio/` | Các module tương tác: theme, VI/EN, chỉ số GSC, tab, menu, cảnh cuộn, rail bài viết… |
+| `src/content/portfolio.ts` | Toàn bộ copy VI/EN |
+| `src/content/gsc.ts` | Chỉ số và cách diễn giải GSC |
+| `src/styles/` | CSS tách theo section, responsive và motion |
+| `public/fonts/` | Font tự lưu và giấy phép |
+| `docs/SOURCE_MAP.md` | Bản đồ tính năng → file nguồn |
+| `docs/evidence.md`, `docs/CONTENT_SPEC.md` | Dữ liệu đã xác minh và giới hạn diễn giải |
+| `docs/CONTENT_GAPS.md` | Nội dung còn thiếu bằng chứng, không xuất bản |
 
-The source snapshot corresponds to the website as of October 22, 2026. The static folder is `dist/`. Import this folder as a repository or open it directly in Codex. This repository does not contain private Search Console exports, screenshots, or CV source documents.
+Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Các tương tác chạy ở client qua `PortfolioShell`; HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
-## Put the entire folder on GitHub
+## Ranh giới dữ liệu công khai
 
-Create an empty repository on GitHub, then from this folder run:
+Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website: clicks tăng 27,1%, impressions giảm 5,0%. Kết quả chịu ảnh hưởng của đội ngũ và số trang thay đổi, không quy cho một cá nhân. Ảnh GSC gốc, URL định danh website, ảnh cá nhân và chứng chỉ không có trong source công khai. Ba bài viết Primas và các kênh liên hệ dùng liên kết đã xác minh.
 
-```bash
-git init
-git add .
-git commit -m "Add SEO portfolio source"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-git push -u origin main
-```
-
-Replace the example repository URL with your own. Inspect the files before pushing to a public repository, especially your visible contact information in `dist/index.html`. GitHub Pages is not automatically enabled by this package.
+Các case, testimonial và KPI chưa có bằng chứng được giữ trong `docs/CONTENT_GAPS.md`. `README_HUONG_DAN.md` và `CODEX_START_PROMPT.md` là tài liệu pack đầu vào để truy vết yêu cầu ban đầu; quy trình hiện tại nằm ở README này.

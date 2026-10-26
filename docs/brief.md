@@ -34,3 +34,4 @@ The user previously preferred putting achievements within the relevant experienc
 ## Privacy and presentation
 
 The aggregate GSC case currently omits the project name. Keep the public source free of the client property URL, unredacted GSC exports, and screenshots that reveal it. The user will provide an image later if desired; redact identifying information before publishing. Contact details already visible in the website are intentional existing content; review them with the user before expanding them.
+

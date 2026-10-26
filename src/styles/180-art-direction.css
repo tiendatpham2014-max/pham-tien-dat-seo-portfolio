@@ -1,0 +1,192 @@
+/* A single Vietnamese-complete type family keeps headings consistent on every device. */
+.hero h1,.display-heading,.evidence-chapters h3,.article-card strong,.contact-heading h2,.footer-name{
+  font-weight:600;
+  letter-spacing:-.065em;
+}
+.hero h1{
+  font-size:clamp(72px,9.1vw,162px);
+  line-height:1.02;
+  max-width:1400px;
+}
+.display-heading{
+  font-size:clamp(46px,5.2vw,78px);
+  line-height:1.08;
+}
+.hero-statement{
+  font-weight:600;
+  font-size:clamp(26px,2.65vw,43px);
+  line-height:1.22;
+}
+.js-motion .hero h1{
+  animation:hero-slide .7s both;
+}
+.js-motion .hero-statement{
+  animation:hero-rise .6s .1s both;
+}
+.js-motion .hero-description{
+  animation:hero-rise .6s .2s both;
+}
+.js-motion .hero-actions{
+  animation:hero-rise .6s .28s both;
+}
+.js-motion .signal-lab{
+  animation:hero-rise .7s .32s both;
+}
+.js-motion .section-head{
+  opacity:1;
+  transform:none;
+}
+@keyframes hero-slide{
+  from{transform:translateY(18px)}
+  to{transform:none}
+}
+
+/* Hero 22's moving mesh carries a small, usable search-decision diagram. */
+.hero-mesh span:nth-child(1){
+  opacity:.34;
+  animation-duration:14s;
+}
+.hero-mesh span:nth-child(2){
+  opacity:.28;
+  animation-duration:17s;
+}
+.hero-mesh span:nth-child(3){
+  opacity:.25;
+  animation-duration:20s;
+}
+.signal-lab{
+  width:min(32vw,450px);
+  bottom:38px;
+  padding:25px 28px 27px;
+  background:rgba(226,222,214,.88);
+  box-shadow:0 28px 65px rgba(32,39,38,.12);
+}
+.signal-lab:before{
+  opacity:.35;
+}
+.signal-next{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  min-height:30px;
+  padding:0 0 2px;
+  border:0;
+  border-bottom:1px solid currentColor;
+  background:transparent;
+  color:inherit;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.12em;
+  white-space:nowrap;
+  transition:color .2s,border-color .2s
+}
+.signal-next:hover{color:var(--accent-light)}
+.signal-next-arrow{font-size:16px;line-height:1;transition:transform .2s}
+.signal-next:hover .signal-next-arrow{transform:translateX(3px)}
+.signal-flow:after{
+  animation:none;
+  transform:scaleX(var(--signal-progress,0));
+  transition:transform .55s var(--ease);
+}
+.signal-flow span{
+  animation:none;
+  transition:transform .4s var(--ease),background .4s var(--ease);
+}
+.signal-flow span.is-active{
+  background:var(--accent-light);
+  transform:scale(1.35);
+}
+.signal-steps{
+  align-items:start;
+}
+.signal-steps button{
+  width:31%;
+  min-height:44px;
+  padding:4px 0;
+  border:0;
+  background:transparent;
+  color:var(--quiet);
+  font-size:12px;
+  line-height:1.35;
+  text-align:center;
+  transition:color .25s;
+}
+.signal-steps button:first-child{text-align:left}
+.signal-steps button:last-child{text-align:right}
+.signal-steps button:hover,.signal-steps button[aria-pressed=true]{
+  color:var(--accent);
+  font-weight:600;
+}
+.signal-detail{
+  min-height:3.2em;
+  margin:15px 0 0;
+  padding-top:13px;
+  border-top:1px solid rgba(49,95,99,.28);
+  color:var(--ink);
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* The scroll chapters show verified points, never an invented time series. */
+.evidence-card strong{
+  font-weight:600;
+  font-size:clamp(61px,6.6vw,114px);
+}
+.story-mini-bars{
+  display:grid;
+  gap:10px;
+  width:100%;
+  margin-top:auto;
+  margin-bottom:19px;
+}
+.story-mini-bars i{
+  display:block;
+  height:7px;
+  width:var(--bar);
+  background:#d6e4dc;
+  transform-origin:left;
+  transition:transform .75s var(--ease);
+}
+.evidence-card:not(.is-current) .story-mini-bars i{
+  transform:scaleX(.3);
+}
+.evidence-chapters h3{
+  line-height:1.09;
+}
+.compare-wipe,.compare-wipe input{
+  touch-action:pan-y;
+}
+
+/* The active career chapter is legible in the moving route itself. */
+.career-route-index{
+  position:absolute;
+  z-index:0;
+  top:-25px;
+  left:18px;
+  color:rgba(226,222,214,.16);
+  font-size:clamp(130px,17vw,240px);
+  font-weight:600;
+  line-height:1;
+  letter-spacing:-.12em;
+}
+
+@media(max-width:1350px){
+  .signal-lab{width:min(32vw,390px);bottom:38px}
+}
+@media(max-width:1100px){
+  .signal-lab{width:min(100%,520px);bottom:auto}
+}
+@media(max-width:650px){
+  .hero h1{font-size:clamp(58px,14.4vw,92px);line-height:1.04}
+  .hero-statement{font-size:clamp(25px,6vw,34px)}
+  .signal-lab{padding:20px 20px 22px}
+  .signal-steps button{font-size:11px}
+  .evidence-card strong{font-size:clamp(46px,12vw,68px)}
+  .career-route-index{font-size:135px;top:-8px}
+  .career-route-date{top:14px;right:16px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  .js-motion .hero h1,.js-motion .hero-statement,.js-motion .hero-description,.js-motion .hero-actions,.js-motion .signal-lab{
+    animation:none;
+  }
+}

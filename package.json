@@ -1,9 +1,23 @@
 {
-  "name": "pham-tien-dat-seo-portfolio-source",
+  "name": "pham-tien-dat-seo-portfolio",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "node dev-server.mjs"
+    "dev": "next dev --hostname 127.0.0.1 --port 4173",
+    "build": "next build",
+    "check": "tsc --noEmit",
+    "preview": "node scripts/preview-export.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3"
   }
 }
+
