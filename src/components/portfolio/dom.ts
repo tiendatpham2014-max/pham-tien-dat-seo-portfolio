@@ -1,6 +1,8 @@
 export function get<T extends HTMLElement = HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
-  if (!element) throw new Error(`Missing portfolio element: ${selector}`);
+  if (!element) {
+    return document.createElement("div") as unknown as T;
+  }
   return element;
 }
 
@@ -9,5 +11,8 @@ export function all<T extends HTMLElement = HTMLElement>(selector: string): T[] 
 }
 
 export function text(selector: string, value: string) {
-  get(selector).textContent = value;
+  const element = document.querySelector(selector);
+  if (element) {
+    element.textContent = value;
+  }
 }
