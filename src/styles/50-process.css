@@ -4,7 +4,7 @@
 .process-path{
   height:2px;
   background:#aeb8b0;
-  margin:10px 0 -11px
+  margin:clamp(6px,0.8vh,10px) 0 clamp(-8px,-1vh,-11px)
 }
 .process-path span{
   display:block;
@@ -19,53 +19,55 @@
 .process-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:clamp(22px,4vw,65px)
+  gap:clamp(16px,2.5vw,40px)
 }
 .process-step{
   position:relative;
-  padding-top:45px
+  padding-top:clamp(22px,3vh,36px)
 }
 .process-step:before{
   content:"";
   position:absolute;
   top:0;
   left:0;
-  width:18px;
-  height:18px;
+  width:16px;
+  height:16px;
   border-radius:50%;
   background:var(--accent);
-  border:4px solid var(--ground)
+  border:3px solid var(--ground)
 }
 .step-num{
   color:var(--accent);
-  font-size:14px;
+  font-size:12px;
   font-weight:600
 }
 .process-step h3{
-  font:400 clamp(29px,2.8vw,42px)/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.03em;
-  margin:18px 0
+  font:600 clamp(18px,1.8vw,28px)/1.18 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.025em;
+  margin:clamp(8px,1vh,12px) 0
 }
 .step-question{
-  font-size:18px;
-  line-height:1.5;
-  min-height:105px;
-  margin:0 0 30px
+  font-size:clamp(13px,1.1vw,15px);
+  line-height:1.45;
+  min-height:auto;
+  margin:0 0 clamp(10px,1.5vh,18px);
+  color:#f1f5f9
 }
 .micro-label{
-  font-size:11px;
+  font-size:10px;
   color:var(--quiet)
 }
 .process-step ul{
   padding:0;
-  margin:13px 0 0;
+  margin:clamp(6px,0.8vh,10px) 0 0;
   list-style:none
 }
 .process-step li{
-  padding:7px 0 7px 21px;
+  padding:clamp(4px,0.6vh,6px) 0 clamp(4px,0.6vh,6px) 16px;
   position:relative;
-  font-size:15px;
-  color:var(--quiet)
+  font-size:clamp(12px,0.95vw,14px);
+  color:var(--quiet);
+  line-height:1.4
 }
 .process-step li:before{
   content:"•";

@@ -1,8 +1,12 @@
 .hero{
   position:relative;
-  min-height:calc(100svh - 78px);
+  height:100dvh;
+  min-height:100dvh;
+  max-height:100dvh;
   overflow:hidden;
-  isolation:isolate
+  isolation:isolate;
+  padding-top:clamp(65px,8.5vh,80px);
+  padding-bottom:clamp(8px,1.5vh,18px)
 }
 .hero-waves-bg{
   position:absolute;
@@ -40,70 +44,74 @@
   opacity:.7
 }
 .hero-inner{
-  min-height:calc(100svh - 78px);
+  height:100%;
+  min-height:100%;
   display:flex;
-  flex-direction:column
+  flex-direction:column;
+  justify-content:space-between
 }
 .hero-meta,.hero-bottom{
   display:flex;
   justify-content:space-between;
-  gap:30px;
-  font-size:14px
+  gap:20px;
+  font-size:clamp(11px,1.1vw,13px)
 }
 .hero-meta{
-  padding-top:32px;
+  padding-top:clamp(4px,0.8vh,10px);
   color:var(--quiet)
 }
 .hero-main{
   margin:auto 0;
-  padding:75px 0 85px;
+  padding:clamp(6px,1.2vh,18px) 0;
   max-width:1250px
 }
 .hero-overline,.section-label,.micro-label{
   display:block;
-  font-size:12px;
+  font-size:clamp(10px,1vw,11px);
   font-weight:600;
   letter-spacing:.11em;
   text-transform:uppercase
 }
 .hero-overline{
   color:var(--accent);
-  margin-bottom:24px
+  margin-bottom:clamp(6px,1vh,12px)
 }
 .hero h1{
   margin:0;
-  font:400 clamp(72px,10.8vw,178px)/.91 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.075em;
+  font:600 clamp(38px,5.8vw,86px)/.98 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.045em;
   max-width:1180px;
   text-wrap:balance
 }
 .hero-statement{
-  margin:35px 0 0;
-  font:400 clamp(28px,3.2vw,48px)/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.03em;
+  margin:clamp(8px,1.2vh,16px) 0 0;
+  font:500 clamp(18px,2.2vw,30px)/1.2 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.025em;
   max-width:690px
 }
 .hero-description{
-  max-width:595px;
-  margin:20px 0 0;
-  font-size:18px;
-  line-height:1.65
+  max-width:640px;
+  margin:clamp(6px,0.8vh,10px) 0 0;
+  font-size:clamp(13px,1.1vw,15px);
+  line-height:1.55;
+  color:#94a3b8
 }
 .hero-actions{
   display:flex;
   align-items:center;
-  gap:30px;
-  margin-top:34px
+  gap:clamp(12px,2vw,24px);
+  margin-top:clamp(10px,1.5vh,20px)
 }
 .button{
   display:inline-flex;
   align-items:center;
-  gap:28px;
+  gap:16px;
   justify-content:center;
-  padding:14px 22px;
-  min-height:52px;
+  padding:10px 22px;
+  min-height:clamp(40px,4.8vh,48px);
+  border-radius:9999px;
   text-decoration:none;
-  font-size:15px;
+  font-size:14px;
   font-weight:600;
   transition:background .2s,color .2s,transform .2s
 }
@@ -119,14 +127,14 @@
   text-decoration:none;
   border-bottom:1px solid currentColor;
   padding-bottom:3px;
-  font-size:15px;
+  font-size:14px;
   font-weight:600
 }
 .text-link:hover{
   color:var(--accent)
 }
 .hero-bottom{
-  padding-bottom:24px;
+  padding-bottom:clamp(4px,0.8vh,10px);
   color:var(--quiet)
 }
 .hero-bottom a{

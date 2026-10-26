@@ -2,28 +2,29 @@
   background:var(--ground)
 }
 .writing .section-head{
-  margin-bottom:55px
+  margin-bottom:clamp(10px,1.8vh,24px)
 }
 .rail-controls{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:20px;
-  margin-bottom:18px;
-  font-size:13px;
+  gap:16px;
+  margin-bottom:clamp(8px,1vh,14px);
+  font-size:12px;
   color:var(--quiet)
 }
 .rail-controls>div{
   display:flex;
-  gap:5px
+  gap:6px
 }
 .rail-controls button{
-  width:46px;
-  height:46px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
   border:1px solid #65736c;
   background:transparent;
   color:var(--ink);
-  font-size:22px;
+  font-size:18px;
   transition:background .2s,color .2s
 }
 .rail-controls button:hover:not(:disabled){
@@ -36,16 +37,17 @@
   overflow-x:auto;
   scroll-snap-type:x mandatory;
   scrollbar-width:thin;
-  padding-bottom:15px
+  padding-bottom:10px
 }
 .article-card{
   flex:0 0 calc((100% - 32px)/3);
-  min-height:450px;
+  min-height:clamp(180px,28vh,260px);
   scroll-snap-align:start;
   display:flex;
   flex-direction:column;
   background:var(--paper);
-  padding:clamp(25px,2.8vw,42px);
+  padding:clamp(16px,2.2vh,26px);
+  border-radius:16px;
   text-decoration:none;
   transition:background .2s,transform .2s
 }
@@ -56,35 +58,37 @@
 .article-top{
   display:flex;
   justify-content:space-between;
-  font-size:13px;
-  color:var(--accent)
+  font-size:12px;
+  color:var(--accent);
+  font-weight:600
 }
 .article-card strong{
   display:block;
-  font:400 clamp(27px,2.4vw,39px)/1.16 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.025em;
-  margin:58px 0 23px
+  font:600 clamp(15px,1.4vw,20px)/1.25 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.02em;
+  margin:clamp(14px,2vh,24px) 0 clamp(6px,0.8vh,12px)
 }
 .article-card p{
-  font-size:15px;
+  font-size:clamp(12px,0.95vw,13px);
+  line-height:1.45;
   color:var(--quiet);
-  margin:0 0 34px
+  margin:0 0 clamp(10px,1.5vh,18px)
 }
 .article-link{
   display:block;
   margin-top:auto;
-  font-size:14px;
+  font-size:13px;
   font-weight:600;
   color:var(--accent)
 }
 .writing-footer{
   display:flex;
   justify-content:space-between;
-  gap:20px;
+  gap:16px;
   align-items:center;
-  margin-top:25px
+  margin-top:clamp(8px,1.2vh,16px)
 }
 .writing-footer span{
-  font-size:14px;
+  font-size:13px;
   color:var(--quiet)
 }
