@@ -3,7 +3,9 @@ import { reducedMotion } from "./state";
 
 export function updateSearchScene() {
   if (reducedMotion()) return;
-  const bounds = get("#search-scene").getBoundingClientRect();
+  const sceneEl = document.querySelector("#search-scene");
+  if (!sceneEl) return;
+  const bounds = sceneEl.getBoundingClientRect();
   const words = all("[data-scene-word]");
   const descriptions = all("[data-scene-description]");
   const distance = Math.max(1, bounds.height - window.innerHeight);
@@ -18,6 +20,8 @@ export function updateSearchScene() {
     word.classList.toggle("is-current", index === active);
   });
   descriptions.forEach((description, index) => description.classList.toggle("is-current", index === active));
-  text("#search-scene-count", `${String(active + 1).padStart(2, "0")} / 03`);
-  get(".search-scene-rule i").style.width = `${(progress * 100).toFixed(1)}%`;
+  const countEl = document.querySelector("#search-scene-count");
+  if (countEl) text("#search-scene-count", `${String(active + 1).padStart(2, "0")} / 03`);
+  const ruleEl = document.querySelector(".search-scene-rule i") as HTMLElement | null;
+  if (ruleEl) ruleEl.style.width = `${(progress * 100).toFixed(1)}%`;
 }
