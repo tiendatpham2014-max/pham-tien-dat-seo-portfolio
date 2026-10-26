@@ -6,7 +6,8 @@
     "dev": "next dev --hostname 127.0.0.1 --port 4173",
     "build": "next build",
     "check": "tsc --noEmit",
-    "preview": "node scripts/preview-export.mjs"
+    "preview": "node scripts/preview-export.mjs",
+    "commit:after-live": "node scripts/commit-after-live.mjs"
   },
   "dependencies": {
     "next": "16.4.3",

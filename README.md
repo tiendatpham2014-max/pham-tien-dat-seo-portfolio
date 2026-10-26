@@ -33,6 +33,16 @@ Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là 
 
 Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Các tương tác chạy ở client qua `PortfolioShell`; HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
+## Sau khi đưa bản mới lên live
+
+GitHub Desktop đọc commit từ Git ở thư mục này. Sau khi xác nhận deployment của Site đã **succeeded**, Codex kiểm tra diff, giữ checkout ở nhánh `main` rồi tạo commit cục bộ:
+
+```bash
+npm run commit:after-live -- --version 16 --deployment-id appgdep_... --url https://pham-tien-dat-seo.bloomybowl64.chatgpt.site --message "Mô tả ngắn thay đổi"
+```
+
+Thay `16` và `appgdep_...` bằng số phiên bản và deployment ID thật vừa nhận từ Sites. Lệnh chỉ tạo commit trong máy; **không push**. Sau đó mở GitHub Desktop, xem commit ở tab **History**, rồi tự bấm **Push origin** khi muốn upload. Nếu deployment chưa thành công thì chưa chạy lệnh. Source Next.js và bản build đưa lên Site phải xuất phát từ cùng lần chỉnh sửa; `out/` và `.next/` không được commit.
+
 ## Ranh giới dữ liệu công khai
 
 Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website: clicks tăng 27,1%, impressions giảm 5,0%. Kết quả chịu ảnh hưởng của đội ngũ và số trang thay đổi, không quy cho một cá nhân. Ảnh GSC gốc, URL định danh website, ảnh cá nhân và chứng chỉ không có trong source công khai. Ba bài viết Primas và các kênh liên hệ dùng liên kết đã xác minh.
