@@ -10,6 +10,7 @@ import { initComparison } from "./comparison";
 import { initScrollStories } from "./scroll-stories";
 import { initLanguage } from "./language";
 import { positionIndicator } from "./navigation";
+import { initHeroWaves } from "./hero-waves";
 
 export function initPortfolio() {
   resetState();
@@ -19,6 +20,7 @@ export function initPortfolio() {
 
   initTheme(signal);
   initMobileMenu(signal);
+  initHeroWaves(signal);
   initSignalLab(signal);
   initMetrics(signal);
   initComparison(signal);
@@ -26,6 +28,16 @@ export function initPortfolio() {
   initWritingRail(signal);
   initScrollStories(signal);
   initLanguage(signal);
+  all(".contact-methods a").forEach((card) => {
+    card.addEventListener("pointermove", (e: Event) => {
+      const pe = e as PointerEvent;
+      const rect = (card as HTMLElement).getBoundingClientRect();
+      const x = pe.clientX - rect.left;
+      const y = pe.clientY - rect.top;
+      (card as HTMLElement).style.setProperty("--mouse-x", `${x}px`);
+      (card as HTMLElement).style.setProperty("--mouse-y", `${y}px`);
+    }, { signal });
+  });
   text("#year", String(new Date().getFullYear()));
   document.documentElement.classList.remove("no-js");
 

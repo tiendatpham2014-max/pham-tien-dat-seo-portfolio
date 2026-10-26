@@ -213,7 +213,7 @@
 .signal-lab,.hero-mesh{
   animation-play-state:running
 }
-body.page-hidden .signal-lab,body.page-hidden .signal-lab *,body.page-hidden .hero-mesh span{
+body.page-hidden .signal-lab,body.page-hidden .signal-lab *,body.page-hidden .hero-waves-bg{
   animation-play-state:paused!important
 }
 .hero-mesh span{
