@@ -1,8 +1,73 @@
-/* One illustrative SEO problem changes from intent to page decision to evidence. */
-.signal-lab{
-  width:min(32vw,445px);
-  bottom:-5px;
-  padding:18px 26px 19px;
+/* Executive Career Snapshot Card */
+.executive-snapshot{
+  position:relative;
+  z-index:2;
+  margin-top:38px;
+  max-width:760px;
+  padding:22px 28px;
+  background:rgba(12,20,38,.78);
+  border:1px solid rgba(56,189,248,.25);
+  border-radius:20px;
+  backdrop-filter:blur(24px);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.snapshot-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.snapshot-tag{
+  font-size:12px;
+  font-weight:600;
+  color:#38bdf8;
+  background:rgba(56,189,248,.12);
+  border:1px solid rgba(56,189,248,.28);
+  padding:4px 12px;
+  border-radius:9999px;
+  letter-spacing:.02em;
+}
+.snapshot-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px 26px;
+}
+.snapshot-col{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.snapshot-col.wide{
+  grid-column:1 / -1;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.snapshot-label{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.12em;
+  color:#94a3b8;
+  text-transform:uppercase;
+}
+.snapshot-col strong{
+  font-size:15px;
+  font-weight:600;
+  color:#f8fafc;
+}
+.snapshot-col p{
+  margin:0;
+  font-size:14px;
+  color:#cbd5e1;
+  line-height:1.5;
+}
+@media(max-width:680px){
+  .snapshot-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
 }
 .signal-lab::after{
   content:"";

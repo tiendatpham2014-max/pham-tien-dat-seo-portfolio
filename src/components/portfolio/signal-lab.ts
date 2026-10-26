@@ -3,8 +3,10 @@ import { all, get, text } from "./dom";
 import { state } from "./state";
 
 export function renderSignal(animate = false) {
-  const lab = get(".signal-lab");
+  const lab = document.querySelector<HTMLElement>(".signal-lab");
+  if (!lab) return;
   const steps = all<HTMLButtonElement>("[data-signal-step]");
+  if (!steps.length) return;
   lab.style.setProperty("--signal-progress", String(state.currentSignal / (steps.length - 1)));
   lab.dataset.signalPhase = String(state.currentSignal);
   steps.forEach((button, index) => button.setAttribute("aria-pressed", String(index === state.currentSignal)));
@@ -26,14 +28,19 @@ export function renderSignal(animate = false) {
 }
 
 export function initSignalLab(signal: AbortSignal) {
+  const lab = document.querySelector(".signal-lab");
+  if (!lab) return;
   const steps = all<HTMLButtonElement>("[data-signal-step]");
   steps.forEach((button, index) => button.addEventListener("click", () => {
     state.currentSignal = index;
     renderSignal(true);
   }, { signal }));
-  get("#signal-next").addEventListener("click", () => {
-    state.currentSignal = (state.currentSignal + 1) % steps.length;
-    renderSignal(true);
-  }, { signal });
+  const nextBtn = document.querySelector("#signal-next");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      state.currentSignal = (state.currentSignal + 1) % steps.length;
+      renderSignal(true);
+    }, { signal });
+  }
   renderSignal();
 }

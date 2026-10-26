@@ -23,7 +23,12 @@ createServer(async (request, response) => {
     if (path !== root && !path.startsWith(`${root}${sep}`)) throw new Error("outside export");
     if ((await stat(path)).isDirectory()) path = resolve(path, "index.html");
     const bytes = await readFile(path);
-    response.writeHead(200, { "content-type": mime[extname(path)] ?? "application/octet-stream" });
+    response.writeHead(200, {
+      "content-type": mime[extname(path)] ?? "application/octet-stream",
+      "cache-control": "no-cache, no-store, must-revalidate",
+      "pragma": "no-cache",
+      "expires": "0"
+    });
     response.end(bytes);
   } catch {
     response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
