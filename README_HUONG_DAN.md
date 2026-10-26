@@ -1,5 +1,7 @@
 # SEO Portfolio Codex Pack v4 — Content-first, Muted Editorial
 
+> Tài liệu lưu trữ mô tả ZIP gốc. Quy trình build và cấu trúc source hiện tại đã chuyển sang Next.js/React/TypeScript; xem `README.md` và `docs/SOURCE_MAP.md`.
+
 **Điểm mới:** không ép 9 mẫu React Bits thành 9 block; có **đánh giá mức độ phù hợp**, copy mới VI/EN vượt ngoài CV và danh sách dữ liệu người dùng có thể bổ sung về sau. Giữ phong cách dịu/trầm, cấm crawl reference thiết kế, hỗ trợ Git branch + staging preview.
 
 ## Cấu trúc ZIP

@@ -1,6 +1,6 @@
 # Nguồn tham khảo và phần đã áp dụng
 
-Các URL React Bits dưới đây là nguồn tham khảo chính cho bố cục và chuyển động; minwang.dev chỉ là nguồn phụ cho nhịp chữ/cảnh cuộn. Website dùng HTML/CSS/JavaScript của dự án; không đưa mã nguồn, hình ảnh hoặc nội dung demo trả phí vào repo. `docs/IMPLEMENTATION_DECISIONS.md` ghi quyết định chi tiết và `docs/SOURCE_MAP.md` chỉ nơi sửa code.
+Các URL React Bits dưới đây là nguồn tham khảo chính cho bố cục và chuyển động; minwang.dev chỉ là nguồn phụ cho nhịp chữ/cảnh cuộn. Website dùng component React, CSS và TypeScript của dự án; không đưa mã nguồn, hình ảnh hoặc nội dung demo trả phí vào repo. `docs/IMPLEMENTATION_DECISIONS.md` ghi quyết định chi tiết và `docs/SOURCE_MAP.md` chỉ nơi sửa code.
 
 | Tham khảo | Phần tương ứng trong website | Cách áp dụng |
 | --- | --- | --- |

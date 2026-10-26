@@ -2,7 +2,7 @@
 
 > Cập nhật 23/10/2026: yêu cầu mới ưu tiên cảnh chữ lớn theo cuộn và thẻ kinh nghiệm xếp lớp. Xem `DARK_REFERENCE_PASS.md` cùng source `190-search-scene.css`, `105-search-scene.js`, `185-dark-direction.css`; các ngưỡng "visual calm" bên dưới là hướng dẫn trước đó.
 
-Purpose: deliver motion that supports comprehension and perceived quality. **Not every pattern is mandatory:** implement only the interactions that the final editorial architecture uses (`docs/CONTENT_ARCHITECTURE.md`). No inert controls or animation added to meet a block count. **Values below are intentionally chosen implementation targets**, not claimed measurements copied from any proprietary source. All behavior should be created with local CSS and minimal vanilla JavaScript.
+Purpose: deliver motion that supports comprehension and perceived quality. **Not every pattern is mandatory:** implement only the interactions that the final editorial architecture uses (`docs/CONTENT_ARCHITECTURE.md`). No inert controls or animation added to meet a block count. **Values below are intentionally chosen implementation targets**, not claimed measurements copied from any proprietary source. Behavior is implemented with local CSS and TypeScript client modules.
 
 **Visual calm is mandatory:** motion should be noticed as polish, not as light or movement competing with content. Muted Editorial means low luminance variation, low saturation, gentle pacing and no attention-grabbing shine. See `docs/DESIGN_SPEC.md` palette and brightness discipline.
 

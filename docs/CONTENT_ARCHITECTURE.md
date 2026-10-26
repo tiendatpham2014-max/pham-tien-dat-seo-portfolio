@@ -1,6 +1,6 @@
 # CONTENT_ARCHITECTURE — Đánh giá 9 mẫu và kế hoạch nội dung mở rộng (v4)
 
-> **Tài liệu quyết định, không phải bộ reference.** Đã đánh giá trên dữ liệu đang có trong `dist/index.html`, `docs/brief.md`, `docs/evidence.md`, `docs/CONTENT_SPEC.md`. Codex không cần crawl web để triển khai. File này ưu tiên **nội dung có giá trị hơn việc lấp đủ block**.
+> **Tài liệu quyết định, không phải bộ reference.** Đã đánh giá trên dữ liệu website trước migration, `docs/brief.md`, `docs/evidence.md`, `docs/CONTENT_SPEC.md`. Source hiện ở `src/app/`, `src/components/`, `src/content/` và `src/styles/`. File này ưu tiên **nội dung có giá trị hơn việc lấp đủ block**.
 >
 > **Nguyên tắc:** CV là nguồn xác minh một số mốc và trách nhiệm, **không phải khuôn nội dung của cả portfolio**. Portfolio có thể và nên trình bày cách suy nghĩ, công việc, quy trình, bằng chứng và bài viết thật ngoài CV.
 

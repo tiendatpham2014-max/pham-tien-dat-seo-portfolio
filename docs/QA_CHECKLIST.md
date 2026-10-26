@@ -1,27 +1,26 @@
 # QA_CHECKLIST — Definition of Done (v4: content-first)
 
-A task is complete only when the site works in the existing static setup and these checks are addressed. Report which checks were actually run; never say all passed without testing.
+A task is complete only when the Next.js source builds to a working static export and these checks are addressed. Report which checks were actually run; never say all passed without testing.
 
 ## Cleanup of retired references
 - [ ] `docs/references.md` and `docs/design-direction.json` deleted if present; not restored from the spec pack.
 - [ ] Legacy design-reference URLs, obsolete design-crawl instructions and links to deleted reference docs removed from repository instructions.
 - [ ] Only retired design reference materials removed; actual website source, evidence, content and assets preserved.
 
-## Source preservation
-- [ ] Read existing `dist/index.html`, its i18n strings and local hosting setup first.
-- [ ] Existing local entry runs using `npm run dev` and serves `http://localhost:4173`.
-- [ ] No migration to React/Vite/Next or new packages unless indispensable and explained.
-- [ ] `.openai/hosting.json` untouched unless absolutely necessary.
-- [ ] No external design/reference websites opened or crawled; no premium/proprietary code imported.
-- [ ] Do not touch main or existing production. After tests, push only the **dedicated redesign branch** authorized by the user; deploy preview/staging only when it is safely separate from production.
+## Source and release
+- [ ] `npm run dev` serves `http://127.0.0.1:4173`.
+- [ ] `npm run check` and `npm run build` pass; `out/` contains a working static export.
+- [ ] `.openai/hosting.json` points to `out/`; generated files remain untracked.
+- [ ] React Bits and minwang.dev inform the design; no premium/proprietary code or asset is copied.
+- [ ] Push only the dedicated redesign branch to GitHub. The user has authorized production updates, but verify the new build before publishing.
 
-## Soft / muted visual direction (mandatory)
-- [ ] Backgrounds use warm-stone and soft-ivory neutrals rather than full-page pure white; no glaring pastel or neon sections.
-- [ ] Hero mesh stays subtle, matte, low-opacity and secondary to the headline; no luminous cyan/purple spots or glowing headline effects.
-- [ ] Accent teal/lavender stays restrained; no bright white card flashes or glow on hover.
-- [ ] Dark slate sections provide deliberate contrast without turning the entire site into dark mode or creating harsh light/dark stripes.
-- [ ] Normal body text, links, buttons and focus indicators maintain WCAG AA contrast where possible despite a soft palette.
-- [ ] Review the actual local preview on desktop and mobile; if a section looks too bright, saturated or visually noisy, refine palette and motion before calling the redesign finished.
+## Visual direction
+- [ ] Dark navy is the default theme; the light theme is available and readable.
+- [ ] Hero mesh supports the headline without obscuring text in either theme.
+- [ ] Accent mint and warm horizon glow stay legible and deliberate.
+- [ ] Career horizon fills its own section and progresses only with scrolling; contact is a separate section.
+- [ ] Body text, links, buttons and focus indicators maintain reasonable contrast in both themes.
+- [ ] Review the actual local preview on desktop and mobile.
 
 ## Content architecture and creative expansion
 - [ ] Read `docs/CONTENT_ARCHITECTURE.md`, make a section-by-section keep/adapt/merge decision based on existing evidence before writing UI.
@@ -77,7 +76,7 @@ A task is complete only when the site works in the existing static setup and the
 - [ ] Contrast and touch targets are reasonable (target >=44px).
 
 ## Technical sanity
-- [ ] No HTML/CSS syntax errors; no JS runtime errors during initial load, language toggle, nav use, tabs and slider.
+- [ ] No HTML/CSS syntax errors; no TypeScript or runtime errors during initial load, language toggle, nav use, tabs and slider.
 - [ ] No broken assets, local 404s or new heavy remote media dependencies.
 - [ ] `npm run dev` confirmed or clearly report test limitation.
 - [ ] Code is legible enough for later editing; constants/data separate from interaction logic when practical.

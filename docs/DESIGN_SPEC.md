@@ -1,13 +1,13 @@
 # DESIGN_SPEC — SEO Executive Portfolio, v1.2 (muted art + content-first adaptation)
 
-> Cập nhật 23/10/2026: chủ portfolio chọn hướng tối. `DARK_REFERENCE_PASS.md` và `src/css/185-dark-direction.css` quy định màu hiện tại; các giá trị màu sáng bên dưới là bản thiết kế trước đó.
+> Cập nhật 26/10/2026: chủ portfolio chọn hướng tối làm mặc định và có thêm light mode. `DARK_REFERENCE_PASS.md`, `src/styles/185-dark-direction.css` và `src/styles/200-light-theme.css` quy định màu hiện tại; các giá trị màu sáng bên dưới là bản thiết kế trước đó.
 
 **Implementation brief:** evolve the existing Phạm Tiến Đạt / Dat Pham bilingual portfolio into a premium, editorial one-page experience with motion, proof-led content, and a clear contact action. **Read `docs/CONTENT_ARCHITECTURE.md` first for the editorial decision on each of the nine reference patterns. Content relevance takes precedence over mechanically implementing every decorative block.** Chủ portfolio đã yêu cầu đối chiếu trực tiếp các preview công khai.
 
 ## 0. Foundation
 
 ### Keep existing project identity
-- Existing static entry point: `dist/index.html` with HTML, CSS, inline JS, VI/EN strings.
+- Current entry point: `src/app/page.tsx`; VI/EN strings ở `src/content/portfolio.ts`, CSS ở `src/styles/`.
 - No portrait necessary. Do not generate a stock photo, fake client logo or fake social testimonial.
 - Respect site as of Oct 23, 2026 and keep public evidence accurate.
 - Keep semantic HTML, descriptive headings, accessible links and indexable text.

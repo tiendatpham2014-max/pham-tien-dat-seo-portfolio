@@ -1,39 +1,40 @@
 # Phạm Tiến Đạt — SEO Portfolio
 
-Portfolio SEO song ngữ (VI/EN), xây bằng HTML, CSS và JavaScript thuần. `src/` là nguồn để chỉnh sửa; lệnh build không dùng thư viện ngoài và tạo ba file tĩnh trong `dist/`.
+Portfolio SEO song ngữ VI/EN, viết bằng **Next.js, React và TypeScript**. Mỗi section, hiệu ứng, nhóm CSS và dữ liệu nội dung có file nguồn riêng để xem lịch sử thay đổi trên GitHub.
 
-## Chạy và kiểm tra
+## Chạy và build
 
-Yêu cầu Node.js 20+.
+Yêu cầu Node.js 20.9+ và npm.
 
 ```bash
-npm run build   # tạo dist/index.html, dist/style.css, dist/app.js từ src/
-npm run check   # kiểm tra dist khớp source và cú pháp JavaScript
-npm run dev     # build rồi chạy localhost:4173
+npm ci
+npm run dev      # http://127.0.0.1:4173
+npm run check    # kiểm tra TypeScript
+npm run build    # xuất site tĩnh vào out/
+npm run preview  # xem bản build ở http://127.0.0.1:4173
 ```
 
-Server local chỉ lắng nghe trên `127.0.0.1`. Thay đổi nội dung, kiểu dáng hoặc tương tác trong `src/`, chạy `npm run build`, rồi commit cả `src/` và `dist/`. Font tự lưu và giấy phép nằm trong `dist/fonts/`.
+Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là sản phẩm sinh ra, không commit. Cấu hình `.openai/hosting.json` trỏ tới `out/`. Font Be Vietnam Pro và giấy phép nằm trong `public/fonts/`.
 
-## Cấu trúc để theo dõi thay đổi
+## Nơi chỉnh sửa
 
-| Nơi sửa | Nội dung |
+| Đường dẫn | Mục đích |
 | --- | --- |
-| `src/html/` | Từng section: hero, cách tiếp cận, GSC, quy trình, kỹ năng, bài viết, kinh nghiệm, liên hệ; cùng đầu/cuối tài liệu |
-| `src/css/` | Kiểu dáng theo section, motion và responsive |
-| `src/js/` | Copy VI/EN, dữ liệu GSC, điều hướng, tab, rail bài viết, so sánh, hai cảnh cuộn và khởi tạo |
-| `scripts/build.mjs` | Ghép các phần theo thứ tự cố định thành `dist/`; `--check` báo lỗi nếu bản dựng cũ |
-| `dist/` | Bản tĩnh hoàn chỉnh để preview hoặc triển khai; font và giấy phép |
-| `docs/SOURCE_MAP.md` | Bản đồ tính năng → file nguồn và quy tắc chỉnh sửa |
-| `docs/evidence.md`, `docs/CONTENT_SPEC.md` | Số liệu được phép công bố và giới hạn diễn giải |
-| `docs/CONTENT_GAPS.md` | Dữ liệu còn chờ xác minh, không hiển thị trên website |
-| `docs/IMPLEMENTATION_DECISIONS.md` | Quyết định UI/motion và cách dùng nguồn tham khảo |
-| `docs/REFERENCE_MAP.md` | Các URL tham khảo do chủ portfolio gửi và phần đã áp dụng |
-| `.openai/hosting.json` | Cấu hình Site hiện có, lưu để đối chiếu; lệnh build không triển khai live |
+| `src/app/layout.tsx`, `page.tsx` | Metadata, cấu trúc trang và thứ tự section |
+| `src/components/sections/` | Component React của từng section: Hero, Evidence, Skills, Journey, Contact… |
+| `src/components/portfolio/` | Các module tương tác: theme, VI/EN, chỉ số GSC, tab, menu, cảnh cuộn, rail bài viết… |
+| `src/content/portfolio.ts` | Toàn bộ copy VI/EN |
+| `src/content/gsc.ts` | Chỉ số và cách diễn giải GSC |
+| `src/styles/` | CSS tách theo section, responsive và motion |
+| `public/fonts/` | Font tự lưu và giấy phép |
+| `docs/SOURCE_MAP.md` | Bản đồ tính năng → file nguồn |
+| `docs/evidence.md`, `docs/CONTENT_SPEC.md` | Dữ liệu đã xác minh và giới hạn diễn giải |
+| `docs/CONTENT_GAPS.md` | Nội dung còn thiếu bằng chứng, không xuất bản |
+
+Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Các tương tác chạy ở client qua `PortfolioShell`; HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
 ## Ranh giới dữ liệu công khai
 
-Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website: clicks tăng 27,1%, impressions giảm 5,0%. Kết quả chịu ảnh hưởng của đội ngũ và số trang thay đổi, không quy cho một cá nhân. Ảnh GSC gốc, URL định danh website, ảnh cá nhân và chứng chỉ không được đưa vào repo hoặc bản công khai. `docs/evidence.md` ghi rõ nguồn số liệu và giới hạn suy luận.
+Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website: clicks tăng 27,1%, impressions giảm 5,0%. Kết quả chịu ảnh hưởng của đội ngũ và số trang thay đổi, không quy cho một cá nhân. Ảnh GSC gốc, URL định danh website, ảnh cá nhân và chứng chỉ không có trong source công khai. Ba bài viết Primas và các kênh liên hệ dùng liên kết đã xác minh.
 
-Ba liên kết bài viết Primas và thông tin liên hệ đã có trong source trước redesign. Những case, testimonial và KPI chưa có bằng chứng được giữ trong `docs/CONTENT_GAPS.md`.
-
-`README_HUONG_DAN.md` và `CODEX_START_PROMPT.md` là tài liệu của pack đầu vào, được giữ lại để truy vết yêu cầu ban đầu; quy trình sửa source hiện tại nằm ở README này.
+Các case, testimonial và KPI chưa có bằng chứng được giữ trong `docs/CONTENT_GAPS.md`. `README_HUONG_DAN.md` và `CODEX_START_PROMPT.md` là tài liệu pack đầu vào để truy vết yêu cầu ban đầu; quy trình hiện tại nằm ở README này.

@@ -10,7 +10,7 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 4. `docs/DESIGN_SPEC.md` — hệ thống bố cục và visual direction.
 5. `docs/MOTION_SPEC.md` — tương tác được chọn; không triển khai hiệu ứng cho thành phần bị bỏ.
 6. `docs/QA_CHECKLIST.md` — tiêu chí nghiệm thu.
-7. `docs/brief.md`, `docs/evidence.md`, `dist/index.html`, `package.json`, `dev-server.mjs`, hosting config để đối chiếu nguồn.
+7. `docs/brief.md`, `docs/evidence.md`, `src/app/page.tsx`, `src/content/portfolio.ts`, `package.json` và hosting config để đối chiếu nguồn.
 
 ## Quy tắc ra quyết định nội dung/UI
 - Portfolio nên cho thấy **cách nghĩ, cách làm, dự án, bằng chứng, bài viết và kinh nghiệm**, không chỉ là CV web.
@@ -27,15 +27,15 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 ## Dọn tài liệu design cũ
 - Xóa `docs/references.md` và `docs/design-direction.json` khỏi repo nếu tồn tại; không tạo placeholder.
 - Bỏ link/instructions yêu cầu crawl reference thiết kế cũ trong tài liệu khác; chỉ gỡ phần lỗi thời, bảo toàn thông tin dự án.
-- Không xóa `docs/brief.md`, `docs/evidence.md`, content/evidence/spec mới, source, assets, package và hosting config.
+- Không xóa `docs/brief.md`, `docs/evidence.md`, content/evidence/spec mới, source Next.js, assets, package và hosting config.
 
 ## Nguồn tham khảo thiết kế
 - Chủ portfolio đã yêu cầu đối chiếu trực tiếp chín preview React Bits Pro và minwang.dev. Xem bản công khai để hiểu bố cục, màu và hành vi; không sao chép mã trả phí hoặc asset của nguồn.
 - `docs/DARK_REFERENCE_PASS.md` ghi ánh xạ mới từ nguồn sang từng phần của portfolio.
 
 ## Công nghệ
-- Source thực tế là static HTML/CSS/JS trong `src/`, ghép thành `dist/` bằng `npm run build`; không phải React.
-- Chạy local bằng `npm run dev` (127.0.0.1:4173). Chạy `npm run check` trước khi push. Không tự chuyển stack, không thêm dependency không cần thiết.
+- Source hiện dùng Next.js App Router, React và TypeScript. `src/app/` chứa trang/layout, `src/components/sections/` chứa từng section, `src/components/portfolio/` chứa từng tương tác, `src/content/` chứa copy VI/EN và dữ liệu GSC, `src/styles/` chứa CSS theo phần.
+- `npm run build` xuất site tĩnh ra `out/`; không commit `out/`. Chạy local bằng `npm run dev` (127.0.0.1:4173), kiểm tra bằng `npm run check` và `npm run build` trước khi push. Font và giấy phép ở `public/fonts/`.
 - Giữ chức năng, i18n, metric/attribution, link, bảo mật, asset và hosting config. Lưu ý bản public vẫn thể hiện vai trò SEO Executive đang tiếp diễn tại thời điểm 23/10/2026.
 
 ## Art direction
@@ -49,7 +49,7 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Không đưa client URL/exports định danh vào public source; các demo/gợi ý còn thiếu phải được đánh dấu chờ trong `docs/CONTENT_GAPS.md`.
 
 ## Push và preview
-- Người dùng **cho phép Codex hoàn thiện rồi tạo nhánh redesign riêng, commit/push nhánh đó, và tạo preview/staging nếu có cách triển khai an toàn**.
+- Người dùng **cho phép Codex hoàn thiện, commit/push nhánh redesign riêng và dọn source HTML/CSS/JS cũ sau khi bản Next.js được kiểm tra**.
 - Người dùng đã cho phép cập nhật production của Site hiện tại và xem sau. Giữ nguyên chế độ truy cập hiện tại; GitHub tiếp tục dùng nhánh redesign để tracking, không merge PR hoặc đổi private/public khi chưa được yêu cầu.
 - Nếu không thể deploy preview an toàn, cung cấp local preview + hướng dẫn chạy; đừng báo một URL không xác minh.
 - Báo cáo bằng tiếng Việt: những phần giữ/bỏ và lý do, copy bổ sung, chỗ chờ data, thay đổi source, kiểm thử thật, nhánh GitHub và preview (nếu có).

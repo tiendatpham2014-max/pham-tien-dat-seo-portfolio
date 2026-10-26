@@ -1,28 +1,27 @@
-# Bản đồ source
+# Bản đồ source Next.js
 
-`src/` là nơi chỉnh sửa. `scripts/build.mjs` ghép các file theo thứ tự số ở đầu tên và xuất `dist/index.html`, `dist/style.css`, `dist/app.js`. Việc tách file không đổi stack hoặc cơ chế chạy của website.
+Trang nằm trong `src/app/page.tsx`. Mỗi section có component riêng trong `src/components/sections/`; các hành vi chạy trên client được tách trong `src/components/portfolio/`. Copy VI/EN ở `src/content/portfolio.ts`, số liệu GSC ở `src/content/gsc.ts`. CSS theo phần ở `src/styles/`, được nạp theo thứ tự từ `src/app/globals.css`.
 
-| Tính năng | HTML | CSS | JavaScript | Dữ liệu / quyết định |
-| --- | --- | --- | --- | --- |
-| Điều hướng, VI/EN, Light/Dark | `src/html/00-document-open.html`, `10-navigation.html` | `src/css/10-navigation.css`, `198-theme-control.css`, `200-light-theme.css`, responsive | `src/js/00-copy.js`, `22-theme.js`, `40-navigation.js`, `50-language.js`, `60-mobile-menu.js`, `110-init.js` | Dark mặc định; lựa chọn theme được lưu trên máy người xem |
-| Hero, tình huống SEO minh họa | `30-hero.html` | `20-hero.css`, `110-motion.css`, `180-art-direction.css`, `197-seo-decision-lab.css` | `00-copy.js`, `25-signal-lab.js`, `50-language.js`, `110-init.js` | Một tình huống xuyên suốt ba bước; câu hỏi, cách đọc và đầu ra đổi đồng bộ với chỉ số; VI/EN, light/dark |
-| Cách tiếp cận | `40-approach.html` | `30-approach.css` | `00-copy.js` | `docs/CONTENT_ARCHITECTURE.md` |
-| Cảnh chữ theo cuộn | `45-search-scene.html` | `185-dark-direction.css`, `190-search-scene.css` | `105-search-scene.js`, `100-scroll-stories.js` | `docs/DARK_REFERENCE_PASS.md` |
-| GSC và so sánh | `50-evidence.html` | `40-evidence.css`, `120-comparison.css`, `150-evidence-story.css`, `195-evidence-story.css` | `10-gsc-data.js`, `30-metrics.js`, `90-comparison.js`, `100-scroll-stories.js` | `docs/evidence.md`; chỉ số ở cấp website, chuyển cảnh phẳng |
-| Quy trình SEO | `60-process.html` | `50-process.css`, `110-motion.css` | `00-copy.js`, `110-init.js` | Nội dung phương pháp, không phải case riêng |
-| Tab kỹ năng | `70-skills.html` | `60-skills.css` | `70-skills.js`, `110-init.js` | `docs/CONTENT_SPEC.md` |
-| Bài viết thật | `80-writing.html` | `70-writing.css` | `80-writing-rail.js`, `110-init.js` | Liên kết trong `docs/evidence.md` |
-| Kinh nghiệm theo cuộn | `90-journey.html` | `196-career-horizon-scene.css` | `100-scroll-stories.js` | Features 17: chân trời là nền tràn toàn section và chính là dòng thời gian; một lớp sticky chứa nền và chữ nghề nghiệp, kết thúc tại ranh giới trước section Liên hệ độc lập |
-| Liên hệ và footer | `100-contact.html`, `110-document-close.html` | `90-contact-footer.css`, `130-contact-motion.css` | `00-copy.js` | Kênh liên hệ thật |
-| Responsive, reduced motion | Tất cả section | `100-responsive-base.css`, `140-responsive-motion.css`, `170-responsive-stories.css` | `20-state.js`, `110-init.js` | `docs/QA_CHECKLIST.md` |
+| Tính năng | Component | Hành vi | CSS / dữ liệu |
+| --- | --- | --- | --- |
+| Điều hướng, VI/EN, light/dark | `Navigation.tsx` | `navigation.ts`, `language.ts`, `theme.ts`, `mobile-menu.ts` | `10-navigation.css`, `198-theme-control.css`, `200-light-theme.css`, `portfolio.ts` |
+| Hero và bản đồ tư duy SEO | `Hero.tsx` | `signal-lab.ts` | `20-hero.css`, `197-seo-decision-lab.css`, `portfolio.ts` |
+| Góc nhìn nghề nghiệp | `Approach.tsx` | Copy VI/EN | `30-approach.css`, `portfolio.ts` |
+| Cảnh chữ theo cuộn | `SearchScene.tsx` | `search-scene.ts`, `scroll-stories.ts` | `190-search-scene.css` |
+| GSC, chọn chỉ số, so sánh | `Evidence.tsx` | `metrics.ts`, `comparison.ts`, `scroll-stories.ts` | `40-evidence.css`, `120-comparison.css`, `150-evidence-story.css`, `195-evidence-story.css`, `gsc.ts` |
+| Quy trình SEO | `Process.tsx` | Reveal trong `init.ts` | `50-process.css`, `110-motion.css` |
+| Tab chuyên môn | `Skills.tsx` | `skills.ts` | `60-skills.css`, `portfolio.ts` |
+| Bài viết | `Writing.tsx` | `writing-rail.ts` | `70-writing.css` |
+| Hành trình theo cuộn | `Journey.tsx` | `scroll-stories.ts` | `196-career-horizon-scene.css` |
+| Liên hệ và footer | `Contact.tsx`, `Footer.tsx` | Copy VI/EN | `90-contact-footer.css`, `130-contact-motion.css` |
 
-Các file `src/js/20-state.js`, `src/css/00-foundation.css` và `src/html/00-document-open.html` chứa phần dùng chung. Font và giấy phép nằm trong `dist/fonts/`. File `dist/` được commit để có thể chạy và đối chiếu ngay, nhưng thay đổi cần bắt đầu ở `src/`.
+`src/components/portfolio-shell.tsx` khởi tạo `init.ts` sau khi React hydrate. Các module trong `src/components/portfolio/` giữ trạng thái dùng chung ở `state.ts` và truy cập DOM qua `dom.ts`; listener/observer được dọn khi component unmount. `src/styles/00-foundation.css` là nền typography và token; các file responsive/motion còn lại được nhập từ `globals.css`.
 
-## Cách sửa một phần
+## Quy trình sửa một phần
 
-1. Sửa fragment HTML/CSS/JS liên quan, cùng copy VI/EN trong `src/js/00-copy.js` khi có chữ mới.
-2. Đối chiếu dữ kiện trong `docs/evidence.md` và `docs/CONTENT_SPEC.md`; nội dung thiếu bằng chứng để ở `docs/CONTENT_GAPS.md`.
-3. Chạy `npm run build` rồi `npm run check` và xem ở localhost.
-4. Commit file nguồn, tài liệu liên quan và `dist/` trong cùng thay đổi để dễ truy vết.
+1. Sửa component, module tương tác và CSS tương ứng; nếu đổi chữ, sửa cả VI/EN trong `src/content/portfolio.ts`.
+2. Kiểm tra dữ kiện trong `docs/evidence.md` và `docs/CONTENT_SPEC.md`; nội dung thiếu bằng chứng giữ trong `docs/CONTENT_GAPS.md`.
+3. Chạy `npm run check`, `npm run build` và xem desktop/mobile bằng `npm run dev` hoặc `npm run preview`.
+4. Commit source và tài liệu liên quan. Không commit `.next/` hoặc `out/`.
 
-Không lưu ảnh chụp GSC gốc, URL website khách hàng hay dữ liệu định danh trong repo. `docs/IMPLEMENTATION_DECISIONS.md` ghi phần nào lấy ý tưởng từ React Bits và minwang.dev, còn mã tương tác là CSS/JavaScript của dự án.
+Không lưu ảnh chụp GSC gốc, URL khách hàng hay dữ liệu định danh trong repo. `docs/IMPLEMENTATION_DECISIONS.md` ghi cách áp dụng ý tưởng từ React Bits và minwang.dev; CSS và TypeScript là mã của dự án.

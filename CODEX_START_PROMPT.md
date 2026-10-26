@@ -1,5 +1,7 @@
 # FULL PROMPT TIẾNG VIỆT CHO CODEX — SEO PORTFOLIO v4
 
+> Tài liệu lưu trữ từ pack yêu cầu ban đầu. Các chỉ dẫn về static HTML/CSS/JS và `dist/` đã được thay bằng yêu cầu mới: source Next.js/React/TypeScript trong `src/`, xuất tĩnh ra `out/`. Xem `README.md` và `docs/SOURCE_MAP.md` để làm việc hiện tại.
+
 **Repository:** `tiendatpham2014-max/pham-tien-dat-seo-portfolio` (hiện private)
 
 **File kèm theo:** `SEO_Portfolio_Codex_Pack_v4.zip`
