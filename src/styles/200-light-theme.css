@@ -25,28 +25,6 @@ html[data-theme="light"] .waves-glow{
   background:radial-gradient(ellipse at center,rgba(148,194,182,.4) 0%,rgba(181,184,208,.25) 45%,transparent 75%);
   opacity:.5
 }
-html[data-theme="light"] .executive-snapshot{
-  background:rgba(245,243,237,.9);
-  border-color:rgba(30,102,95,.24);
-  box-shadow:0 20px 50px rgba(32,54,50,.12);
-}
-html[data-theme="light"] .snapshot-top{
-  border-bottom-color:rgba(30,102,95,.12);
-}
-html[data-theme="light"] .snapshot-tag{
-  color:#1e665f;
-  background:rgba(30,102,95,.1);
-  border-color:rgba(30,102,95,.22);
-}
-html[data-theme="light"] .snapshot-label{
-  color:#64748b;
-}
-html[data-theme="light"] .snapshot-col strong{
-  color:#1e293b;
-}
-html[data-theme="light"] .snapshot-col p{
-  color:#334155;
-}
 html[data-theme="light"] .data-table-toggle{
   background:#f1f5f0;
   border-color:rgba(30,102,95,.18);

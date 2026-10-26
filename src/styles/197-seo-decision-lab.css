@@ -1,175 +1,152 @@
-/* Executive Career Snapshot Card */
-.executive-snapshot{
-  position:relative;
-  z-index:2;
-  margin-top:38px;
-  max-width:760px;
-  padding:22px 28px;
-  background:rgba(12,20,38,.78);
-  border:1px solid rgba(56,189,248,.25);
-  border-radius:20px;
-  backdrop-filter:blur(24px);
-  box-shadow:0 24px 60px rgba(0,0,0,.45);
+/* ========================================================
+   MINWANG.DEV INSPIRED EDITORIAL HERO LAYOUT
+   Natural, personal, confident typography and airy metadata
+   ======================================================== */
+
+.hero-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 9999px;
+  color: #bae6fd;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(12px);
 }
-.snapshot-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  margin-bottom:16px;
-  padding-bottom:12px;
-  border-bottom:1px solid rgba(255,255,255,.08);
+
+.badge-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+  animation: pulse-dot 2.2s infinite;
 }
-.snapshot-tag{
-  font-size:12px;
-  font-weight:600;
-  color:#38bdf8;
-  background:rgba(56,189,248,.12);
-  border:1px solid rgba(56,189,248,.28);
-  padding:4px 12px;
-  border-radius:9999px;
-  letter-spacing:.02em;
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }
-.snapshot-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px 26px;
+
+.hero-salutation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(8px, 1.2vw, 16px);
+  margin-bottom: clamp(4px, 0.8vh, 10px);
 }
-.snapshot-col{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
+
+.hero-greeting {
+  font: 400 clamp(22px, 3vw, 38px)/1 "Be Vietnam Pro", sans-serif;
+  color: var(--accent);
+  letter-spacing: -0.02em;
 }
-.snapshot-col.wide{
-  grid-column:1 / -1;
-  padding-top:10px;
-  border-top:1px solid rgba(255,255,255,.06);
+
+.hero h1.hero-name {
+  margin: 0;
+  font: 600 clamp(42px, 6vw, 84px)/1.02 "Be Vietnam Pro", sans-serif;
+  letter-spacing: -0.04em;
+  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
 }
-.snapshot-label{
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.12em;
-  color:#94a3b8;
-  text-transform:uppercase;
+
+.hero-statement {
+  font: 500 clamp(17px, 2.1vw, 27px)/1.26 "Be Vietnam Pro", sans-serif;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+  max-width: 840px;
+  margin-top: clamp(6px, 1vh, 14px);
 }
-.snapshot-col strong{
-  font-size:15px;
-  font-weight:600;
-  color:#f8fafc;
+
+.hero-description {
+  font-size: clamp(13px, 1.1vw, 15.5px);
+  line-height: 1.58;
+  color: #94a3b8;
+  max-width: 680px;
+  margin-top: clamp(6px, 1vh, 12px);
 }
-.snapshot-col p{
-  margin:0;
-  font-size:14px;
-  color:#cbd5e1;
-  line-height:1.5;
+
+.hero-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(6px, 1vw, 12px);
+  margin: clamp(12px, 1.8vh, 22px) 0;
 }
-@media(max-width:680px){
-  .snapshot-grid{
-    grid-template-columns:1fr;
-    gap:12px;
-  }
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  backdrop-filter: blur(12px);
+  font-size: 12px;
+  transition: border-color .2s ease, background .2s ease;
 }
-.signal-lab::after{
-  content:"";
-  position:absolute;
-  z-index:-1;
-  top:9%;left:7%;
-  width:45%;height:54%;
-  border-radius:50%;
-  background:radial-gradient(ellipse,rgba(165,225,211,.13),transparent 72%);
-  filter:blur(12px);
-  pointer-events:none;
-  transition:left .55s var(--ease)
+
+.meta-item:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(255, 255, 255, 0.07);
 }
-.signal-lab[data-signal-phase="1"]::after{left:31%}
-.signal-lab[data-signal-phase="2"]::after{left:56%}
-.signal-situation{
-  margin-top:15px;
-  padding:10px 0 0;
-  border-top:1px solid rgba(185,224,219,.22)
+
+.meta-label {
+  color: #38bdf8;
+  font-weight: 600;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
-.signal-situation span,.signal-focus-label,.signal-outcome span{
-  display:block;
-  color:var(--accent);
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.16em;
-  line-height:1.3
+
+.meta-item strong {
+  color: #e2e8f0;
+  font-weight: 500;
+  font-size: 12px;
 }
-.signal-situation p{
-  margin:7px 0 0;
-  max-width:31ch;
-  color:var(--ink);
-  font-size:14px;
-  font-weight:500;
-  line-height:1.4
+
+/* Light Theme Adaptations */
+html[data-theme="light"] .hero-badge-pill {
+  background: rgba(30, 102, 95, 0.08);
+  border-color: rgba(30, 102, 95, 0.22);
+  color: #1e665f;
 }
-.signal-focus{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  min-height:68px;
-  margin-top:10px;
+
+html[data-theme="light"] .badge-pulse {
+  background: #1e665f;
+  box-shadow: 0 0 10px #1e665f;
 }
-.signal-focus-index{
-  flex:none;
-  color:var(--accent);
-  opacity:.62;
-  font:600 68px/.9 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.11em
+
+html[data-theme="light"] .hero h1.hero-name {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: initial;
+  color: #142b36;
 }
-.signal-focus h2{
-  max-width:25ch;
-  margin:6px 0 0;
-  color:var(--ink);
-  font:600 clamp(20px,1.82vw,26px)/1.16 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.045em
+
+html[data-theme="light"] .hero-statement {
+  color: #1e293b;
 }
-.signal-detail{
-  min-height:2.9em;
-  margin:5px 0 0;
-  padding:0;
-  border:0;
-  color:var(--light-quiet);
-  font-size:12px;
-  line-height:1.45
+
+html[data-theme="light"] .hero-description {
+  color: #475569;
 }
-.signal-flow{height:16px;margin:10px 8px 3px}
-.signal-flow span{width:12px;height:12px}
-.signal-steps{gap:6px}
-.signal-steps button{min-height:31px;font-size:11px}
-.signal-outcome{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  gap:18px;
-  margin-top:10px;
-  padding-top:10px;
-  border-top:1px solid rgba(185,224,219,.22)
+
+html[data-theme="light"] .meta-item {
+  background: rgba(30, 102, 95, 0.05);
+  border-color: rgba(30, 102, 95, 0.18);
 }
-.signal-outcome span{flex:none}
-.signal-outcome strong{
-  max-width:28ch;
-  color:var(--ink);
-  font-size:12px;
-  font-weight:600;
-  line-height:1.4;
-  text-align:right
+
+html[data-theme="light"] .meta-label {
+  color: #1e665f;
 }
-html[data-theme="light"] .signal-situation,html[data-theme="light"] .signal-outcome{border-color:rgba(40,102,95,.2)}
-html[data-theme="light"] .signal-lab::after{background:radial-gradient(ellipse,rgba(65,155,133,.16),transparent 72%)}
-@media(max-width:1350px){
-  .signal-lab{width:min(34vw,410px);bottom:55px}
-}
-@media(max-width:1100px){
-  .signal-lab{width:min(100%,520px);bottom:auto}
-}
-@media(max-width:650px){
-  .signal-lab{padding:19px 20px 21px}
-  .signal-focus{gap:12px;min-height:66px}
-  .signal-focus-index{font-size:60px}
-  .signal-focus h2{font-size:22px}
-  .signal-situation p{font-size:13px}
-  .signal-outcome{gap:12px}
-  .signal-outcome strong{font-size:11px}
+
+html[data-theme="light"] .meta-item strong {
+  color: #1e293b;
 }
