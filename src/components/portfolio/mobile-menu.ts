@@ -43,5 +43,8 @@ export function initMobileMenu(signal: AbortSignal) {
   }, { signal });
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && state.menuOpen) closeMenu(true); }, { signal });
   all<HTMLAnchorElement>("#mobile-nav a").forEach((link) => link.addEventListener("click", () => closeMenu(), { signal }));
+  window.matchMedia("(min-width: 1025px)").addEventListener("change", (event) => {
+    if (event.matches) closeMenu();
+  }, { signal });
   signal.addEventListener("abort", () => { if (focusTimer) clearTimeout(focusTimer); }, { once: true });
 }
