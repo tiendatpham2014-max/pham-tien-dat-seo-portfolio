@@ -8,9 +8,9 @@ export function Evidence() {
     <div className="section-head">
       <div>
         <span className="section-label" data-i18n="workLabel">Bằng chứng / GSC</span>
-        <h2 className="display-heading" id="work-title" data-i18n="workTitle">Tăng trưởng Organic Clicks +27,1%.</h2>
+        <h2 className="display-heading" id="work-title" data-i18n="workTitle">Đọc cả thay đổi, không chỉ con số đẹp.</h2>
       </div>
-      <p data-i18n="workIntro">Kết quả tối ưu Search Intent & On-page trên website dịch vụ giải trí tại Mỹ, so sánh hai quý Q3/2025 vs Q3/2026.</p>
+      <p data-i18n="workIntro">Một lát cắt organic search của website dịch vụ giải trí tại Mỹ, so sánh hai quý tương đương.</p>
     </div>
 
     <div className="metric-stage">

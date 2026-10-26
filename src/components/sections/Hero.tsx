@@ -10,7 +10,7 @@ export function Hero() {
   <div className="shell hero-inner">
     <div className="hero-meta"><span data-i18n="role">SEO Executive</span><span data-i18n="location">TP. Hồ Chí Minh, Việt Nam</span></div>
     <div className="hero-main">
-      <div className="hero-overline" data-i18n="heroOverline">SEO EXECUTIVE · PRIMAS GROUP (11/2023 → HIỆN TẠI)</div>
+      <div className="hero-overline" data-i18n="heroOverline">SEO EXECUTIVE · PRIMAS GROUP</div>
       <h1 id="hero-title" data-i18n="heroName">Phạm Tiến Đạt</h1>
       <p className="hero-statement" data-i18n="heroStatement">Tối ưu Organic Search, Search Intent & Cấu trúc Nội dung.</p>
       <p className="hero-description" data-i18n="heroDescription">Hơn 2 năm thực chiến kết nối nhu cầu tìm kiếm, chất lượng nội dung và dữ liệu Google Search Console cho các dự án giải trí và dịch vụ tại thị trường Mỹ & Quốc tế.</p>
