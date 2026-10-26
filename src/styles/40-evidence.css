@@ -109,6 +109,32 @@
   color:var(--accent-light);
   font-size:15px
 }
+.data-table-toggle{
+  margin-top:40px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:rgba(16,24,39,.65);
+  overflow:hidden;
+  transition:border-color .2s ease;
+}
+.data-table-toggle[open]{
+  border-color:rgba(56,189,248,.3);
+}
+.data-table-toggle summary{
+  padding:16px 24px;
+  font-size:14px;
+  font-weight:600;
+  color:#38bdf8;
+  cursor:pointer;
+  user-select:none;
+  transition:background .2s;
+}
+.data-table-toggle summary:hover{
+  background:rgba(56,189,248,.08);
+}
+.data-table-toggle .data-table-wrap{
+  padding:0 24px 24px;
+}
 .data-table-wrap{
   max-width:100%;
   overflow-x:auto

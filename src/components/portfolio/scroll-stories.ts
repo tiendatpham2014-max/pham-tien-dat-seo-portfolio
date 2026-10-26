@@ -40,10 +40,13 @@ export function updateScenes() {
   stages.forEach((stage, index) => stage.classList.toggle("is-current", index === career.active));
 
   const evidenceSteps = all(".evidence-chapters article");
-  const evidence = getSceneState(evidenceSteps);
-  evidenceSteps.forEach((step, index) => step.classList.toggle("is-current", index === evidence.active));
-  all("[data-evidence-card]").forEach((card, index) => card.classList.toggle("is-current", index === evidence.active));
-  text("#evidence-count", `${String(evidence.active + 1).padStart(2, "0")} / 03`);
+  if (evidenceSteps.length) {
+    const evidence = getSceneState(evidenceSteps);
+    evidenceSteps.forEach((step, index) => step.classList.toggle("is-current", index === evidence.active));
+    all("[data-evidence-card]").forEach((card, index) => card.classList.toggle("is-current", index === evidence.active));
+    const countEl = document.querySelector("#evidence-count");
+    if (countEl) text("#evidence-count", `${String(evidence.active + 1).padStart(2, "0")} / 03`);
+  }
   updateSearchScene();
 }
 

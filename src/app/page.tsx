@@ -2,7 +2,6 @@ import { PortfolioShell } from "@/components/portfolio-shell";
 import { Navigation } from "@/components/sections/Navigation";
 import { Hero } from "@/components/sections/Hero";
 import { Approach } from "@/components/sections/Approach";
-import { SearchScene } from "@/components/sections/SearchScene";
 import { Evidence } from "@/components/sections/Evidence";
 import { Process } from "@/components/sections/Process";
 import { Skills } from "@/components/sections/Skills";
@@ -19,7 +18,6 @@ export default function Page() {
       <main id="main">
         <Hero />
         <Approach />
-        <SearchScene />
         <Evidence />
         <Process />
         <Skills />
