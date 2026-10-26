@@ -3,14 +3,14 @@
 | Section | Nguồn | Nhóm mẫu | Quyết định |
 | --- | --- | --- | --- |
 | Navigation | CONTENT_SPEC §2 | Navigation 15 | Giữ; underline theo section, drawer mobile |
-| Hero | CONTENT_SPEC §1, copy bank C1 | Hero 24 | Dải cực quang (Aurora) đa tầng lặp vô tận không điểm khựng, entrance có nhịp và một tình huống SEO minh họa qua ba lớp Intent → Content → Evidence; mỗi bước hiển thị câu hỏi, cách đọc và đầu ra, không dùng KPI làm thành tích cá nhân |
+| Hero | CONTENT_SPEC §1, copy bank C1 | Hero 24 | Dải sóng nước lụa siêu mịn (Silk Water Waves) chuyển động uyển chuyển 1.7x với độ nhòe quang học và phản hồi theo chuột, entrance có nhịp và một tình huống SEO minh họa qua ba lớp Intent → Content → Evidence; mỗi bước hiển thị câu hỏi, cách đọc và đầu ra, không dùng KPI làm thành tích cá nhân |
 | Editorial approach | CONTENT_ARCHITECTURE C2–C3 | Introduction / Features | Viết mới góc nhìn và ba câu hỏi nghề nghiệp |
-| Evidence | evidence.md, CONTENT_SPEC §4 | Comparison 7 | Ba chương đọc dữ liệu GSC cấp website với chỉ số phẳng đổi theo cuộn, tiếp theo là hai kỳ, biểu đồ wipe, bộ chọn chỉ số và bảng đầy đủ |
+| Evidence | evidence.md, CONTENT_SPEC §4 | Comparison 7 | Ba chương đọc dữ liệu GSC cấp website với chỉ số phẳng đổi theo cuộn, tiếp theo là hai kỳ, biểu đồ wipe với dải phân cách phát quang Luminous Beam và tay cầm kính mờ, bộ chọn chỉ số và bảng đầy đủ |
 | Process | CONTENT_SPEC §5, copy bank C4 | How It Works 4 | Ba giai đoạn phương pháp, có câu hỏi và checklist |
 | Skills | CONTENT_ARCHITECTURE C5 | Features 4 | Bốn tab Problem → Approach → Typical output |
 | Writing | CONTENT_SPEC §7 | Social Proof 11 | Đổi thành rail ba bài thật, không testimonial |
-| Experience | CONTENT_SPEC §8 | Features 17 | Một section trời tối tràn chiều rộng; đường chân trời là dòng thời gian, vầng sáng và nội dung ba vai trò đi cùng vị trí cuộn |
-| Contact | CONTENT_SPEC §9 | Contact 3 | Ba kênh thật với icon card lớn và hover có chuyển động, không form giả |
+| Experience | CONTENT_SPEC §8 | Features 17 | Một section trời tối tràn chiều rộng; đường chân trời là dòng thời gian với quầng sáng khí quyển và nhật hoa vũ trụ, vầng sáng và nội dung ba vai trò đi cùng vị trí cuộn |
+| Contact | CONTENT_SPEC §9 | Contact 3 | Ba kênh thật với icon card lớn và hiệu ứng Spotlight viền kính phát sáng theo chuột, không form giả |
 | Footer | CONTENT_SPEC §9 | Footer 11 | Hai nhóm link thật và back-to-top |
 
 Phần Hero, Editorial Approach, Process, Skills và mô tả chủ đề bài viết là nội dung biên tập/phương pháp VI/EN, không phải case đạt KPI. Các case cần bằng chứng tiếp tục nằm trong CONTENT_GAPS.md.

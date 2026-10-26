@@ -82,7 +82,7 @@
     transition-duration:.01ms!important;
     scroll-behavior:auto!important
   }
-  .hero-mesh span{
+  .hero-waves-bg{
     will-change:auto
   }
   .js-motion .process-step:not(.is-visible){

@@ -4,108 +4,40 @@
   overflow:hidden;
   isolation:isolate
 }
-.hero-mesh{
+.hero-waves-bg{
   position:absolute;
   inset:0;
   z-index:-1;
+  overflow:hidden;
+  background:#050814;
   pointer-events:none
 }
-.hero-aurora{
-  position:absolute;
-  inset:-40% -30% 0 -30%;
-  height:160%;
-  z-index:-1;
-  pointer-events:none;
-  overflow:hidden
-}
-.hero-aurora .aurora-flow-1{
+#hero-waves-canvas{
   position:absolute;
   inset:0;
-  display:block;
-  background-image:repeating-linear-gradient(
-    110deg,
-    rgba(56,189,248,.48) 0%,
-    rgba(99,102,241,.52) 12%,
-    rgba(168,85,247,.46) 24%,
-    rgba(45,212,191,.42) 36%,
-    rgba(56,189,248,.48) 48%
-  );
-  background-size:260% 200%;
-  filter:blur(70px);
-  opacity:.65;
-  mix-blend-mode:screen;
-  mask-image:radial-gradient(ellipse at 50% 32%,black 22%,transparent 70%);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 32%,black 22%,transparent 70%);
-  animation:aurora-orbit-cw 24s linear infinite;
-  will-change:transform
+  width:100%;
+  height:100%;
+  filter:blur(36px);
+  transform:scale(1.1);
+  pointer-events:none
 }
-.hero-aurora .aurora-flow-2{
+.waves-glow{
   position:absolute;
-  inset:0;
-  display:block;
-  background-image:repeating-linear-gradient(
-    125deg,
-    rgba(192,132,252,.42) 0%,
-    rgba(45,212,191,.38) 15%,
-    rgba(56,189,248,.44) 30%,
-    rgba(129,140,248,.48) 45%,
-    rgba(192,132,252,.42) 60%
-  );
-  background-size:220% 180%;
-  filter:blur(90px);
-  opacity:.52;
-  mix-blend-mode:color-dodge;
-  mask-image:radial-gradient(ellipse at 50% 30%,black 18%,transparent 68%);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 30%,black 18%,transparent 68%);
-  animation:aurora-orbit-ccw 36s linear infinite;
-  will-change:transform
-}
-.hero-aurora .aurora-center-pulse{
-  position:absolute;
-  display:block;
-  top:14%;
+  top:18%;
   left:50%;
   transform:translateX(-50%);
-  width:70vw;
+  width:80vw;
   height:380px;
-  background:radial-gradient(ellipse at center,rgba(56,189,248,.28) 0%,rgba(168,85,247,.16) 48%,transparent 75%);
-  filter:blur(65px);
-  animation:aurora-harmonic-pulse 14s linear infinite;
+  background:radial-gradient(ellipse at center,rgba(56,189,248,.3) 0%,rgba(168,85,247,.18) 45%,transparent 75%);
+  filter:blur(80px);
   pointer-events:none
 }
-.hero-aurora .aurora-stars{
+.waves-grain{
   position:absolute;
-  display:block;
   inset:0;
-  background-image:
-    radial-gradient(1px 1px at 20px 30px,#ffffff,rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 140px 170px,rgba(255,255,255,.7),rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 280px 80px,rgba(255,255,255,.8),rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 420px 240px,rgba(255,255,255,.6),rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 600px 120px,rgba(255,255,255,.8),rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 780px 290px,rgba(255,255,255,.5),rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 940px 160px,rgba(255,255,255,.7),rgba(0,0,0,0));
-  background-repeat:repeat;
-  background-size:1000px 450px;
-  opacity:.25;
-  pointer-events:none
-}
-@keyframes aurora-orbit-cw{
-  0%{transform:rotate(0deg) scale(1) translate(0,0)}
-  33%{transform:rotate(120deg) scale(1.06) translate(30px,15px)}
-  66%{transform:rotate(240deg) scale(.96) translate(-25px,-15px)}
-  100%{transform:rotate(360deg) scale(1) translate(0,0)}
-}
-@keyframes aurora-orbit-ccw{
-  0%{transform:rotate(360deg) scale(1.04) translate(0,0)}
-  33%{transform:rotate(240deg) scale(.96) translate(-35px,20px)}
-  66%{transform:rotate(120deg) scale(1.08) translate(25px,-20px)}
-  100%{transform:rotate(0deg) scale(1.04) translate(0,0)}
-}
-@keyframes aurora-harmonic-pulse{
-  0%{opacity:.65;transform:translateX(-50%) scale(1)}
-  50%{opacity:.95;transform:translateX(-50%) scale(1.18)}
-  100%{opacity:.65;transform:translateX(-50%) scale(1)}
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  opacity:.7
 }
 .hero-inner{
   min-height:calc(100svh - 78px);

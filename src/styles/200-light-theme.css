@@ -19,22 +19,11 @@ html[data-theme="light"] .menu-backdrop{background:rgba(24,39,45,.52)}
 html[data-theme="light"] .theme-toggle{color:#1d5c58;border-color:#9eb9b1}
 html[data-theme="light"] .theme-toggle:hover{background:#dceae3;border-color:#1e665f}
 html[data-theme="light"] .hero{background:#f5f3ed;color:#1d2c35}
-html[data-theme="light"] .hero-aurora .aurora-flow-1{
-  background-image:repeating-linear-gradient(110deg,rgba(148,194,182,.45) 0%,rgba(181,184,208,.46) 12%,rgba(169,208,207,.42) 24%,rgba(148,194,182,.45) 36%);
-  mix-blend-mode:multiply;
-  opacity:.42
-}
-html[data-theme="light"] .hero-aurora .aurora-flow-2{
-  background-image:repeating-linear-gradient(125deg,rgba(181,184,208,.38) 0%,rgba(169,208,207,.4) 15%,rgba(148,194,182,.38) 30%);
-  mix-blend-mode:multiply;
-  opacity:.35
-}
-html[data-theme="light"] .hero-aurora .aurora-center-pulse{
-  background:radial-gradient(ellipse at center,rgba(148,194,182,.35) 0%,rgba(181,184,208,.2) 48%,transparent 75%);
-  opacity:.4
-}
-html[data-theme="light"] .hero-aurora .aurora-stars{
-  opacity:.06
+html[data-theme="light"] .hero-waves-bg{background:#ede8df}
+html[data-theme="light"] #hero-waves-canvas{opacity:.65;mix-blend-mode:multiply}
+html[data-theme="light"] .waves-glow{
+  background:radial-gradient(ellipse at center,rgba(148,194,182,.4) 0%,rgba(181,184,208,.25) 45%,transparent 75%);
+  opacity:.5
 }
 html[data-theme="light"] .hero-meta,html[data-theme="light"] .hero-bottom{color:#50646b}
 html[data-theme="light"] .hero h1{color:#142b36;text-shadow:none}
@@ -103,7 +92,22 @@ html[data-theme="light"] .article-card p,html[data-theme="light"] .writing-foote
 html[data-theme="light"] .journey{background:#080d1a;color:#f7f5f3}
 html[data-theme="light"] .journey-intro{color:#cbd5da}
 html[data-theme="light"] .contact.dark-section{background:#e1eae6;color:#1d2c35}
-html[data-theme="light"] .contact-methods a{background:#f1f5f0}
+html[data-theme="light"] .contact-methods a{
+  background:radial-gradient(
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(30,102,95,.12),
+    transparent 45%
+  ), #f1f5f0;
+  border:1px solid rgba(30,102,95,.18)
+}
+html[data-theme="light"] .contact-methods a::before{
+  background:radial-gradient(
+    380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(30,102,95,.65),
+    rgba(37,110,102,.35) 35%,
+    transparent 65%
+  )
+}
 html[data-theme="light"] .contact-methods a:hover,html[data-theme="light"] .contact-methods a:focus-visible{background:#d2e4dc}
 html[data-theme="light"] .method-icon{background:#1e665f;color:#fff}
 html[data-theme="light"] .site-footer{background:#dce8e3;color:#1d2c35}

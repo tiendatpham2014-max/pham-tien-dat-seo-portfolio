@@ -15,8 +15,8 @@ body{background:var(--ground);color:var(--ink)}
 .menu-toggle span{background:#f4f5f1}
 .mobile-nav{background:#142039;color:#f4f5f1}
 .menu-backdrop{background:rgba(4,9,17,.8)}
-.hero{background:#101827;color:var(--ink)}
-.hero-aurora{opacity:.95}
+.hero{background:#050814;color:var(--ink)}
+.hero-waves-bg{opacity:1}
 .hero-meta,.hero-bottom{color:#b9c7d0}
 .hero-overline,.section-label{color:var(--accent)}
 .hero h1{color:#f6f7f2;text-shadow:0 12px 54px rgba(0,0,0,.13)}
