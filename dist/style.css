@@ -2071,6 +2071,25 @@ body.page-hidden .signal-lab,body.page-hidden .signal-lab *,body.page-hidden .he
 .signal-lab:before{
   opacity:.35;
 }
+.signal-next{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  min-height:30px;
+  padding:0 0 2px;
+  border:0;
+  border-bottom:1px solid currentColor;
+  background:transparent;
+  color:inherit;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.12em;
+  white-space:nowrap;
+  transition:color .2s,border-color .2s
+}
+.signal-next:hover{color:var(--accent-light)}
+.signal-next-arrow{font-size:16px;line-height:1;transition:transform .2s}
+.signal-next:hover .signal-next-arrow{transform:translateX(3px)}
 .signal-flow:after{
   animation:none;
   transform:scaleX(var(--signal-progress,0));
@@ -2523,6 +2542,7 @@ html[data-theme="light"] .signal-lab{background:rgba(248,249,244,.92);color:#1d2
 html[data-theme="light"] .signal-steps button{color:#4b6669}
 html[data-theme="light"] .signal-steps button:hover,html[data-theme="light"] .signal-steps button[aria-pressed=true]{color:#165a52}
 html[data-theme="light"] .signal-detail{color:#334c52;border-color:rgba(40,102,95,.28)}
+html[data-theme="light"] .signal-next:hover{color:#1e665f}
 html[data-theme="light"] .approach{background:#edf1eb}
 html[data-theme="light"] .approach-copy p,html[data-theme="light"] .approach .lead{color:#233943}
 html[data-theme="light"] .approach-principles{color:#1e665f}

@@ -64,6 +64,25 @@
 .signal-lab:before{
   opacity:.35;
 }
+.signal-next{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  min-height:30px;
+  padding:0 0 2px;
+  border:0;
+  border-bottom:1px solid currentColor;
+  background:transparent;
+  color:inherit;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.12em;
+  white-space:nowrap;
+  transition:color .2s,border-color .2s
+}
+.signal-next:hover{color:var(--accent-light)}
+.signal-next-arrow{font-size:16px;line-height:1;transition:transform .2s}
+.signal-next:hover .signal-next-arrow{transform:translateX(3px)}
 .signal-flow:after{
   animation:none;
   transform:scaleX(var(--signal-progress,0));

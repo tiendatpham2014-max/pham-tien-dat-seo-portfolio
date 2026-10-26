@@ -32,6 +32,7 @@ html[data-theme="light"] .signal-lab{background:rgba(248,249,244,.92);color:#1d2
 html[data-theme="light"] .signal-steps button{color:#4b6669}
 html[data-theme="light"] .signal-steps button:hover,html[data-theme="light"] .signal-steps button[aria-pressed=true]{color:#165a52}
 html[data-theme="light"] .signal-detail{color:#334c52;border-color:rgba(40,102,95,.28)}
+html[data-theme="light"] .signal-next:hover{color:#1e665f}
 html[data-theme="light"] .approach{background:#edf1eb}
 html[data-theme="light"] .approach-copy p,html[data-theme="light"] .approach .lead{color:#233943}
 html[data-theme="light"] .approach-principles{color:#1e665f}

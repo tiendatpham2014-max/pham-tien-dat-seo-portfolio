@@ -5,7 +5,7 @@
 | Tính năng | HTML | CSS | JavaScript | Dữ liệu / quyết định |
 | --- | --- | --- | --- | --- |
 | Điều hướng, VI/EN, Light/Dark | `src/html/00-document-open.html`, `10-navigation.html` | `src/css/10-navigation.css`, `198-theme-control.css`, `200-light-theme.css`, responsive | `src/js/00-copy.js`, `22-theme.js`, `40-navigation.js`, `50-language.js`, `60-mobile-menu.js`, `110-init.js` | Dark mặc định; lựa chọn theme được lưu trên máy người xem |
-| Hero, sơ đồ Intent → Content → Evidence | `30-hero.html` | `20-hero.css`, `110-motion.css` | `00-copy.js`, `110-init.js` | `docs/DESIGN_SPEC.md`, `docs/MOTION_SPEC.md` |
+| Hero, sơ đồ Intent → Content → Evidence | `30-hero.html` | `20-hero.css`, `110-motion.css`, `180-art-direction.css` | `00-copy.js`, `25-signal-lab.js`, `50-language.js`, `110-init.js` | Ba bước chọn trực tiếp hoặc bấm số bước để chuyển tiếp; chỉ số, nút và mô tả đồng bộ VI/EN |
 | Cách tiếp cận | `40-approach.html` | `30-approach.css` | `00-copy.js` | `docs/CONTENT_ARCHITECTURE.md` |
 | Cảnh chữ theo cuộn | `45-search-scene.html` | `185-dark-direction.css`, `190-search-scene.css` | `105-search-scene.js`, `100-scroll-stories.js` | `docs/DARK_REFERENCE_PASS.md` |
 | GSC và so sánh | `50-evidence.html` | `40-evidence.css`, `120-comparison.css`, `150-evidence-story.css`, `195-evidence-story.css` | `10-gsc-data.js`, `30-metrics.js`, `90-comparison.js`, `100-scroll-stories.js` | `docs/evidence.md`; chỉ số ở cấp website, chuyển cảnh phẳng |

@@ -12,6 +12,7 @@ function setLanguage(next){
   $(".insight-row").setAttribute("aria-label",(next==="vi"?"Các câu hỏi trong công việc SEO":"Questions I ask in SEO work"));
   $(".signal-lab").setAttribute("aria-label",copy[next].signalAria);
   $(".signal-steps").setAttribute("aria-label",copy[next].signalStepsAria);
+  $("#signal-next").setAttribute("aria-label",copy[next].signalNext);
   renderSignal();
   $("#desktop-nav").setAttribute("aria-label",copy[next].navigation);
   $("#mobile-nav").setAttribute("aria-label",copy[next].mobileNavigation);
