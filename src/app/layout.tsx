@@ -47,13 +47,19 @@ const jsonLd = {
       "sameAs": [
         "https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/",
       ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Trường Cao đẳng Công nghệ Thủ Đức (TDC)",
+      },
       "knowsAbout": [
-        "Search Engine Optimization",
-        "Technical SEO",
-        "Search Intent Analysis",
-        "Google Search Console",
-        "Content Strategy",
-        "On-Page SEO",
+        "Search Engine Optimization (SEO)",
+        "Technical SEO & Core Web Vitals",
+        "Search Intent & Keyword Mapping",
+        "Google Search Console & GA4",
+        "AI-Augmented SEO (Claude, GPT, MCP)",
+        "Content Strategy & Business English",
+        "Semrush, Ahrefs & Screaming Frog",
+        "Altus Entertainment SEO Growth",
       ],
     },
     {
