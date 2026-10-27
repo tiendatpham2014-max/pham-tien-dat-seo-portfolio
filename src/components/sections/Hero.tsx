@@ -36,12 +36,12 @@ export function Hero() {
           <strong data-i18n="metaOrg">Primas Group (11/2023 → nay)</strong>
         </div>
         <div className="meta-item" role="listitem">
-          <span className="meta-label" data-i18n="metaMarketLabel">Thị trường:</span>
-          <strong data-i18n="metaMarket">Mỹ (US) &amp; Quốc tế</strong>
+          <span className="meta-label" data-i18n="metaMarketLabel">Dự án &amp; Thị trường:</span>
+          <strong data-i18n="metaMarket">Altus Entertainment · Mỹ (US)</strong>
         </div>
         <div className="meta-item" role="listitem">
           <span className="meta-label" data-i18n="metaFocusLabel">Trọng tâm:</span>
-          <strong data-i18n="metaFocus">Search Intent · On-page · GSC</strong>
+          <strong data-i18n="metaFocus">Search Intent · Core Web Vitals · AI Workflows</strong>
         </div>
       </div>
 

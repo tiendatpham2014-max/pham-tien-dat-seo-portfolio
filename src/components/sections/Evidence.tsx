@@ -8,15 +8,16 @@ export function Evidence() {
     <div className="section-head">
       <div>
         <span className="section-label" data-i18n="workLabel">Case Study / Dự án thực tế</span>
-        <h2 className="display-heading" id="work-title" data-i18n="workTitle">Dự án Dịch vụ Giải trí (Mỹ) · Tăng trưởng Clicks +27,1%</h2>
+        <h2 className="display-heading" id="work-title" data-i18n="workTitle">Altus Entertainment (US) · Tăng trưởng Clicks +27,1%</h2>
         <div className="project-meta-pills" role="list" aria-label="Chi tiết dự án">
+          <span className="meta-pill" role="listitem"><strong>Khách hàng:</strong> Altus Entertainment</span>
           <span className="meta-pill" role="listitem"><strong>Thị trường:</strong> US Entertainment</span>
           <span className="meta-pill" role="listitem"><strong>Thời gian:</strong> Q3/2025 vs Q3/2026</span>
           <span className="meta-pill" role="listitem"><strong>Trọng tâm:</strong> Search Intent &amp; On-page</span>
           <span className="meta-pill highlight" role="listitem"><strong>Tăng trưởng:</strong> +27,1% Clicks</span>
         </div>
       </div>
-      <p data-i18n="workIntro">Case study tối ưu Organic Search &amp; Search Intent thực tế trên website giải trí tại Mỹ, so sánh hai quý Q3/2025 vs Q3/2026.</p>
+      <p data-i18n="workIntro">Case study thực tế về nghiên cứu Search Intent, tối ưu On-page và ứng dụng AI phân tích dữ liệu cho Altus Entertainment tại Mỹ (Q3/2025 vs Q3/2026).</p>
     </div>
 
     <div className="metric-stage">
