@@ -11,6 +11,7 @@ import { initScrollStories } from "./scroll-stories";
 import { initLanguage } from "./language";
 import { positionIndicator } from "./navigation";
 import { initHeroWaves } from "./hero-waves";
+import { initJourneyHorizon } from "./journey";
 
 export function initPortfolio() {
   resetState();
@@ -28,6 +29,7 @@ export function initPortfolio() {
   initWritingRail(signal);
   initScrollStories(signal);
   initLanguage(signal);
+  initJourneyHorizon(signal);
   all(".contact-methods a").forEach((card) => {
     card.addEventListener("pointermove", (e: Event) => {
       const pe = e as PointerEvent;
