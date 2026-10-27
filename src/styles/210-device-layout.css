@@ -33,12 +33,7 @@
 }
 
 @media (max-width: 700px) {
-  .insight-row { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .process-path { display: none; }
-  .process-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-  .process-step { padding: 0 0 24px 30px; border-left: 2px solid #aeb8b0; }
-  .process-step::before { top: 2px; left: -10px; }
-  .step-question { min-height: 0; margin-bottom: 18px; }
+  .insight-row { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .skill-panels dl { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .contact-methods { grid-template-columns: minmax(0, 1fr); }
   .contact-methods a:last-child { grid-column: auto; }

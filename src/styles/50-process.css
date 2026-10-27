@@ -1,84 +1,209 @@
+/* Process: Progressive Disclosure Accordion */
 .process{
-  background:var(--ground)
+  background:var(--ground);
 }
-.process-path{
-  height:2px;
-  background:#aeb8b0;
-  margin:clamp(6px,0.8vh,10px) 0 clamp(-8px,-1vh,-11px)
+.process-accordion{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  max-width:1100px;
+  margin:0 auto;
 }
-.process-path span{
-  display:block;
-  width:0;
-  height:100%;
-  background:var(--accent);
-  transition:width .9s var(--ease)
+.process-item{
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+  background:rgba(20,32,57,.65);
+  backdrop-filter:blur(16px);
+  overflow:hidden;
+  transition:border-color .25s ease, background .25s ease, box-shadow .25s ease;
 }
-.process-path.is-visible span{
-  width:100%
+.process-item:hover{
+  border-color:rgba(56,189,248,.35);
+  background:rgba(20,32,57,.8);
 }
-.process-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:clamp(16px,2.5vw,40px)
+.process-item[open]{
+  border-color:rgba(56,189,248,.5);
+  background:rgba(20,32,57,.92);
+  box-shadow:0 16px 45px rgba(0,0,0,.35), 0 0 30px rgba(56,189,248,.12);
 }
-.process-step{
-  position:relative;
-  padding-top:clamp(22px,3vh,36px)
+.process-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:clamp(20px,2.6vh,28px) clamp(22px,2.8vw,36px);
+  cursor:pointer;
+  user-select:none;
+  list-style:none;
 }
-.process-step:before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  background:var(--accent);
-  border:3px solid var(--ground)
+.process-summary::-webkit-details-marker{
+  display:none;
 }
-.step-num{
-  color:var(--accent);
-  font-size:12px;
-  font-weight:600
+.process-title-group{
+  display:flex;
+  align-items:center;
+  gap:clamp(14px,1.8vw,22px);
 }
-.process-step h3{
-  font:600 clamp(18px,1.8vw,28px)/1.18 "Be Vietnam Pro","Segoe UI",sans-serif;
+.process-item .step-num{
+  display:inline-grid;
+  place-items:center;
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:rgba(56,189,248,.12);
+  border:1px solid rgba(56,189,248,.3);
+  color:#38bdf8;
+  font:600 13px/1 "Be Vietnam Pro",sans-serif;
+  letter-spacing:.04em;
+  flex:none;
+}
+.process-item h3{
+  margin:0;
+  font:600 clamp(18px,1.8vw,25px)/1.2 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.025em;
-  margin:clamp(8px,1vh,12px) 0
+  color:#f8fafc;
 }
-.step-question{
-  font-size:clamp(13px,1.1vw,15px);
-  line-height:1.45;
-  min-height:auto;
-  margin:0 0 clamp(10px,1.5vh,18px);
-  color:#f1f5f9
+.process-peek-group{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-left:auto;
 }
-.micro-label{
-  font-size:10px;
-  color:var(--quiet)
+.process-peek{
+  font-size:clamp(12.5px,1vw,14px);
+  color:#94a3b8;
+  white-space:nowrap;
 }
-.process-step ul{
+.process-icon{
+  display:inline-grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.14);
+  color:#38bdf8;
+  font:400 20px/1 sans-serif;
+  transition:transform .3s ease, background .3s ease;
+  flex:none;
+}
+.process-item[open] .process-icon{
+  transform:rotate(45deg);
+  background:rgba(56,189,248,.2);
+  border-color:rgba(56,189,248,.5);
+}
+.process-content{
+  padding:0 clamp(22px,2.8vw,36px) clamp(22px,2.6vh,30px);
+  animation:fade-in-down .35s var(--ease);
+}
+.process-content-inner{
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:clamp(24px,3.5vw,50px);
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.process-question-block .micro-label,
+.process-checklist-block .micro-label{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#38bdf8;
+  margin-bottom:8px;
+}
+.process-question-block .step-question{
+  margin:0;
+  font-size:clamp(14px,1.1vw,16.5px);
+  line-height:1.6;
+  color:#e2e8f0;
+}
+.process-checklist-block ul{
+  margin:0;
   padding:0;
-  margin:clamp(6px,0.8vh,10px) 0 0;
-  list-style:none
+  list-style:none;
+  display:grid;
+  gap:8px;
 }
-.process-step li{
-  padding:clamp(4px,0.6vh,6px) 0 clamp(4px,0.6vh,6px) 16px;
+.process-checklist-block li{
   position:relative;
-  font-size:clamp(12px,0.95vw,14px);
-  color:var(--quiet);
-  line-height:1.4
+  padding-left:18px;
+  font-size:clamp(12.5px,0.95vw,14px);
+  line-height:1.5;
+  color:#cbd5e1;
 }
-.process-step li:before{
-  content:"•";
+.process-checklist-block li::before{
+  content:"✓";
   position:absolute;
   left:0;
-  color:var(--accent)
+  color:#38bdf8;
+  font-weight:700;
+  font-size:12px;
 }
-.process-step{
-  transition:transform .55s var(--ease),opacity .55s
+
+@keyframes fade-in-down{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:none}
 }
-.js-motion .process-step:not(.is-visible){
-  transform:translateY(18px);
-  opacity:.4
+
+/* Light Theme Adaptations */
+html[data-theme="light"] .process-item{
+  background:rgba(235,232,225,.7);
+  border-color:rgba(30,102,95,.18);
+}
+html[data-theme="light"] .process-item:hover{
+  background:rgba(235,232,225,.95);
+  border-color:rgba(30,102,95,.35);
+}
+html[data-theme="light"] .process-item[open]{
+  background:#f6f7f3;
+  border-color:#1e665f;
+  box-shadow:0 12px 35px rgba(32,54,50,.12);
+}
+html[data-theme="light"] .process-item h3{
+  color:#142b36;
+}
+html[data-theme="light"] .process-item .step-num{
+  background:rgba(30,102,95,.1);
+  border-color:rgba(30,102,95,.25);
+  color:#1e665f;
+}
+html[data-theme="light"] .process-peek{
+  color:#64748b;
+}
+html[data-theme="light"] .process-icon{
+  background:rgba(30,102,95,.06);
+  border-color:rgba(30,102,95,.2);
+  color:#1e665f;
+}
+html[data-theme="light"] .process-item[open] .process-icon{
+  background:rgba(30,102,95,.15);
+  border-color:#1e665f;
+}
+html[data-theme="light"] .process-content-inner{
+  border-top-color:rgba(30,102,95,.15);
+}
+html[data-theme="light"] .process-question-block .micro-label,
+html[data-theme="light"] .process-checklist-block .micro-label{
+  color:#1e665f;
+}
+html[data-theme="light"] .process-question-block .step-question{
+  color:#1e293b;
+}
+html[data-theme="light"] .process-checklist-block li{
+  color:#334155;
+}
+html[data-theme="light"] .process-checklist-block li::before{
+  color:#1e665f;
+}
+
+@media(max-width:850px){
+  .process-peek{
+    display:none;
+  }
+  .process-content-inner{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
 }
