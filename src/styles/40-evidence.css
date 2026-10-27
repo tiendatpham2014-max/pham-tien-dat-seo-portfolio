@@ -106,20 +106,21 @@
   margin-top:32px
 }
 .period-card{
-  padding:clamp(10px,1.4vh,18px);
-  border-radius:14px;
+  padding:clamp(16px,2vh,24px);
+  border-radius:16px;
   background:var(--dark-field)
 }
 .period-card>span{
-  font-size:clamp(11px,1vw,13px);
+  font-size:clamp(12px,1vw,13.5px);
   color:var(--light-quiet)
 }
 .period-card strong{
   display:block;
-  font:600 clamp(24px,3.2vw,44px)/1 "Be Vietnam Pro","Segoe UI",sans-serif;
+  font:600 clamp(32px,4vw,56px)/1 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.045em;
-  margin:clamp(6px,1vh,14px) 0;
-  font-variant-numeric:tabular-nums
+  margin:clamp(10px,1.2vh,18px) 0;
+  font-variant-numeric:tabular-nums;
+  color:#f8fafc;
 }
 .meter{
   height:6px;

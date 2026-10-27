@@ -95,8 +95,9 @@ html[data-theme="light"] .writing{background:#f5f3ed}
 html[data-theme="light"] .rail-controls{color:#53666d}
 html[data-theme="light"] .rail-controls button{border-color:#78928f;color:#1d2c35}
 html[data-theme="light"] .rail-controls button:hover:not(:disabled){background:#1e665f;color:#fff}
-html[data-theme="light"] .article-card{background:#e8efea}
-html[data-theme="light"] .article-card:hover,html[data-theme="light"] .article-card:focus-visible{background:#dcebe3}
+html[data-theme="light"] .article-card{background:#e8efea;border-color:rgba(30,102,95,.2);color:#1d2c35}
+html[data-theme="light"] .article-card:hover,html[data-theme="light"] .article-card:focus-visible{background:#dcebe3;border-color:#1e665f}
+html[data-theme="light"] .article-card strong{color:#0f172a}
 html[data-theme="light"] .article-top,html[data-theme="light"] .article-link{color:#1e665f}
 html[data-theme="light"] .article-card p,html[data-theme="light"] .writing-footer span{color:#52666d}
 html[data-theme="light"] .journey{background:#080d1a;color:#f7f5f3}
