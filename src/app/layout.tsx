@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio Tối Ưu Search Intent & AI SEO",
+  title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
   description:
-    "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Hơn 2 năm thực chiến tối ưu Search Intent, Technical SEO, Core Web Vitals và AI-Driven SEO cho Altus Entertainment tại thị trường Mỹ.",
+    "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
   keywords: [
     "Phạm Tiến Đạt",
     "Dat Pham",
@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     "Model Context Protocol",
     "SEO Portfolio",
   ],
-  authors: [{ name: "Phạm Tiến Đạt", url: "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site" }],
+  authors: [{ name: "Phạm Tiến Đạt", url: "https://datpham.io.vn" }],
   creator: "Phạm Tiến Đạt",
   publisher: "Phạm Tiến Đạt",
-  metadataBase: new URL("https://pham-tien-dat-seo.bloomybowl64.chatgpt.site"),
+  metadataBase: new URL("https://datpham.io.vn"),
   alternates: {
     canonical: "/",
   },
@@ -38,20 +38,20 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
+    title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
     description:
-      "Tối ưu hóa tìm kiếm tự nhiên, Search Intent & Cấu trúc Nội dung. Case study Altus Entertainment tăng trưởng 27,1% Clicks tại thị trường Mỹ.",
+      "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
     type: "profile",
     locale: "vi_VN",
     alternateLocale: ["en_US"],
-    url: "/",
+    url: "https://datpham.io.vn/",
     siteName: "Phạm Tiến Đạt SEO Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
+    title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
     description:
-      "Tối ưu hóa tìm kiếm tự nhiên, Search Intent & Cấu trúc Nội dung. Case study Altus Entertainment tăng trưởng 27,1% Clicks tại thị trường Mỹ.",
+      "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
   },
 };
 
@@ -60,12 +60,13 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#person",
+      "@id": "https://datpham.io.vn/#person",
       "name": "Phạm Tiến Đạt",
       "alternateName": "Dat Pham",
       "jobTitle": "SEO Executive",
       "telephone": "+84912995691",
       "email": "tiendatpham2014@gmail.com",
+      "url": "https://datpham.io.vn",
       "worksFor": {
         "@type": "Organization",
         "name": "Primas Group",
@@ -97,26 +98,26 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#website",
-      "url": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/",
+      "@id": "https://datpham.io.vn/#website",
+      "url": "https://datpham.io.vn/",
       "name": "Phạm Tiến Đạt — SEO Executive Portfolio",
       "publisher": {
-        "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#person",
+        "@id": "https://datpham.io.vn/#person",
       },
       "inLanguage": ["vi", "en"],
     },
     {
       "@type": "ProfilePage",
-      "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#webpage",
-      "url": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/",
+      "@id": "https://datpham.io.vn/#webpage",
+      "url": "https://datpham.io.vn/",
       "name": "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
       "description":
-        "Portfolio của Phạm Tiến Đạt, SEO Executive. Tư duy về search intent, nội dung, dữ liệu GSC và các bài viết đã xuất bản.",
+        "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
       "about": {
-        "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#person",
+        "@id": "https://datpham.io.vn/#person",
       },
       "isPartOf": {
-        "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#website",
+        "@id": "https://datpham.io.vn/#website",
       },
       "inLanguage": ["vi", "en"],
     },
@@ -145,7 +146,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f5f3ed"}}catch{}',
+              'try{if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch{}',
           }}
         />
         <script

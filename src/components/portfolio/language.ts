@@ -11,10 +11,12 @@ import { positionIndicator } from "./navigation";
 export function setLanguage(next: Language) {
   state.language = next;
   document.documentElement.lang = next;
-  document.title = next === "vi" ? "Phạm Tiến Đạt — SEO Executive" : "Dat Pham — SEO Executive";
+  document.title = next === "vi"
+    ? "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio"
+    : "Dat Pham (Pham Tien Dat) — SEO Executive | Portfolio";
   get<HTMLMetaElement>('meta[name="description"]').content = next === "vi"
-    ? "Phạm Tiến Đạt — SEO Executive. Tư duy về search intent, nội dung, dữ liệu GSC và các bài viết đã xuất bản."
-    : "Dat Pham — SEO Executive. Search intent, content, GSC evidence and published writing.";
+    ? "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế."
+    : "Portfolio of Dat Pham, SEO Executive at Primas Group. Optimizing Search Intent, Technical SEO, Core Web Vitals, and AI workflows for global markets.";
   const dictionary = copy[next] as Record<string, string | readonly string[]>;
   all("[data-i18n]").forEach((element) => {
     const key = element.dataset.i18n;
