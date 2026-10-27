@@ -113,6 +113,9 @@ const jsonLd = {
       "name": "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
       "description":
         "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
+      "mainEntity": {
+        "@id": "https://datpham.io.vn/#person",
+      },
       "about": {
         "@id": "https://datpham.io.vn/#person",
       },
