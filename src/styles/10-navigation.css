@@ -74,9 +74,14 @@
 .language-switch button{
   background:none;
   border:0;
-  padding:10px 2px;
+  min-height:44px;
+  min-width:44px;
+  padding:10px 8px;
   color:var(--quiet);
-  font-size:13px
+  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 .language-switch button[aria-pressed=true]{
   font-weight:600;

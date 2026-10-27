@@ -19,31 +19,31 @@ export function Approach() {
     </div>
   </div>
   <div className="shell insight-row" aria-label="Các câu hỏi trong công việc SEO">
-    <details className="insight-card">
+    <details className="insight-card" name="insights">
       <summary className="insight-summary">
         <span className="insight-num">01</span>
         <h3 data-i18n="insightOneTitle">Trang này có thực sự nên được index?</h3>
         <span className="insight-icon" aria-hidden="true">+</span>
       </summary>
-      <p data-i18n="insightOneBody">Khả năng crawl, nội dung hữu ích và mức độ trùng lặp cần được đọc cùng mục đích tìm kiếm.</p>
+      <p className="insight-body" data-i18n="insightOneBody">Khả năng crawl, nội dung hữu ích và mức độ trùng lặp cần được đọc cùng mục đích tìm kiếm.</p>
     </details>
 
-    <details className="insight-card">
+    <details className="insight-card" name="insights">
       <summary className="insight-summary">
         <span className="insight-num">02</span>
         <h3 data-i18n="insightTwoTitle">Một từ khóa chưa đủ để quyết định cấu trúc trang.</h3>
         <span className="insight-icon" aria-hidden="true">+</span>
       </summary>
-      <p data-i18n="insightTwoBody">Nhóm truy vấn và vai trò của từng URL giúp chọn tạo mới, cập nhật hay hợp nhất nội dung.</p>
+      <p className="insight-body" data-i18n="insightTwoBody">Nhóm truy vấn và vai trò của từng URL giúp chọn tạo mới, cập nhật hay hợp nhất nội dung.</p>
     </details>
 
-    <details className="insight-card">
+    <details className="insight-card" name="insights">
       <summary className="insight-summary">
         <span className="insight-num">03</span>
         <h3 data-i18n="insightThreeTitle">Tăng một chỉ số không có nghĩa mọi thứ đều tốt hơn.</h3>
         <span className="insight-icon" aria-hidden="true">+</span>
       </summary>
-      <p data-i18n="insightThreeBody">Clicks, impressions, CTR và vị trí cần được đặt trong cùng bối cảnh trước khi kết luận.</p>
+      <p className="insight-body" data-i18n="insightThreeBody">Clicks, impressions, CTR và vị trí cần được đặt trong cùng bối cảnh trước khi kết luận.</p>
     </details>
   </div>
 </section>

@@ -9,13 +9,16 @@ export function Evidence() {
       <div>
         <span className="section-label" data-i18n="workLabel">Case Study / Dự án thực tế</span>
         <h2 className="display-heading" id="work-title" data-i18n="workTitle">Altus Entertainment (US) · Tăng trưởng Clicks +27,1%</h2>
-        <div className="project-meta-pills" role="list" aria-label="Chi tiết dự án">
+        <div className="project-meta-pills" role="list" aria-label="Chi tiết dự án" data-i18n-aria="projectMetaAria">
           <span className="meta-pill" role="listitem"><strong data-i18n="pillClientLabel">Khách hàng</strong>: <span data-i18n="pillClientValue">Altus Entertainment</span></span>
           <span className="meta-pill" role="listitem"><strong data-i18n="pillMarketLabel">Thị trường</strong>: <span data-i18n="pillMarketValue">US Entertainment</span></span>
           <span className="meta-pill" role="listitem"><strong data-i18n="pillTimelineLabel">Thời gian</strong>: <span data-i18n="pillTimelineValue">Q3/2025 vs Q3/2026</span></span>
           <span className="meta-pill" role="listitem"><strong data-i18n="pillFocusLabel">Trọng tâm</strong>: <span data-i18n="pillFocusValue">Search Intent &amp; On-page</span></span>
           <span className="meta-pill highlight" role="listitem"><strong data-i18n="pillGrowthLabel">Tăng trưởng</strong>: <span data-i18n="pillGrowthValue">+27,1% Clicks</span></span>
         </div>
+        <p className="case-attribution-badge" data-i18n="sitewideDisclaimer">
+          Lưu ý minh bạch: Đây là kết quả tăng trưởng cấp website của toàn đội ngũ, không quy riêng thành tích cá nhân duy nhất.
+        </p>
       </div>
       <p data-i18n="workIntro">Case study thực tế về nghiên cứu Search Intent, tối ưu On-page và ứng dụng AI phân tích dữ liệu cho Altus Entertainment tại Mỹ (Q3/2025 vs Q3/2026).</p>
     </div>
@@ -59,15 +62,15 @@ export function Evidence() {
           <div className="compare-bars">
             <div className="compare-bar-row">
               <span className="bar-tag">Clicks</span>
-              <i style={{ "--bar": "78.6%" } as CSSProperties}><em>13.795</em></i>
+              <i style={{ "--bar": "78.6%" } as CSSProperties}><em data-i18n="wipeBeforeClicks">13.795</em></i>
             </div>
             <div className="compare-bar-row">
               <span className="bar-tag">Impressions</span>
-              <i style={{ "--bar": "100%" } as CSSProperties}><em>1.358.505</em></i>
+              <i style={{ "--bar": "100%" } as CSSProperties}><em data-i18n="wipeBeforeImp">1.358.505</em></i>
             </div>
             <div className="compare-bar-row">
               <span className="bar-tag">CTR</span>
-              <i style={{ "--bar": "75%" } as CSSProperties}><em>1,02%</em></i>
+              <i style={{ "--bar": "75%" } as CSSProperties}><em data-i18n="wipeBeforeCtr">1,02%</em></i>
             </div>
           </div>
         </div>
@@ -76,15 +79,15 @@ export function Evidence() {
           <div className="compare-bars">
             <div className="compare-bar-row">
               <span className="bar-tag">Clicks</span>
-              <i style={{ "--bar": "100%" } as CSSProperties}><em>17.540 (+27,1%)</em></i>
+              <i style={{ "--bar": "100%" } as CSSProperties}><em data-i18n="wipeAfterClicks">17.540 (+27,1%)</em></i>
             </div>
             <div className="compare-bar-row">
               <span className="bar-tag">Impressions</span>
-              <i style={{ "--bar": "95%" } as CSSProperties}><em>1.290.541 (−5,0%)</em></i>
+              <i style={{ "--bar": "95%" } as CSSProperties}><em data-i18n="wipeAfterImp">1.290.541 (−5,0%)</em></i>
             </div>
             <div className="compare-bar-row">
               <span className="bar-tag">CTR</span>
-              <i style={{ "--bar": "100%" } as CSSProperties}><em>1,36% (+0,34 pp)</em></i>
+              <i style={{ "--bar": "100%" } as CSSProperties}><em data-i18n="wipeAfterCtr">1,36% (+0,34 điểm %)</em></i>
             </div>
           </div>
         </div>
