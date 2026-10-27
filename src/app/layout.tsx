@@ -46,12 +46,21 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US"],
     url: "https://datpham.io.vn/",
     siteName: "Phạm Tiến Đạt SEO Portfolio",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
     description:
       "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
+    images: ["/og-image.png"],
   },
 };
 
