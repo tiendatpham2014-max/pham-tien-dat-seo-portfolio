@@ -9,7 +9,9 @@
     gap:18px
   }
   .article-card{
-    flex-basis:calc((100% - 16px)/2)
+    flex:0 0 min(300px, 72vw);
+    min-height:auto;
+    padding:18px 20px;
   }
   .skill-panels dl{
     grid-template-columns:1fr
@@ -284,13 +286,13 @@
     font-size:34px
   }
   .article-card{
-    flex-basis:84%;
-    min-height:360px;
-    padding:26px
+    flex:0 0 min(270px, 80vw);
+    min-height:auto;
+    padding:15px 18px;
   }
   .article-card strong{
-    font-size:24px;
-    margin:20px 0 12px
+    font-size:16px;
+    margin:10px 0 6px;
   }
   .rail-controls>span{
     max-width:170px
