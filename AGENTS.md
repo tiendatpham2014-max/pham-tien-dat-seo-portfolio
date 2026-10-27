@@ -48,8 +48,10 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Không bịa dự án đã triển khai, khách hàng, testimonial, screenshots, publication dates, chứng chỉ, thời hạn dự án, trang pháp lý hoặc trang liên kết.
 - Không đưa client URL/exports định danh vào public source; các demo/gợi ý còn thiếu phải được đánh dấu chờ trong `docs/CONTENT_GAPS.md`.
 
-## Push và preview
-- Người dùng **cho phép Codex hoàn thiện, commit/push nhánh redesign riêng và dọn source HTML/CSS/JS cũ sau khi bản Next.js được kiểm tra**.
-- Người dùng đã cho phép cập nhật production của Site hiện tại và xem sau. Giữ nguyên chế độ truy cập hiện tại; GitHub tiếp tục dùng nhánh redesign để tracking, không merge PR hoặc đổi private/public khi chưa được yêu cầu.
-- Nếu không thể deploy preview an toàn, cung cấp local preview + hướng dẫn chạy; đừng báo một URL không xác minh.
-- Báo cáo bằng tiếng Việt: những phần giữ/bỏ và lý do, copy bổ sung, chỗ chờ data, thay đổi source, kiểm thử thật, nhánh GitHub và preview (nếu có).
+## Live và GitHub Desktop
+
+- Phát triển từ source Next.js trong checkout GitHub này; bảo đảm bản đưa lên Site được build từ cùng source. Không lấy bản HTML/CSS/JS cũ làm nguồn chỉnh sửa song song.
+- Sau mỗi lần deploy live, xác nhận trạng thái deployment là `succeeded` và URL đang chạy. Chỉ sau đó tạo **commit cục bộ** trong checkout GitHub Desktop trên nhánh `main` bằng `npm run commit:after-live -- --version N --deployment-id ID --url URL --message "Mô tả thay đổi"`.
+- Trước khi chạy lệnh, xem `git status` và diff để chắc chắn chỉ gồm source/tài liệu của lần cập nhật đó. Script stage source, cấu hình và tài liệu, bỏ qua `out/`, `.next/`, `node_modules/`; nếu không có thay đổi thì không tạo commit rỗng.
+- **Không tự `git push`, bấm Push origin, tạo PR hoặc đồng bộ GitHub remote.** Người dùng sẽ tự upload bằng GitHub Desktop sau khi xem commit. Nếu deploy thất bại hoặc chưa xác minh, không tạo commit mang nhãn live.
+- Giữ nguyên chế độ truy cập của Site và GitHub trừ khi người dùng yêu cầu đổi. Báo cáo bằng tiếng Việt: phiên bản live, commit cục bộ, nhánh hiện tại, các file chính đã đổi và trạng thái chưa push.
