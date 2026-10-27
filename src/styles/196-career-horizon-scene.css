@@ -177,3 +177,41 @@
   .career-stage{transition:none;transform:translate(var(--stage-shift),0)}
   .career-stage.is-current{transform:translate(var(--stage-shift),0)}
 }
+
+/* Fallback: when JavaScript is disabled, render all 3 stages visibly */
+.no-js .journey{
+  height:auto!important;
+  min-height:100vh!important;
+  padding:80px 0!important;
+}
+.no-js .journey-sticky{
+  position:relative!important;
+  height:auto!important;
+  min-height:100vh!important;
+  overflow:visible!important;
+}
+.no-js .journey-scene{
+  position:relative!important;
+  height:auto!important;
+}
+.no-js .journey-heading{
+  position:relative!important;
+  top:auto!important;
+  left:auto!important;
+}
+.no-js .career-stages{
+  position:relative!important;
+  display:grid!important;
+  gap:32px!important;
+  margin-top:40px!important;
+}
+.no-js .career-stage{
+  position:relative!important;
+  top:auto!important;
+  left:auto!important;
+  width:auto!important;
+  max-width:650px!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+}

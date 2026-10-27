@@ -10,11 +10,11 @@ export function Evidence() {
         <span className="section-label" data-i18n="workLabel">Case Study / Dự án thực tế</span>
         <h2 className="display-heading" id="work-title" data-i18n="workTitle">Altus Entertainment (US) · Tăng trưởng Clicks +27,1%</h2>
         <div className="project-meta-pills" role="list" aria-label="Chi tiết dự án">
-          <span className="meta-pill" role="listitem"><strong>Khách hàng:</strong> Altus Entertainment</span>
-          <span className="meta-pill" role="listitem"><strong>Thị trường:</strong> US Entertainment</span>
-          <span className="meta-pill" role="listitem"><strong>Thời gian:</strong> Q3/2025 vs Q3/2026</span>
-          <span className="meta-pill" role="listitem"><strong>Trọng tâm:</strong> Search Intent &amp; On-page</span>
-          <span className="meta-pill highlight" role="listitem"><strong>Tăng trưởng:</strong> +27,1% Clicks</span>
+          <span className="meta-pill" role="listitem"><strong data-i18n="pillClientLabel">Khách hàng</strong>: <span data-i18n="pillClientValue">Altus Entertainment</span></span>
+          <span className="meta-pill" role="listitem"><strong data-i18n="pillMarketLabel">Thị trường</strong>: <span data-i18n="pillMarketValue">US Entertainment</span></span>
+          <span className="meta-pill" role="listitem"><strong data-i18n="pillTimelineLabel">Thời gian</strong>: <span data-i18n="pillTimelineValue">Q3/2025 vs Q3/2026</span></span>
+          <span className="meta-pill" role="listitem"><strong data-i18n="pillFocusLabel">Trọng tâm</strong>: <span data-i18n="pillFocusValue">Search Intent &amp; On-page</span></span>
+          <span className="meta-pill highlight" role="listitem"><strong data-i18n="pillGrowthLabel">Tăng trưởng</strong>: <span data-i18n="pillGrowthValue">+27,1% Clicks</span></span>
         </div>
       </div>
       <p data-i18n="workIntro">Case study thực tế về nghiên cứu Search Intent, tối ưu On-page và ứng dụng AI phân tích dữ liệu cho Altus Entertainment tại Mỹ (Q3/2025 vs Q3/2026).</p>
@@ -57,17 +57,35 @@ export function Evidence() {
         <div className="compare-layer compare-before" aria-hidden="true">
           <span className="compare-period">Q3/2025</span>
           <div className="compare-bars">
-            <i style={{ "--bar": "78.6%" } as CSSProperties} />
-            <i style={{ "--bar": "100%" } as CSSProperties} />
-            <i style={{ "--bar": "75%" } as CSSProperties} />
+            <div className="compare-bar-row">
+              <span className="bar-tag">Clicks</span>
+              <i style={{ "--bar": "78.6%" } as CSSProperties}><em>13.795</em></i>
+            </div>
+            <div className="compare-bar-row">
+              <span className="bar-tag">Impressions</span>
+              <i style={{ "--bar": "100%" } as CSSProperties}><em>1.358.505</em></i>
+            </div>
+            <div className="compare-bar-row">
+              <span className="bar-tag">CTR</span>
+              <i style={{ "--bar": "75%" } as CSSProperties}><em>1,02%</em></i>
+            </div>
           </div>
         </div>
         <div className="compare-layer compare-after" aria-hidden="true">
           <span className="compare-period">Q3/2026</span>
           <div className="compare-bars">
-            <i style={{ "--bar": "100%" } as CSSProperties} />
-            <i style={{ "--bar": "95%" } as CSSProperties} />
-            <i style={{ "--bar": "100%" } as CSSProperties} />
+            <div className="compare-bar-row">
+              <span className="bar-tag">Clicks</span>
+              <i style={{ "--bar": "100%" } as CSSProperties}><em>17.540 (+27,1%)</em></i>
+            </div>
+            <div className="compare-bar-row">
+              <span className="bar-tag">Impressions</span>
+              <i style={{ "--bar": "95%" } as CSSProperties}><em>1.290.541 (−5,0%)</em></i>
+            </div>
+            <div className="compare-bar-row">
+              <span className="bar-tag">CTR</span>
+              <i style={{ "--bar": "100%" } as CSSProperties}><em>1,36% (+0,34 pp)</em></i>
+            </div>
           </div>
         </div>
         <div className="compare-divider" aria-hidden="true"><span>↔</span></div>
@@ -117,6 +135,8 @@ export function Evidence() {
 
     <div className="case-notes">
       <p data-i18n="caseContribution"><strong>Vai trò:</strong> Nghiên cứu Search Intent, tối ưu On-page, cấu trúc Content và phân tích GSC tại Primas Group.</p>
+      <p data-i18n="sitewideDisclaimer"><strong>Lưu ý minh bạch:</strong> Đây là kết quả tăng trưởng cấp website của toàn đội ngũ, không quy riêng thành tích cá nhân duy nhất.</p>
+      <p data-i18n="nonbrandFootnote"><strong>* Non-brand:</strong> Chỉ số ước tính sau khi loại bỏ các truy vấn chứa từ khóa thương hiệu.</p>
       <p data-i18n="caseSource"><strong>Nguồn:</strong> Google Search Console · Web · Q3/2025 vs Q3/2026 (92 ngày mỗi kỳ). Vị trí trung bình theo lượt hiển thị.</p>
     </div>
   </div>
