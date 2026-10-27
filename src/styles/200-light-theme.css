@@ -583,10 +583,47 @@ html[data-theme="light"] .writing-footer span {
   color: #64748b;
 }
 
-/* SECTION 7: JOURNEY (KEPT FULL DARK AS SPECIFIED) */
+/* SECTION 7: JOURNEY (KEPT FULL DARK CELESTIAL SCENE IN BOTH THEMES) */
 html[data-theme="light"] .journey {
-  background: #080d1a;
-  color: #f7f5f3;
+  background: #080d1a !important;
+  color: #f7f5f3 !important;
+}
+
+html[data-theme="light"] .journey .display-heading {
+  color: #f7f5f3 !important;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.75);
+}
+
+html[data-theme="light"] .journey .section-label {
+  color: #b8e6db !important;
+}
+
+html[data-theme="light"] .journey .journey-intro {
+  color: #cbd5da !important;
+}
+
+html[data-theme="light"] .journey .career-stage-card,
+html[data-theme="light"] .journey .career-stage {
+  color: #f7f5f3 !important;
+}
+
+html[data-theme="light"] .journey .career-stage-card h3,
+html[data-theme="light"] .journey .career-stage h3 {
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .journey .career-stage-card p,
+html[data-theme="light"] .journey .career-stage p {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="light"] .journey .career-stage-card .career-org,
+html[data-theme="light"] .journey .career-stage .career-org {
+  color: #b8e6db !important;
+}
+
+html[data-theme="light"] .journey .career-stage-date {
+  color: #ffd0b9 !important;
 }
 
 /* SECTION 8: CONTACT & FOOTER */
