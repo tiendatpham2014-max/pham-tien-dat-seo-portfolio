@@ -2,17 +2,45 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Phạm Tiến Đạt — SEO Executive",
+  title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio Tối Ưu Search Intent & AI SEO",
   description:
-    "Phạm Tiến Đạt — SEO Executive. Tư duy về search intent, nội dung, dữ liệu GSC và các bài viết đã xuất bản.",
+    "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Hơn 2 năm thực chiến tối ưu Search Intent, Technical SEO, Core Web Vitals và AI-Driven SEO cho Altus Entertainment tại thị trường Mỹ.",
+  keywords: [
+    "Phạm Tiến Đạt",
+    "Dat Pham",
+    "SEO Executive",
+    "Primas Group",
+    "Altus Entertainment",
+    "Technical SEO",
+    "Core Web Vitals",
+    "Search Intent Mapping",
+    "Google Search Console",
+    "AI SEO",
+    "Model Context Protocol",
+    "SEO Portfolio",
+  ],
+  authors: [{ name: "Phạm Tiến Đạt", url: "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site" }],
+  creator: "Phạm Tiến Đạt",
+  publisher: "Phạm Tiến Đạt",
   metadataBase: new URL("https://pham-tien-dat-seo.bloomybowl64.chatgpt.site"),
   alternates: {
     canonical: "/",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Phạm Tiến Đạt — SEO Executive",
+    title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
     description:
-      "SEO bắt đầu từ điều người dùng thực sự cần. Kết nối search intent, nội dung và tín hiệu Google Search Console.",
+      "Tối ưu hóa tìm kiếm tự nhiên, Search Intent & Cấu trúc Nội dung. Case study Altus Entertainment tăng trưởng 27,1% Clicks tại thị trường Mỹ.",
     type: "profile",
     locale: "vi_VN",
     alternateLocale: ["en_US"],
@@ -21,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Phạm Tiến Đạt — SEO Executive",
+    title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
     description:
-      "SEO bắt đầu từ điều người dùng thực sự cần. Kết nối search intent, nội dung và tín hiệu Google Search Console.",
+      "Tối ưu hóa tìm kiếm tự nhiên, Search Intent & Cấu trúc Nội dung. Case study Altus Entertainment tăng trưởng 27,1% Clicks tại thị trường Mỹ.",
   },
 };
 
@@ -34,10 +62,18 @@ const jsonLd = {
       "@type": "Person",
       "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#person",
       "name": "Phạm Tiến Đạt",
+      "alternateName": "Dat Pham",
       "jobTitle": "SEO Executive",
+      "telephone": "+84912995691",
+      "email": "tiendatpham2014@gmail.com",
       "worksFor": {
         "@type": "Organization",
         "name": "Primas Group",
+        "url": "https://primas.net",
+      },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Trường Cao đẳng Công nghệ Thủ Đức (TDC)",
       },
       "address": {
         "@type": "PostalAddress",
@@ -46,31 +82,41 @@ const jsonLd = {
       },
       "sameAs": [
         "https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/",
+        "https://primas.net/author/datpt/",
       ],
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "Trường Cao đẳng Công nghệ Thủ Đức (TDC)",
-      },
       "knowsAbout": [
         "Search Engine Optimization (SEO)",
         "Technical SEO & Core Web Vitals",
-        "Search Intent & Keyword Mapping",
+        "Search Intent Analysis",
+        "Content Strategy & Business English",
         "Google Search Console & GA4",
         "AI-Augmented SEO (Claude, GPT, MCP)",
-        "Content Strategy & Business English",
         "Semrush, Ahrefs & Screaming Frog",
         "Altus Entertainment SEO Growth",
       ],
     },
     {
+      "@type": "WebSite",
+      "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#website",
+      "url": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/",
+      "name": "Phạm Tiến Đạt — SEO Executive Portfolio",
+      "publisher": {
+        "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#person",
+      },
+      "inLanguage": ["vi", "en"],
+    },
+    {
       "@type": "ProfilePage",
       "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#webpage",
       "url": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/",
-      "name": "Phạm Tiến Đạt — SEO Executive Portfolio",
+      "name": "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
       "description":
         "Portfolio của Phạm Tiến Đạt, SEO Executive. Tư duy về search intent, nội dung, dữ liệu GSC và các bài viết đã xuất bản.",
       "about": {
         "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#person",
+      },
+      "isPartOf": {
+        "@id": "https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/#website",
       },
       "inLanguage": ["vi", "en"],
     },

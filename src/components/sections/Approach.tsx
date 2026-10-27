@@ -19,7 +19,7 @@ export function Approach() {
     </div>
   </div>
   <div className="shell insight-row" aria-label="Các câu hỏi trong công việc SEO">
-    <details className="insight-card" open>
+    <details className="insight-card">
       <summary className="insight-summary">
         <span className="insight-num">01</span>
         <h3 data-i18n="insightOneTitle">Trang này có thực sự nên được index?</h3>

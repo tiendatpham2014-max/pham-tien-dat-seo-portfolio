@@ -12,7 +12,7 @@ export function Process() {
     </div>
 
     <div className="process-accordion" role="region" aria-label="Quy trình thực thi SEO">
-      <details className="process-item" open>
+      <details className="process-item">
         <summary className="process-summary">
           <div className="process-title-group">
             <span className="step-num">01</span>
