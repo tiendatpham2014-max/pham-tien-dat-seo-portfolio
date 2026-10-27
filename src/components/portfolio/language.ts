@@ -22,6 +22,10 @@ export function setLanguage(next: Language) {
     const key = element.dataset.i18n;
     if (key && typeof dictionary[key] === "string") element.textContent = dictionary[key] as string;
   });
+  all("[data-i18n-aria]").forEach((element) => {
+    const key = (element as HTMLElement).dataset.i18nAria;
+    if (key && typeof dictionary[key] === "string") element.setAttribute("aria-label", dictionary[key] as string);
+  });
   all<HTMLButtonElement>("[data-lang]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lang === next)));
   get("#menu-toggle").setAttribute("aria-label", copy[next][state.menuOpen ? "menuClose" : "menuOpen"]);
   updateThemeControl();

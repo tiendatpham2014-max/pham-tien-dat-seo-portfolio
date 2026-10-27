@@ -18,7 +18,7 @@ export function Approach() {
       </div>
     </div>
   </div>
-  <div className="shell insight-row" aria-label="Các câu hỏi trong công việc SEO">
+  <div className="shell insight-row" aria-label="Các câu hỏi trong công việc SEO" data-i18n-aria="approachAria">
     <details className="insight-card" name="insights">
       <summary className="insight-summary">
         <span className="insight-num">01</span>

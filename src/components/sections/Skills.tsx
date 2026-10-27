@@ -3,7 +3,7 @@ export function Skills() {
     <>
 <section className="skills section-space" id="skills" aria-labelledby="skills-title">
   <div className="shell"><div className="section-head"><div><span className="section-label" data-i18n="skillsLabel">Năng lực</span><h2 className="display-heading" id="skills-title" data-i18n="skillsTitle">Vấn đề. Cách làm. Đầu ra.</h2></div><p data-i18n="skillsIntro">Thay vì liệt kê công cụ, phần này cho thấy từng nhóm công việc giải quyết điều gì.</p></div>
-    <div className="skill-layout"><div className="skill-tabs" role="tablist" aria-label="Các nhóm năng lực SEO">
+    <div className="skill-layout"><div className="skill-tabs" role="tablist" aria-label="Các nhóm năng lực SEO" data-i18n-aria="skillsTablist">
         <button type="button" role="tab" id="tab-technical" aria-controls="panel-technical" aria-selected="true" tabIndex={0} data-skill="technical" data-i18n="skillTechnical">Technical SEO</button>
         <button type="button" role="tab" id="tab-content" aria-controls="panel-content" aria-selected="false" tabIndex={-1} data-skill="content" data-i18n="skillContent">Chiến lược nội dung</button>
         <button type="button" role="tab" id="tab-analytics" aria-controls="panel-analytics" aria-selected="false" tabIndex={-1} data-skill="analytics" data-i18n="skillAnalytics">Phân tích dữ liệu</button>

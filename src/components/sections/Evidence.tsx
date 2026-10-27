@@ -29,7 +29,7 @@ export function Evidence() {
           <span className="section-label" data-i18n="metricLensLabel">Góc đọc dữ liệu</span>
           <h3 id="metric-title" data-i18n="metricTitle">Lượt nhấp từ tìm kiếm</h3>
         </div>
-        <div className="metric-picker" role="group" aria-label="Chọn chỉ số">
+        <div className="metric-picker" role="group" aria-label="Chọn chỉ số" data-i18n-aria="metricsLabel">
           <button type="button" data-metric="clicks" aria-pressed="true" data-i18n="metricClicks">Clicks</button>
           <button type="button" data-metric="impressions" aria-pressed="false" data-i18n="metricImpressions">Impressions</button>
           <button type="button" data-metric="ctr" aria-pressed="false">CTR</button>
@@ -99,6 +99,7 @@ export function Evidence() {
           max={100}
           defaultValue={50}
           aria-label="Kéo để so sánh Q3/2025 và Q3/2026"
+          data-i18n-aria="compareSlider"
           aria-valuetext="50% kỳ trước, 50% kỳ sau"
         />
       </div>
