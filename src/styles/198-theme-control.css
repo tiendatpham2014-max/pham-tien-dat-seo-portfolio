@@ -9,7 +9,7 @@ html{color-scheme:dark}
   color:#dce9e8;
   transition:background .2s,border-color .2s,transform .2s
 }
-.theme-toggle:hover{background:rgba(169,220,207,.15);border-color:#b5e5d5;transform:rotate(15deg)}
+.theme-toggle:hover{background:rgba(56,189,248,.15);border-color:#38bdf8;color:#38bdf8;transform:rotate(15deg)}
 .theme-toggle svg{width:19px;height:19px}
 .theme-icon-moon{display:none}
 html[data-theme="light"] .theme-icon-sun{display:none}
