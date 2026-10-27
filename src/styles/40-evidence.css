@@ -84,20 +84,30 @@
 .metric-picker{
   display:flex;
   flex-wrap:wrap;
-  gap:5px
+  gap:8px
 }
 .metric-picker button{
-  border:1px solid #82928c;
-  background:transparent;
-  color:var(--light);
-  min-height:42px;
-  padding:8px 14px;
-  font-size:14px;
-  transition:background .2s,color .2s
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.05);
+  color:#cbd5e1;
+  min-height:40px;
+  padding:8px 16px;
+  border-radius:9999px;
+  font-size:13.5px;
+  font-weight:500;
+  transition:all .2s ease
 }
-.metric-picker button:hover,.metric-picker button[aria-pressed=true]{
-  background:var(--light);
-  color:var(--dark)
+.metric-picker button:hover{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.28);
+  color:#ffffff
+}
+.metric-picker button[aria-pressed=true]{
+  background:#38bdf8;
+  color:#050814;
+  font-weight:600;
+  border-color:#38bdf8;
+  box-shadow:0 0 16px rgba(56,189,248,.4)
 }
 .metric-comparison{
   display:grid;

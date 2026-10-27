@@ -36,7 +36,7 @@
   --sun-x:calc(15% + var(--career-progress)*70%);
   position:relative;
   isolation:isolate;
-  height:360svh;
+  height:420svh;
   padding:0;
   background:#080d1a;
   color:#f7f5f3
@@ -144,7 +144,7 @@
 .career-stage .career-org{margin:0 0 13px!important;color:#b8e6db;font-size:12px!important;font-weight:600;letter-spacing:.13em;text-transform:uppercase}
 .career-stage p:not(.career-org){max-width:450px;margin:0;color:#d8e1e5;font-size:16px;line-height:1.55}
 @media(max-width:850px){
-  .journey{height:320svh}
+  .journey{height:380svh}
   .journey-heading{top:13%}
   .journey .display-heading{font-size:clamp(35px,6vw,52px)}
   .journey-intro{font-size:14px}
@@ -153,7 +153,7 @@
   .journey .career-planet,.journey .career-rim{top:76%}
 }
 @media(max-width:650px){
-  .journey{height:320svh}
+  .journey{height:360svh}
   .journey-heading{top:12%;left:var(--gutter)}
   .journey .display-heading{font-size:clamp(34px,9vw,43px);line-height:1.07}
   .journey-intro{display:block;margin-top:14px;font-size:13px;line-height:1.45}
