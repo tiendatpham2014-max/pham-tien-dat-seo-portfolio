@@ -164,10 +164,10 @@
   }
   .insight-row{
     grid-template-columns:1fr;
-    gap:35px
+    gap:14px
   }
-  .insight-row article{
-    max-width:530px
+  .insight-card{
+    max-width:100%
   }
   .insight-row h3{
     margin-top:12px

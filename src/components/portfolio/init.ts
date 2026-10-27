@@ -50,15 +50,6 @@ export function initPortfolio() {
     skillObserver.observe(get("#skills"));
     observers.push(skillObserver);
 
-    const processObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        get(".process-path").classList.add("is-visible");
-        processObserver.disconnect();
-      }
-    }, { threshold: 0.2 });
-    processObserver.observe(get("#process"));
-    observers.push(processObserver);
-
     if (!reducedMotion()) {
       document.body.classList.add("js-motion");
       const revealObserver = new IntersectionObserver((entries) => {
@@ -69,7 +60,7 @@ export function initPortfolio() {
           }
         });
       }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".process-step,.section-head,.approach-grid,.insight-row article,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
+      all(".process-item,.section-head,.approach-grid,.insight-card,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
         .forEach((element) => revealObserver.observe(element));
       observers.push(revealObserver);
     }
