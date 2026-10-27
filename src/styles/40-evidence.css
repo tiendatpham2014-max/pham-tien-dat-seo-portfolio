@@ -9,7 +9,34 @@
   color:var(--light-quiet)
 }
 .work .display-heading{
-  max-width:800px
+  max-width:960px
+}
+.project-meta-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(6px,1vw,10px);
+  margin-top:clamp(8px,1vh,14px)
+}
+.meta-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:clamp(10.5px,1vw,12px);
+  padding:3px 10px;
+  border-radius:9999px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  color:#cbd5e1;
+  backdrop-filter:blur(8px)
+}
+.meta-pill strong{
+  color:#38bdf8;
+  font-weight:600
+}
+.meta-pill.highlight{
+  border-color:rgba(56,189,248,.35);
+  background:rgba(56,189,248,.1);
+  color:#bae6fd
 }
 .case-overview{
   display:grid;
