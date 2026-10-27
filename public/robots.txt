@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pham-tien-dat-seo.bloomybowl64.chatgpt.site/sitemap.xml
+Sitemap: https://datpham.io.vn/sitemap.xml
