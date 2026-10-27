@@ -347,13 +347,25 @@ html[data-theme="light"] .compare-period {
   color: #0f172a;
 }
 
+html[data-theme="light"] .bar-tag {
+  color: #475569;
+}
+
 html[data-theme="light"] .compare-bars i {
-  background: #94a3b8;
+  background: #cbd5e1;
+}
+
+html[data-theme="light"] .compare-bars i em {
+  color: #0f172a;
 }
 
 html[data-theme="light"] .compare-after .compare-bars i {
   background: linear-gradient(90deg, #0284c7 0%, #4f46e5 100%);
   box-shadow: none;
+}
+
+html[data-theme="light"] .compare-after .compare-bars i em {
+  color: #ffffff;
 }
 
 html[data-theme="light"] .compare-divider {

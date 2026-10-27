@@ -26,19 +26,8 @@ export function initHeroWaves(signal: AbortSignal) {
 
   let lastTime = performance.now();
   let t = 0;
-  let animId: number;
+  let animId = 0;
   let isVisible = true;
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver((entries) => {
-      isVisible = entries[0]?.isIntersecting ?? true;
-      if (isVisible) {
-        lastTime = performance.now();
-      }
-    }, { threshold: 0.05 });
-    observer.observe(canvas);
-    signal.addEventListener("abort", () => observer.disconnect());
-  }
 
   // Dải sóng nước lụa siêu mịn với độ phân giải vi mô và màu sắc đa tầng
   const waveLayers = [
@@ -48,10 +37,22 @@ export function initHeroWaves(signal: AbortSignal) {
     { color1: "rgba(129, 140, 248, 0.24)", color2: "rgba(192, 132, 252, 0.14)", speed: 0.9, freq: 0.0021, amp: 90, y: 0.59 }
   ];
 
+  function start() {
+    if (animId || !isVisible || document.hidden || reducedMotion() || signal.aborted) return;
+    lastTime = performance.now();
+    animId = requestAnimationFrame(render);
+  }
+
+  function stop() {
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = 0;
+    }
+  }
+
   function render(now: number) {
-    if (signal.aborted) return;
-    if (document.hidden || !isVisible) {
-      animId = requestAnimationFrame(render);
+    if (signal.aborted || !isVisible || document.hidden) {
+      animId = 0;
       return;
     }
 
@@ -67,7 +68,6 @@ export function initHeroWaves(signal: AbortSignal) {
 
       const targetY = height * layer.y + (mouseY - height / 2) * 0.07;
 
-      // Lấy mẫu vi mô x += 6px để đường cong sóng đạt độ mịn màng tuyệt đối
       for (let x = 0; x <= width; x += 6) {
         const dx = (mouseX - x) * 0.0006;
         const y =
@@ -89,14 +89,30 @@ export function initHeroWaves(signal: AbortSignal) {
       ctx!.fill();
     });
 
-    if (!reducedMotion()) {
-      animId = requestAnimationFrame(render);
-    }
+    animId = requestAnimationFrame(render);
   }
 
-  animId = requestAnimationFrame(render);
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0]?.isIntersecting ?? true;
+      if (isVisible) {
+        start();
+      } else {
+        stop();
+      }
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+    signal.addEventListener("abort", () => observer.disconnect());
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stop();
+    else start();
+  }, { signal });
+
+  start();
 
   signal.addEventListener("abort", () => {
-    cancelAnimationFrame(animId);
+    stop();
   });
 }
