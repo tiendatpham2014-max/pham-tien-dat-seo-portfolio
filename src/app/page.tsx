@@ -8,6 +8,7 @@ import { Skills } from "@/components/sections/Skills";
 import { Writing } from "@/components/sections/Writing";
 import { Journey } from "@/components/sections/Journey";
 import { Contact } from "@/components/sections/Contact";
+import { Footer } from "@/components/sections/Footer";
 
 export default function Page() {
   return (
@@ -24,6 +25,7 @@ export default function Page() {
         <Journey />
         <Contact />
       </main>
+      <Footer />
       <PortfolioShell />
     </>
   );

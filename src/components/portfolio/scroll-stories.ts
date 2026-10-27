@@ -20,14 +20,28 @@ function getSceneState(items: HTMLElement[]) {
   return { progress, active };
 }
 
+function getCareerState(stages: HTMLElement[]) {
+  const journey = document.querySelector("#journey");
+  if (!journey) return { progress: 0, active: 0 };
+  const rect = journey.getBoundingClientRect();
+  const travel = Math.max(1, rect.height - window.innerHeight);
+  const progress = Math.max(0, Math.min(1, -rect.top / travel));
+  return { progress, active: Math.round(progress * (stages.length - 1)) };
+}
+
 export function updateScenes() {
   updateActiveSection();
-  const stages = all(".career-stage, .career-stage-card");
+  const stages = all(".career-stage");
   if (stages.length) {
-    const journeyEl = document.querySelector<HTMLElement>("#journey");
-    if (journeyEl) {
-      journeyEl.style.setProperty("--sun-x", "85%");
-      journeyEl.style.setProperty("--sun-y", "78%");
+    const career = getCareerState(stages);
+    const journey = document.querySelector<HTMLElement>("#journey");
+    const route = document.querySelector<HTMLElement>(".career-route");
+    if (journey && route) {
+      journey.style.setProperty("--career-progress", career.progress.toFixed(4));
+      route.style.setProperty("--career-progress", career.progress.toFixed(4));
+      const orbitX = (45 + 70 * career.progress) / 160;
+      route.style.setProperty("--sun-y", `${(75 + 70 * (1 - Math.sqrt(1 - (2 * orbitX - 1) ** 2))).toFixed(2)}%`);
+      stages.forEach((stage, index) => stage.classList.toggle("is-current", index === career.active));
     }
   }
 

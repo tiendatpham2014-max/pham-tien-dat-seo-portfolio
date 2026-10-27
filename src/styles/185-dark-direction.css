@@ -58,10 +58,12 @@ body{background:var(--ground);color:var(--ink)}
 .rail-controls{color:#c4d0d7}
 .rail-controls button{border-color:#708a9c;color:#f4f5f1}
 .rail-controls button:hover:not(:disabled){background:#b5e5d5;color:#101827}
-.article-card{background:#1d2d44}
-.article-card:hover,.article-card:focus-visible{background:#28415b}
-.article-top,.article-link{color:#a9dccf}
-.article-card p,.writing-footer span{color:#c4d0d7}
+.article-card{background:#152238;border:1px solid rgba(255,255,255,.1)}
+.article-card:hover,.article-card:focus-visible{background:#1c2e4a;border-color:rgba(56,189,248,.5);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+.article-top,.article-link{color:#38bdf8}
+.article-card strong{color:#f8fafc}
+.article-card:hover strong{color:#ffffff}
+.article-card p,.writing-footer span{color:#94a3b8}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .contact.dark-section{background:#1a1b1b}
 .contact-methods a{background:#252e35}

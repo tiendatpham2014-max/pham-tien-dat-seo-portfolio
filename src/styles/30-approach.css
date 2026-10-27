@@ -1,10 +1,8 @@
-.section-space{
-  padding-block:0
-}
 .display-heading{
-  font:600 clamp(28px,3.8vw,56px)/1.06 "Be Vietnam Pro","Segoe UI",sans-serif;
-  letter-spacing:-.045em;
-  margin:clamp(6px,1vh,14px) 0 0;
+  font:600 clamp(32px,4vw,62px)/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
+  letter-spacing:-.035em;
+  margin:clamp(8px,1vh,16px) 0 0;
+  padding-top:4px;
   text-wrap:balance
 }
 .section-label{
