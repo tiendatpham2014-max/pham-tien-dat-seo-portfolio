@@ -3,7 +3,7 @@
   min-height:100svh;
   overflow:hidden;
   isolation:isolate;
-  padding-top:clamp(75px,10vh,110px);
+  padding-top:clamp(100px,13vh,140px);
   padding-bottom:clamp(30px,4vh,50px);
   box-sizing:border-box;
 }

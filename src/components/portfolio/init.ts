@@ -46,7 +46,7 @@ export function initPortfolio() {
     const skillObserver = new IntersectionObserver((entries) => {
       state.skillVisible = entries[0].isIntersecting;
       if (!signal.aborted) scheduleSkillTimer();
-    }, { threshold: 0.4 });
+    }, { threshold: 0.15 });
     skillObserver.observe(get("#skills"));
     observers.push(skillObserver);
 

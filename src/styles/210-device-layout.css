@@ -55,8 +55,9 @@
   }
   .mobile-nav a { font-size: clamp(24px, 7vw, 32px); padding: 11px 0; }
 
-  .hero, .hero-inner { min-height: calc(100svh - 68px); height: auto; }
-  .hero-meta { padding-top: 18px; font-size: 12px; }
+  .hero { min-height: 100svh; height: auto; padding-top: clamp(86px, 12vh, 105px); }
+  .hero-inner { min-height: calc(100svh - 86px); height: auto; }
+  .hero-meta { padding-top: 10px; font-size: 12px; }
   .hero-meta span:last-child { display: none; }
   .hero-main { padding: 36px 0 30px; }
   .hero-overline { margin-bottom: 12px; font-size: 10px; }

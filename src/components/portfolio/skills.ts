@@ -32,8 +32,15 @@ export function activateSkill(index: number, user = false) {
     tab.tabIndex = i === state.currentSkill ? 0 : -1;
   });
   panels.forEach((panel, i) => { panel.hidden = i !== state.currentSkill; });
-  if (user) { state.manualSkill = true; stopSkillTimer(); }
-  else scheduleSkillTimer();
+  stopSkillTimer();
+  if (user) {
+    timer = setTimeout(() => {
+      state.manualSkill = false;
+      scheduleSkillTimer();
+    }, 10000);
+  } else {
+    scheduleSkillTimer();
+  }
 }
 
 export function initSkills(signal: AbortSignal) {
@@ -53,7 +60,11 @@ export function initSkills(signal: AbortSignal) {
     }, { signal });
   });
   get("#skills").addEventListener("mouseenter", () => { state.skillHover = true; stopSkillTimer(); }, { signal });
-  get("#skills").addEventListener("mouseleave", () => { state.skillHover = false; scheduleSkillTimer(); }, { signal });
+  get("#skills").addEventListener("mouseleave", () => {
+    state.skillHover = false;
+    state.manualSkill = false;
+    scheduleSkillTimer();
+  }, { signal });
   get("#skills").addEventListener("focusin", () => { state.skillFocus = true; stopSkillTimer(); }, { signal });
   get("#skills").addEventListener("focusout", () => {
     focusTimer = setTimeout(() => {
