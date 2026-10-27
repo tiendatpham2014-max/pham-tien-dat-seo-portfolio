@@ -38,6 +38,22 @@
   background:rgba(56,189,248,.1);
   color:#bae6fd
 }
+.case-attribution-badge{
+  display:inline-block;
+  margin-top:clamp(10px,1.2vh,16px);
+  padding:6px 14px;
+  background:rgba(56,189,248,.08);
+  border:1px solid rgba(56,189,248,.22);
+  border-radius:10px;
+  font-size:clamp(11.5px,0.95vw,13px);
+  color:#bae6fd;
+  line-height:1.45;
+}
+html[data-theme="light"] .case-attribution-badge{
+  background:#f1f5f9;
+  border-color:#cbd5e1;
+  color:#334155;
+}
 .case-overview{
   display:grid;
   grid-template-columns:.9fr 1.1fr;

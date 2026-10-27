@@ -67,6 +67,7 @@
 .insight-row{
   display:grid;
   grid-template-columns:repeat(3,1fr);
+  align-items:start;
   gap:clamp(14px,2vw,28px);
   margin-top:clamp(14px,2vh,28px);
 }

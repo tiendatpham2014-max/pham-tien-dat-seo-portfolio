@@ -110,6 +110,13 @@ export function initHeroWaves(signal: AbortSignal) {
     else start();
   }, { signal });
 
+  const motionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const onMotionChange = () => {
+    if (reducedMotion()) stop();
+    else start();
+  };
+  motionMedia.addEventListener("change", onMotionChange, { signal });
+
   start();
 
   signal.addEventListener("abort", () => {

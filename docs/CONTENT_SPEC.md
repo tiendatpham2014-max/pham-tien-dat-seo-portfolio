@@ -46,9 +46,9 @@ Tone: specific, thoughtful, professional, approachable, short sentences. Avoid `
 
 ## 4. Selected work — aggregate GSC case
 
-**Public framing (mandatory):** unnamed US entertainment services website; site-wide metrics influenced by multiple contributors and changing site composition. The site and team saw the trend, not a personal claim of causal growth.
+**Public framing:** Altus Entertainment (US entertainment platform), authorized by portfolio owner for public attribution on 27/10/2026. Site-wide metrics influenced by multiple contributors and changing site composition. The site and team achieved the trend, framed with a clear transparency disclaimer rather than an isolated personal causal claim.
 
-Periods: Google Search Console, Web search, July 1–September 30, **92 days** each; 2025 and 2026. All reported site-level aggregate, derived from complete daily data. Data should NOT reveal confidential website domain, account, screenshots or company name.
+Periods: Google Search Console, Web search, July 1–September 30, **92 days** each; 2025 and 2026. All reported site-level aggregate, derived from complete daily data. Confidential internal URLs, admin accounts, and raw exports remain strictly private.
 
 | Metric | Q3 2025 | Q3 2026 | Change/reading |
 |---|---:|---:|---|
