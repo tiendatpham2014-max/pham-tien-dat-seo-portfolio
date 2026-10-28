@@ -30,7 +30,7 @@ export function Hero() {
         Tôi kết nối nhu cầu tìm kiếm thực tế của người dùng với chất lượng nội dung và dữ liệu Google Search Console — biến các tín hiệu tìm kiếm thành tăng trưởng bền vững.
       </p>
 
-      <div className="hero-meta-bar" role="list" aria-label="Thông tin nghề nghiệp">
+      <div className="hero-meta-bar" role="list" aria-label="Thông tin nghề nghiệp" data-i18n-aria="heroMetaAria">
         <div className="meta-item" role="listitem">
           <span className="meta-label" data-i18n="metaOrgLabel">Hiện tại:</span>
           <strong data-i18n="metaOrg">Primas Group (11/2023 → nay)</strong>

@@ -11,7 +11,7 @@ export function Process() {
       <p data-i18n="processIntro">Ba giai đoạn tiếp cận công việc SEO thực tế — bấm vào từng giai đoạn để xem chi tiết checklist và câu hỏi giải quyết.</p>
     </div>
 
-    <div className="process-accordion" role="region" aria-label="Quy trình thực thi SEO">
+    <div className="process-accordion" role="region" aria-label="Quy trình thực thi SEO" data-i18n-aria="processAria">
       <details className="process-item" name="process">
         <summary className="process-summary">
           <div className="process-title-group">

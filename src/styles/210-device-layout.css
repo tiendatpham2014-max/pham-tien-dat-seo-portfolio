@@ -10,12 +10,12 @@
 
   .section-head, .approach-grid, .case-overview {
     grid-template-columns: minmax(0, 1fr);
-    gap: 30px;
+    gap: 24px;
   }
-  .section-head { margin-bottom: 54px; }
+  .section-head { margin-bottom: clamp(24px, 3vh, 36px); }
   .section-head p { max-width: 650px; }
-  .approach-grid { gap: 38px; }
-  .insight-row { margin-top: 68px; gap: 24px; }
+  .approach-grid { gap: clamp(20px, 2.5vh, 30px); }
+  .insight-row { margin-top: clamp(20px, 2.5vh, 32px); gap: 20px; }
 
   .metric-stage-top { align-items: flex-start; flex-direction: column; gap: 24px; }
   .case-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -55,11 +55,25 @@
   }
   .mobile-nav a { font-size: clamp(24px, 7vw, 32px); padding: 11px 0; }
 
-  .hero { min-height: 100svh; height: auto; padding-top: clamp(86px, 12vh, 105px); }
-  .hero-inner { min-height: calc(100svh - 86px); height: auto; }
+  .hero {
+    min-height: 100svh;
+    min-height: 100dvh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: clamp(76px, 11vh, 92px);
+    padding-bottom: clamp(14px, 2vh, 20px);
+  }
+  .hero-inner {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .hero-meta { padding-top: 10px; font-size: 12px; }
   .hero-meta span:last-child { display: none; }
-  .hero-main { padding: 36px 0 30px; }
+  .hero-main { margin: auto 0; padding: 20px 0 16px; }
   .hero-overline { margin-bottom: 12px; font-size: 10px; }
   .hero h1 { font-size: clamp(38px, 10vw, 56px); line-height: 1.05; }
   .hero-statement { margin-top: 14px; font-size: clamp(17px, 4.5vw, 22px); }
@@ -70,7 +84,7 @@
   .hero-bottom span { display: none; }
   .hero-bottom a { margin-left: auto; }
 
-  .section-space { padding-block: clamp(65px, 8vh, 90px); }
+  .section-space { padding-block: clamp(48px, 6.5vh, 72px); }
   .display-heading { font-size: clamp(32px, 8vw, 48px); line-height: 1.18; padding-top: 0.15em; padding-bottom: 0.05em; }
   .section-head { margin-bottom: 36px; }
   .section-head p { font-size: 15px; }

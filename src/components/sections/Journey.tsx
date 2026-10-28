@@ -19,7 +19,7 @@ export function Journey() {
         <h2 className="display-heading" id="journey-title" data-i18n="journeyTitle">Ba giai đoạn, một hướng đi.</h2>
         <p className="journey-intro" data-i18n="journeyIntro">Từ nghiên cứu từ khóa và bài viết đầu tiên đến công việc kết nối nội dung, kỹ thuật và hiệu suất tìm kiếm.</p>
       </div>
-      <div className="career-stages" aria-label="Các giai đoạn nghề nghiệp">
+      <div className="career-stages" aria-label="Các giai đoạn nghề nghiệp" data-i18n-aria="careerStagesAria">
         <article className="career-stage is-current" style={{ "--stage-shift": "-10%" } as CSSProperties}>
           <span className="career-stage-date" data-i18n="dateIntern">11/2023–04/2024</span>
           <h3 data-i18n="internTitle">Thực tập sinh SEO</h3>

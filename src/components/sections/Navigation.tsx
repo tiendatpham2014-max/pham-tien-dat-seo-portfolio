@@ -3,8 +3,8 @@ export function Navigation() {
     <>
   <header className="site-header" id="site-header">
     <div className="shell header-inner">
-      <a className="brand" href="#top" aria-label="Phạm Tiến Đạt — đầu trang">Đạt Phạm<span aria-hidden="true">.</span></a>
-      <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính">
+      <a className="brand" href="#top" aria-label="Phạm Tiến Đạt — đầu trang" data-i18n-aria="brandAria">Đạt Phạm<span aria-hidden="true">.</span></a>
+      <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính" data-i18n-aria="navigation">
         <a href="#work" data-i18n="navWork">Dự án</a>
         <a href="#process" data-i18n="navProcess">Quy trình</a>
         <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
@@ -24,7 +24,7 @@ export function Navigation() {
     </div>
   </header>
   <div className="menu-backdrop" id="menu-backdrop" hidden />
-  <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" inert>
+  <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" data-i18n-aria="mobileNavigation" inert>
     <a href="#work" data-i18n="navWork">Dự án</a>
     <a href="#process" data-i18n="navProcess">Quy trình</a>
     <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
