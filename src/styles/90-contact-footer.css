@@ -1,12 +1,12 @@
 .contact{
   background:#080d1a;
   color:var(--white);
-  padding-bottom:120px;
+  padding-bottom:clamp(40px,5vh,60px);
 }
 .contact-heading{
   text-align:center;
   max-width:830px;
-  margin:0 auto 60px;
+  margin:0 auto clamp(24px,3.5vh,38px);
 }
 .contact-heading .display-heading{
   margin-inline:auto;
@@ -118,7 +118,7 @@
 
 .site-footer{
   background:var(--paper);
-  padding:70px 0 30px;
+  padding:clamp(36px,4.5vh,48px) 0 clamp(20px,2.5vh,28px);
 }
 .footer-main{
   display:flex;

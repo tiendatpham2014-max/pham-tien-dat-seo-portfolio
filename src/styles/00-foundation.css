@@ -67,7 +67,7 @@ section{
   box-sizing:border-box
 }
 .section-space{
-  padding-block:clamp(75px,10vh,140px)
+  padding-block:clamp(55px,7vh,88px)
 }
 body.menu-open{
   overflow:hidden

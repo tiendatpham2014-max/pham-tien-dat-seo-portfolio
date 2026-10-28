@@ -84,7 +84,7 @@ html[data-theme="light"] .case-attribution-badge{
   margin:0
 }
 .metric-stage{
-  padding:68px 0 55px
+  padding:clamp(20px,2.8vh,36px) 0
 }
 .metric-stage-top{
   display:flex;
