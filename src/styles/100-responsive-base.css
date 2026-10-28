@@ -218,26 +218,6 @@
     gap:20px;
     margin-top:45px
   }
-  .compare-wipe{
-    height:210px
-  }
-  .compare-layer{
-    padding:18px
-  }
-  .compare-period{
-    font-size:28px
-  }
-  .compare-bars{
-    top:80px;
-    left:18px;
-    right:18px
-  }
-  .compare-wipe input::-webkit-slider-thumb{
-    height:210px
-  }
-  .compare-wipe input::-moz-range-thumb{
-    height:210px
-  }
   .process-path{
     display:none
   }

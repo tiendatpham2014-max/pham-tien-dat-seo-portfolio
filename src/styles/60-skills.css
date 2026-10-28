@@ -51,15 +51,18 @@
   content:"";
   display:block;
   height:100%;
-  width:0;
-  background:var(--accent)
+  width:100%;
+  transform:scaleX(0);
+  transform-origin:left;
+  background:var(--accent);
+  will-change:transform
 }
 .skill-tabs.is-autoplay .skill-progress:after{
   animation:skill-progress 7s linear forwards
 }
 @keyframes skill-progress{
   to{
-    width:100%
+    transform:scaleX(1)
   }
 }
 .skill-panels{

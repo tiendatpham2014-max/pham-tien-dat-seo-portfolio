@@ -58,42 +58,6 @@
   display:grid;
   gap:clamp(8px,1vh,12px)
 }
-@media(max-width:768px){
-  .compare-wipe{
-    height:clamp(210px,26vh,260px);
-  }
-  .compare-period{
-    font-size:clamp(20px,5vw,28px);
-  }
-  .compare-after .compare-period{
-    right:clamp(12px,2.5vw,20px);
-    top:clamp(12px,2vh,20px);
-  }
-  .compare-before .compare-bars{
-    left:clamp(12px,2vw,18px);
-    top:clamp(60px,8vh,75px);
-    width:calc(50% - clamp(12px,2vw,18px) - 8px);
-    gap:8px;
-  }
-  .compare-after .compare-bars{
-    left:calc(50% + 8px);
-    right:clamp(12px,2vw,18px);
-    top:clamp(60px,8vh,75px);
-    width:auto;
-    gap:8px;
-  }
-  .bar-tag{
-    width:36px;
-    font-size:9.5px;
-  }
-  .compare-bars i{
-    height:18px;
-    padding:0 5px;
-  }
-  .compare-bars i em{
-    font-size:9.5px;
-  }
-}
 .compare-bar-row{
   display:flex;
   align-items:center;
@@ -117,6 +81,8 @@
   border-radius:6px;
   padding:0 8px;
   box-sizing:border-box;
+  transform-origin:left;
+  transition:transform 1s var(--ease);
 }
 .compare-bars i em{
   font-style:normal;
@@ -216,7 +182,68 @@
 .js-motion .compare-wrap:not(.is-visible) .compare-bars i{
   transform:scaleX(0)
 }
-.compare-bars i{
-  transform-origin:left;
-  transition:transform 1s var(--ease)
+
+/* ========================================================
+   MOBILE & TABLET ADAPTATIONS (<= 768px)
+   Placed strictly after base rules to guarantee correct cascade
+   ======================================================== */
+@media(max-width:768px){
+  .compare-caption{
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .compare-wipe{
+    height:clamp(220px,28vh,260px);
+  }
+  .compare-layer{
+    padding:clamp(14px,2vh,20px);
+  }
+  .compare-period{
+    font-size:clamp(20px,5vw,28px);
+  }
+  .compare-after .compare-period{
+    right:clamp(12px,2.5vw,20px);
+    top:clamp(12px,2vh,20px);
+  }
+  .compare-before .compare-bars{
+    left:clamp(10px,2vw,16px);
+    top:clamp(56px,7.5vh,72px);
+    width:calc(50% - clamp(10px,2vw,16px) - 6px);
+    gap:clamp(8px,1vh,10px);
+  }
+  .compare-after .compare-bars{
+    left:calc(50% + 6px);
+    right:clamp(10px,2vw,16px);
+    top:clamp(56px,7.5vh,72px);
+    width:auto;
+    gap:clamp(8px,1vh,10px);
+  }
+  .compare-bar-row{
+    gap:6px;
+  }
+  .bar-tag{
+    width:32px;
+    font-size:9.5px;
+    letter-spacing:0.02em;
+  }
+  .compare-bars i{
+    height:clamp(18px,2.2vh,22px);
+    min-height:18px;
+    padding:0 5px;
+    border-radius:5px;
+  }
+  .compare-bars i em{
+    font-size:clamp(9.5px,2.2vw,11px);
+  }
+  .compare-wipe input::-webkit-slider-thumb{
+    height:clamp(220px,28vh,260px);
+  }
+  .compare-wipe input::-moz-range-thumb{
+    height:clamp(220px,28vh,260px);
+  }
+  .compare-legend{
+    padding-inline:clamp(12px,2.5vw,20px);
+    font-size:10.5px;
+    gap:8px;
+  }
 }
