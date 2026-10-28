@@ -98,15 +98,6 @@
   .period-card { min-width: 0; padding: 20px; }
   .period-card strong { margin: 14px 0 20px; font-size: clamp(32px, 8vw, 48px); }
   .metric-reading { text-align: left; }
-  .compare-caption { flex-wrap: wrap; gap: 8px; }
-  .compare-wipe { height: 230px; }
-  .compare-layer { padding: 18px 20px; }
-  .compare-period { font-size: 26px; }
-  .compare-after .compare-period { right: 20px; top: 18px; }
-  .compare-bars { top: 90px; left: 20px; right: 20px; gap: 14px; }
-  .compare-bars i { height: 10px; }
-  .compare-wipe input::-webkit-slider-thumb { height: 230px; }
-  .compare-wipe input::-moz-range-thumb { height: 230px; }
   .data-table-toggle summary { padding: 16px; line-height: 1.5; }
   .data-table-toggle .data-table-wrap { padding: 0 16px 16px; }
   .data-table { min-width: 610px; }

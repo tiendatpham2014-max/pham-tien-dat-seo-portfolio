@@ -23,5 +23,5 @@ export function updateSearchScene() {
   const countEl = document.querySelector("#search-scene-count");
   if (countEl) text("#search-scene-count", `${String(active + 1).padStart(2, "0")} / 03`);
   const ruleEl = document.querySelector(".search-scene-rule i") as HTMLElement | null;
-  if (ruleEl) ruleEl.style.width = `${(progress * 100).toFixed(1)}%`;
+  if (ruleEl) ruleEl.style.transform = `scaleX(${progress.toFixed(4)})`;
 }

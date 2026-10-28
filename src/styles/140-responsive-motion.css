@@ -1,32 +1,4 @@
 @media(max-width:650px){
-  .compare-wipe{
-    height:210px
-  }
-  .compare-layer{
-    padding:20px
-  }
-  .compare-bars{
-    top:85px;
-    left:20px;
-    right:20px;
-    gap:17px
-  }
-  .compare-bars i{
-    height:12px
-  }
-  .compare-period{
-    font-size:35px
-  }
-  .compare-legend{
-    padding-inline:20px;
-    font-size:10px
-  }
-  .compare-wipe input::-webkit-slider-thumb{
-    height:210px
-  }
-  .compare-wipe input::-moz-range-thumb{
-    height:210px
-  }
   .contact-methods a{
     min-height:155px
   }
