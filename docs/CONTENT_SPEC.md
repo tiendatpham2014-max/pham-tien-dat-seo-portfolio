@@ -185,13 +185,13 @@ Do not create extra fictitious job positions, use exact unverified individual cl
 Existing public links from working source (reuse exactly; do not create new destinations):
 - Email: `tiendatpham2014@gmail.com` -> `mailto:tiendatpham2014@gmail.com`
 - LinkedIn: `https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/`
-- Phone: `+84 912 995 691` -> `tel:+84912995691`
+- Phone: Omitted for personal privacy.
 
 Contact:
 - VI H2: `Trao đổi về SEO và nội dung`; EN H2: `Let's talk SEO and content`.
 - VI invitation: `Nếu bạn đang tìm người làm SEO chú ý đến nội dung, kỹ thuật và số liệu, tôi rất vui được trao đổi.`
 - EN invitation: `If you're looking for someone who cares about SEO content, technical details and evidence, I'd be glad to connect.`
-- Card names VI/EN: `Email`, `LinkedIn`, `Điện thoại / Phone`.
+- Card names VI/EN: `Email`, `LinkedIn`.
 
 Footer:
 - Use real anchors and destinations only: Overview/Đầu trang, Work/Dự án, Process/Quy trình, Skills/Chuyên môn, Writing/Bài viết, Experience/Kinh nghiệm, Contact/Liên hệ, author profile and LinkedIn as appropriate.

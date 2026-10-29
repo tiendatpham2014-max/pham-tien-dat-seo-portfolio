@@ -88,7 +88,6 @@ const jsonLd = {
       "name": "Phạm Tiến Đạt",
       "alternateName": "Dat Pham",
       "jobTitle": "SEO Executive",
-      "telephone": "+84912995691",
       "email": "tiendatpham2014@gmail.com",
       "url": "https://datpham.io.vn",
       "worksFor": {

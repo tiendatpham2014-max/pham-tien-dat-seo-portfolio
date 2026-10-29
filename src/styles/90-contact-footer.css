@@ -21,10 +21,15 @@
 }
 .contact-methods{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:22px;
-  max-width:1100px;
+  max-width:760px;
   margin:0 auto;
+}
+@media (max-width:680px){
+  .contact-methods{
+    grid-template-columns:1fr;
+  }
 }
 .contact-methods a{
   position:relative;
