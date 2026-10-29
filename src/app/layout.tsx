@@ -62,6 +62,17 @@ export const metadata: Metadata = {
       "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
     images: ["/og-image.png"],
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180" },
+    ],
+    shortcut: "/favicon.ico",
+  },
 };
 
 const jsonLd = {
@@ -141,6 +152,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="vi" className="no-js" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#101827" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link
           rel="preload"
           href="/fonts/be-vietnam-pro-vietnamese-400-normal.woff2"

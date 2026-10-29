@@ -9,7 +9,10 @@ const source = `data:image/png;base64,${png.toString('base64')}`;
 
 // Hand-traced pen routes. They only reveal pixels from the original PNG; the
 // displayed signature itself is never replaced by these approximate paths.
-export const strokes = [
+// Speed factor: accelerates tempo to ~1.4s to match lirunghi.io.vn brisk writing pace.
+const SPEED_FACTOR = 4.0;
+
+export const rawStrokes = [
   { name: 'D loop', d: 'M 338 279 C 300 248 299 210 332 177 C 414 112 568 92 681 98 C 819 103 891 158 882 232 C 868 332 761 410 616 485 C 467 557 296 602 185 600', width: 62, start: 0.15, duration: 1.30 },
   { name: 'D stem', d: 'M 487 250 C 469 317 431 427 398 503', width: 46, start: 1.47, duration: 0.35 },
   { name: 'D bar', d: 'M 274 398 C 348 341 462 327 561 340 C 642 350 694 359 746 359', width: 44, start: 1.84, duration: 0.40 },
@@ -21,8 +24,14 @@ export const strokes = [
   { name: 'underline', d: 'M 81 675 C 378 604 755 552 1117 519 C 1447 485 1800 466 2140 475', width: 54, start: 4.43, duration: 1.25 },
 ];
 
-const total = 5.77;
-const finish = 0.32;
+export const strokes = rawStrokes.map((s) => ({
+  ...s,
+  start: Math.round((s.start / SPEED_FACTOR) * 1000) / 1000,
+  duration: Math.round((s.duration / SPEED_FACTOR) * 1000) / 1000,
+}));
+
+const total = Math.round((5.77 / SPEED_FACTOR) * 1000) / 1000;
+const finish = Math.round((0.32 / SPEED_FACTOR) * 1000) / 1000;
 
 function pathLength(d) {
   const values = d.match(/-?\d+(?:\.\d+)?/g).map(Number);

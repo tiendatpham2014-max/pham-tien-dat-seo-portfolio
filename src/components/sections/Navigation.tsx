@@ -3,7 +3,22 @@ export function Navigation() {
     <>
   <header className="site-header" id="site-header">
     <div className="shell header-inner">
-      <a className="brand" href="#top" aria-label="Phạm Tiến Đạt — đầu trang" data-i18n-aria="brandAria">Đạt Phạm<span aria-hidden="true">.</span></a>
+      <a className="brand" href="#top" aria-label="Phạm Tiến Đạt — đầu trang" data-i18n-aria="brandAria">
+        <img
+          src="/branding/dat-pham-signature-writing.svg"
+          alt="Phạm Tiến Đạt"
+          className="brand-signature brand-dark"
+          width={114}
+          height={38}
+        />
+        <img
+          src="/branding/dat-pham-signature-writing-light.svg"
+          alt="Phạm Tiến Đạt"
+          className="brand-signature brand-light"
+          width={114}
+          height={38}
+        />
+      </a>
       <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính" data-i18n-aria="navigation">
         <a href="#work" data-i18n="navWork">Dự án</a>
         <a href="#process" data-i18n="navProcess">Quy trình</a>

@@ -1,3 +1,4 @@
+import { IntroSplash } from "@/components/sections/IntroSplash";
 import { PortfolioShell } from "@/components/portfolio-shell";
 import { Navigation } from "@/components/sections/Navigation";
 import { Hero } from "@/components/sections/Hero";
@@ -13,6 +14,7 @@ import { Footer } from "@/components/sections/Footer";
 export default function Page() {
   return (
     <>
+      <IntroSplash />
       <a className="skip-link" href="#main" data-i18n="skip">Đi tới nội dung</a>
       <Navigation />
       <main id="main">

@@ -11,6 +11,7 @@ import { initScrollStories } from "./scroll-stories";
 import { initLanguage } from "./language";
 import { positionIndicator } from "./navigation";
 import { initHeroWaves } from "./hero-waves";
+import { initIntroSplash } from "./intro-splash";
 
 export function initPortfolio() {
   resetState();
@@ -19,6 +20,7 @@ export function initPortfolio() {
   const observers: IntersectionObserver[] = [];
 
   initTheme(signal);
+  initIntroSplash(signal);
   initMobileMenu(signal);
   initHeroWaves(signal);
   initSignalLab(signal);
@@ -40,6 +42,21 @@ export function initPortfolio() {
   });
   text("#year", String(new Date().getFullYear()));
   document.documentElement.classList.remove("no-js");
+
+  const brand = document.querySelector<HTMLElement>(".brand");
+  if (brand) {
+    let lastReplay = 0;
+    brand.addEventListener("mouseenter", () => {
+      const now = performance.now();
+      if (now - lastReplay < 1600) return;
+      lastReplay = now;
+      const images = brand.querySelectorAll<HTMLImageElement>(".brand-signature");
+      images.forEach((img) => {
+        const clean = img.src.split("?")[0];
+        img.src = `${clean}?t=${Date.now()}`;
+      });
+    }, { signal });
+  }
 
   window.addEventListener("resize", positionIndicator, { signal });
   if ("IntersectionObserver" in window) {
