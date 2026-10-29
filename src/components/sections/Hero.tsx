@@ -37,13 +37,25 @@ export function Hero() {
         </div>
         <div className="meta-item" role="listitem">
           <span className="meta-label" data-i18n="metaMarketLabel">Dự án &amp; Thị trường:</span>
-          <strong data-i18n="metaMarket">Altus Entertainment · Mỹ (US)</strong>
+          <strong data-i18n="metaMarket">Altus Entertainment (US) · BattleBots · Primas.net</strong>
         </div>
         <div className="meta-item" role="listitem">
           <span className="meta-label" data-i18n="metaFocusLabel">Trọng tâm:</span>
           <strong data-i18n="metaFocus">Search Intent · Core Web Vitals · AI Workflows</strong>
         </div>
       </div>
+
+      <p className="hero-stack-line" aria-label="Bộ công cụ & chuyên môn">
+        <span>[Ahrefs]</span>
+        <span>[Semrush]</span>
+        <span>[GSC &amp; GA4]</span>
+        <span>[Screaming Frog]</span>
+        <span>[Core Web Vitals]</span>
+        <span>[Claude &amp; GPT]</span>
+        <span>[Hermes Agent]</span>
+        <span>[MCP]</span>
+        <span>[WordPress]</span>
+      </p>
 
       <div className="hero-actions">
         <a className="button primary" href="#work" data-i18n="viewWork">Xem dự án &amp; Bằng chứng <span aria-hidden="true">↗</span></a>
