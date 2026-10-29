@@ -8,7 +8,22 @@ export function initIntroSplash(signal: AbortSignal) {
 
   if (!splash || !mark || !brand) return;
 
+  let scrollLocked = true;
+  const preventScroll = (e: Event) => {
+    if (scrollLocked) e.preventDefault();
+  };
+  const preventScrollKeys = (e: KeyboardEvent) => {
+    if (scrollLocked && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Space", "Home", "End"].includes(e.code)) {
+      e.preventDefault();
+    }
+  };
+
+  window.addEventListener("wheel", preventScroll, { passive: false, signal });
+  window.addEventListener("touchmove", preventScroll, { passive: false, signal });
+  window.addEventListener("keydown", preventScrollKeys, { signal });
+
   const cleanup = () => {
+    scrollLocked = false;
     document.documentElement.classList.remove("intro-playing");
     splash.style.display = "none";
     splash.style.pointerEvents = "none";

@@ -33,6 +33,7 @@
 .brand-signature{
   height:clamp(30px,4vh,38px);
   width:auto;
+  aspect-ratio:2172/724;
   display:block;
   transition:transform .2s ease;
 }
@@ -104,6 +105,7 @@ html[data-theme="light"] .intro-splash-mark{
 .intro-signature{
   width:100%;
   height:auto;
+  aspect-ratio:2172/724;
   display:block;
 }
 .intro-dark{
@@ -117,9 +119,6 @@ html[data-theme="light"] .intro-dark{
 }
 html[data-theme="light"] .intro-light{
   display:block;
-}
-html.intro-playing{
-  overflow:hidden;
 }
 html.intro-playing .brand{
   opacity:0;

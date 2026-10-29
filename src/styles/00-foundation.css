@@ -52,6 +52,8 @@
 html{
   scroll-behavior:smooth;
   scroll-padding-top:88px;
+  overflow-y:scroll;
+  scrollbar-gutter:stable;
 }
 body{
   margin:0;
