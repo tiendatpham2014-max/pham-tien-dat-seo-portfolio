@@ -179,7 +179,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch{}',
+              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");var t=localStorage.getItem("dat-seo-theme");if(t==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc";var ic=document.querySelector(\'link[rel="icon"][type="image/svg+xml"]\');if(ic)ic.href="/favicon-light.svg"}else if(t==="dark"){var ic=document.querySelector(\'link[rel="icon"][type="image/svg+xml"]\');if(ic)ic.href="/favicon-dark.svg"}}catch{}',
           }}
         />
         <script

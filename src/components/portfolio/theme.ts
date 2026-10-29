@@ -3,6 +3,13 @@ import { state } from "./state";
 
 const STORAGE_KEY = "dat-seo-theme";
 
+export function updateFaviconTheme(theme: "dark" | "light") {
+  const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"][type="image/svg+xml"]');
+  if (icon) {
+    icon.href = `/favicon-${theme}.svg`;
+  }
+}
+
 export function updateThemeControl() {
   const label = state.language === "vi"
     ? state.theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"
@@ -10,7 +17,8 @@ export function updateThemeControl() {
   const button = get<HTMLButtonElement>("#theme-toggle");
   button.setAttribute("aria-label", label);
   button.title = label;
-  get<HTMLMetaElement>('meta[name="theme-color"]').content = state.theme === "dark" ? "#101827" : "#f5f3ed";
+  get<HTMLMetaElement>('meta[name="theme-color"]').content = state.theme === "dark" ? "#101827" : "#f8fafc";
+  updateFaviconTheme(state.theme);
 }
 
 export function setTheme(theme: "dark" | "light") {
@@ -24,5 +32,18 @@ export function setTheme(theme: "dark" | "light") {
 export function initTheme(signal: AbortSignal) {
   state.theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
   get("#theme-toggle").addEventListener("click", () => setTheme(state.theme === "dark" ? "light" : "dark"), { signal });
+
+  // Listen to OS/browser dark/light theme switch if user hasn't explicitly set localStorage
+  if (window.matchMedia) {
+    const media = window.matchMedia("(prefers-color-scheme: light)");
+    media.addEventListener("change", (e) => {
+      try {
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          setTheme(e.matches ? "light" : "dark");
+        }
+      } catch {}
+    }, { signal });
+  }
+
   updateThemeControl();
 }
