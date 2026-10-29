@@ -4,10 +4,15 @@ import { state } from "./state";
 const STORAGE_KEY = "dat-seo-theme";
 
 export function updateFaviconTheme(theme: "dark" | "light") {
-  const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"][type="image/svg+xml"]');
-  if (icon) {
-    icon.href = `/favicon-${theme}.svg`;
-  }
+  const timestamp = Date.now();
+  const svgIcons = document.querySelectorAll<HTMLLinkElement>('link[rel*="icon"][type="image/svg+xml"]');
+  svgIcons.forEach((el) => {
+    el.href = `/favicon-${theme}.svg?t=${timestamp}`;
+  });
+  const pngIcons = document.querySelectorAll<HTMLLinkElement>('link[rel*="icon"][sizes="32x32"]');
+  pngIcons.forEach((el) => {
+    el.href = `/favicon-32x32-${theme}.png?t=${timestamp}`;
+  });
 }
 
 export function updateThemeControl() {

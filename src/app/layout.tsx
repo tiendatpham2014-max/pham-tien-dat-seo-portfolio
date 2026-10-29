@@ -64,12 +64,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180" },
@@ -156,10 +156,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="vi" className="no-js" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#101827" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
         <link rel="icon" href="/favicon-48x48.png" sizes="48x48" type="image/png" />
-        <link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/site.webmanifest" />
         <link
@@ -179,7 +179,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");var t=localStorage.getItem("dat-seo-theme");if(t==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc";var ic=document.querySelector(\'link[rel="icon"][type="image/svg+xml"]\');if(ic)ic.href="/favicon-light.svg"}else if(t==="dark"){var ic=document.querySelector(\'link[rel="icon"][type="image/svg+xml"]\');if(ic)ic.href="/favicon-dark.svg"}}catch{}',
+              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");var t=localStorage.getItem("dat-seo-theme");var isL=t==="light"||(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches);if(isL){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc";var s=document.querySelector(\'link[rel*="icon"][type="image/svg+xml"]\');if(s)s.href="/favicon-light.svg";var p=document.querySelector(\'link[rel*="icon"][sizes="32x32"]\');if(p)p.href="/favicon-32x32-light.png"}else{var s=document.querySelector(\'link[rel*="icon"][type="image/svg+xml"]\');if(s)s.href="/favicon-dark.svg";var p=document.querySelector(\'link[rel*="icon"][sizes="32x32"]\');if(p)p.href="/favicon-32x32-dark.png"}}catch(e){}',
           }}
         />
         <script

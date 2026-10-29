@@ -11,33 +11,47 @@ src = Image.open(source_path)
 bbox = src.getbbox()
 cropped = src.crop(bbox)
 w, h = cropped.size
+raw_a = cropped.split()[3]
 
-# High-res base canvas: 1024x1024 (transparent)
-CANVAS_SIZE = 1024
-target_w = 960  # fits safely inside circular crop radius
-target_h = int(target_w * (h / w))
-x_offset = (CANVAS_SIZE - target_w) // 2
-y_offset = (CANVAS_SIZE - target_h) // 2
+# 1. BOLD ALPHA: Dilation of alpha channel to ensure handwriting strokes remain solid at small favicon dimensions
+# In source (2119px), strokes are 18-24px. Dilating by 27px thickens lines to ~48px so that at 32-48px icon size, lines are ~1.5-2px solid.
+bold_a = raw_a.filter(ImageFilter.MaxFilter(27))
 
-resized = cropped.resize((target_w, target_h), Image.Resampling.LANCZOS)
-alpha = resized.split()[3]
+# 2. GENERATE COLORED SIGNATURE MASTERS (Transparent background, NO background block):
+# A. Pure Bright White (#FFFFFF) for Dark Themes (Dark browser tabs, Dark OS)
+white_sig = Image.new('RGBA', (w, h), (255, 255, 255, 255))
+white_sig.putalpha(bold_a)
 
-# Create dual-contrast transparent signature for search engines and standard PNGs:
-halo_mask = alpha.filter(ImageFilter.MaxFilter(17)).filter(ImageFilter.GaussianBlur(3))
-dark_halo = Image.new('RGBA', (CANVAS_SIZE, CANVAS_SIZE), (0, 0, 0, 0))
-dark_layer = Image.new('RGBA', (target_w, target_h), (12, 18, 30, 240))
-dark_layer.putalpha(halo_mask)
-dark_halo.paste(dark_layer, (x_offset, y_offset), dark_layer)
+# B. Pure Dark Navy (#101827) for Light Themes (Light browser tabs, Light OS)
+dark_sig = Image.new('RGBA', (w, h), (16, 24, 39, 255))
+dark_sig.putalpha(bold_a)
 
-ivory_fg = Image.new('RGBA', (CANVAS_SIZE, CANVAS_SIZE), (0, 0, 0, 0))
-ivory_layer = Image.new('RGBA', (target_w, target_h), (248, 250, 252, 255))
-ivory_layer.putalpha(alpha)
-ivory_fg.paste(ivory_layer, (x_offset, y_offset), ivory_layer)
+# C. Universal Dual-Contrast Signature (White core with crisp dark edge) for Google Search and fallback ICO
+outline_a = bold_a.filter(ImageFilter.MaxFilter(9))
+dark_edge = Image.new('RGBA', (w, h), (15, 23, 42, 235))
+dark_edge.putalpha(outline_a)
+universal_sig = Image.alpha_composite(dark_edge, white_sig)
 
-master_icon = Image.alpha_composite(dark_halo, ivory_fg)
+# 3. GENERATE BROWSER TAB PNGs (Theme-specific and universal)
+def make_icon(sig_image, canvas_size, padding_ratio=0.08):
+    target_w = int(canvas_size * (1 - padding_ratio * 2))
+    target_h = int(target_w * (h / w))
+    x_off = (canvas_size - target_w) // 2
+    y_off = (canvas_size - target_h) // 2
+    resized = sig_image.resize((target_w, target_h), Image.Resampling.LANCZOS)
+    canvas = Image.new('RGBA', (canvas_size, canvas_size), (0, 0, 0, 0))
+    canvas.paste(resized, (x_off, y_off), resized)
+    return canvas
 
-# Generate standard PNG icons (100% transparent background)
-sizes = {
+# Theme-specific 32x32 and 16x16 PNGs
+make_icon(white_sig, 32).save(os.path.join(public_dir, 'favicon-32x32-dark.png'), optimize=True)
+make_icon(dark_sig, 32).save(os.path.join(public_dir, 'favicon-32x32-light.png'), optimize=True)
+make_icon(white_sig, 16).save(os.path.join(public_dir, 'favicon-16x16-dark.png'), optimize=True)
+make_icon(dark_sig, 16).save(os.path.join(public_dir, 'favicon-16x16-light.png'), optimize=True)
+print('Saved theme-specific 32x32 and 16x16 PNGs (dark & light)')
+
+# Standard Google-compliant PNGs (Universal contrast)
+standard_sizes = {
     'favicon-16x16.png': 16,
     'favicon-32x32.png': 32,
     'favicon-48x48.png': 48,
@@ -47,89 +61,71 @@ sizes = {
     'apple-touch-icon.png': 180,
 }
 
-generated_images = {}
-for filename, sz in sizes.items():
-    out_img = master_icon.resize((sz, sz), Image.Resampling.LANCZOS)
-    out_path = os.path.join(public_dir, filename)
-    out_img.save(out_path, format='PNG', optimize=True)
-    generated_images[sz] = out_img
+for filename, sz in standard_sizes.items():
+    icon_img = make_icon(universal_sig, sz)
+    icon_img.save(os.path.join(public_dir, filename), optimize=True)
     print(f'Saved {filename} ({sz}x{sz})')
 
-# Multi-resolution favicon.ico containing 16x16, 32x32, and 48x48
-ico_path = os.path.join(public_dir, 'favicon.ico')
-master_icon.save(ico_path, format='ICO', sizes=[(16, 16), (32, 32), (48, 48)])
-print('Saved multi-resolution favicon.ico (16, 32, 48)')
+# Multi-resolution favicon.ico containing 16, 32, 48
+make_icon(universal_sig, 48).save(
+    os.path.join(public_dir, 'favicon.ico'),
+    format='ICO',
+    sizes=[(16, 16), (32, 32), (48, 48)]
+)
+print('Saved universal favicon.ico (16, 32, 48)')
 
-# Prepare clean resized signature for SVG embedded data
-svg_target_w = 460
-svg_target_h = int(svg_target_w * (h / w))
-svg_x = (512 - svg_target_w) // 2
-svg_y = (512 - svg_target_h) // 2
-svg_resized = cropped.resize((svg_target_w, svg_target_h), Image.Resampling.LANCZOS)
+# 4. GENERATE HIGH-RES BASE64 STRINGS FOR SVG EMBEDDING
+svg_w = 460
+svg_h = int(svg_w * (h / w))
+svg_x = (512 - svg_w) // 2
+svg_y = (512 - svg_h) // 2
 
-buf = io.BytesIO()
-svg_resized.save(buf, format='PNG')
-raw_b64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+def to_base64(img):
+    resized = img.resize((svg_w, svg_h), Image.Resampling.LANCZOS)
+    buf = io.BytesIO()
+    resized.save(buf, format='PNG')
+    return base64.b64encode(buf.getvalue()).decode('utf-8')
 
-# 1. Adaptive favicon.svg (changes automatically with browser/OS dark/light appearance)
+b64_white = to_base64(white_sig)
+b64_dark = to_base64(dark_sig)
+
+# A. Adaptive favicon.svg (Switches natively between white and dark navy via CSS display)
+# NO SVG filters used! This guarantees 100% rendering in Chrome/Safari/Firefox favicon contexts.
 adaptive_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <filter id="ink-dark" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0 0 0 0 0.95686  0 0 0 0 0.96078  0 0 0 0 0.94510  0 0 0 1 0"/>
-    </filter>
-    <filter id="ink-light" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0 0 0 0 0.06275  0 0 0 0 0.09412  0 0 0 0 0.15294  0 0 0 1 0"/>
-    </filter>
-    <image id="sig" href="data:image/png;base64,{raw_b64}" x="{svg_x}" y="{svg_y}" width="{svg_target_w}" height="{svg_target_h}"/>
-  </defs>
   <style>
-    .sig-mark {{
-      filter: url(#ink-dark);
-    }}
+    .sig-light {{ display: none; }}
+    .sig-dark {{ display: inline; }}
     @media (prefers-color-scheme: light) {{
-      .sig-mark {{
-        filter: url(#ink-light);
-      }}
+      .sig-light {{ display: inline; }}
+      .sig-dark {{ display: none; }}
     }}
     @media (prefers-color-scheme: dark) {{
-      .sig-mark {{
-        filter: url(#ink-dark);
-      }}
+      .sig-light {{ display: none; }}
+      .sig-dark {{ display: inline; }}
     }}
   </style>
-  <use class="sig-mark" href="#sig"/>
+  <image class="sig-dark" href="data:image/png;base64,{b64_white}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
+  <image class="sig-light" href="data:image/png;base64,{b64_dark}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
 </svg>'''
 
 with open(os.path.join(public_dir, 'favicon.svg'), 'w', encoding='utf-8') as f:
     f.write(adaptive_svg)
-print('Saved adaptive favicon.svg (auto-switches via prefers-color-scheme)')
+print('Saved adaptive favicon.svg (pure white for dark theme, pure dark navy for light theme)')
 
-# 2. Dedicated light-theme favicon.svg (dark navy ink #101827)
-light_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <filter id="ink-light" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0 0 0 0 0.06275  0 0 0 0 0.09412  0 0 0 0 0.15294  0 0 0 1 0"/>
-    </filter>
-    <image id="sig" href="data:image/png;base64,{raw_b64}" x="{svg_x}" y="{svg_y}" width="{svg_target_w}" height="{svg_target_h}"/>
-  </defs>
-  <use href="#sig" filter="url(#ink-light)"/>
-</svg>'''
-
-with open(os.path.join(public_dir, 'favicon-light.svg'), 'w', encoding='utf-8') as f:
-    f.write(light_svg)
-print('Saved favicon-light.svg (dark ink for light theme)')
-
-# 3. Dedicated dark-theme favicon.svg (ivory white ink #F4F5F1)
+# B. Dedicated favicon-dark.svg (Always pure white signature)
 dark_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <filter id="ink-dark" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0 0 0 0 0.95686  0 0 0 0 0.96078  0 0 0 0 0.94510  0 0 0 1 0"/>
-    </filter>
-    <image id="sig" href="data:image/png;base64,{raw_b64}" x="{svg_x}" y="{svg_y}" width="{svg_target_w}" height="{svg_target_h}"/>
-  </defs>
-  <use href="#sig" filter="url(#ink-dark)"/>
+  <image href="data:image/png;base64,{b64_white}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
 </svg>'''
 
 with open(os.path.join(public_dir, 'favicon-dark.svg'), 'w', encoding='utf-8') as f:
     f.write(dark_svg)
-print('Saved favicon-dark.svg (ivory ink for dark theme)')
+print('Saved favicon-dark.svg (100% pure white signature)')
+
+# C. Dedicated favicon-light.svg (Always pure dark navy signature)
+light_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <image href="data:image/png;base64,{b64_dark}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
+</svg>'''
+
+with open(os.path.join(public_dir, 'favicon-light.svg'), 'w', encoding='utf-8') as f:
+    f.write(light_svg)
+print('Saved favicon-light.svg (100% pure dark navy signature)')
