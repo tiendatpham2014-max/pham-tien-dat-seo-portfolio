@@ -1,7 +1,6 @@
 import { get, all, text } from "./dom";
 import { resetState, reducedMotion, state } from "./state";
 import { initTheme } from "./theme";
-import { initSignalLab } from "./signal-lab";
 import { initMetrics } from "./metrics";
 import { initMobileMenu } from "./mobile-menu";
 import { initSkills, scheduleSkillTimer } from "./skills";
@@ -23,7 +22,6 @@ export function initPortfolio() {
   initIntroSplash(signal);
   initMobileMenu(signal);
   initHeroWaves(signal);
-  initSignalLab(signal);
   initMetrics(signal);
   initComparison(signal);
   initSkills(signal);
@@ -77,7 +75,7 @@ export function initPortfolio() {
           }
         });
       }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".process-item,.section-head,.approach-grid,.insight-card,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
+      all(".process-item,.section-head,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
         .forEach((element) => revealObserver.observe(element));
       observers.push(revealObserver);
     }
