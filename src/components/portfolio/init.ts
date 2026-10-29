@@ -11,14 +11,20 @@ import { initLanguage } from "./language";
 import { positionIndicator } from "./navigation";
 import { initHeroWaves } from "./hero-waves";
 import { initIntroSplash } from "./intro-splash";
+import { initSmoothScroll } from "./smooth-scroll";
 
 export function initPortfolio() {
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
   resetState();
   const controller = new AbortController();
   const { signal } = controller;
   const observers: IntersectionObserver[] = [];
 
   initTheme(signal);
+  initSmoothScroll(signal);
   initIntroSplash(signal);
   initMobileMenu(signal);
   initHeroWaves(signal);
@@ -75,7 +81,7 @@ export function initPortfolio() {
           }
         });
       }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".process-item,.section-head,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
+      all(".section-head,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
         .forEach((element) => revealObserver.observe(element));
       observers.push(revealObserver);
     }

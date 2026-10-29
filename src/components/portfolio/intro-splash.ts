@@ -1,4 +1,5 @@
 import { reducedMotion } from "./state";
+import { getLenis } from "./smooth-scroll";
 
 export function initIntroSplash(signal: AbortSignal) {
   const splash = document.getElementById("intro-splash");
@@ -21,9 +22,11 @@ export function initIntroSplash(signal: AbortSignal) {
   window.addEventListener("wheel", preventScroll, { passive: false, signal });
   window.addEventListener("touchmove", preventScroll, { passive: false, signal });
   window.addEventListener("keydown", preventScrollKeys, { signal });
+  window.scrollTo(0, 0);
 
   const cleanup = () => {
     scrollLocked = false;
+    getLenis()?.start();
     document.documentElement.classList.remove("intro-playing");
     splash.style.display = "none";
     splash.style.pointerEvents = "none";
@@ -36,6 +39,9 @@ export function initIntroSplash(signal: AbortSignal) {
     cleanup();
     return;
   }
+
+  getLenis()?.stop();
+  getLenis()?.scrollTo(0, { immediate: true });
 
   // Force restart the SVG signature animation on every page load and refresh (F5)
   // This bypasses browser image caching that freezes SVG CSS @keyframes on subsequent views

@@ -20,11 +20,10 @@ export function Navigation() {
         />
       </a>
       <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính" data-i18n-aria="navigation">
+        <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
         <a href="#work" data-i18n="navWork">Dự án</a>
-        <a href="#process" data-i18n="navProcess">Quy trình</a>
         <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
         <a href="#writing" data-i18n="navWriting">Bài viết</a>
-        <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
         <a href="#contact" data-i18n="navContact">Liên hệ</a>
         <span className="nav-indicator" aria-hidden="true" />
       </nav>
@@ -40,11 +39,10 @@ export function Navigation() {
   </header>
   <div className="menu-backdrop" id="menu-backdrop" hidden />
   <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" data-i18n-aria="mobileNavigation" inert>
+    <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
     <a href="#work" data-i18n="navWork">Dự án</a>
-    <a href="#process" data-i18n="navProcess">Quy trình</a>
     <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
     <a href="#writing" data-i18n="navWriting">Bài viết</a>
-    <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
     <a href="#contact" data-i18n="navContact">Liên hệ</a>
   </nav>
     </>

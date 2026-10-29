@@ -53,7 +53,7 @@ export function Hero() {
 
     <div className="hero-bottom">
       <span data-i18n="heroBottom">Hồ sơ năng lực, bằng chứng GSC và kinh nghiệm thực tế.</span>
-      <a href="#work" data-i18n="scrollHint">Cuộn để khám phá ↓</a>
+      <a href="#journey" data-i18n="scrollHint">Cuộn để khám phá ↓</a>
     </div>
   </div>
 </section>

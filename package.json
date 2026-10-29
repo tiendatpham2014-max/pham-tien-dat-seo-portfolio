@@ -10,6 +10,7 @@
     "commit:after-live": "node scripts/commit-after-live.mjs"
   },
   "dependencies": {
+    "lenis": "^1.3.27",
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1"
@@ -21,4 +22,3 @@
     "typescript": "5.9.3"
   }
 }
-
