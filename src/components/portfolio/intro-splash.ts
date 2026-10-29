@@ -37,6 +37,16 @@ export function initIntroSplash(signal: AbortSignal) {
     return;
   }
 
+  // Force restart the SVG signature animation on every page load and refresh (F5)
+  // This bypasses browser image caching that freezes SVG CSS @keyframes on subsequent views
+  const images = splash.querySelectorAll<HTMLImageElement>(".intro-signature");
+  const cacheBuster = Date.now();
+  images.forEach((img) => {
+    const rawSrc = img.getAttribute("src") || img.src;
+    const clean = rawSrc.split("?")[0];
+    img.src = `${clean}?v=${cacheBuster}`;
+  });
+
   // Engage active intro state
   splash.setAttribute("data-active", "true");
   document.documentElement.classList.add("intro-playing");
@@ -73,14 +83,20 @@ export function initIntroSplash(signal: AbortSignal) {
       const markRect = mark.getBoundingClientRect();
       const targetRect = targetImg.getBoundingClientRect();
 
-      if (!markRect.width || !targetRect.width) {
-        cleanup();
-        return;
-      }
+      // Robust fallback coordinates for iOS Safari / initial layout before dimensions settle
+      const targetWidth = targetRect.width > 0 ? targetRect.width : (window.innerWidth < 768 ? 96 : 114);
+      const targetHeight = targetRect.height > 0 ? targetRect.height : 38;
+      const targetLeft = targetRect.width > 0 ? targetRect.left : 20;
+      const targetTop = targetRect.height > 0 ? targetRect.top : 20;
 
-      const deltaX = (targetRect.left + targetRect.width / 2) - (markRect.left + markRect.width / 2);
-      const deltaY = (targetRect.top + targetRect.height / 2) - (markRect.top + markRect.height / 2);
-      const scale = targetRect.width / markRect.width;
+      const markWidth = markRect.width > 0 ? markRect.width : (window.innerWidth < 768 ? 260 : 340);
+      const markHeight = markRect.height > 0 ? markRect.height : markWidth * (724 / 2172);
+      const markLeft = markRect.width > 0 ? markRect.left : (window.innerWidth - markWidth) / 2;
+      const markTop = markRect.height > 0 ? markRect.top : (window.innerHeight - markHeight) / 2;
+
+      const deltaX = (targetLeft + targetWidth / 2) - (markLeft + markWidth / 2);
+      const deltaY = (targetTop + targetHeight / 2) - (markTop + markHeight / 2);
+      const scale = targetWidth / markWidth;
 
       try {
         // Animate signature flight from center to top-left brand position

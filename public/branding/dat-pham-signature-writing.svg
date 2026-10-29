@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2172 724" role="img" aria-label="Chữ ký Đạt P được viết theo từng nét">
   <defs>
     <filter id="ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0.95686  0 0 0 0 0.96078  0 0 0 0 0.94510  0 0 0 1 0"/></filter>
-    <mask id="written" maskUnits="userSpaceOnUse" x="0" y="0" width="2172" height="724" style="mask-type:alpha"><path class="stroke stroke-0" d="M 338 279 C 300 248 299 210 332 177 C 414 112 568 92 681 98 C 819 103 891 158 882 232 C 868 332 761 410 616 485 C 467 557 296 602 185 600" fill="none" stroke="#fff" stroke-width="62" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1587 1587" stroke-dashoffset="1587" style="animation:write 0.464s 0.054s linear forwards"/>
+    <mask id="written" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="2172" height="724"><path class="stroke stroke-0" d="M 338 279 C 300 248 299 210 332 177 C 414 112 568 92 681 98 C 819 103 891 158 882 232 C 868 332 761 410 616 485 C 467 557 296 602 185 600" fill="none" stroke="#fff" stroke-width="62" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1587 1587" stroke-dashoffset="1587" style="animation:write 0.464s 0.054s linear forwards"/>
 <path class="stroke stroke-1" d="M 487 250 C 469 317 431 427 398 503" fill="none" stroke="#fff" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="271 271" stroke-dashoffset="271" style="animation:write 0.125s 0.525s linear forwards"/>
 <path class="stroke stroke-2" d="M 274 398 C 348 341 462 327 561 340 C 642 350 694 359 746 359" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="489 489" stroke-dashoffset="489" style="animation:write 0.143s 0.657s linear forwards"/>
 <path class="stroke stroke-3" d="M 859 407 C 837 383 803 394 784 417 C 765 439 779 470 803 469 C 832 468 847 435 856 409 C 841 435 841 458 874 461" fill="none" stroke="#fff" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="315 315" stroke-dashoffset="315" style="animation:write 0.168s 0.807s linear forwards"/>
@@ -16,6 +16,7 @@
     @keyframes write { to { stroke-dashoffset:0 } }
     @keyframes revealFinal { to { opacity:1 } }
     @keyframes hideTrace { to { opacity:0 } }
+    .stroke { will-change:stroke-dashoffset;-webkit-transform:translateZ(0) }
     .final { opacity:0; animation:revealFinal 0.114s 2.061s linear forwards }
     .trace { animation:hideTrace 0.114s 2.061s linear forwards }
     @media (prefers-reduced-motion:reduce) {

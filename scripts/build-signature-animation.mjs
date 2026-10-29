@@ -82,13 +82,14 @@ function buildSvg(ink, frameTime) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2172 724" role="img" aria-label="Chữ ký Đạt P được viết theo từng nét">
   <defs>
     <filter id="ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="${colorMatrix(ink)}"/></filter>
-    <mask id="written" maskUnits="userSpaceOnUse" x="0" y="0" width="2172" height="724" style="mask-type:alpha">${maskPaths}</mask>
+    <mask id="written" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="2172" height="724">${maskPaths}</mask>
     <image id="signature-source" href="${source}" width="2172" height="724"/>
   </defs>
   ${animated ? `<style>
     @keyframes write { to { stroke-dashoffset:0 } }
     @keyframes revealFinal { to { opacity:1 } }
     @keyframes hideTrace { to { opacity:0 } }
+    .stroke { will-change:stroke-dashoffset;-webkit-transform:translateZ(0) }
     .final { opacity:0; animation:revealFinal ${finish}s ${total}s linear forwards }
     .trace { animation:hideTrace ${finish}s ${total}s linear forwards }
     @media (prefers-reduced-motion:reduce) {

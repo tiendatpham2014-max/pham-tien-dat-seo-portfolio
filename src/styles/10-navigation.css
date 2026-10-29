@@ -59,6 +59,10 @@ html[data-theme="light"] .brand-light{
 /* Intro splash screen with signature animation flying into header brand */
 .intro-splash{
   position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
   inset:0;
   width:100vw;
   height:100vh;
@@ -73,6 +77,10 @@ html[data-theme="light"] .brand-light{
 }
 .intro-splash-backdrop{
   position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
   inset:0;
   z-index:1;
   background:rgba(8,12,24,.93);
@@ -112,6 +120,8 @@ html[data-theme="light"] .intro-splash-mark{
   height:auto;
   aspect-ratio:2172/724;
   display:block;
+  -webkit-backface-visibility:hidden;
+  transform:translateZ(0);
 }
 .intro-dark{
   display:block;
