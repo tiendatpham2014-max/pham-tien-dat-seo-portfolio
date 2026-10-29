@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dat P — thử chuyển động chữ ký</title>
+  <link rel="stylesheet" href="./signature-animation-demo.css">
+</head>
+<body>
+  <main>
+    <header class="intro">
+      <p class="eyebrow">SIGNATURE MOTION STUDY</p>
+      <h1>Một nét ký.<br>Một dấu ấn.</h1>
+      <p>Chuyển động lần theo nét bút. Hình cuối dùng đúng chữ ký đã lưu trong source.</p>
+      <button id="replay" type="button">Ký lại <span aria-hidden="true">↻</span></button>
+    </header>
+    <section class="stage stage-dark" aria-label="Chữ ký trên nền tối">
+      <span class="stage-label">Dark theme</span>
+      <img class="signature" src="./dat-pham-signature-writing.svg" alt="Chữ ký Dat P hiện lên theo từng nét bút" width="1086" height="362">
+    </section>
+    <section class="stage stage-light" aria-label="Chữ ký trên nền sáng">
+      <span class="stage-label">Light theme</span>
+      <img class="signature" src="./dat-pham-signature-writing-light.svg" alt="Chữ ký Dat P hiện lên theo từng nét bút" width="1086" height="362">
+    </section>
+  </main>
+  <script src="./signature-animation-demo.js" defer></script>
+</body>
+</html>
