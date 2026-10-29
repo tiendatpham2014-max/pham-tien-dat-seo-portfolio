@@ -67,7 +67,8 @@
     min-height:125px
   }
   .contact-methods{
-    grid-template-columns:1fr
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    max-width:760px
   }
   .contact-methods a{
     min-height:110px
