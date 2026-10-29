@@ -13,45 +13,44 @@ cropped = src.crop(bbox)
 w, h = cropped.size
 raw_a = cropped.split()[3]
 
-# 1. BOLD ALPHA: Dilation of alpha channel to ensure handwriting strokes remain solid at small favicon dimensions
-# In source (2119px), strokes are 18-24px. Dilating by 27px thickens lines to ~48px so that at 32-48px icon size, lines are ~1.5-2px solid.
+# 1. Bold alpha at source resolution (dilation by 27px)
 bold_a = raw_a.filter(ImageFilter.MaxFilter(27))
+white_sig_src = Image.new('RGBA', (w, h), (255, 255, 255, 255))
+white_sig_src.putalpha(bold_a)
 
-# 2. GENERATE COLORED SIGNATURE MASTERS (Transparent background, NO background block):
-# A. Pure Bright White (#FFFFFF) for Dark Themes (Dark browser tabs, Dark OS)
-white_sig = Image.new('RGBA', (w, h), (255, 255, 255, 255))
-white_sig.putalpha(bold_a)
-
-# B. Pure Dark Navy (#101827) for Light Themes (Light browser tabs, Light OS)
-dark_sig = Image.new('RGBA', (w, h), (16, 24, 39, 255))
-dark_sig.putalpha(bold_a)
-
-# C. Universal Dual-Contrast Signature (White core with crisp dark edge) for Google Search and fallback ICO
-outline_a = bold_a.filter(ImageFilter.MaxFilter(9))
-dark_edge = Image.new('RGBA', (w, h), (15, 23, 42, 235))
-dark_edge.putalpha(outline_a)
-universal_sig = Image.alpha_composite(dark_edge, white_sig)
-
-# 3. GENERATE BROWSER TAB PNGs (Theme-specific and universal)
-def make_icon(sig_image, canvas_size, padding_ratio=0.08):
-    target_w = int(canvas_size * (1 - padding_ratio * 2))
+# 2. FUNCTION TO BUILD DUAL-CONTRAST ICON AT EXACT CANVAS SIZE
+# This ensures that the dark border contour is exactly 1-1.5px thick at the actual icon resolution,
+# preventing it from disappearing during downsampling.
+def make_dual_contrast_icon(canvas_size, padding_ratio=0.06):
+    pad = max(1, int(canvas_size * padding_ratio))
+    target_w = canvas_size - pad * 2
     target_h = int(target_w * (h / w))
-    x_off = (canvas_size - target_w) // 2
     y_off = (canvas_size - target_h) // 2
-    resized = sig_image.resize((target_w, target_h), Image.Resampling.LANCZOS)
-    canvas = Image.new('RGBA', (canvas_size, canvas_size), (0, 0, 0, 0))
-    canvas.paste(resized, (x_off, y_off), resized)
-    return canvas
+    x_off = pad
 
-# Theme-specific 32x32 and 16x16 PNGs
-make_icon(white_sig, 32).save(os.path.join(public_dir, 'favicon-32x32-dark.png'), optimize=True)
-make_icon(dark_sig, 32).save(os.path.join(public_dir, 'favicon-32x32-light.png'), optimize=True)
-make_icon(white_sig, 16).save(os.path.join(public_dir, 'favicon-16x16-dark.png'), optimize=True)
-make_icon(dark_sig, 16).save(os.path.join(public_dir, 'favicon-16x16-light.png'), optimize=True)
-print('Saved theme-specific 32x32 and 16x16 PNGs (dark & light)')
+    # Downscale white signature to target size
+    resized_white = white_sig_src.resize((target_w, target_h), Image.Resampling.LANCZOS)
 
-# Standard Google-compliant PNGs (Universal contrast)
-standard_sizes = {
+    alpha_at_sz = Image.new('L', (canvas_size, canvas_size), 0)
+    alpha_at_sz.paste(resized_white.split()[3], (x_off, y_off))
+
+    # 1px border at 16-32px, 2px border at 48-96px, 3px border at larger sizes
+    border_filter_size = 3 if canvas_size <= 48 else 5
+    border_alpha = alpha_at_sz.filter(ImageFilter.MaxFilter(border_filter_size))
+
+    # Dark border layer (#080C18)
+    dark_border = Image.new('RGBA', (canvas_size, canvas_size), (8, 12, 24, 255))
+    dark_border.putalpha(border_alpha)
+
+    # White core layer (#FFFFFF)
+    white_core = Image.new('RGBA', (canvas_size, canvas_size), (255, 255, 255, 255))
+    white_core.putalpha(alpha_at_sz)
+
+    # Final composite: Radiant white signature with crisp dark edge
+    return Image.alpha_composite(dark_border, white_core)
+
+# Generate standard sizes
+sizes = {
     'favicon-16x16.png': 16,
     'favicon-32x32.png': 32,
     'favicon-48x48.png': 48,
@@ -61,71 +60,32 @@ standard_sizes = {
     'apple-touch-icon.png': 180,
 }
 
-for filename, sz in standard_sizes.items():
-    icon_img = make_icon(universal_sig, sz)
+generated_images = {}
+for filename, sz in sizes.items():
+    icon_img = make_dual_contrast_icon(sz)
     icon_img.save(os.path.join(public_dir, filename), optimize=True)
+    generated_images[sz] = icon_img
     print(f'Saved {filename} ({sz}x{sz})')
 
 # Multi-resolution favicon.ico containing 16, 32, 48
-make_icon(universal_sig, 48).save(
+make_dual_contrast_icon(48).save(
     os.path.join(public_dir, 'favicon.ico'),
     format='ICO',
     sizes=[(16, 16), (32, 32), (48, 48)]
 )
 print('Saved universal favicon.ico (16, 32, 48)')
 
-# 4. GENERATE HIGH-RES BASE64 STRINGS FOR SVG EMBEDDING
-svg_w = 460
-svg_h = int(svg_w * (h / w))
-svg_x = (512 - svg_w) // 2
-svg_y = (512 - svg_h) // 2
+# Generate high-res base64 for SVG
+svg_icon = make_dual_contrast_icon(512, padding_ratio=0.06)
+buf = io.BytesIO()
+svg_icon.save(buf, format='PNG')
+svg_b64 = base64.b64encode(buf.getvalue()).decode('utf-8')
 
-def to_base64(img):
-    resized = img.resize((svg_w, svg_h), Image.Resampling.LANCZOS)
-    buf = io.BytesIO()
-    resized.save(buf, format='PNG')
-    return base64.b64encode(buf.getvalue()).decode('utf-8')
-
-b64_white = to_base64(white_sig)
-b64_dark = to_base64(dark_sig)
-
-# A. Adaptive favicon.svg (Switches natively between white and dark navy via CSS display)
-# NO SVG filters used! This guarantees 100% rendering in Chrome/Safari/Firefox favicon contexts.
-adaptive_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <style>
-    .sig-light {{ display: none; }}
-    .sig-dark {{ display: inline; }}
-    @media (prefers-color-scheme: light) {{
-      .sig-light {{ display: inline; }}
-      .sig-dark {{ display: none; }}
-    }}
-    @media (prefers-color-scheme: dark) {{
-      .sig-light {{ display: none; }}
-      .sig-dark {{ display: inline; }}
-    }}
-  </style>
-  <image class="sig-dark" href="data:image/png;base64,{b64_white}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
-  <image class="sig-light" href="data:image/png;base64,{b64_dark}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
+svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <image href="data:image/png;base64,{svg_b64}" width="512" height="512"/>
 </svg>'''
 
-with open(os.path.join(public_dir, 'favicon.svg'), 'w', encoding='utf-8') as f:
-    f.write(adaptive_svg)
-print('Saved adaptive favicon.svg (pure white for dark theme, pure dark navy for light theme)')
-
-# B. Dedicated favicon-dark.svg (Always pure white signature)
-dark_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <image href="data:image/png;base64,{b64_white}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
-</svg>'''
-
-with open(os.path.join(public_dir, 'favicon-dark.svg'), 'w', encoding='utf-8') as f:
-    f.write(dark_svg)
-print('Saved favicon-dark.svg (100% pure white signature)')
-
-# C. Dedicated favicon-light.svg (Always pure dark navy signature)
-light_svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <image href="data:image/png;base64,{b64_dark}" x="{svg_x}" y="{svg_y}" width="{svg_w}" height="{svg_h}"/>
-</svg>'''
-
-with open(os.path.join(public_dir, 'favicon-light.svg'), 'w', encoding='utf-8') as f:
-    f.write(light_svg)
-print('Saved favicon-light.svg (100% pure dark navy signature)')
+for svg_name in ['favicon.svg', 'favicon-dark.svg', 'favicon-light.svg']:
+    with open(os.path.join(public_dir, svg_name), 'w', encoding='utf-8') as f:
+        f.write(svg_content)
+    print(f'Saved {svg_name}')

@@ -179,7 +179,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");var t=localStorage.getItem("dat-seo-theme");var isL=t==="light"||(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches);if(isL){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc";var s=document.querySelector(\'link[rel*="icon"][type="image/svg+xml"]\');if(s)s.href="/favicon-light.svg";var p=document.querySelector(\'link[rel*="icon"][sizes="32x32"]\');if(p)p.href="/favicon-32x32-light.png"}else{var s=document.querySelector(\'link[rel*="icon"][type="image/svg+xml"]\');if(s)s.href="/favicon-dark.svg";var p=document.querySelector(\'link[rel*="icon"][sizes="32x32"]\');if(p)p.href="/favicon-32x32-dark.png"}}catch(e){}',
+              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch(e){}',
           }}
         />
         <script

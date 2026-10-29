@@ -3,18 +3,6 @@ import { state } from "./state";
 
 const STORAGE_KEY = "dat-seo-theme";
 
-export function updateFaviconTheme(theme: "dark" | "light") {
-  const timestamp = Date.now();
-  const svgIcons = document.querySelectorAll<HTMLLinkElement>('link[rel*="icon"][type="image/svg+xml"]');
-  svgIcons.forEach((el) => {
-    el.href = `/favicon-${theme}.svg?t=${timestamp}`;
-  });
-  const pngIcons = document.querySelectorAll<HTMLLinkElement>('link[rel*="icon"][sizes="32x32"]');
-  pngIcons.forEach((el) => {
-    el.href = `/favicon-32x32-${theme}.png?t=${timestamp}`;
-  });
-}
-
 export function updateThemeControl() {
   const label = state.language === "vi"
     ? state.theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"
@@ -23,7 +11,6 @@ export function updateThemeControl() {
   button.setAttribute("aria-label", label);
   button.title = label;
   get<HTMLMetaElement>('meta[name="theme-color"]').content = state.theme === "dark" ? "#101827" : "#f8fafc";
-  updateFaviconTheme(state.theme);
 }
 
 export function setTheme(theme: "dark" | "light") {
