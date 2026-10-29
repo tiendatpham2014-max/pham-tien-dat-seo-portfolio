@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
   description:
-    "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
+    "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
   keywords: [
     "Phạm Tiến Đạt",
     "Dat Pham",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
     description:
-      "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
+      "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
     type: "profile",
     locale: "vi_VN",
     alternateLocale: ["en_US"],
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
     description:
-      "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
+      "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
     images: ["/og-image.png"],
   },
   icons: {
@@ -132,7 +132,7 @@ const jsonLd = {
       "url": "https://datpham.io.vn/",
       "name": "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
       "description":
-        "Portfolio của Phạm Tiến Đạt, SEO Executive tại Primas Group. Tối ưu hóa Search Intent, Technical SEO, Core Web Vitals và AI cho thị trường quốc tế.",
+        "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
       "mainEntity": {
         "@id": "https://datpham.io.vn/#person",
       },
@@ -172,7 +172,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch{}',
+              'try{document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch{}',
           }}
         />
         <script

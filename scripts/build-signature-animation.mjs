@@ -9,8 +9,8 @@ const source = `data:image/png;base64,${png.toString('base64')}`;
 
 // Hand-traced pen routes. They only reveal pixels from the original PNG; the
 // displayed signature itself is never replaced by these approximate paths.
-// Speed factor: accelerates tempo to ~1.4s to match lirunghi.io.vn brisk writing pace.
-const SPEED_FACTOR = 4.0;
+// Speed factor: accelerates tempo to ~2.06s for an organic, elegant writing speed that is clearly visible across all platforms.
+const SPEED_FACTOR = 2.8;
 
 export const rawStrokes = [
   { name: 'D loop', d: 'M 338 279 C 300 248 299 210 332 177 C 414 112 568 92 681 98 C 819 103 891 158 882 232 C 868 332 761 410 616 485 C 467 557 296 602 185 600', width: 62, start: 0.15, duration: 1.30 },

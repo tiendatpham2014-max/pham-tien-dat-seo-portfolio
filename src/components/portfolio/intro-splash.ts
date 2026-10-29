@@ -46,9 +46,9 @@ export function initIntroSplash(signal: AbortSignal) {
   // Safety fallback in case tab is in background or animation stalls
   const failsafeTimer = window.setTimeout(() => {
     if (!signal.aborted) cleanup();
-  }, 2600);
+  }, 3800);
 
-  // Flight sequence starts at ~1.42s when signature drawing strokes complete
+  // Flight sequence starts at ~2.06s when signature drawing strokes complete
   const flourishTimer = window.setTimeout(() => {
     if (signal.aborted) return;
 
@@ -82,60 +82,64 @@ export function initIntroSplash(signal: AbortSignal) {
       const deltaY = (targetRect.top + targetRect.height / 2) - (markRect.top + markRect.height / 2);
       const scale = targetRect.width / markRect.width;
 
-      // Animate signature flight from center to top-left brand position
-      const flightAnim = mark.animate(
-        [
-          { transform: "scale(1.035) translate(0, 0)" },
-          { transform: `translate(${deltaX}px, ${deltaY}px) scale(${scale})` },
-        ],
-        {
-          duration: 380,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-          fill: "forwards",
-        }
-      );
-
-      // Smoothly dissolve the frosted glass backdrop to unveil the sharp hero section
-      if (backdrop) {
-        backdrop.animate(
+      try {
+        // Animate signature flight from center to top-left brand position
+        const flightAnim = mark.animate(
           [
-            { opacity: 1 },
-            { opacity: 0 },
+            { transform: "scale(1.035) translate(0, 0)" },
+            { transform: `translate(${deltaX}px, ${deltaY}px) scale(${scale})` },
           ],
           {
-            duration: 380,
-            delay: 40,
+            duration: 420,
             easing: "cubic-bezier(0.16, 1, 0.3, 1)",
             fill: "forwards",
           }
         );
-      }
 
-      flightAnim.onfinish = () => {
-        if (signal.aborted) return;
+        // Smoothly dissolve the frosted glass backdrop to unveil the sharp hero section
+        if (backdrop) {
+          backdrop.animate(
+            [
+              { opacity: 1 },
+              { opacity: 0 },
+            ],
+            {
+              duration: 400,
+              delay: 40,
+              easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+              fill: "forwards",
+            }
+          );
+        }
 
-        // Reveal the real header brand logo
-        brand.style.opacity = "1";
-        brand.style.pointerEvents = "auto";
+        flightAnim.onfinish = () => {
+          if (signal.aborted) return;
 
-        // Cross-fade the mark as real header logo takes over
-        mark.animate(
-          [
-            { opacity: 1 },
-            { opacity: 0 },
-          ],
-          { duration: 90, fill: "forwards" }
-        ).onfinish = () => {
-          window.clearTimeout(failsafeTimer);
-          cleanup();
+          // Reveal the real header brand logo
+          brand.style.opacity = "1";
+          brand.style.pointerEvents = "auto";
+
+          // Cross-fade the mark as real header logo takes over
+          mark.animate(
+            [
+              { opacity: 1 },
+              { opacity: 0 },
+            ],
+            { duration: 90, fill: "forwards" }
+          ).onfinish = () => {
+            window.clearTimeout(failsafeTimer);
+            cleanup();
+          };
         };
-      };
+      } catch {
+        cleanup();
+      }
     }, 80);
 
     signal.addEventListener("abort", () => {
       window.clearTimeout(flightTimer);
     });
-  }, 1420);
+  }, 2060);
 
   signal.addEventListener("abort", () => {
     window.clearTimeout(failsafeTimer);
