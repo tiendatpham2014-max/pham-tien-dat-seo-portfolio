@@ -19,9 +19,6 @@ export function initSmoothScroll(signal: AbortSignal) {
 
   lenisInstance = lenis;
 
-  // Ensure scroll is at the very top on reload/refresh
-  lenis.scrollTo(0, { immediate: true });
-
   let rafId: number;
   function raf(time: number) {
     lenis.raf(time);
@@ -46,7 +43,7 @@ export function initSmoothScroll(signal: AbortSignal) {
     const target = document.querySelector(href);
     if (target) {
       e.preventDefault();
-      lenis.scrollTo(target as HTMLElement, { offset: -78, duration: 1.2 });
+      lenis.scrollTo(target as HTMLElement, { duration: 1.2 });
       history.pushState(null, "", href);
     }
   };

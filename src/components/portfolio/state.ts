@@ -17,7 +17,7 @@ export const state = {
   activeSection: "",
 };
 
-export const sections = ["work", "process", "skills", "writing", "journey", "contact"] as const;
+export const sections = ["about", "journey", "work", "proof", "skills", "writing", "contact"] as const;
 
 export function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;

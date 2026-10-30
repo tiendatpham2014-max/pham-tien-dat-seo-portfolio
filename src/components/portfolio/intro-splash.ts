@@ -9,6 +9,10 @@ export function initIntroSplash(signal: AbortSignal) {
 
   if (!splash || !mark || !brand) return;
 
+  // React may replay effects in development. Restore the splash before each setup.
+  splash.style.removeProperty("display");
+  splash.style.removeProperty("pointer-events");
+
   let scrollLocked = true;
   const preventScroll = (e: Event) => {
     if (scrollLocked) e.preventDefault();
@@ -22,8 +26,6 @@ export function initIntroSplash(signal: AbortSignal) {
   window.addEventListener("wheel", preventScroll, { passive: false, signal });
   window.addEventListener("touchmove", preventScroll, { passive: false, signal });
   window.addEventListener("keydown", preventScrollKeys, { signal });
-  window.scrollTo(0, 0);
-
   const cleanup = () => {
     scrollLocked = false;
     getLenis()?.start();
@@ -35,11 +37,12 @@ export function initIntroSplash(signal: AbortSignal) {
     window.dispatchEvent(new CustomEvent("portfolio:intro-complete"));
   };
 
-  if (reducedMotion() || typeof mark.animate !== "function") {
+  if (reducedMotion() || (location.hash && location.hash !== "#top") || typeof mark.animate !== "function") {
     cleanup();
     return;
   }
 
+  window.scrollTo(0, 0);
   getLenis()?.stop();
   getLenis()?.scrollTo(0, { immediate: true });
 

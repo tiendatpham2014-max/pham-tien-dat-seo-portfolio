@@ -13,6 +13,9 @@ export function positionIndicator() {
 }
 
 function setActiveSection(id: string) {
+  if (id === "proof") id = "work";
+  const header = document.querySelector<HTMLElement>("#site-header");
+  if (header) header.dataset.surface = id === "contact" ? "contact" : window.scrollY < window.innerHeight * 0.55 ? "hero" : "content";
   if (state.activeSection === id) return;
   state.activeSection = id;
   all<HTMLAnchorElement>("#desktop-nav a").forEach((link) => {

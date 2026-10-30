@@ -1,6 +1,7 @@
 import { all, get, text } from "./dom";
 import { updateActiveSection } from "./navigation";
 import { updateSearchScene } from "./search-scene";
+import { updateCaseStory } from "./case-story";
 
 function getSceneState(items: HTMLElement[]) {
   const focus = window.innerHeight * 0.56;
@@ -68,6 +69,7 @@ export function updateScenes() {
     if (countEl) text("#evidence-count", `${String(evidence.active + 1).padStart(2, "0")} / 03`);
   }
   updateSearchScene();
+  updateCaseStory();
 }
 
 let sceneFrame: number | null = null;

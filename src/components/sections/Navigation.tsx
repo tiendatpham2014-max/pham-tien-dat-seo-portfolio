@@ -1,7 +1,7 @@
 export function Navigation() {
   return (
     <>
-  <header className="site-header" id="site-header">
+  <header className="site-header" id="site-header" data-surface="hero">
     <div className="shell header-inner">
       <a className="brand" href="#top" aria-label="Phạm Tiến Đạt — đầu trang" data-i18n-aria="brandAria">
         <img
@@ -20,6 +20,7 @@ export function Navigation() {
         />
       </a>
       <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính" data-i18n-aria="navigation">
+        <a href="#about" data-i18n="navAbout">Giới thiệu</a>
         <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
         <a href="#work" data-i18n="navWork">Dự án</a>
         <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
@@ -33,12 +34,13 @@ export function Navigation() {
           <svg className="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx={12} cy={12} r="3.5" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
           <svg className="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.2 15.5A8.5 8.5 0 0 1 8.5 3.8 8.5 8.5 0 1 0 20.2 15.5Z" /></svg>
         </button>
-        <button className="menu-toggle" id="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Mở menu"><span /><span /></button>
+        <button className="menu-toggle" id="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Mở menu"><span /><span /><span className="menu-label" data-i18n="menuLabel">MỤC</span></button>
       </div>
     </div>
   </header>
   <div className="menu-backdrop" id="menu-backdrop" hidden />
   <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" data-i18n-aria="mobileNavigation" inert>
+    <a href="#about" data-i18n="navAbout">Giới thiệu</a>
     <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
     <a href="#work" data-i18n="navWork">Dự án</a>
     <a href="#skills" data-i18n="navSkills">Chuyên môn</a>

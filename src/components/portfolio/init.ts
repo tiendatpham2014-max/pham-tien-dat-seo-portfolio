@@ -9,15 +9,11 @@ import { initComparison } from "./comparison";
 import { initScrollStories } from "./scroll-stories";
 import { initLanguage } from "./language";
 import { positionIndicator } from "./navigation";
-import { initHeroWaves } from "./hero-waves";
+import { initHeroFluid } from "./hero-fluid";
 import { initIntroSplash } from "./intro-splash";
-import { initSmoothScroll } from "./smooth-scroll";
+import { getLenis, initSmoothScroll } from "./smooth-scroll";
 
 export function initPortfolio() {
-  if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
-  }
-  window.scrollTo(0, 0);
   resetState();
   const controller = new AbortController();
   const { signal } = controller;
@@ -27,13 +23,22 @@ export function initPortfolio() {
   initSmoothScroll(signal);
   initIntroSplash(signal);
   initMobileMenu(signal);
-  initHeroWaves(signal);
+  initHeroFluid(signal);
   initMetrics(signal);
   initComparison(signal);
   initSkills(signal);
   initWritingRail(signal);
   initScrollStories(signal);
   initLanguage(signal);
+  if (location.hash.length > 1) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) requestAnimationFrame(() => {
+      if (signal.aborted) return;
+      const lenis = getLenis();
+      if (lenis) lenis.scrollTo(target, { immediate: true });
+      else target.scrollIntoView();
+    });
+  }
   all(".contact-methods a").forEach((card) => {
     card.addEventListener("pointermove", (e: Event) => {
       const pe = e as PointerEvent;

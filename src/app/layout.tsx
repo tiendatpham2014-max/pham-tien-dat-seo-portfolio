@@ -178,7 +178,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if("scrollRestoration" in history){history.scrollRestoration="manual"}window.scrollTo(0,0);document.documentElement.classList.remove("no-js");document.documentElement.classList.add("intro-playing");if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch(e){}',
+              'try{document.documentElement.classList.remove("no-js");if((!location.hash||location.hash==="#top")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("intro-playing")}if(localStorage.getItem("dat-seo-theme")==="light"){document.documentElement.dataset.theme="light";document.querySelector(\'meta[name="theme-color"]\').content="#f8fafc"}}catch(e){}',
           }}
         />
         <script

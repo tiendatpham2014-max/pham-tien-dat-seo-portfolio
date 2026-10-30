@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 export function Evidence() {
   return (
     <>
-<section className="work section-space dark-section" id="work" aria-labelledby="work-title">
+<section className="work section-space dark-section" id="proof" aria-labelledby="work-title">
   <div className="shell">
     <div className="section-head">
       <div>

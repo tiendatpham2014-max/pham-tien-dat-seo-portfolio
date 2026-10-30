@@ -2,7 +2,9 @@ import { IntroSplash } from "@/components/sections/IntroSplash";
 import { PortfolioShell } from "@/components/portfolio-shell";
 import { Navigation } from "@/components/sections/Navigation";
 import { Hero } from "@/components/sections/Hero";
+import { Manifesto } from "@/components/sections/Manifesto";
 import { Journey } from "@/components/sections/Journey";
+import { CaseStory } from "@/components/sections/CaseStory";
 import { Evidence } from "@/components/sections/Evidence";
 import { Skills } from "@/components/sections/Skills";
 import { Writing } from "@/components/sections/Writing";
@@ -17,7 +19,9 @@ export default function Page() {
       <Navigation />
       <main id="main">
         <Hero />
+        <Manifesto />
         <Journey />
+        <CaseStory />
         <Evidence />
         <Skills />
         <Writing />
