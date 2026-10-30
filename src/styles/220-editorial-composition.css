@@ -1,0 +1,278 @@
+/* Large type, quiet space, and a single focal point per section. */
+.hero .hero-inner {
+  width: min(calc(100% - 2 * var(--gutter)), var(--max));
+}
+
+.hero .hero-clean-main {
+  width: 100%;
+  max-width: none;
+  margin: auto 0;
+  text-align: center;
+}
+
+.hero h1.hero-name {
+  display: block;
+  font-size: clamp(48px, 8.2vw, 118px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -.068em;
+  white-space: nowrap;
+}
+
+.hero .hero-job-title {
+  margin-top: clamp(20px, 3vh, 34px);
+  font-size: clamp(16px, 1.45vw, 20px);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.hero .hero-clean-bottom {
+  align-items: end;
+  padding-bottom: clamp(12px, 2vh, 26px);
+}
+
+.hero-bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero .hero-actions,
+.hero-social {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.hero .hero-work-cta {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  min-height: 46px;
+  padding: 0 20px;
+  background: #f5f5f2;
+  color: #101728;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hero .hero-work-cta:hover,
+.hero .hero-work-cta:focus-visible {
+  background: #c7e9e1;
+  color: #101728;
+}
+
+.hero-contact-cta,
+.hero-social a {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hero-contact-cta {
+  padding-block: 8px;
+  border-bottom: 1px solid currentColor;
+}
+
+.hero-social a {
+  color: var(--quiet);
+}
+
+.hero-social a:hover,
+.hero-contact-cta:hover {
+  color: var(--accent);
+}
+
+.hero .hero-scroll-cue {
+  margin: 0;
+  align-self: end;
+  color: var(--ink);
+}
+
+.about {
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 54%) minmax(0, 46%);
+  align-items: start;
+  min-height: min(780px, 88svh);
+}
+
+.about-copy {
+  grid-column: 1;
+  max-width: 650px;
+  padding-block: 32px 96px;
+}
+
+.about .about-copy .display-heading {
+  margin: 0 0 clamp(28px, 5vh, 50px);
+  font-size: clamp(44px, 5.2vw, 76px);
+  line-height: 1.06;
+  letter-spacing: -.055em;
+}
+
+.about .about-lead {
+  max-width: 590px;
+  margin: 0;
+  font-size: clamp(18px, 1.55vw, 23px);
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.about .about-bio {
+  max-width: 550px;
+  margin-top: 24px;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.7;
+}
+
+.about-focus {
+  margin: clamp(64px, 9vh, 104px) 0 16px;
+  color: var(--quiet);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.about-next {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.about-next:hover {
+  color: var(--accent);
+}
+
+.work .case-cover {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+  align-items: end;
+  gap: clamp(36px, 6vw, 100px);
+  min-height: clamp(500px, 70svh, 760px);
+  padding: clamp(56px, 10vh, 116px) 0 clamp(56px, 8vh, 90px);
+}
+
+.case-cover-label {
+  margin: 0 0 28px;
+  color: var(--accent-light);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.work .case-cover .display-heading {
+  max-width: 710px;
+  margin: 0;
+  font-size: clamp(48px, 5.6vw, 82px);
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+
+.case-cover-intro > p:last-child {
+  max-width: 550px;
+  margin: 26px 0 0;
+  color: var(--light-quiet);
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.6;
+}
+
+.case-cover-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 4px;
+}
+
+.case-cover-result strong {
+  font-size: clamp(80px, 9vw, 150px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.075em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--accent-light);
+}
+
+.case-cover-result > span:not(.case-cover-secondary) {
+  margin-top: 20px;
+  font-size: clamp(17px, 1.5vw, 22px);
+  font-weight: 600;
+}
+
+.case-cover-result small {
+  margin-top: 10px;
+  max-width: 390px;
+  color: var(--light-quiet);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.case-cover-secondary {
+  margin-top: 26px;
+  color: var(--light-quiet);
+  font-size: 13px;
+}
+
+.work .metric-stage {
+  border-top: 1px solid rgba(255,255,255,.16);
+  padding-top: clamp(48px, 7vh, 84px);
+}
+
+html[data-theme="light"] .hero .hero-work-cta {
+  background: #101728;
+  color: #fff;
+}
+
+html[data-theme="light"] .hero .hero-work-cta:hover,
+html[data-theme="light"] .hero .hero-work-cta:focus-visible {
+  background: #204958;
+  color: #fff;
+}
+
+html[data-theme="light"] .about {
+  border-top-color: #dce3e8;
+}
+
+html[data-theme="light"] .work .metric-stage {
+  border-top-color: rgba(15, 23, 42, .16);
+}
+
+@media (max-width: 900px) {
+  .hero h1.hero-name { font-size: clamp(48px, 7.5vw, 78px); }
+  .about-layout { grid-template-columns: minmax(0, 1fr) minmax(0, .2fr); min-height: 70svh; }
+  .work .case-cover { grid-template-columns: minmax(0, 1fr); min-height: auto; gap: 56px; }
+  .case-cover-result strong { font-size: clamp(78px, 14vw, 130px); }
+}
+
+@media (max-width: 650px) {
+  .hero h1.hero-name { font-size: clamp(36px, 9.5vw, 58px); white-space: normal; }
+  .hero .hero-job-title { margin-top: 18px; font-size: 16px; }
+  .hero .hero-clean-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .hero-bottom-left { gap: 18px; }
+  .hero .hero-actions { gap: 18px; }
+  .hero .hero-work-cta { padding-inline: 16px; }
+  .hero-social { gap: 18px; }
+  .hero .hero-scroll-cue { align-self: flex-end; font-size: 10px; }
+  .about-layout { display: block; min-height: 68svh; }
+  .about-copy { padding-block: 56px 80px; }
+  .about .about-copy .display-heading { font-size: clamp(39px, 10vw, 54px); }
+  .about .about-lead { font-size: 18px; }
+  .about-focus { margin-top: 56px; line-height: 1.6; }
+  .work .case-cover { padding-block: 38px 56px; gap: 64px; }
+  .work .case-cover .display-heading { font-size: clamp(42px, 10vw, 58px); }
+  .case-cover-result strong { font-size: clamp(76px, 17vw, 112px); }
+  .work .metric-stage { padding-top: 42px; }
+}

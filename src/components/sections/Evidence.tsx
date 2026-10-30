@@ -5,18 +5,18 @@ export function Evidence() {
     <>
 <section className="work section-space dark-section" id="work" aria-labelledby="work-title">
   <div className="shell">
-    <div className="section-head">
-      <div>
-        <h2 className="display-heading" id="work-title" data-i18n="workTitle">Altus Entertainment (US) · Tăng trưởng Clicks +27,1%</h2>
-        <div className="project-meta-pills" role="list" aria-label="Chi tiết dự án" data-i18n-aria="projectMetaAria">
-          <span className="meta-pill" role="listitem"><strong data-i18n="pillClientLabel">Khách hàng</strong>: <span data-i18n="pillClientValue">Altus Entertainment</span></span>
-          <span className="meta-pill" role="listitem"><strong data-i18n="pillMarketLabel">Thị trường</strong>: <span data-i18n="pillMarketValue">US Entertainment</span></span>
-          <span className="meta-pill" role="listitem"><strong data-i18n="pillTimelineLabel">Thời gian</strong>: <span data-i18n="pillTimelineValue">Q3/2025 vs Q3/2026</span></span>
-          <span className="meta-pill" role="listitem"><strong data-i18n="pillFocusLabel">Trọng tâm</strong>: <span data-i18n="pillFocusValue">Search Intent &amp; On-page</span></span>
-          <span className="meta-pill highlight" role="listitem"><strong data-i18n="pillGrowthLabel">Tăng trưởng</strong>: <span data-i18n="pillGrowthValue">+27,1% Clicks</span></span>
-        </div>
+    <div className="case-cover">
+      <div className="case-cover-intro">
+        <p className="case-cover-label" data-i18n="workEyebrow">Altus Entertainment · US</p>
+        <h2 className="display-heading" id="work-title" data-i18n="workTitle">Một dự án. Hai kỳ dữ liệu.</h2>
+        <p data-i18n="workIntro">Search intent, nội dung và cấu trúc trang qua lăng kính Google Search Console.</p>
       </div>
-      <p data-i18n="workIntro">Case study thực tế về nghiên cứu Search Intent, tối ưu On-page và ứng dụng AI phân tích dữ liệu cho Altus Entertainment tại Mỹ (Q3/2025 vs Q3/2026).</p>
+      <div className="case-cover-result">
+        <strong data-i18n="workFigure">+27,1%</strong>
+        <span data-i18n="workFigureLabel">Lượt nhấp toàn website</span>
+        <small data-i18n="workScope">Kết quả cấp website của cả đội ngũ · Q3/2025 so với Q3/2026</small>
+        <span className="case-cover-secondary" data-i18n="workImpressions">Lượt hiển thị −5,0%</span>
+      </div>
     </div>
 
     <div className="metric-stage">
