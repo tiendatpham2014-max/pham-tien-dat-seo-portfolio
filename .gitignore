@@ -4,3 +4,5 @@ out/
 .npm-cache/
 .taste-skill/inspect/
 *.tsbuildinfo
+.claude/
+pham-tien-dat-seo-portfolio/
