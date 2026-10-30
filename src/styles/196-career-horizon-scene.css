@@ -120,7 +120,7 @@
 .career-stages{position:absolute;inset:0}
 .career-stage{
   position:absolute;
-  top:42%;
+  top:54%;
   left:var(--sun-x);
   width:min(460px,calc(100% - 2 * var(--gutter)));
   max-height:34svh;
@@ -171,7 +171,7 @@
 @media(max-height:700px){
   .journey-heading{top:10%}
   .journey-intro{display:none}
-  .career-stage{top:37%}
+  .career-stage{top:52%}
 }
 @media(prefers-reduced-motion:reduce){
   .career-stage{transition:none;transform:translate(var(--stage-shift),0)}

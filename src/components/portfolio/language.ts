@@ -63,5 +63,9 @@ export function initLanguage(signal: AbortSignal) {
   }, { signal }));
   let stored: string | null = null;
   try { stored = localStorage.getItem("dat-seo-language"); } catch { /* Storage may be unavailable. */ }
-  setLanguage(stored === "en" ? "en" : "vi");
+  const requested = new URLSearchParams(window.location.search).get("lang");
+  const initialLanguage = requested === "vi" || requested === "en"
+    ? requested
+    : stored === "en" ? "en" : "vi";
+  setLanguage(initialLanguage);
 }

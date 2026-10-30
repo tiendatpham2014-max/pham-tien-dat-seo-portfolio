@@ -81,7 +81,7 @@ export function initPortfolio() {
           }
         });
       }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".section-head,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
+      all(".section-head,.about-intro-grid,.about-stack-bar,.case-overview,.metric-stage,.period-card,.compare-wrap,.skill-layout,.article-card,.contact-heading,.contact-methods a")
         .forEach((element) => revealObserver.observe(element));
       observers.push(revealObserver);
     }

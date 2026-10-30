@@ -18,7 +18,6 @@ export function About() {
 
       <div className="about-pillars">
         <article className="about-pillar-card">
-          <span className="pillar-num">01</span>
           <h3 data-i18n="pillarOneTitle">Thế mạnh chuyên môn</h3>
           <p data-i18n="pillarOneDesc">
             Search Intent Mapping, phân cụm chủ đề, kiến trúc On-page, tối ưu Core Web Vitals (LCP, CLS) và xử lý rào cản kỹ thuật crawl/index.
@@ -26,15 +25,13 @@ export function About() {
         </article>
 
         <article className="about-pillar-card">
-          <span className="pillar-num">02</span>
           <h3 data-i18n="pillarTwoTitle">Dự án đã thực hiện</h3>
           <p data-i18n="pillarTwoDesc">
-            Dẫn dắt SEO Altus Entertainment US (+27,1% Clicks), phát triển landing pages BattleBots US và xuất bản 4 bài blog tiếng Anh kỹ thuật trên Primas.net.
+            Tham gia SEO Altus Entertainment US (lượt nhấp toàn website tăng 27,1% theo GSC), phát triển landing page BattleBots và viết 4 bài tiếng Anh trên Primas.net.
           </p>
         </article>
 
         <article className="about-pillar-card">
-          <span className="pillar-num">03</span>
           <h3 data-i18n="pillarThreeTitle">Tự động hóa bằng AI &amp; MCP</h3>
           <p data-i18n="pillarThreeDesc">
             Ứng dụng Claude, GPT, Hermes Agent và giao thức Model Context Protocol (MCP) để tự động hóa trích xuất dữ liệu, phân loại intent và audit SEO.
@@ -43,7 +40,7 @@ export function About() {
       </div>
     </div>
 
-    <div className="about-stack-bar" aria-label="Bộ công cụ &amp; Vũ khí kỹ thuật">
+    <div className="about-stack-bar">
       <span className="stack-label" data-i18n="stackLabel">Vũ khí chuyên môn:</span>
       <div className="stack-badges">
         <span>Ahrefs</span>

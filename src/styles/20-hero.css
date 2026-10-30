@@ -113,6 +113,23 @@
   color:#cbd5e1;
   max-width:680px;
 }
+.hero-work-cta{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:24px;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:var(--accent);
+  text-underline-offset:7px;
+  transition:color .2s ease,text-decoration-color .2s ease;
+}
+.hero-work-cta:hover,
+.hero-work-cta:focus-visible{
+  color:var(--accent);
+}
 html[data-theme="light"] .hero-tagline{
   color:#475569;
 }

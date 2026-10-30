@@ -26,6 +26,9 @@ export function Hero() {
       <p className="hero-tagline" data-i18n="heroTagline">
         Tối ưu hóa tìm kiếm tự nhiên &amp; kiến trúc On-page cho thị trường quốc tế
       </p>
+      <a className="hero-work-cta" href="#work" data-i18n="viewWork">
+        Xem dự án ↗
+      </a>
     </div>
 
     <div className="hero-bottom hero-clean-bottom">
