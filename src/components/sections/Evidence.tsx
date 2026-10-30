@@ -7,7 +7,6 @@ export function Evidence() {
   <div className="shell">
     <div className="section-head">
       <div>
-        <span className="section-label" data-i18n="workLabel">Case Study / Dự án thực tế</span>
         <h2 className="display-heading" id="work-title" data-i18n="workTitle">Altus Entertainment (US) · Tăng trưởng Clicks +27,1%</h2>
         <div className="project-meta-pills" role="list" aria-label="Chi tiết dự án" data-i18n-aria="projectMetaAria">
           <span className="meta-pill" role="listitem"><strong data-i18n="pillClientLabel">Khách hàng</strong>: <span data-i18n="pillClientValue">Altus Entertainment</span></span>
@@ -16,9 +15,6 @@ export function Evidence() {
           <span className="meta-pill" role="listitem"><strong data-i18n="pillFocusLabel">Trọng tâm</strong>: <span data-i18n="pillFocusValue">Search Intent &amp; On-page</span></span>
           <span className="meta-pill highlight" role="listitem"><strong data-i18n="pillGrowthLabel">Tăng trưởng</strong>: <span data-i18n="pillGrowthValue">+27,1% Clicks</span></span>
         </div>
-        <p className="case-attribution-badge" data-i18n="sitewideDisclaimer">
-          Lưu ý minh bạch: Đây là kết quả tăng trưởng cấp website của toàn đội ngũ, không quy riêng thành tích cá nhân duy nhất.
-        </p>
       </div>
       <p data-i18n="workIntro">Case study thực tế về nghiên cứu Search Intent, tối ưu On-page và ứng dụng AI phân tích dữ liệu cho Altus Entertainment tại Mỹ (Q3/2025 vs Q3/2026).</p>
     </div>
@@ -26,7 +22,6 @@ export function Evidence() {
     <div className="metric-stage">
       <div className="metric-stage-top">
         <div>
-          <span className="section-label" data-i18n="metricLensLabel">Góc đọc dữ liệu</span>
           <h3 id="metric-title" data-i18n="metricTitle">Lượt nhấp từ tìm kiếm</h3>
         </div>
         <div className="metric-picker" role="group" aria-label="Chọn chỉ số" data-i18n-aria="metricsLabel">

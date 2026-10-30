@@ -23,13 +23,6 @@
   height: 6px;
   border-radius: 50%;
   background: #38bdf8;
-  box-shadow: 0 0 10px #38bdf8;
-  animation: pulse-dot 2.2s infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
 }
 
 .hero-salutation {
@@ -50,9 +43,7 @@
   margin: 0;
   font: 600 clamp(42px, 6vw, 84px)/1.02 "Be Vietnam Pro", sans-serif;
   letter-spacing: -0.04em;
-  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.75) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #f8fafc;
   display: inline;
 }
 
@@ -128,7 +119,7 @@ html[data-theme="light"] .hero-stack-line span:hover {
 .meta-label {
   color: #38bdf8;
   font-weight: 600;
-  font-size: 10.5px;
+  font-size: 11.5px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -148,7 +139,6 @@ html[data-theme="light"] .hero-badge-pill {
 
 html[data-theme="light"] .badge-pulse {
   background: #1e665f;
-  box-shadow: 0 0 10px #1e665f;
 }
 
 html[data-theme="light"] .hero h1.hero-name {

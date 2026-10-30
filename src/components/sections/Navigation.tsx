@@ -20,6 +20,7 @@ export function Navigation() {
         />
       </a>
       <nav className="desktop-nav" id="desktop-nav" aria-label="Điều hướng chính" data-i18n-aria="navigation">
+        <a href="#about" data-i18n="navAbout">Về tôi</a>
         <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
         <a href="#work" data-i18n="navWork">Dự án</a>
         <a href="#skills" data-i18n="navSkills">Chuyên môn</a>
@@ -39,6 +40,7 @@ export function Navigation() {
   </header>
   <div className="menu-backdrop" id="menu-backdrop" hidden />
   <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" data-i18n-aria="mobileNavigation" inert>
+    <a href="#about" data-i18n="navAbout">Về tôi</a>
     <a href="#journey" data-i18n="navJourney">Kinh nghiệm</a>
     <a href="#work" data-i18n="navWork">Dự án</a>
     <a href="#skills" data-i18n="navSkills">Chuyên môn</a>

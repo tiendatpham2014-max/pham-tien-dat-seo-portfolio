@@ -1,8 +1,8 @@
 export const copy = {
   vi: {
     skip: "Đi tới nội dung",
+    navAbout: "Về tôi",
     navWork: "Dự án",
-    navProcess: "Quy trình",
     navSkills: "Chuyên môn",
     navWriting: "Bài viết",
     navJourney: "Kinh nghiệm",
@@ -20,12 +20,14 @@ export const copy = {
     heroBadge: "SEO Executive @ Primas Group",
     heroOverline: "SEO EXECUTIVE · PRIMAS GROUP",
     heroName: "Phạm Tiến Đạt",
+    heroJobTitle: "SEO Executive · Search Intent & Technical SEO",
+    heroTagline: "Tối ưu hóa tìm kiếm tự nhiên & kiến trúc On-page cho thị trường quốc tế",
     heroStatement: "SEO Executive tại Primas Group — tối ưu Organic Search, On-page Architecture và quy trình AI cho thị trường quốc tế.",
     heroDescription: "Tập trung vào kết quả tăng trưởng thực chiến (+27,1% Clicks cho Altus Entertainment US) bằng cách kết hợp ngôn ngữ thương mại, kỹ thuật SEO và tự động hóa AI.",
     viewWork: "Xem dự án & Bằng chứng ↗",
     getInTouch: "Liên hệ trao đổi ↗",
     heroBottom: "Hồ sơ năng lực, bằng chứng GSC và kinh nghiệm thực tế.",
-    scrollHint: "Cuộn để khám phá ↓",
+    scrollHint: "Cuộn để tìm hiểu ↓",
     heroMetaAria: "Thông tin nghề nghiệp",
     metaOrgLabel: "Hiện tại",
     metaOrg: "Primas Group (11/2023 → nay)",
@@ -33,6 +35,19 @@ export const copy = {
     metaMarket: "Altus Entertainment (US) · BattleBots · Primas.net",
     metaFocusLabel: "Trọng tâm",
     metaFocus: "Search Intent · Core Web Vitals · AI Workflows",
+
+    // About / Manifesto
+    aboutLabel: "Về tôi",
+    aboutTitle: "Xin chào, tôi là Đạt.",
+    aboutLead: "Tôi là SEO Executive tại Primas Group, chuyên tối ưu hóa tìm kiếm tự nhiên, cấu trúc On-page và quy trình tự động hóa AI cho các nền tảng thị trường Mỹ (US) & quốc tế.",
+    aboutBio: "Nền tảng Cử nhân Ngôn ngữ Anh Thương mại (TDC) mang lại cho tôi lợi thế lớn trong việc thấu hiểu sâu sắc cách người dùng bản ngữ tư duy và tìm kiếm — chuyển hóa ý định tìm kiếm thành cấu trúc trang chuẩn xác và tăng trưởng thứ hạng bền vững.",
+    pillarOneTitle: "Thế mạnh chuyên môn",
+    pillarOneDesc: "Search Intent Mapping, phân cụm chủ đề, kiến trúc On-page, tối ưu Core Web Vitals (LCP, CLS) và xử lý rào cản kỹ thuật crawl/index.",
+    pillarTwoTitle: "Dự án đã thực hiện",
+    pillarTwoDesc: "Dẫn dắt SEO Altus Entertainment US (+27,1% Clicks), phát triển landing pages BattleBots US và xuất bản 4 bài blog tiếng Anh kỹ thuật trên Primas.net.",
+    pillarThreeTitle: "Tự động hóa bằng AI & MCP",
+    pillarThreeDesc: "Ứng dụng Claude, GPT, Hermes Agent và giao thức Model Context Protocol (MCP) để tự động hóa trích xuất dữ liệu, phân loại intent và audit SEO.",
+    stackLabel: "Vũ khí chuyên môn:",
 
     // Evidence / Work
     workLabel: "Case Study / Dự án thực tế",
@@ -181,8 +196,8 @@ export const copy = {
   },
   en: {
     skip: "Skip to content",
+    navAbout: "About",
     navWork: "Work",
-    navProcess: "Process",
     navSkills: "Skills",
     navWriting: "Writing",
     navJourney: "Experience",
@@ -200,6 +215,8 @@ export const copy = {
     heroBadge: "SEO Executive @ Primas Group",
     heroOverline: "SEO EXECUTIVE · PRIMAS GROUP",
     heroName: "Dat Pham",
+    heroJobTitle: "SEO Executive · Search Intent & Technical SEO",
+    heroTagline: "Driving organic search growth & on-page architecture for global platforms",
     heroStatement: "SEO Executive at Primas Group — driving organic search growth, on-page architecture, and AI automation for global platforms.",
     heroDescription: "Focusing on verified organic growth (+27.1% Clicks for Altus Entertainment US) by bridging business English, technical SEO, and AI automation.",
     viewWork: "Explore my work ↗",
@@ -213,6 +230,19 @@ export const copy = {
     metaMarket: "Altus Entertainment (US) · BattleBots · Primas.net",
     metaFocusLabel: "Focus",
     metaFocus: "Search Intent · Core Web Vitals · AI Workflows",
+
+    // About / Manifesto
+    aboutLabel: "About",
+    aboutTitle: "Hi, I’m Dat.",
+    aboutLead: "I’m an SEO Executive at Primas Group specializing in organic search growth, on-page architecture, and AI automation for US & global platforms.",
+    aboutBio: "Grounded in a Business English degree (TDC), I bridge linguistic nuances with technical precision to decode native search intent — turning search signals into robust page hierarchy and sustainable rank gains.",
+    pillarOneTitle: "Core Competencies",
+    pillarOneDesc: "Search Intent Mapping, Topic Clusters, On-page Architecture, Core Web Vitals (LCP, CLS), and crawl/index technical remediation.",
+    pillarTwoTitle: "Shipped Projects",
+    pillarTwoDesc: "Led SEO strategy for Altus Entertainment US (+27.1% Clicks), developed landing pages for BattleBots US, and authored 4 technical English articles on Primas.net.",
+    pillarThreeTitle: "AI & MCP Automation",
+    pillarThreeDesc: "Leveraging Claude, GPT, Hermes Agent, and Model Context Protocol (MCP) to automate intent classification, data extraction, and audit workflows.",
+    stackLabel: "Tech Stack:",
 
     // Evidence / Work
     workLabel: "Featured Project / Case Study",

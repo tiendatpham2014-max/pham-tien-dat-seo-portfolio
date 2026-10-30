@@ -83,16 +83,14 @@ html[data-theme="light"] .brand-light{
   bottom:0;
   inset:0;
   z-index:1;
-  background:rgba(8,12,24,.93);
-  background-image:radial-gradient(circle at 50% 50%,rgba(56,189,248,.08) 0%,rgba(8,12,24,.90) 50%,rgba(8,12,24,.96) 100%);
+  background:rgba(8,12,24,.95);
   backdrop-filter:blur(48px) saturate(180%);
   -webkit-backdrop-filter:blur(48px) saturate(180%);
   pointer-events:none;
   will-change:opacity,backdrop-filter;
 }
 html[data-theme="light"] .intro-splash-backdrop{
-  background:rgba(248,250,252,.93);
-  background-image:radial-gradient(circle at 50% 50%,rgba(2,132,199,.05) 0%,rgba(248,250,252,.90) 50%,rgba(248,250,252,.96) 100%);
+  background:rgba(248,250,252,.95);
   backdrop-filter:blur(48px) saturate(180%);
   -webkit-backdrop-filter:blur(48px) saturate(180%);
 }

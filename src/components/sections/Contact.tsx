@@ -4,9 +4,8 @@ export function Contact() {
 <section className="contact section-space dark-section" id="contact" aria-labelledby="contact-title">
   <div className="shell">
     <div className="contact-heading">
-      <span className="section-label" data-i18n="contactLabel">Kết nối</span>
       <h2 className="display-heading" id="contact-title" data-i18n="contactTitle">Trao đổi về SEO và nội dung.</h2>
-      <p data-i18n="contactIntro">Nếu bạn đang tìm người chú ý đến nội dung, kỹ thuật và số liệu, tôi rất vui được trao đổi.</p>
+      <p data-i18n="contactIntro">Nếu bạn đang tìm một SEO Executive chuyên sâu về nội dung, kỹ thuật và tăng trưởng thực tế, tôi rất vui được trao đổi.</p>
     </div>
     <div className="contact-methods">
       <a href="mailto:tiendatpham2014@gmail.com"><span className="method-icon" aria-hidden="true">@</span><span><strong>Email</strong><small>tiendatpham2014@gmail.com</small></span><span aria-hidden="true">↗</span></a>

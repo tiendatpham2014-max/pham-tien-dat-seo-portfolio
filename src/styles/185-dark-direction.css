@@ -21,19 +21,9 @@ body{background:var(--ground);color:var(--ink)}
 .hero-overline,.section-label{color:var(--accent)}
 .hero h1{color:#f6f7f2;text-shadow:0 12px 54px rgba(0,0,0,.13)}
 .hero-description{color:#d1dadf}
-.button.primary{background:#f8fafc;color:#070b16;font-weight:600;box-shadow:0 4px 20px rgba(56,189,248,.3)}
-.button.primary:hover{background:#ffffff;color:#000000;box-shadow:0 6px 28px rgba(56,189,248,.5);transform:translateY(-2px)}
+.button.primary{background:#f8fafc;color:#070b16;font-weight:600;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.button.primary:hover{background:#ffffff;color:#000000;box-shadow:0 6px 24px rgba(0,0,0,.5);transform:translateY(-2px)}
 .text-link:hover{color:#38bdf8}
-.signal-lab{background:rgba(25,41,63,.93);color:#f4f5f1;box-shadow:0 30px 80px rgba(0,0,0,.2);border:1px solid rgba(172,217,214,.19)}
-.signal-lab:before{opacity:.18}
-.signal-steps button{color:#bdcbd1}
-.signal-steps button:hover,.signal-steps button[aria-pressed=true]{color:#c6f3e2}
-.signal-detail{color:#e1ebe9;border-color:rgba(185,224,219,.25)}
-.approach{background:#15243b}
-.approach-copy p,.approach .lead{color:#f1f4f2}
-.approach-principles{color:#aedfd1}
-.insight-row article{background:linear-gradient(#a9dccf,#a9dccf) top left/52px 2px no-repeat}
-.insight-row p{color:#c2d0d9}
 .work.dark-section{background:#142039;color:#f4f5f1}
 .evidence-card{background:#315d6b;border-color:rgba(220,242,242,.24);box-shadow:0 35px 68px rgba(3,10,22,.32)}
 .evidence-card:nth-child(2){background:#33465e}
@@ -42,7 +32,7 @@ body{background:var(--ground);color:var(--ink)}
 .period-card{background:#1e304b}
 .metric-picker button{border-color:rgba(255,255,255,.14);color:#cbd5e1}
 .metric-picker button:hover{background:rgba(255,255,255,.12);color:#fff}
-.metric-picker button[aria-pressed=true]{background:#38bdf8;color:#050814;border-color:#38bdf8;box-shadow:0 0 16px rgba(56,189,248,.4)}
+.metric-picker button[aria-pressed=true]{background:#38bdf8;color:#050814;border-color:#38bdf8;box-shadow:0 2px 10px rgba(0,0,0,.35)}
 .meter{background:#526779}
 .data-table th,.data-table td{border-color:rgba(223,238,239,.18)}
 .process{background:#101a2b}

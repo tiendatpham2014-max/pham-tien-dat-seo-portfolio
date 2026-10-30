@@ -79,10 +79,10 @@ body{
 section{
   position:relative;
   width:100%;
-  box-sizing:border-box
+  box-sizing:border-box;
 }
 .section-space{
-  padding-block:clamp(55px,7vh,88px)
+  padding:clamp(55px,7vh,88px) clamp(16px,2vw,32px);
 }
 body.menu-open{
   overflow:hidden

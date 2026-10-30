@@ -2,7 +2,7 @@ export function Writing() {
   return (
     <>
 <section className="writing section-space" id="writing" aria-labelledby="writing-title">
-  <div className="shell"><div className="section-head"><div><span className="section-label" data-i18n="writingLabel">Published writing</span><h2 className="display-heading" id="writing-title" data-i18n="writingTitle">Bài viết đã xuất bản.</h2></div><p data-i18n="writingIntro">Bốn bài viết tiếng Anh chuyên sâu về IVR, CTI, giải pháp CX và phần mềm doanh nghiệp, xuất bản dưới tên Dat Pham tại Primas.</p></div>
+  <div className="shell"><div className="section-head"><h2 className="display-heading" id="writing-title" data-i18n="writingTitle">Bài viết kỹ thuật đã xuất bản.</h2><p data-i18n="writingIntro">Bốn bài viết tiếng Anh chuyên sâu về IVR, CTI, giải pháp CX và phần mềm doanh nghiệp, xuất bản dưới tên Dat Pham tại Primas.</p></div>
     <div className="rail-controls"><span data-i18n="railHint">Vuốt hoặc dùng mũi tên để xem bài viết</span><div><button type="button" id="rail-prev" aria-label="Bài trước" data-i18n-aria="railPrev">←</button><button type="button" id="rail-next" aria-label="Bài tiếp theo" data-i18n-aria="railNext">→</button></div></div>
     <div className="article-rail" id="article-rail">
       <a className="article-card" href="https://primas.net/5-key-benefits-of-interactive-voice-response-ivr/" target="_blank" rel="noopener noreferrer"><span className="article-top">Primas / IVR <span aria-hidden="true">↗</span></span><strong>5 Key Benefits of Interactive Voice Response (IVR)</strong><p data-i18n="articleIvr">Về lợi ích của hệ thống trả lời thoại tương tác trong trải nghiệm khách hàng.</p><span className="article-link" data-i18n="readArticle">Đọc bài viết ↗</span></a>

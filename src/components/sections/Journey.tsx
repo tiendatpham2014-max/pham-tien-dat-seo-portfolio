@@ -15,7 +15,6 @@ export function Journey() {
     </div>
     <div className="shell journey-scene">
       <div className="journey-heading">
-        <span className="section-label" data-i18n="journeyLabel">Hành trình</span>
         <h2 className="display-heading" id="journey-title" data-i18n="journeyTitle">Ba giai đoạn, một hướng đi.</h2>
         <p className="journey-intro" data-i18n="journeyIntro">Từ nghiên cứu từ khóa và bài viết đầu tiên đến công việc kết nối nội dung, kỹ thuật và hiệu suất tìm kiếm.</p>
       </div>

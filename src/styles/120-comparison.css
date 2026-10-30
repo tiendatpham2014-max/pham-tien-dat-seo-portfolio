@@ -28,7 +28,7 @@
   background:#142039
 }
 .compare-after{
-  background:radial-gradient(ellipse at 80% 30%,rgba(56,189,248,.18) 0%,#1c2b42 70%);
+  background:radial-gradient(ellipse at 80% 30%,rgba(255,255,255,.06) 0%,#1c2b42 70%);
   clip-path:inset(0 0 0 var(--split))
 }
 .compare-period{
@@ -76,10 +76,10 @@
   display:flex;
   align-items:center;
   width:var(--bar);
-  height:clamp(16px,2vh,22px);
+  min-height:28px;
   background:rgba(226,222,214,.18);
   border-radius:6px;
-  padding:0 8px;
+  padding:8px 12px;
   box-sizing:border-box;
   transform-origin:left;
   transition:transform 1s var(--ease);
@@ -93,7 +93,6 @@
 }
 .compare-after .compare-bars i{
   background:linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
-  box-shadow:0 0 16px rgba(56,189,248,.35);
 }
 .compare-after .compare-bars i em{
   color:#050814;
@@ -105,8 +104,8 @@
   bottom:0;
   left:var(--split);
   width:2px;
-  background:linear-gradient(180deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
-  box-shadow:0 0 14px rgba(56,189,248,.85), 0 0 28px rgba(129,140,248,.5);
+  background:#ffffff;
+  box-shadow:0 0 10px rgba(0,0,0,.6);
   pointer-events:none;
   transform:translateX(-1px)
 }
@@ -119,18 +118,19 @@
   width:42px;
   height:42px;
   border-radius:50%;
-  background:rgba(15,23,42,.92);
-  border:1.5px solid rgba(56,189,248,.75);
-  color:#38bdf8;
+  background:rgba(15,23,42,.94);
+  border:1.5px solid rgba(255,255,255,.3);
+  color:#f8fafc;
   font:600 15px/1 sans-serif;
   transform:translate(-50%,-50%);
-  box-shadow:0 0 22px rgba(56,189,248,.5), inset 0 0 10px rgba(56,189,248,.2);
+  box-shadow:0 4px 16px rgba(0,0,0,.45);
   backdrop-filter:blur(8px);
-  transition:transform .2s ease, box-shadow .2s ease
+  transition:transform .2s ease, border-color .2s ease
 }
 .compare-wipe:hover .compare-divider span{
   transform:translate(-50%,-50%) scale(1.08);
-  box-shadow:0 0 28px rgba(56,189,248,.7), inset 0 0 14px rgba(56,189,248,.3)
+  border-color:rgba(56,189,248,.6);
+  color:#38bdf8;
 }
 .compare-wipe input{
   position:absolute;
@@ -243,7 +243,7 @@
   }
   .compare-legend{
     padding-inline:clamp(12px,2.5vw,20px);
-    font-size:10.5px;
+    font-size:11.5px;
     gap:8px;
   }
 }

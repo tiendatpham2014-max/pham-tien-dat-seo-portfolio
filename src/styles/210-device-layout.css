@@ -72,7 +72,7 @@
   .hero-meta { padding-top: 10px; font-size: 12px; }
   .hero-meta span:last-child { display: none; }
   .hero-main { margin: auto 0; padding: 20px 0 16px; }
-  .hero-overline { margin-bottom: 12px; font-size: 10px; }
+  .hero-overline { margin-bottom: 12px; font-size: 11.5px; }
   .hero h1 { font-size: clamp(38px, 10vw, 56px); line-height: 1.05; }
   .hero-statement { margin-top: 14px; font-size: clamp(17px, 4.5vw, 22px); }
   .hero-description { margin-top: 12px; font-size: 14px; line-height: 1.55; }

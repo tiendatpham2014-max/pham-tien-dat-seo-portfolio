@@ -16,56 +16,24 @@ export function Hero() {
       <span data-i18n="location">TP. Hồ Chí Minh, Việt Nam</span>
     </div>
 
-    <div className="hero-main">
-      <div className="hero-salutation">
-        <span className="hero-greeting" data-i18n="heroGreeting">Xin chào, tôi là</span>
-        <h1 id="hero-title" className="hero-name" data-i18n="heroName">Phạm Tiến Đạt</h1>
-      </div>
-
-      <p className="hero-statement" data-i18n="heroStatement">
-        SEO Executive tại Primas Group, chuyên tối ưu tìm kiếm tự nhiên &amp; cấu trúc nội dung cho thị trường quốc tế.
+    <div className="hero-main hero-clean-main">
+      <h1 id="hero-title" className="hero-name" data-i18n="heroName">
+        Phạm Tiến Đạt
+      </h1>
+      <p className="hero-job-title" data-i18n="heroJobTitle">
+        SEO Executive · Search Intent &amp; Technical SEO
       </p>
-
-      <p className="hero-description" data-i18n="heroDescription">
-        Tôi kết nối nhu cầu tìm kiếm thực tế của người dùng với chất lượng nội dung và dữ liệu Google Search Console — biến các tín hiệu tìm kiếm thành tăng trưởng bền vững.
+      <p className="hero-tagline" data-i18n="heroTagline">
+        Tối ưu hóa tìm kiếm tự nhiên &amp; kiến trúc On-page cho thị trường quốc tế
       </p>
-
-      <div className="hero-meta-bar" role="list" aria-label="Thông tin nghề nghiệp" data-i18n-aria="heroMetaAria">
-        <div className="meta-item" role="listitem">
-          <span className="meta-label" data-i18n="metaOrgLabel">Hiện tại:</span>
-          <strong data-i18n="metaOrg">Primas Group (11/2023 → nay)</strong>
-        </div>
-        <div className="meta-item" role="listitem">
-          <span className="meta-label" data-i18n="metaMarketLabel">Dự án &amp; Thị trường:</span>
-          <strong data-i18n="metaMarket">Altus Entertainment (US) · BattleBots · Primas.net</strong>
-        </div>
-        <div className="meta-item" role="listitem">
-          <span className="meta-label" data-i18n="metaFocusLabel">Trọng tâm:</span>
-          <strong data-i18n="metaFocus">Search Intent · Core Web Vitals · AI Workflows</strong>
-        </div>
-      </div>
-
-      <p className="hero-stack-line" aria-label="Bộ công cụ & chuyên môn">
-        <span>[Ahrefs]</span>
-        <span>[Semrush]</span>
-        <span>[GSC &amp; GA4]</span>
-        <span>[Screaming Frog]</span>
-        <span>[Core Web Vitals]</span>
-        <span>[Claude &amp; GPT]</span>
-        <span>[Hermes Agent]</span>
-        <span>[MCP]</span>
-        <span>[WordPress]</span>
-      </p>
-
-      <div className="hero-actions">
-        <a className="button primary" href="#work" data-i18n="viewWork">Xem dự án &amp; Bằng chứng <span aria-hidden="true">↗</span></a>
-        <a className="text-link" href="#contact" data-i18n="getInTouch">Liên hệ trao đổi <span aria-hidden="true">↗</span></a>
-      </div>
     </div>
 
-    <div className="hero-bottom">
-      <span data-i18n="heroBottom">Hồ sơ năng lực, bằng chứng GSC và kinh nghiệm thực tế.</span>
-      <a href="#journey" data-i18n="scrollHint">Cuộn để khám phá ↓</a>
+    <div className="hero-bottom hero-clean-bottom">
+      <div className="hero-contact-quick">
+        <span className="micro-label">Email</span>
+        <a href="mailto:tiendatpham2014@gmail.com">tiendatpham2014@gmail.com <span aria-hidden="true">↗</span></a>
+      </div>
+      <a className="hero-scroll-cue" href="#about" data-i18n="scrollHint">Cuộn để tìm hiểu ↓</a>
     </div>
   </div>
 </section>
