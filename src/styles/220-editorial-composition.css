@@ -231,6 +231,47 @@
   padding-top: clamp(48px, 7vh, 84px);
 }
 
+.contact .contact-editorial {
+  min-height: clamp(540px, 70svh, 760px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contact-overline {
+  color: var(--light-quiet);
+  font-size: 13px;
+}
+
+.contact .contact-editorial .display-heading {
+  max-width: none;
+  margin: auto 0;
+  font-size: clamp(68px, 10vw, 152px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -.065em;
+}
+
+.contact-editorial-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.contact-editorial-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-editorial-links a:hover {
+  color: var(--accent-light);
+}
+
 html[data-theme="light"] .hero .hero-work-cta {
   background: #101728;
   color: #fff;
@@ -250,11 +291,20 @@ html[data-theme="light"] .work .metric-stage {
   border-top-color: rgba(15, 23, 42, .16);
 }
 
+html[data-theme="light"] .contact-overline {
+  color: #475569;
+}
+
+html[data-theme="light"] .contact-editorial-links a:hover {
+  color: #0284c7;
+}
+
 @media (max-width: 900px) {
   .hero h1.hero-name { font-size: clamp(48px, 7.5vw, 78px); }
   .about-layout { grid-template-columns: minmax(0, 1fr) minmax(0, .2fr); min-height: 70svh; }
   .work .case-cover { grid-template-columns: minmax(0, 1fr); min-height: auto; gap: 56px; }
   .case-cover-result strong { font-size: clamp(78px, 14vw, 130px); }
+  .contact .contact-editorial .display-heading { font-size: clamp(62px, 9vw, 102px); }
 }
 
 @media (max-width: 650px) {
@@ -275,4 +325,6 @@ html[data-theme="light"] .work .metric-stage {
   .work .case-cover .display-heading { font-size: clamp(42px, 10vw, 58px); }
   .case-cover-result strong { font-size: clamp(76px, 17vw, 112px); }
   .work .metric-stage { padding-top: 42px; }
+  .contact .contact-editorial { min-height: 62svh; }
+  .contact .contact-editorial .display-heading { font-size: clamp(50px, 12vw, 70px); }
 }

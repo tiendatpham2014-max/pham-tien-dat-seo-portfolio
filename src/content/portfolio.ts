@@ -194,7 +194,7 @@ export const copy = {
 
     // Contact & Footer
     contactLabel: "Kết nối",
-    contactTitle: "Trao đổi về SEO và nội dung.",
+    contactTitle: "Cùng trao đổi.",
     contactIntro: "Nếu bạn đang tìm một SEO Executive chuyên sâu về nội dung, kỹ thuật và tăng trưởng thực tế, tôi rất vui được trao đổi.",
     footerLine: "Từ nhu cầu tìm kiếm đến nội dung và dữ liệu.",
     footerExplore: "Khám phá",
@@ -397,7 +397,7 @@ export const copy = {
 
     // Contact & Footer
     contactLabel: "Connect",
-    contactTitle: "Let's talk SEO and content.",
+    contactTitle: "Get in touch.",
     contactIntro: "If you're looking for an SEO Executive focused on search intent, technical precision, and measurable organic growth, I'd be glad to connect.",
     footerLine: "From search intent to content and evidence.",
     footerExplore: "Explore",
