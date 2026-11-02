@@ -15,23 +15,23 @@ export function About() {
 
         <div className="about-pillars" aria-label="Trọng tâm năng lực">
           <article className="about-pillar-card">
-            <h3 data-i18n="pillarOneTitle">Thế mạnh chuyên môn</h3>
+            <h3 data-i18n="pillarOneTitle">Chuyên môn trọng tâm</h3>
             <p data-i18n="pillarOneDesc">Search Intent Mapping, Topic Clusters, On-page Architecture, Core Web Vitals và xử lý rào cản crawl/index.</p>
           </article>
           <article className="about-pillar-card">
-            <h3 data-i18n="pillarTwoTitle">Dự án thực tế</h3>
+            <h3 data-i18n="pillarTwoTitle">Dự án &amp; Kết quả</h3>
             <p data-i18n="pillarTwoDesc">Altus Entertainment US (+27,1% Clicks), landing pages BattleBots US và 4 bài blog kỹ thuật trên Primas.net.</p>
           </article>
           <article className="about-pillar-card">
-            <h3 data-i18n="pillarThreeTitle">Tự động hóa AI &amp; MCP</h3>
+            <h3 data-i18n="pillarThreeTitle">Quy trình AI &amp; Tự động hóa</h3>
             <p data-i18n="pillarThreeDesc">Ứng dụng Claude, GPT, Hermes Agent và giao thức MCP tự động hóa phân loại intent và trích xuất dữ liệu SEO.</p>
           </article>
         </div>
       </div>
 
       <div className="shell">
-        <div className="about-stack-bar" aria-label="Bộ công cụ chuyên môn">
-          <span className="stack-label" data-i18n="stackLabel">Vũ khí chuyên môn:</span>
+        <div className="about-stack-bar" aria-label="Công cụ và nền tảng chuyên môn">
+          <span className="stack-label" data-i18n="stackLabel">Công cụ &amp; Nền tảng:</span>
           <div className="stack-badges">
             <span>Ahrefs</span>
             <span>Semrush</span>
