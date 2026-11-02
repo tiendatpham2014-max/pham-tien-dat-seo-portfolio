@@ -139,19 +139,20 @@ Do not advertise developer-level engineering, custom APIs, deployed automation p
 
 ## 7. Published writing — real authored articles only
 
-These three published writing links already appear in the current website. **Preserve exact article titles and URL slug strings; don't invent engagement counts or publication dates.**
+These four published writing links appear in the current website. **Preserve exact article titles and URL slug strings; don't invent engagement counts or publication dates.**
 
 | Topic tag | Display title | Destination |
 |---|---|---|
 | Primas · IVR | 5 Key Benefits of Interactive Voice Response (IVR) | https://primas.net/5-key-benefits-of-interactive-voice-response-ivr/ |
 | Primas · CTI | Simple Reasons Why Your Business Need Computer Telephony Integration? | https://primas.net/simple-reasons-why-your-business-need-computer-telephony-integration/ |
 | Primas · CX | Best 5 Customer Experience (CX) Solutions to Watch in 2026 | https://primas.net/best-5-customer-experience-cx-solutions-to-watch-in-2026/ |
+| Primas · Software | Best 2024 Trending Software Solutions for Businesses | https://primas.net/best-2024-trending-software-solutions-for-businesses/ |
 
 More writing/author profile: https://primas.net/author/datpt/
 
 Section copy:
-- VI H2: `Bài viết đã xuất bản`; description: `Một số bài viết tiếng Anh về IVR, CTI và trải nghiệm khách hàng, xuất bản dưới tên Dat Pham tại Primas.`
-- EN H2: `Published writing`; description: `Selected English articles on IVR, CTI and customer experience, published under Dat Pham at Primas.`
+- VI H2: `Bài viết đã xuất bản`; description: `Bốn bài viết tiếng Anh dưới tên Dat Pham tại Primas.`
+- EN H2: `Published writing`; description: `Four English articles published under Dat Pham at Primas.`
 - VI CTA: `Đọc bài viết ↗`; EN CTA: `Read article ↗`.
 - VI author CTA: `Xem trang tác giả ↗`; EN author CTA: `View author page ↗`.
 - No testimonial quote boxes or fabricated customer comments.

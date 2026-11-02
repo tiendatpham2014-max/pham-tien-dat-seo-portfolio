@@ -160,16 +160,16 @@ This order may be adjusted to support an editorial story. **The nine design refe
 - Duration data = employment periods provided, not estimates for unnamed projects. Never show an end date in November 2026 as completed.
 - Avoid misleading implication of three employers: the stages relate to Primas Group as in the existing source.
 
-## 9. Contact — centered 3 icon method cards
+## 9. Contact — centered public contact cards
 
 **Visual**
-- Centered heading + plain-language invitation; three square-ish contact cards in a tidy row, stack on narrow screens.
-- Methods: `Email`, `LinkedIn`, `Phone` based on links already in current HTML. GitHub may be included as a small supplemental text link only if a valid public profile destination is wanted; do not expose the private repo as a showcase.
-- Each card: recognizable simple inline SVG icon, short heading, exact address/handle/number already public, and visible click destination. No fake scheduler or nonfunctional contact form.
+- Centered heading + plain-language invitation; two square-ish contact cards in a tidy row, stack on narrow screens.
+- Methods: `Email` and `LinkedIn`. The phone number is omitted for personal privacy. GitHub may be included as a small supplemental text link only if a valid public profile destination is wanted; do not expose the private repo as a showcase.
+- Each card: recognizable simple inline SVG icon, short heading, exact public address/handle, and visible click destination. No fake scheduler or nonfunctional contact form.
 
 **Behavior**
 - On hover/focus: card subtly lifts, border/accent transitions, arrow moves. Hover treatment should shift one muted tone rather than flash lighter or produce glowing outlines. No background particle animation.
-- `mailto:`, external LinkedIn, and `tel:` links remain usable on desktop and mobile.
+- `mailto:` and external LinkedIn links remain usable on desktop and mobile.
 
 ## 10. Footer — airy multi-column sitemap, scaled to a personal site
 

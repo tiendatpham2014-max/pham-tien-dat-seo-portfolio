@@ -43,9 +43,9 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] Comparison exposes *all* actual values without a drag interaction (accessible summary/table).
 - [ ] Process shows 3 connected, readable steps with checklist details.
 - [ ] Skills has 4 manual accessible tabs; autopilot pauses appropriately and stops after manual choice.
-- [ ] Writing shows 3 authentic published links; horizontal swipe and prev/next controls work.
+- [ ] Writing shows 4 authentic published links; horizontal swipe and prev/next controls work.
 - [ ] Experience section shows 3 real stages with correct dates/employer, without duplicating the Process interaction.
-- [ ] Contact methods are 3 actual functional destinations; phone/mail/LinkedIn retained.
+- [ ] Contact methods are 2 actual functional destinations; email/LinkedIn retained and phone omitted for privacy.
 - [ ] Footer has only real navigation links and copyright year; back-to-top works; no forced empty columns.
 
 ## Content integrity

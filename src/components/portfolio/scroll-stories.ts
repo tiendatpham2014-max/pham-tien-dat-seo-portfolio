@@ -43,6 +43,7 @@ function getCareerState(stages: HTMLElement[]) {
 }
 
 export function updateScenes() {
+  document.querySelector(".site-header")?.classList.toggle("is-scrolled", window.scrollY > 24);
   updateActiveSection();
   const stages = all(".career-stage");
   if (stages.length) {

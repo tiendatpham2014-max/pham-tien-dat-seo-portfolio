@@ -16,7 +16,7 @@ const articles = [
   },
   {
     label: "Primas / Software",
-    title: "2024 Trending Software Solutions for Businesses",
+    title: "Best 2024 Trending Software Solutions for Businesses",
     url: "https://primas.net/best-2024-trending-software-solutions-for-businesses/",
   },
 ];

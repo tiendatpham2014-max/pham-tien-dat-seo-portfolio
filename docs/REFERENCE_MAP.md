@@ -7,8 +7,8 @@ Các URL React Bits dưới đây là nguồn tham khảo chính cho bố cục 
 | [Hero 22](https://pro.reactbits.dev/docs/blocks/hero-section/hero-22) | Hero | Chữ tên cỡ lớn, entrance có nhịp, nền mesh dịu và sơ đồ Intent → Content → Evidence |
 | [Features 17](https://pro.reactbits.dev/docs/blocks/features/features-17) | Kinh nghiệm | Bầu trời tối, đường cong địa cầu, vầng sáng di chuyển theo cuộn và ba mốc nghề nghiệp thật; không dựng văn phòng/múi giờ giả |
 | [Features 4](https://pro.reactbits.dev/docs/blocks/features/features-4) | Chuyên môn | Bốn tab Problem → Approach → Typical output với nội dung nghề nghiệp thật |
-| [Social Proof 11](https://pro.reactbits.dev/docs/blocks/social-proof/social-proof-11) | Bài viết | Rail ba bài đã xuất bản; không tạo testimonial giả |
-| [Contact 3](https://pro.reactbits.dev/docs/blocks/contact/contact-3) | Liên hệ | Ba kênh liên hệ thật và chuyển động hover |
+| [Social Proof 11](https://pro.reactbits.dev/docs/blocks/social-proof/social-proof-11) | Bài viết | Rail bốn bài đã xuất bản; không tạo testimonial giả |
+| [Contact 3](https://pro.reactbits.dev/docs/blocks/contact/contact-3) | Liên hệ | Hai kênh liên hệ công khai và chuyển động hover |
 | [Footer 11](https://pro.reactbits.dev/docs/blocks/footer/footer-11) | Footer | Hai nhóm liên kết có thật và back-to-top |
 | [Comparison 7](https://pro.reactbits.dev/docs/blocks/comparison/comparison-7) | GSC | Bộ chọn chỉ số, hai kỳ, wipe kéo được bằng chuột/chạm/bàn phím và bảng số liệu đầy đủ |
 | [Navigation 15](https://pro.reactbits.dev/docs/blocks/navigation/navigation-15) | Điều hướng | Underline theo section, menu mobile và chuyển VI/EN |
@@ -24,7 +24,7 @@ Các URL React Bits dưới đây là nguồn tham khảo chính cho bố cục 
 - Comparison 7: đường chia kéo giữa hai trạng thái. Bản portfolio dùng hai quý GSC có số liệu thật, vẫn có bảng đầy đủ để không phụ thuộc vào hiệu ứng.
 - Features 17: cảnh “follow the sun” có mép địa cầu sáng và ba nhãn thay phiên nổi bật. Bản portfolio giữ hình thức đó cho ba mốc nghề nghiệp đã xác minh, thay văn phòng và múi giờ bằng vai trò/ngày thật.
 - How It Works 4: các mốc đi cùng checklist. Bản portfolio dùng ba giai đoạn phương pháp SEO, không gắn ngày giả cho dự án.
-- Social Proof 11, Contact 3, Footer 11 và Navigation 15 lần lượt được diễn giải bằng rail ba bài thật, ba kênh liên hệ thật, footer liên kết thật và gạch chân điều hướng di chuyển.
+- Social Proof 11, Contact 3, Footer 11 và Navigation 15 lần lượt được diễn giải bằng rail bốn bài thật, hai kênh liên hệ công khai, footer liên kết thật và gạch chân điều hướng di chuyển.
 - minwang.dev: nguồn phụ cho chữ lớn và cảnh cuộn; không lấy ảnh chân dung hay chứng chỉ. GSC chuyển số liệu phẳng theo cuộn để tránh lặp thẻ xếp lớp.
 
 Không dùng mã nguồn hoặc nội dung demo của các mẫu React Bits Pro. Những phần cần dữ liệu riêng vẫn chỉ ghi trong `CONTENT_GAPS.md`.

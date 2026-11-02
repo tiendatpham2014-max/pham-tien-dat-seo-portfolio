@@ -38,6 +38,10 @@ html[data-theme="light"] .site-header {
   box-shadow: 0 1px 0 #e2e8f0;
 }
 
+html[data-theme="light"] .site-header.is-scrolled {
+  background: #f8fafc;
+}
+
 html[data-theme="light"] .brand {
   color: #0f172a;
 }

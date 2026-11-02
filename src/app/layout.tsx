@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-image.png",
-        width: 1200,
-        height: 630,
+        width: 1873,
+        height: 916,
         alt: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
       },
     ],
@@ -114,7 +114,7 @@ const jsonLd = {
         "Search Intent Analysis",
         "Content Strategy & Business English",
         "Google Search Console & GA4",
-        "AI-Augmented SEO (Claude, GPT, MCP)",
+        "AI-assisted SEO workflows",
         "Semrush, Ahrefs & Screaming Frog",
         "Altus Entertainment SEO Growth",
       ],

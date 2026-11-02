@@ -12,10 +12,10 @@
 | Hero 22 | Cần thiết; dữ liệu hiện có đủ | **Giữ** | Giới thiệu cá nhân, định vị SEO, 2 CTA. Copy mới có thể viết theo nền tảng nghề nghiệp đã biết; không nhét KPI sitewide vào hero như thành tích cá nhân. |
 | Features 4 | Hữu ích nhưng có thể trùng nội dung CV/kinh nghiệm | **Giữ, viết lại theo năng lực** | 4 tab Technical / Content / Analytics / Workflow; mỗi tab mô tả câu hỏi giải quyết, cách làm, đầu ra, công cụ có bằng chứng. Không trình bày như 4 chức danh hoặc chứng chỉ. |
 | Features 17 | Hiệu ứng chân trời/địa cầu và ánh bình minh phù hợp để kể tiến trình nghề nghiệp; dữ liệu văn phòng/múi giờ của demo không áp dụng | **Giữ cảnh trời tối, mép địa cầu và ánh sáng theo cuộn** | Gắn ba mốc vào Intern → Contributor → Executive có thật. Không vẽ bản đồ, quốc gia, văn phòng, thời gian dự án hay global operations bịa ra. |
-| Social Proof 11 | Có 3 bài blog thật, **không có testimonial thật** | **Dùng kiểu card/rail, đổi chức năng thành Published Writing** | 3 bài Primas, topic, link gốc; viết mô tả theo tiêu đề/chủ đề đã có. Không dùng quote, avatar khách hàng, lượt thích, số lượt đọc, ngày đăng không xác minh. |
+| Social Proof 11 | Có 4 bài blog thật, **không có testimonial thật** | **Dùng kiểu card/rail, đổi chức năng thành Published Writing** | 4 bài Primas, topic, link gốc; viết mô tả theo tiêu đề/chủ đề đã có. Không dùng quote, avatar khách hàng, lượt thích, số lượt đọc, ngày đăng không xác minh. |
 | Comparison 7 | Có dữ liệu thật Q3/2025 vs Q3/2026; dạng *image wipe* không phải cách tối ưu nhất để đọc KPI | **Có điều kiện** | Dùng visual đối chiếu hai kỳ như một lớp tương tác phụ **chỉ nếu** dữ liệu vẫn dễ đọc và so sánh công bằng. Bắt buộc có bảng đầy đủ; nếu thanh kéo khiến số liệu khó đọc, **bỏ thanh kéo**, thay bằng two-column toggle/table rõ ràng. Không ép ví dụ trước-sau về kết quả cá nhân. |
 | How It Works 4 | **Rất phù hợp**: không cần KPI mới | **Giữ, chủ động viết nội dung** | 3 bước nghề nghiệp chung: Research & Audit → Implement & Optimize → Measure & Iterate; checklist là phương pháp, không phải tuyên bố đã hoàn thành cho một khách hàng. |
-| Contact 3 | Cần thiết; có 3 địa chỉ/kênh thật | **Giữ** | Email, LinkedIn, Phone. Không tạo form không backend, booking link giả. |
+| Contact 3 | Cần thiết; có 2 kênh công khai | **Giữ** | Email và LinkedIn; không công khai số điện thoại. Không tạo form không backend, booking link giả. |
 | Footer 11 | Bản 5 cột hơi thừa với portfolio một trang | **Thu nhỏ** | Wordmark, 2–3 nhóm link thật và back-to-top. Không thêm Policy/Terms hay các page không tồn tại chỉ để đủ cột. |
 
 **Kết luận thiết kế:** Không bắt buộc phải có 9 section riêng hoặc copy đúng hình thức của cả 9 mẫu. Điều bắt buộc là **giải quyết mục đích của mỗi khu vực nếu nó mang lại giá trị**. Được giảm bớt hiệu ứng, đổi dạng trình bày hoặc bỏ block phụ nếu không đủ dữ liệu / tạo trùng lặp. Giữ Navigation, Hero, Evidence, Skills, Writing, Process, Experience, Contact và Footer thành câu chuyện hoàn chỉnh; Comparison là cách hiển thị trong Evidence, không nhất thiết là section riêng.
@@ -105,7 +105,7 @@ These are **non-blocking future content modules**. Do not show empty cards or lo
 |---|---|---|---|
 | `CASE_02` | Mini case về nhóm page category + location, vấn đề indexability và cách ra quyết định SEO | Cho phép công khai/tên ẩn danh; mô tả vai trò cá nhân; **trạng thái** chỉ đề xuất, đã triển khai hay đo lường; bằng chứng/ảnh đã che thông tin nếu có | **Không render card case thực chiến**. Có thể dùng câu hỏi tổng quát `Trang này có nên được index?` tại mục editorial insights, không gọi là case hoàn thành |
 | `CASE_03` | Workflow tối ưu dữ liệu URL / Google Sheets / Apps Script | Ví dụ input/output an toàn công khai; phần nào chính tay làm; tình trạng áp dụng thực tế; kết quả nếu muốn định lượng | Chỉ mô tả phương pháp, không gọi đây là tool đã triển khai thực tế nếu chưa xác minh |
-| `CASE_04` | Case content SEO cho B2B technology / AI voicebot | 1–2 brief, mục tiêu, URL công khai, vai trò và nội dung được phép công bố; số liệu nếu có | Chỉ dùng 3 bài published writing đã xác minh, không bịa KPI Primas |
+| `CASE_04` | Case content SEO cho B2B technology / AI voicebot | 1–2 brief, mục tiêu, URL công khai, vai trò và nội dung được phép công bố; số liệu nếu có | Chỉ dùng 4 bài published writing đã xác minh, không bịa KPI Primas |
 | `PROJECT_DURATION` | Giai đoạn/timeline từng dự án, ngoài timeline nghề nghiệp | Tên dự án được phép nêu, mốc bắt đầu/kết thúc, trạng thái | Không hiển thị durations/sprint bars tự chế; chỉ hiện mốc nghề nghiệp đã biết |
 | `VISUAL_ASSETS` | Ảnh báo cáo GSC, audit, mẫu brief, worksheet, code demo | Ảnh tự sở hữu, đã được che tên miền/account/dữ liệu nhạy cảm; quyền đăng tải | Không tạo ảnh chụp/dashboard giả; dùng typography/cards sạch |
 | `EXTERNAL_PROOF` | Testimonial, chứng nhận, giải thưởng | Quote thật có consent / link chứng nhận / tài liệu xác minh | Không render testimonial/award section |
@@ -127,6 +127,6 @@ These are **non-blocking future content modules**. Do not show empty cards or lo
 - Process giữ timeline checklist; Experience dùng đường chân trời Features 17 chạy theo cuộn và ba mốc nghề nghiệp, tránh lặp thẻ xếp/lật.
 - Nếu Comparison wipe che số liệu, thay bằng bảng/bars công bằng có thể đọc nhanh. Dữ liệu và bối cảnh được ưu tiên hơn việc mô phỏng slider.
 - Nếu Footer 5 cột làm rỗng nội dung, thu xuống 2–3 nhóm; không thêm link bịa.
-- Nếu article carousel có chỉ 3 bài và trên desktop hiển thị đủ cả 3, cho phép card grid/rail với nút phù hợp; không ép autoplay giả tạo.
+- Nếu article carousel hiển thị đủ cả 4 bài trên desktop, cho phép card grid/rail với nút phù hợp; không ép autoplay giả tạo.
 - Nếu Skills 4 tab quá dày trên mobile, chuyển sang accessible accordion ở breakpoint nhỏ, giữ nội dung và thao tác.
 - Nếu các animation làm site mất cảm giác dịu, ưu tiên readability/contrast/performance.

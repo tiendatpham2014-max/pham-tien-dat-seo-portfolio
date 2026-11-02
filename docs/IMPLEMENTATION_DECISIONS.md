@@ -8,9 +8,9 @@
 | Evidence | evidence.md, CONTENT_SPEC §4 | Comparison 7 | Ba chương đọc dữ liệu GSC cấp website với chỉ số phẳng đổi theo cuộn, tiếp theo là hai kỳ, biểu đồ wipe với dải phân cách phát quang Luminous Beam và tay cầm kính mờ, bộ chọn chỉ số và bảng đầy đủ |
 | Process | CONTENT_SPEC §5, copy bank C4 | How It Works 4 | Ba giai đoạn phương pháp, có câu hỏi và checklist |
 | Skills | CONTENT_ARCHITECTURE C5 | Features 4 | Bốn tab Problem → Approach → Typical output |
-| Writing | CONTENT_SPEC §7 | Social Proof 11 | Đổi thành rail ba bài thật, không testimonial |
+| Writing | CONTENT_SPEC §7 | Social Proof 11 | Đổi thành rail bốn bài thật, không testimonial |
 | Experience | CONTENT_SPEC §8 | Features 17 | Một section trời tối tràn chiều rộng; đường chân trời là dòng thời gian với quầng sáng khí quyển và nhật hoa vũ trụ, vầng sáng và nội dung ba vai trò đi cùng vị trí cuộn |
-| Contact | CONTENT_SPEC §9 | Contact 3 | Ba kênh thật với icon card lớn và hiệu ứng Spotlight viền kính phát sáng theo chuột, không form giả |
+| Contact | CONTENT_SPEC §9 | Contact 3 | Hai kênh công khai với icon card lớn và hiệu ứng Spotlight viền kính phát sáng theo chuột, không form giả |
 | Footer | CONTENT_SPEC §9 | Footer 11 | Hai nhóm link thật và back-to-top |
 
 Phần Hero, Editorial Approach, Process, Skills và mô tả chủ đề bài viết là nội dung biên tập/phương pháp VI/EN, không phải case đạt KPI. Các case cần bằng chứng tiếp tục nằm trong CONTENT_GAPS.md.
