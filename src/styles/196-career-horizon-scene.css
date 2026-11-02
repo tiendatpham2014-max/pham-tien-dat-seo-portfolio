@@ -168,7 +168,7 @@
   text-wrap:pretty;
 }
 @media(max-width:850px){
-  .journey{min-height:380vh;height:380svh}
+  .journey{min-height:220vh;height:220svh}
   .journey-heading{top:13%}
   .journey .display-heading{font-size:clamp(35px,6vw,52px)}
   .journey-intro{font-size:14px}
@@ -177,7 +177,7 @@
   .journey .career-planet,.journey .career-rim{top:76%}
 }
 @media(max-width:650px){
-  .journey{min-height:360vh;height:360svh}
+  .journey{min-height:220vh;height:220svh}
   .journey-heading{top:12%;left:var(--gutter)}
   .journey .display-heading{font-size:clamp(34px,9vw,43px);line-height:1.07}
   .journey-intro{display:block;margin-top:14px;font-size:13px;line-height:1.45}
