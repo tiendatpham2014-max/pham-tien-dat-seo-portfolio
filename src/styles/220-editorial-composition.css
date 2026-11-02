@@ -31,7 +31,7 @@
   margin: clamp(10px, 1.4vh, 16px) auto 0;
   font-size: clamp(14px, 1.15vw, 16.5px);
   line-height: 1.55;
-  color: #cbd5e1;
+  color: #f1f5f9;
   max-width: 620px;
 }
 
@@ -100,6 +100,7 @@ html[data-theme="light"] .hero .hero-tagline {
   font-size: clamp(38px, 4.5vw, 64px);
   line-height: 1.08;
   letter-spacing: -.045em;
+  text-wrap: balance;
 }
 
 .about .about-lead {
@@ -109,6 +110,7 @@ html[data-theme="light"] .hero .hero-tagline {
   line-height: 1.55;
   font-weight: 400;
   color: var(--ink);
+  text-wrap: pretty;
 }
 
 .about .about-bio {
@@ -117,6 +119,7 @@ html[data-theme="light"] .hero .hero-tagline {
   font-size: clamp(14px, 1.05vw, 16px);
   line-height: 1.65;
   color: var(--quiet);
+  text-wrap: pretty;
 }
 
 .about-next {
@@ -168,6 +171,7 @@ html[data-theme="light"] .hero .hero-tagline {
   font-size: clamp(13px, .95vw, 14.5px);
   line-height: 1.55;
   color: var(--quiet);
+  text-wrap: pretty;
 }
 
 .about-stack-bar {
@@ -239,6 +243,7 @@ html[data-theme="light"] .hero .hero-tagline {
   font-size: clamp(36px, 4.5vw, 64px);
   line-height: 1.08;
   letter-spacing: -.045em;
+  text-wrap: balance;
 }
 
 .case-cover-intro > p:last-child {
@@ -247,6 +252,7 @@ html[data-theme="light"] .hero .hero-tagline {
   color: var(--light-quiet);
   font-size: clamp(14px, 1.1vw, 16.5px);
   line-height: 1.6;
+  text-wrap: pretty;
 }
 
 .case-cover-result {

@@ -76,6 +76,12 @@ body{
   font:400 17px/1.6 "Be Vietnam Pro","Segoe UI",Arial,sans-serif;
   -webkit-font-smoothing:antialiased;
 }
+p{
+  text-wrap:pretty;
+}
+h1,h2,h3,h4,.display-heading{
+  text-wrap:balance;
+}
 section{
   position:relative;
   width:100%;

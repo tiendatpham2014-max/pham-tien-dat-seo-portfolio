@@ -633,7 +633,7 @@ html[data-theme="light"] .journey .career-stage .career-org {
   color: #b8e6db !important;
 }
 
-html[data-theme="light"] .journey .career-stage-date {
+html[data-theme="light"] .journey .career-stage .career-org time {
   color: #ffd0b9 !important;
 }
 
