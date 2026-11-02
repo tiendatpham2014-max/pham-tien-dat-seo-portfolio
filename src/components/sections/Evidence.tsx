@@ -52,7 +52,7 @@ export function Evidence() {
         <span data-i18n="compareHint">Kéo đường chia để xem hai kỳ dữ liệu</span>
       </div>
       <div className="compare-wipe" id="compare-wipe" style={{ "--split": "50%" } as CSSProperties}>
-        <div className="compare-layer compare-before" aria-hidden="true">
+        <div className="compare-layer compare-before">
           <span className="compare-period">Q3/2025</span>
           <div className="compare-bars">
             <div className="compare-bar-row">
@@ -69,7 +69,7 @@ export function Evidence() {
             </div>
           </div>
         </div>
-        <div className="compare-layer compare-after" aria-hidden="true">
+        <div className="compare-layer compare-after">
           <span className="compare-period">Q3/2026</span>
           <div className="compare-bars">
             <div className="compare-bar-row">

@@ -62,9 +62,9 @@ export function initIntroSplash(signal: AbortSignal) {
   // Safety fallback in case tab is in background or animation stalls
   const failsafeTimer = window.setTimeout(() => {
     if (!signal.aborted) cleanup();
-  }, 3800);
+  }, 2600);
 
-  // Flight sequence starts at ~2.06s when signature drawing strokes complete
+  // Flight starts after the shortened signature stroke sequence completes.
   const flourishTimer = window.setTimeout(() => {
     if (signal.aborted) return;
 
@@ -74,7 +74,7 @@ export function initIntroSplash(signal: AbortSignal) {
         { transform: "scale(1)" },
         { transform: "scale(1.035)" },
       ],
-      { duration: 80, easing: "ease-out", fill: "forwards" }
+      { duration: 55, easing: "ease-out", fill: "forwards" }
     );
 
     // 2. Flight to the header logo position
@@ -112,7 +112,7 @@ export function initIntroSplash(signal: AbortSignal) {
             { transform: `translate(${deltaX}px, ${deltaY}px) scale(${scale})` },
           ],
           {
-            duration: 420,
+            duration: 310,
             easing: "cubic-bezier(0.16, 1, 0.3, 1)",
             fill: "forwards",
           }
@@ -126,8 +126,8 @@ export function initIntroSplash(signal: AbortSignal) {
               { opacity: 0 },
             ],
             {
-              duration: 400,
-              delay: 40,
+              duration: 290,
+              delay: 20,
               easing: "cubic-bezier(0.16, 1, 0.3, 1)",
               fill: "forwards",
             }
@@ -147,7 +147,7 @@ export function initIntroSplash(signal: AbortSignal) {
               { opacity: 1 },
               { opacity: 0 },
             ],
-            { duration: 90, fill: "forwards" }
+            { duration: 65, fill: "forwards" }
           ).onfinish = () => {
             window.clearTimeout(failsafeTimer);
             cleanup();
@@ -156,12 +156,12 @@ export function initIntroSplash(signal: AbortSignal) {
       } catch {
         cleanup();
       }
-    }, 80);
+    }, 55);
 
     signal.addEventListener("abort", () => {
       window.clearTimeout(flightTimer);
     });
-  }, 2060);
+  }, 1150);
 
   signal.addEventListener("abort", () => {
     window.clearTimeout(failsafeTimer);

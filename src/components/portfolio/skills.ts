@@ -12,7 +12,8 @@ export function stopSkillTimer() {
 
 function canAutoSkill() {
   return state.skillVisible && !state.skillHover && !state.skillFocus &&
-    !state.manualSkill && !reducedMotion() && document.visibilityState === "visible";
+    !state.manualSkill && !reducedMotion() &&
+    window.matchMedia("(min-width: 1025px)").matches && document.visibilityState === "visible";
 }
 
 export function scheduleSkillTimer() {

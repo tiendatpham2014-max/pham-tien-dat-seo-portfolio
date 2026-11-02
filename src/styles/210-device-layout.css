@@ -25,6 +25,34 @@
   .skill-tabs button { flex: 0 0 auto; padding: 14px 20px; min-height: 54px; white-space: nowrap; }
   .skill-tabs button:hover, .skill-tabs button[aria-selected=true] { padding-left: 20px; }
   .skill-tabs button[aria-selected=true]::before { top: auto; bottom: 0; width: 32px; height: 3px; }
+  .skill-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 18px;
+    overflow: visible;
+  }
+  .skill-tabs button {
+    position: relative;
+    flex: initial;
+    min-width: 0;
+    min-height: 62px;
+    padding: 12px 0;
+    white-space: normal;
+    line-height: 1.35;
+    border-bottom: 1px solid rgba(255, 255, 255, .18);
+  }
+  .skill-tabs button:hover, .skill-tabs button[aria-selected=true] { padding-left: 0; }
+  .skill-tabs button[aria-selected=true]::before {
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+  }
+  .skill-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .skill-progress { display: none; }
+  .skill-panels dd { font-size: 14px; line-height: 1.6; }
+  .tool-line { font-size: 13px; line-height: 1.5; }
+  html[data-theme="light"] .skill-tabs button { border-bottom-color: #cbd5e1; }
   .skill-panels { min-height: 0; }
   .article-card { flex: 0 0 min(300px, 72vw); min-height: auto; padding: 18px 20px; }
   .contact-methods { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; }
@@ -96,14 +124,70 @@
   .period-card { min-width: 0; padding: 20px; }
   .period-card strong { margin: 14px 0 20px; font-size: clamp(32px, 8vw, 48px); }
   .metric-reading { text-align: left; }
+  .compare-caption > span:last-child { display: none; }
+  .compare-wipe,
+  html[data-theme="light"] .compare-wipe {
+    display: grid;
+    gap: 12px;
+    height: auto;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    touch-action: auto;
+  }
+  .compare-layer {
+    position: relative;
+    inset: auto;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 14px;
+  }
+  .compare-after { clip-path: none; }
+  .compare-after .compare-period { position: static; }
+  .compare-period { font-size: 24px; }
+  .compare-before .compare-bars,
+  .compare-after .compare-bars {
+    position: static;
+    width: auto;
+    margin-top: 18px;
+    display: grid;
+    gap: 10px;
+  }
+  .compare-bar-row {
+    display: grid;
+    grid-template-columns: minmax(88px, .55fr) minmax(0, 1fr);
+    gap: 10px;
+    align-items: baseline;
+  }
+  .bar-tag { width: auto; font-size: 12px; }
+  .compare-bars i,
+  .compare-after .compare-bars i,
+  html[data-theme="light"] .compare-bars i,
+  html[data-theme="light"] .compare-after .compare-bars i {
+    display: block;
+    width: auto;
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .compare-bars i em,
+  .compare-after .compare-bars i em { color: #f8fafc; font-size: 14px; line-height: 1.4; white-space: normal; }
+  html[data-theme="light"] .compare-layer { border-color: #cbd5e1; }
+  html[data-theme="light"] .compare-after .compare-bars i em { color: #0f172a; }
+  .compare-divider, .compare-wipe input, .compare-legend { display: none; }
   .data-table-toggle summary { padding: 16px; line-height: 1.5; }
   .data-table-toggle .data-table-wrap { padding: 0 16px 16px; }
   .data-table { min-width: 610px; }
   .case-notes { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 38px; }
 
-  .skill-tabs button { font-size: 15px; }
+  .skill-tabs button { font-size: 14px; }
   .skill-panels { padding: 25px; }
-  .skill-panels h3 { margin-bottom: 26px; font-size: 30px; }
+  .skill-panels h3 { margin-bottom: 24px; font-size: clamp(22px, 6vw, 28px); line-height: 1.25; }
   .article-card { flex: 0 0 min(270px, 80vw); min-height: auto; padding: 15px 18px; }
   .article-card strong { margin: 10px 0 6px; font-size: 16px; }
   .writing-footer { align-items: flex-start; flex-direction: column; }
