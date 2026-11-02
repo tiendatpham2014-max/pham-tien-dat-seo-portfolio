@@ -36,8 +36,8 @@
   --sun-x:calc(15% + var(--career-progress)*70%);
   position:relative;
   isolation:isolate;
-  min-height:420vh;
-  height:420svh;
+  min-height:220vh;
+  height:220svh;
   padding:0;
   background:#080d1a;
   color:#f7f5f3

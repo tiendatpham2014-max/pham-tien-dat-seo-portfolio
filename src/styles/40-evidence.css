@@ -2,6 +2,11 @@
   background:var(--dark);
   color:var(--light)
 }
+.work{
+  position:relative;
+  z-index:10;
+  background:var(--dark);
+}
 .dark-section .section-label{
   color:var(--accent-light)
 }

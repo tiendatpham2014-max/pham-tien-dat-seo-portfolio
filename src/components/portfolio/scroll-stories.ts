@@ -27,14 +27,13 @@ function getCareerState(stages: HTMLElement[]) {
   const travel = Math.max(1, rect.height - window.innerHeight);
   const rawProgress = Math.max(0, Math.min(1, -rect.top / travel));
 
-  // Complete sun arc within first 78% of scroll, giving the final SEO Executive stage
-  // a generous stationary buffer (nearly 1.5 viewport heights) to comfortably read before Contact enters
-  const progress = Math.max(0, Math.min(1, rawProgress / 0.78));
+  // Complete sun arc within first 88% of scroll
+  const progress = Math.max(0, Math.min(1, rawProgress / 0.88));
 
   let active = 0;
-  if (rawProgress >= 0.48) {
+  if (rawProgress >= 0.58) {
     active = 2;
-  } else if (rawProgress >= 0.20) {
+  } else if (rawProgress >= 0.28) {
     active = 1;
   } else {
     active = 0;
