@@ -41,8 +41,8 @@ export const copy = {
     // About / Manifesto
     aboutLabel: "Giới thiệu",
     aboutTitle: "Chào bạn, mình là Đạt.",
-    aboutLead: "Mình tìm điểm gặp nhau giữa điều người ta đang tìm, nội dung trên trang và dữ liệu thực tế để chọn hướng làm SEO phù hợp.",
-    aboutBio: "Nền tảng Ngôn ngữ Anh Thương mại giúp mình làm việc với nội dung cho thị trường quốc tế.",
+    aboutLead: "Mình tìm hiểu người dùng đang tìm gì, xem trang đã đáp ứng được chưa, rồi dựa vào dữ liệu để chọn bước cải thiện.",
+    aboutBio: "Nền tảng Ngôn ngữ Anh Thương mại giúp mình biên tập nội dung cho thị trường quốc tế.",
     aboutFocus: "Search intent / On-page / Measurement",
     aboutNext: "Xem cách mình làm SEO ↓",
     aboutPillarsAria: "Trọng tâm năng lực",
