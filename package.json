@@ -6,6 +6,8 @@
     "dev": "next dev --hostname 127.0.0.1 --port 4173",
     "build": "next build",
     "check": "tsc --noEmit",
+    "audit:site": "node scripts/audit-static-site.mjs",
+    "verify": "npm run check && npm run build && npm run audit:site",
     "preview": "node scripts/preview-export.mjs",
     "commit:after-live": "node scripts/commit-after-live.mjs"
   },

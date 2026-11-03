@@ -29,13 +29,18 @@ export function initHeroWaves(signal: AbortSignal) {
   let animId = 0;
   let isVisible = true;
 
-  // Dải sóng nước lụa siêu mịn với độ phân giải vi mô và màu sắc đa tầng
+  type Color = [number, number, number, number];
+  const mixColor = (dark: Color, light: Color, amount: number) =>
+    `rgba(${dark.slice(0, 3).map((value, index) => Math.round(value + (light[index] - value) * amount)).join(",")},${(dark[3] + (light[3] - dark[3]) * amount).toFixed(3)})`;
+
+  // Keep the same wave geometry in both themes; only the pigment changes.
   const waveLayers = [
-    { color1: "rgba(56, 189, 248, 0.40)", color2: "rgba(99, 102, 241, 0.22)", speed: 1.0, freq: 0.0016, amp: 115, y: 0.35 },
-    { color1: "rgba(168, 85, 247, 0.34)", color2: "rgba(56, 189, 248, 0.18)", speed: 0.8, freq: 0.0019, amp: 135, y: 0.43 },
-    { color1: "rgba(45, 212, 191, 0.28)", color2: "rgba(129, 140, 248, 0.20)", speed: 1.2, freq: 0.0013, amp: 100, y: 0.51 },
-    { color1: "rgba(129, 140, 248, 0.24)", color2: "rgba(192, 132, 252, 0.14)", speed: 0.9, freq: 0.0021, amp: 90, y: 0.59 }
+    { dark1: [56, 189, 248, .40], dark2: [99, 102, 241, .22], light1: [28, 105, 184, .48], light2: [57, 104, 190, .32], speed: 1.0, freq: 0.0016, amp: 115, y: 0.35 },
+    { dark1: [168, 85, 247, .34], dark2: [56, 189, 248, .18], light1: [75, 83, 178, .43], light2: [62, 126, 186, .28], speed: 0.8, freq: 0.0019, amp: 135, y: 0.43 },
+    { dark1: [45, 212, 191, .28], dark2: [129, 140, 248, .20], light1: [17, 125, 143, .38], light2: [48, 122, 169, .26], speed: 1.2, freq: 0.0013, amp: 100, y: 0.51 },
+    { dark1: [129, 140, 248, .24], dark2: [192, 132, 252, .14], light1: [51, 96, 167, .35], light2: [92, 100, 170, .23], speed: 0.9, freq: 0.0021, amp: 90, y: 0.59 }
   ];
+  let themeMix = document.documentElement.dataset.theme === "light" ? 1 : 0;
 
   function start() {
     if (animId || !isVisible || document.hidden || reducedMotion() || signal.aborted) return;
@@ -59,6 +64,8 @@ export function initHeroWaves(signal: AbortSignal) {
     const dt = Math.min((now - lastTime) / 1000, 0.1);
     lastTime = now;
     t += dt * 0.48 * 1.7; // Tốc độ nhịp điệu chuẩn 1.7x uyển chuyển
+    const targetMix = document.documentElement.dataset.theme === "light" ? 1 : 0;
+    themeMix += (targetMix - themeMix) * Math.min(1, dt * 5);
 
     ctx!.clearRect(0, 0, width, height);
 
@@ -81,8 +88,8 @@ export function initHeroWaves(signal: AbortSignal) {
       ctx!.closePath();
 
       const grad = ctx!.createLinearGradient(0, targetY - layer.amp, 0, height);
-      grad.addColorStop(0, layer.color1);
-      grad.addColorStop(0.48, layer.color2);
+      grad.addColorStop(0, mixColor(layer.dark1 as Color, layer.light1 as Color, themeMix));
+      grad.addColorStop(0.48, mixColor(layer.dark2 as Color, layer.light2 as Color, themeMix));
       grad.addColorStop(1, "rgba(5, 8, 20, 0)");
 
       ctx!.fillStyle = grad;

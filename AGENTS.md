@@ -48,10 +48,9 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Không bịa dự án đã triển khai, khách hàng, testimonial, screenshots, publication dates, chứng chỉ, thời hạn dự án, trang pháp lý hoặc trang liên kết.
 - Không đưa client URL/exports định danh vào public source; các demo/gợi ý còn thiếu phải được đánh dấu chờ trong `docs/CONTENT_GAPS.md`.
 
-## Live và GitHub Desktop
+## Live và GitHub
 
-- Phát triển từ source Next.js trong checkout GitHub này; bảo đảm bản đưa lên Site được build từ cùng source. Không lấy bản HTML/CSS/JS cũ làm nguồn chỉnh sửa song song.
-- Sau mỗi lần deploy live, xác nhận trạng thái deployment là `succeeded` và URL đang chạy. Chỉ sau đó tạo **commit cục bộ** trong checkout GitHub Desktop trên nhánh `main` bằng `npm run commit:after-live -- --version N --deployment-id ID --url URL --message "Mô tả thay đổi"`.
-- Trước khi chạy lệnh, xem `git status` và diff để chắc chắn chỉ gồm source/tài liệu của lần cập nhật đó. Script stage source, cấu hình và tài liệu, bỏ qua `out/`, `.next/`, `node_modules/`; nếu không có thay đổi thì không tạo commit rỗng.
-- **Không tự `git push`, bấm Push origin, tạo PR hoặc đồng bộ GitHub remote.** Người dùng sẽ tự upload bằng GitHub Desktop sau khi xem commit. Nếu deploy thất bại hoặc chưa xác minh, không tạo commit mang nhãn live.
-- Giữ nguyên chế độ truy cập của Site và GitHub trừ khi người dùng yêu cầu đổi. Báo cáo bằng tiếng Việt: phiên bản live, commit cục bộ, nhánh hiện tại, các file chính đã đổi và trạng thái chưa push.
+- Phát triển từ source Next.js trong checkout GitHub này; không lấy bản HTML/CSS/JS cũ làm nguồn chỉnh sửa song song.
+- Trước khi cập nhật GitHub, xem `git status` và diff để chắc chắn chỉ gồm source/tài liệu của lần cập nhật đó. Chạy `npm run verify`; bỏ qua `out/`, `.next/`, `node_modules/`.
+- Theo yêu cầu hiện tại của chủ website, cập nhật source lên GitHub sau mỗi thay đổi đã xác minh. Giữ repo private và kiểm tra bản công khai `https://datpham.io.vn/` sau khi hosting hoàn tất build/deploy.
+- Báo cáo bằng tiếng Việt: commit trên GitHub, các file chính đã đổi, kết quả build và trạng thái live.

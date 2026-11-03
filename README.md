@@ -11,6 +11,8 @@ npm ci
 npm run dev      # http://127.0.0.1:4173
 npm run check    # kiểm tra TypeScript
 npm run build    # xuất site tĩnh vào out/
+npm run audit:site # kiểm tra metadata, structured data, link nội bộ và asset sau build
+npm run verify   # chạy check, build và audit liên tiếp
 npm run preview  # xem bản build ở http://127.0.0.1:4173
 ```
 
@@ -33,15 +35,11 @@ Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là 
 
 Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Các tương tác chạy ở client qua `PortfolioShell`; HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
-## Sau khi đưa bản mới lên live
+Workflow `.github/workflows/verify-site.yml` chạy cùng bộ kiểm tra cho mỗi push lên `main` và pull request. Bước audit chỉ kiểm tra bản export và các link/asset nội bộ; liên kết ngoài không được crawl tự động.
 
-GitHub Desktop đọc commit từ Git ở thư mục này. Sau khi xác nhận deployment của Site đã **succeeded**, Codex kiểm tra diff, giữ checkout ở nhánh `main` rồi tạo commit cục bộ:
+## Cập nhật source
 
-```bash
-npm run commit:after-live -- --version 16 --deployment-id appgdep_... --url https://pham-tien-dat-seo.bloomybowl64.chatgpt.site --message "Mô tả ngắn thay đổi"
-```
-
-Thay `16` và `appgdep_...` bằng số phiên bản và deployment ID thật vừa nhận từ Sites. Lệnh chỉ tạo commit trong máy; **không push**. Sau đó mở GitHub Desktop, xem commit ở tab **History**, rồi tự bấm **Push origin** khi muốn upload. Nếu deployment chưa thành công thì chưa chạy lệnh. Source Next.js và bản build đưa lên Site phải xuất phát từ cùng lần chỉnh sửa; `out/` và `.next/` không được commit.
+Chạy `npm run verify` trước khi cập nhật `main` trên GitHub. Chỉ đưa source, cấu hình và tài liệu vào commit; không đưa `out/`, `.next/` hoặc `node_modules/`. Website công khai tại `https://datpham.io.vn/` lấy source từ GitHub. Sau khi cập nhật, kiểm tra bản live và trạng thái build/deploy của nền tảng hosting.
 
 ## Ranh giới dữ liệu công khai
 

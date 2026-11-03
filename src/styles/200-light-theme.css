@@ -109,8 +109,10 @@ html[data-theme="light"] .hero-waves-bg {
 }
 
 html[data-theme="light"] #hero-waves-canvas {
-  opacity: 0.55;
+  opacity: 0.92;
   mix-blend-mode: multiply;
+  filter: blur(17px);
+  transition: opacity .45s ease, filter .45s ease;
 }
 
 html[data-theme="light"] .waves-glow {
@@ -189,6 +191,12 @@ html[data-theme="light"] .text-link:hover {
 
 html[data-theme="light"] .hero-bottom {
   color: #64748b;
+}
+
+html[data-theme="light"] .hero .hero-tagline,
+html[data-theme="light"] .hero-social a,
+html[data-theme="light"] .hero .hero-scroll-cue {
+  color: #1e293b;
 }
 
 /* SECTION HEADINGS & COMMONS */
