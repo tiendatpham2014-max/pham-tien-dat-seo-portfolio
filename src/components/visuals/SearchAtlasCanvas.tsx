@@ -9,10 +9,13 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
   const progressRef = useRef(progress);
   const selectRef = useRef(onStageSelect);
   const orbitRef = useRef(onOrbit);
+  const requestFrameRef = useRef<() => void>(() => {});
   const [ready, setReady] = useState(false);
   progressRef.current = progress;
   selectRef.current = onStageSelect;
   orbitRef.current = onOrbit;
+
+  useEffect(() => { requestFrameRef.current(); }, [progress]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -62,12 +65,12 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           const ringMaterial = new THREE.LineBasicMaterial({ color: light ? 0x366473 : colors[layer], transparent: true, opacity: light ? .32 : .48 });
           const ringLine = new THREE.Line(ring, ringMaterial);
           group.add(ringLine); disposables.push(ring, ringMaterial);
-          for (let i = 0; i < count; i++) {
-            const spoke = new THREE.BufferGeometry().setFromPoints([positions[i], positions[count]]);
-            const spokeMaterial = new THREE.LineBasicMaterial({ color: light ? 0x527789 : colors[layer], transparent: true, opacity: .2 });
-            const line = new THREE.Line(spoke, spokeMaterial);
-            group.add(line); disposables.push(spoke, spokeMaterial);
-          }
+          const spokePoints: Vector3[] = [];
+          for (let i = 0; i < count; i++) spokePoints.push(positions[i], positions[count]);
+          const spokeGeometry = new THREE.BufferGeometry().setFromPoints(spokePoints);
+          const spokeMaterial = new THREE.LineBasicMaterial({ color: light ? 0x527789 : colors[layer], transparent: true, opacity: .2 });
+          group.add(new THREE.LineSegments(spokeGeometry, spokeMaterial));
+          disposables.push(spokeGeometry, spokeMaterial);
           const dotGeometry = new THREE.SphereGeometry(.025, 8, 8);
           const dotMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x173c51 : 0xe5f5f2 });
           const dots = new THREE.InstancedMesh(dotGeometry, dotMaterial, count);
@@ -84,55 +87,73 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           const pickMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
           const pick = new THREE.Mesh(pickGeometry, pickMaterial);
           pick.userData.stageIndex = layer;
+          pick.layers.set(1);
           group.add(pick);
           markers.push({ mesh: marker, pick, z: -layer * 6, index: layer });
           disposables.push(markerGeometry, markerMaterial, pickGeometry, pickMaterial);
         }
+        const routePoints: Vector3[] = [];
+        const pathPoints: Vector3[] = [];
         for (let layer = 0; layer < 4; layer++) {
           const current = pointPositions[layer];
           const next = pointPositions[layer + 1];
           for (let i = 0; i < Math.min(current.length - 1, next.length - 1); i += 2) {
-            const geometry = new THREE.BufferGeometry().setFromPoints([current[i], next[(i + layer) % (next.length - 1)]]);
-            const material = new THREE.LineBasicMaterial({ color: light ? 0x578e9d : 0x9be3d6, transparent: true, opacity: light ? .24 : .31 });
-            const line = new THREE.Line(geometry, material);
-            scene.add(line); roots.push(line); disposables.push(geometry, material);
+            routePoints.push(current[i], next[(i + layer) % (next.length - 1)]);
           }
-          const path = new THREE.BufferGeometry().setFromPoints([current[current.length - 1], next[next.length - 1]]);
-          const pathMaterial = new THREE.LineBasicMaterial({ color: light ? 0x137b8a : 0xd6fff2, transparent: true, opacity: .8 });
-          const pathLine = new THREE.Line(path, pathMaterial);
-          scene.add(pathLine); roots.push(pathLine); disposables.push(path, pathMaterial);
+          pathPoints.push(current[current.length - 1], next[next.length - 1]);
         }
+        const routeGeometry = new THREE.BufferGeometry().setFromPoints(routePoints);
+        const routeMaterial = new THREE.LineBasicMaterial({ color: light ? 0x578e9d : 0x9be3d6, transparent: true, opacity: light ? .24 : .31 });
+        const routeLine = new THREE.LineSegments(routeGeometry, routeMaterial);
+        scene.add(routeLine); roots.push(routeLine); disposables.push(routeGeometry, routeMaterial);
+        const pathGeometry = new THREE.BufferGeometry().setFromPoints(pathPoints);
+        const pathMaterial = new THREE.LineBasicMaterial({ color: light ? 0x137b8a : 0xd6fff2, transparent: true, opacity: .8 });
+        const pathLine = new THREE.LineSegments(pathGeometry, pathMaterial);
+        scene.add(pathLine); roots.push(pathLine); disposables.push(pathGeometry, pathMaterial);
         let frame = 0;
         let current = progressRef.current;
         let visible = true;
         let targetYaw = 0;
         let targetPitch = 0;
         let phone = false;
-        let frameBudget = lowEnd ? 1000 / 30 : 0;
-        let lastDraw = 0;
         let previousRender = 0;
         let slowFrames = 0;
         let qualityReduced = false;
+        let rendered = false;
+        let contextLost = false;
         let pointer: { id: number; x: number; y: number; travel: number } | null = null;
         const raycaster = new THREE.Raycaster();
+        raycaster.layers.enable(1);
         const pointerPoint = new THREE.Vector2();
+        function scheduleDraw() {
+          if (visible && !contextLost && !frame) frame = requestAnimationFrame(draw);
+        }
+        requestFrameRef.current = scheduleDraw;
         const resize = () => {
           const width = host.clientWidth;
           const height = host.clientHeight;
           if (!width || !height) return;
           phone = width <= 520;
-          frameBudget = constrained || phone ? 1000 / 30 : 0;
           renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .75 : constrained || phone ? 1 : 1.5));
           camera.aspect = width / height;
           camera.zoom = width > 800 ? 1 : width > 520 ? Math.min(.82, camera.aspect / 1.15) : Math.min(.65, camera.aspect / 1.05);
           camera.updateProjectionMatrix();
           renderer.setSize(width, height, false);
+          scheduleDraw();
         };
         const resizeObserver = new ResizeObserver(resize);
         resizeObserver.observe(host);
         resize();
-        const onVisibility = () => { visible = !document.hidden; if (visible && !frame) frame = requestAnimationFrame(draw); };
-        const onIntersect = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting && !document.hidden; if (visible && !frame) frame = requestAnimationFrame(draw); }, { threshold: 0 });
+        const onVisibility = () => {
+          visible = !document.hidden;
+          if (visible) scheduleDraw();
+          else { cancelAnimationFrame(frame); frame = 0; previousRender = 0; }
+        };
+        const onIntersect = new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting && !document.hidden;
+          if (visible) scheduleDraw();
+          else { cancelAnimationFrame(frame); frame = 0; previousRender = 0; }
+        }, { threshold: 0 });
         onIntersect.observe(host);
         const onPointerDown = (event: PointerEvent) => {
           if (event.button !== 0 || pointer) return;
@@ -148,6 +169,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           targetYaw = Math.max(-.75, Math.min(.75, targetYaw + dx * .006));
           targetPitch = Math.max(-.42, Math.min(.42, targetPitch + dy * .004));
           orbitRef.current(targetYaw, targetPitch);
+          scheduleDraw();
           pointer.x = event.clientX;
           pointer.y = event.clientY;
         };
@@ -178,40 +200,35 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
         host.addEventListener("pointerup", onPointerUp);
         host.addEventListener("pointercancel", onPointerCancel);
         host.addEventListener("lostpointercapture", onPointerCancel);
-        let rendered = false;
-        let contextLost = false;
         const onContextLost = (event: Event) => {
           event.preventDefault();
           contextLost = true;
+          cancelAnimationFrame(frame);
+          frame = 0;
           rendered = false;
           setReady(false);
         };
         const onContextRestored = () => {
           contextLost = false;
-          if (!frame && visible) frame = requestAnimationFrame(draw);
+          scheduleDraw();
         };
         renderer.domElement.addEventListener("webglcontextlost", onContextLost);
         renderer.domElement.addEventListener("webglcontextrestored", onContextRestored);
-        function draw(time = 0) {
+        function draw(time: number) {
           frame = 0;
           if (!visible || contextLost) return;
-          if (frameBudget && lastDraw && time - lastDraw < frameBudget) {
-            frame = requestAnimationFrame(draw);
-            return;
-          }
           if (lowEnd && !qualityReduced && previousRender) {
-            slowFrames = time - previousRender > 48 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
-            if (slowFrames >= 12) {
+            slowFrames = time - previousRender > 26 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+            if (slowFrames >= 8) {
               qualityReduced = true;
-              frameBudget = 1000 / 24;
               renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, .75));
               renderer.setSize(host?.clientWidth || 1, host?.clientHeight || 1, false);
             }
           }
           previousRender = time;
-          lastDraw = time;
           current += (progressRef.current - current) * .12;
           const stage = current * 4;
+          let moving = Math.abs(progressRef.current - current) > .0007;
           camera.position.set(0, .15 + Math.sin(stage * .55) * .18, 8 - current * 24);
           camera.lookAt(0, 0, camera.position.z - 7);
           layerGroups.forEach((group, index) => {
@@ -219,6 +236,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
             group.visible = !phone || (distance > 5.5 && distance < 20);
             group.rotation.y += (targetYaw * (1 + index * .04) - group.rotation.y) * .12;
             group.rotation.x += (targetPitch * (1 + index * .03) - group.rotation.x) * .12;
+            moving ||= Math.abs(targetYaw * (1 + index * .04) - group.rotation.y) > .001 || Math.abs(targetPitch * (1 + index * .03) - group.rotation.x) > .001;
           });
           markers.forEach(({ mesh, pick, z, index }) => {
             const distance = camera.position.z - z;
@@ -235,12 +253,14 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
             rendered = true;
             setReady(true);
           }
-          frame = requestAnimationFrame(draw);
+          if (moving) scheduleDraw();
+          else previousRender = 0;
         }
         document.addEventListener("visibilitychange", onVisibility);
-        frame = requestAnimationFrame(draw);
+        scheduleDraw();
         cleanup = () => {
           cancelAnimationFrame(frame);
+          requestFrameRef.current = () => {};
           renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
           renderer.domElement.removeEventListener("webglcontextrestored", onContextRestored);
           document.removeEventListener("visibilitychange", onVisibility);
