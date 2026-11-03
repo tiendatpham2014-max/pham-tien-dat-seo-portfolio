@@ -1,12 +1,16 @@
 /* Clean Lirunghi-inspired editorial composition */
 .hero .hero-inner {
   width: min(calc(100% - 2 * var(--gutter)), var(--max));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
 }
 
 .hero .hero-clean-main {
   width: 100%;
   max-width: none;
-  margin: auto 0;
+  grid-row: 2;
+  margin: 0;
   text-align: center;
 }
 
@@ -19,9 +23,10 @@
   text-transform: uppercase;
 }
 
-/* The shorter English name needs a larger display scale to hold the same space. */
+/* Keep the shorter English name close to the Vietnamese line's visual height. */
 html[lang="en"] .hero h1.hero-name {
-  font-size: clamp(62px, 11.5vw, 152px);
+  font-size: clamp(58px, 10.3vw, 140px);
+  line-height: .86;
 }
 
 .hero .hero-job-title {
@@ -45,6 +50,8 @@ html[data-theme="light"] .hero .hero-tagline {
 }
 
 .hero .hero-clean-bottom {
+  grid-row: 3;
+  align-self: end;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -408,7 +415,7 @@ html[data-theme="light"] .contact-editorial-links a:hover {
 @media (max-width: 650px) {
   .hero .hero-inner { width: 100%; }
   .hero h1.hero-name { font-size: clamp(36px, 9.5vw, 56px); }
-  html[lang="en"] .hero h1.hero-name { font-size: clamp(50px, 12vw, 78px); }
+  html[lang="en"] .hero h1.hero-name { font-size: clamp(42px, 11vw, 64px); }
   .hero .hero-job-title { margin-top: 14px; font-size: 16px; }
   .hero .hero-clean-bottom { flex-direction: column; align-items: flex-start; gap: 14px; }
   .hero-social { gap: 18px; }

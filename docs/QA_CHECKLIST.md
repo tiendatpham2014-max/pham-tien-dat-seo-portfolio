@@ -17,6 +17,7 @@ A task is complete only when the Next.js source builds to a working static expor
 ## Visual direction
 - [ ] Dark navy is the default theme; the light theme is available and readable.
 - [ ] Hero mesh supports the headline without obscuring text in either theme.
+- [ ] Before adding new motion, check the hero as one centered text group (name, role, tagline) in VI/EN and dark/light at 320×568, 390×844, 768×900, 1280×720 and 1920×900. The group's horizontal and vertical center must match the hero content area; bottom links must not move it. Check for wrapping, overlap and horizontal overflow.
 - [ ] Accent mint and warm horizon glow stay legible and deliberate.
 - [ ] Career horizon fills its own section and progresses only with scrolling; contact is a separate section.
 - [ ] Body text, links, buttons and focus indicators maintain reasonable contrast in both themes.
