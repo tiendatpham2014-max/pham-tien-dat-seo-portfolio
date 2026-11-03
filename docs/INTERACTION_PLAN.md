@@ -29,7 +29,7 @@ Implemented: the four Skills groups use Animate UI Tabs with a moving selection 
 
 Implemented as a constrained pilot in Skills: an orthographic, flat signal-flow illustration. It represents the conceptual sequence named under each group, not measured search data. The Three.js chunk loads only as the section approaches view; SVG remains as the static fallback. The scene pauses offscreen or while the page is hidden, respects reduced motion and disposes GPU resources on teardown.
 
-Next evaluation: compare field performance on a low-end phone before extending the scene. Keep the hero and career horizon on their existing implementations.
+For any further expansion, compare field performance on a low-end phone. Keep the hero and career horizon on their existing implementations.
 
 - Prototype one isolated, clearly illustrative visual only if the desired effect cannot be achieved cleanly with the existing Canvas or CSS. Do not present generated shapes as measured GSC data.
 - Load the scene only where needed, provide a static fallback, pause when off screen or hidden, respect reduced motion, and release renderer resources on teardown.
@@ -39,7 +39,7 @@ References: https://animate-ui.com/docs/installation and https://github.com/mrdo
 
 ## Rebuild pass: responsive spatial story and shared preferences
 
-- The SEO atlas keeps the five connected 3D planes, route lines, scroll progression and direct interaction on desktop and tablet. Tablet uses a wider camera view and a text legibility gradient, without removing the route geometry.
+- The SEO atlas now uses one morphing 3D model with attached route lines, scroll progression and direct interaction across desktop, tablet and mobile. The text legibility gradients remain.
 - Vietnamese first-person copy in the introduction and contact now uses `mình`; the English copy stays concise and balanced. Project attribution and measured claims are unchanged.
 - `SitePreferences` owns VI/EN and dark/light selection in React. All sections rendered by the portfolio page read their VI/EN copy from React context. The GSC metric picker also owns its selected metric in React, so changing language does not reset the selection. The legacy language field was removed from the shared mutable state; browser metadata and the document language mirror React's selection for menu and slider accessibility. DOM helpers do not rewrite translated section text.
 - Narrow or constrained devices start at a lower pixel ratio. The atlas batches line geometry and redraws only while scrolling or orbiting changes the view; sustained slow frames lower resolution further. The WebGL fallback remains. This is an adaptive safeguard, not a measured low-end-device benchmark.
@@ -56,4 +56,4 @@ The owner selected the first proposed direction and later requested it in this b
 - As the visitor scrolls, dispersed query signals gather inside four intent contours, connect to page-shaped structure nodes, pass through a radial measurement scan, and reveal a brighter priority route. One set of nodes and attached links morphs continuously; drag and direct waypoint selection remain available.
 - Keep stage labels connected to the active geometry on desktop, tablet and mobile. Preserve VI/EN copy, dark/light themes, keyboard access, reduced motion and a readable fallback.
 - The scene represents a method, not measured GSC data. Do not invent client results or show illustrative geometry as factual metrics.
-- Reuse the current adaptive rendering and test the changed scene on a narrow phone before shipping. No content or case expansion is bundled with this direction.
+- Reuse the current adaptive rendering and fallback. A successful build does not establish frame rate on a physical low-end phone. No content or case expansion is bundled with this direction.
