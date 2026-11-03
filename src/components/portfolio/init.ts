@@ -1,9 +1,8 @@
-import { get, all, text } from "./dom";
-import { resetState, reducedMotion, state } from "./state";
+import { all, text } from "./dom";
+import { resetState, reducedMotion } from "./state";
 import { initTheme } from "./theme";
 import { initMetrics } from "./metrics";
 import { initMobileMenu } from "./mobile-menu";
-import { initSkills, scheduleSkillTimer } from "./skills";
 import { initWritingRail, updateRail } from "./writing-rail";
 import { initComparison } from "./comparison";
 import { initScrollStories } from "./scroll-stories";
@@ -30,7 +29,6 @@ export function initPortfolio() {
   initHeroWaves(signal);
   initMetrics(signal);
   initComparison(signal);
-  initSkills(signal);
   initWritingRail(signal);
   initScrollStories(signal);
   initLanguage(signal);
@@ -64,13 +62,6 @@ export function initPortfolio() {
 
   window.addEventListener("resize", positionIndicator, { signal });
   if ("IntersectionObserver" in window) {
-    const skillObserver = new IntersectionObserver((entries) => {
-      state.skillVisible = entries[0].isIntersecting;
-      if (!signal.aborted) scheduleSkillTimer();
-    }, { threshold: 0.15 });
-    skillObserver.observe(get("#skills"));
-    observers.push(skillObserver);
-
     if (!reducedMotion()) {
       document.body.classList.add("js-motion");
       const revealObserver = new IntersectionObserver((entries) => {
@@ -94,3 +85,4 @@ export function initPortfolio() {
     document.body.classList.remove("js-motion", "menu-open", "page-hidden");
   };
 }
+

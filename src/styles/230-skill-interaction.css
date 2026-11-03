@@ -1,0 +1,38 @@
+/* Capability tabs: a single movable selection and one illustrative signal flow. */
+.skill-tab-item { position: relative; min-width: 0; }
+.skill-tab-item > button { position: relative; z-index: 1; width: 100%; }
+.skill-tab-highlight {
+  position: absolute;
+  inset: 1px 0;
+  background: rgba(156, 216, 233, .09);
+  border-radius: 7px;
+}
+.skill-tabs button[aria-selected="true"]::before { z-index: 2; }
+.skill-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.skill-panels { overflow: hidden; }
+.skill-contents { position: relative; }
+.skill-panel-content { min-width: 0; }
+.skill-signal { margin: -4px 0 18px; user-select: none; }
+.skill-signal-canvas { position: relative; height: 108px; overflow: hidden; }
+.skill-signal-canvas canvas { display: block; width: 100%; height: 100%; }
+.skill-signal-fallback { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--accent); stroke-width: 1.4; opacity: .42; }
+.skill-signal-canvas.is-rendered .skill-signal-fallback { display: none; }
+.skill-signal-labels { display: flex; justify-content: space-between; gap: 12px; padding: 0 2px; color: var(--quiet); font-size: 11px; font-weight: 600; letter-spacing: .03em; }
+.skill-signal-labels span:nth-child(2) { text-align: center; }
+.skill-signal-labels span:last-child { text-align: right; }
+html[data-theme="light"] .skill-tab-highlight { background: rgba(2, 132, 199, .09); }
+html[data-theme="light"] .skill-signal-labels { color: #475569; }
+@media (max-width: 1024px) {
+  .skill-tab-highlight { inset: 3px 0; }
+  .skill-signal-canvas { height: 90px; }
+}
+@media (max-width: 650px) {
+  .skill-signal { margin-bottom: 14px; }
+  .skill-signal-canvas { height: 64px; }
+  .skill-signal-labels { font-size: 10px; }
+  .skill-panels { padding: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skill-tab-highlight, .skill-contents { transition: none !important; }
+}
+

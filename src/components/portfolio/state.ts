@@ -7,11 +7,6 @@ export const state = {
   language: "vi" as Language,
   theme: "dark" as "dark" | "light",
   currentMetric: "clicks" as Metric,
-  currentSkill: 0,
-  manualSkill: false,
-  skillVisible: false,
-  skillHover: false,
-  skillFocus: false,
   menuOpen: false,
   currentSignal: 0,
   activeSection: "",
@@ -27,12 +22,8 @@ export function resetState() {
   state.language = "vi";
   state.theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
   state.currentMetric = "clicks";
-  state.currentSkill = 0;
-  state.manualSkill = false;
-  state.skillVisible = false;
-  state.skillHover = false;
-  state.skillFocus = false;
   state.menuOpen = false;
   state.currentSignal = 0;
   state.activeSection = "";
 }
+

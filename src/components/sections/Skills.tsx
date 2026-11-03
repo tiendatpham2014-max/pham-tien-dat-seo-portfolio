@@ -1,23 +1,71 @@
-export function Skills() {
-  return (
-    <>
-<section className="skills section-space" id="skills" aria-labelledby="skills-title">
-  <div className="shell"><div className="section-head"><div><h2 className="display-heading" id="skills-title" data-i18n="skillsTitle">Năng lực chuyên môn &amp; Kỹ thuật thực thi</h2></div><p data-i18n="skillsIntro">Cách tiếp cận và đầu ra điển hình theo từng mảng chuyên môn SEO.</p></div>
-    <div className="skill-layout"><div className="skill-tabs" role="tablist" aria-label="Các nhóm năng lực SEO" data-i18n-aria="skillsTablist">
-        <button type="button" role="tab" id="tab-technical" aria-controls="panel-technical" aria-selected="true" tabIndex={0} data-skill="technical" data-i18n="skillTechnical">Technical SEO</button>
-        <button type="button" role="tab" id="tab-content" aria-controls="panel-content" aria-selected="false" tabIndex={-1} data-skill="content" data-i18n="skillContent">Chiến lược nội dung</button>
-        <button type="button" role="tab" id="tab-analytics" aria-controls="panel-analytics" aria-selected="false" tabIndex={-1} data-skill="analytics" data-i18n="skillAnalytics">Phân tích dữ liệu</button>
-        <button type="button" role="tab" id="tab-workflow" aria-controls="panel-workflow" aria-selected="false" tabIndex={-1} data-skill="workflow" data-i18n="skillWorkflow">Quy trình &amp; tự động hóa</button>
-        <span className="skill-progress" aria-hidden="true" />
-      </div><div className="skill-panels">
-        <article role="tabpanel" id="panel-technical" aria-labelledby="tab-technical" tabIndex={0}><span className="panel-kicker">Technical SEO</span><h3 data-i18n="technicalHeadline">Tìm rào cản kỹ thuật &amp; tối ưu Core Web Vitals.</h3><dl><div><dt data-i18n="problem">Vấn đề</dt><dd data-i18n="technicalProblem">Trang khó crawl, index, chậm hoặc gặp lỗi 404 và chuỗi redirect.</dd></div><div><dt data-i18n="approach">Cách tiếp cận</dt><dd data-i18n="technicalApproach">Audit bằng Screaming Frog, kiểm tra Core Web Vitals, canonical, sitemap, schema và tối ưu redirect.</dd></div><div><dt data-i18n="output">Đầu ra điển hình</dt><dd data-i18n="technicalOutput">Danh mục khuyến nghị kỹ thuật và phối hợp cùng đội ngũ phát triển xử lý rào cản crawl/index.</dd></div></dl><p className="tool-line">Screaming Frog · Core Web Vitals · GSC · GTM · URL patterns</p></article>
-        <article role="tabpanel" id="panel-content" aria-labelledby="tab-content" tabIndex={0} hidden><span className="panel-kicker">Content Strategy</span><h3 data-i18n="contentHeadline">Khớp trang với nhu cầu tìm kiếm.</h3><dl><div><dt data-i18n="problem">Vấn đề</dt><dd data-i18n="contentProblem">Nội dung hiện tại chưa trả lời đúng search intent.</dd></div><div><dt data-i18n="approach">Cách tiếp cận</dt><dd data-i18n="contentApproach">Nghiên cứu từ khóa &amp; search intent qua Semrush/Ahrefs, lập keyword map, biên tập brief và tối ưu on-page.</dd></div><div><dt data-i18n="output">Đầu ra điển hình</dt><dd data-i18n="contentOutput">Keyword map, content brief chuẩn intent và kế hoạch cập nhật trang.</dd></div></dl><p className="tool-line">Ahrefs · Semrush · Keyword mapping · WordPress · On-page</p></article>
-        <article role="tabpanel" id="panel-analytics" aria-labelledby="tab-analytics" tabIndex={0} hidden><span className="panel-kicker">Analytics</span><h3 data-i18n="analyticsHeadline">Đặt biến động trong bối cảnh.</h3><dl><div><dt data-i18n="problem">Vấn đề</dt><dd data-i18n="analyticsProblem">Chỉ số tăng giảm nhưng nguyên nhân chưa rõ.</dd></div><div><dt data-i18n="approach">Cách tiếp cận</dt><dd data-i18n="analyticsApproach">So sánh kỳ, truy vấn, URL và nhóm trang trong GSC/GA4.</dd></div><div><dt data-i18n="output">Đầu ra điển hình</dt><dd data-i18n="analyticsOutput">Báo cáo phân tích dữ liệu chuyên sâu và danh mục giả thuyết cần kiểm chứng.</dd></div></dl><p className="tool-line">Google Search Console · GA4 · Semrush · Looker Studio</p></article>
-        <article role="tabpanel" id="panel-workflow" aria-labelledby="tab-workflow" tabIndex={0} hidden><span className="panel-kicker">AI &amp; Workflow</span><h3 data-i18n="workflowHeadline">Giảm thao tác lặp lại trong SEO.</h3><dl><div><dt data-i18n="problem">Vấn đề</dt><dd data-i18n="workflowProblem">Nghiên cứu từ khóa, audit và tổng hợp dữ liệu thủ công tốn nhiều thời gian.</dd></div><div><dt data-i18n="approach">Cách tiếp cận</dt><dd data-i18n="workflowApproach">Dùng bảng tính và AI để làm sạch, đối chiếu, tổng hợp dữ liệu và đánh giá bước nào phù hợp để tự động hóa.</dd></div><div><dt data-i18n="output">Đầu ra điển hình</dt><dd data-i18n="workflowOutput">Mẫu bảng dữ liệu, cấu trúc prompt và checklist kiểm tra có thể tái sử dụng.</dd></div></dl><p className="tool-line">Google Sheets · Apps Script · Claude · GPT</p></article>
-      </div></div>
-  </div>
-</section>
+"use client";
 
-    </>
+import { useSyncExternalStore, useState } from "react";
+import {
+  Tabs, TabsContent, TabsContents, TabsHighlight, TabsHighlightItem,
+  TabsList, TabsTrigger,
+} from "@animate-ui/react/primitives/tabs";
+import { copy, type Language } from "@/content/portfolio";
+import { SkillSignalMap } from "@/components/visuals/SkillSignalMap";
+
+const skills = [
+  { id: "technical", label: "skillTechnical", headline: "technicalHeadline", problem: "technicalProblem", approach: "technicalApproach", output: "technicalOutput", kicker: "Technical SEO", tools: "Screaming Frog · Core Web Vitals · GSC · GTM · URL patterns" },
+  { id: "content", label: "skillContent", headline: "contentHeadline", problem: "contentProblem", approach: "contentApproach", output: "contentOutput", kicker: "Content Strategy", tools: "Ahrefs · Semrush · Keyword mapping · WordPress · On-page" },
+  { id: "analytics", label: "skillAnalytics", headline: "analyticsHeadline", problem: "analyticsProblem", approach: "analyticsApproach", output: "analyticsOutput", kicker: "Analytics", tools: "Google Search Console · GA4 · Semrush · Looker Studio" },
+  { id: "workflow", label: "skillWorkflow", headline: "workflowHeadline", problem: "workflowProblem", approach: "workflowApproach", output: "workflowOutput", kicker: "AI & Workflow", tools: "Google Sheets · Apps Script · Claude · GPT" },
+] as const;
+
+function subscribeLanguage(callback: () => void) {
+  window.addEventListener("portfolio:language", callback);
+  return () => window.removeEventListener("portfolio:language", callback);
+}
+
+function currentLanguage(): Language {
+  return document.documentElement.lang === "en" ? "en" : "vi";
+}
+
+export function Skills() {
+  const language = useSyncExternalStore<Language>(subscribeLanguage, currentLanguage, () => "vi");
+  const [active, setActive] = useState("technical");
+  const words = copy[language];
+
+  return (
+    <section className="skills section-space" id="skills" aria-labelledby="skills-title">
+      <div className="shell">
+        <div className="section-head">
+          <div><h2 className="display-heading" id="skills-title">{words.skillsTitle}</h2></div>
+          <p>{words.skillsIntro}</p>
+        </div>
+        <Tabs className="skill-layout" value={active} onValueChange={setActive} orientation="vertical">
+          <TabsHighlight className="skill-tab-highlight">
+            <TabsList className="skill-tabs" aria-label={words.skillsTablist}>
+              {skills.map((skill) => (
+                <TabsHighlightItem key={skill.id} value={skill.id} className="skill-tab-item">
+                  <TabsTrigger value={skill.id}>{words[skill.label]}</TabsTrigger>
+                </TabsHighlightItem>
+              ))}
+            </TabsList>
+          </TabsHighlight>
+          <div className="skill-panels">
+            <SkillSignalMap active={active} language={language} />
+            <TabsContents className="skill-contents">
+              {skills.map((skill) => (
+                <TabsContent key={skill.id} value={skill.id} className="skill-panel-content">
+                  <span className="panel-kicker">{skill.kicker}</span>
+                  <h3>{words[skill.headline]}</h3>
+                  <dl>
+                    <div><dt>{words.problem}</dt><dd>{words[skill.problem]}</dd></div>
+                    <div><dt>{words.approach}</dt><dd>{words[skill.approach]}</dd></div>
+                    <div><dt>{words.output}</dt><dd>{words[skill.output]}</dd></div>
+                  </dl>
+                  <p className="tool-line">{skill.tools}</p>
+                </TabsContent>
+              ))}
+            </TabsContents>
+          </div>
+        </Tabs>
+      </div>
+    </section>
   );
 }
+

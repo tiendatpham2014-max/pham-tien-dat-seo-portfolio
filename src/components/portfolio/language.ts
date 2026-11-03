@@ -45,7 +45,10 @@ export function setLanguage(next: Language) {
   if (railPrev) railPrev.setAttribute("aria-label", copy[next].railPrev);
   const railNext = document.querySelector("#rail-next");
   if (railNext) railNext.setAttribute("aria-label", copy[next].railNext);
-  all("[data-value]").forEach((element) => { element.textContent = formatMetric(Number(element.dataset.value), "integer"); });
+  all("[data-value]").forEach((element) => {
+    const value = Number(element.dataset.value);
+    if (element.dataset.value && Number.isFinite(value)) element.textContent = formatMetric(value, "integer");
+  });
   all("[data-percent]").forEach((element) => { element.textContent = formatMetric(Number(element.dataset.percent), "percent"); });
   all("[data-decimal]").forEach((element) => { element.textContent = formatMetric(Number(element.dataset.decimal), "decimal"); });
   const storyValues = next === "vi" ? ["+27,1%", "−5,0%", "+0,34"] : ["+27.1%", "−5.0%", "+0.34"];
@@ -54,6 +57,7 @@ export function setLanguage(next: Language) {
   updateScenes();
   requestAnimationFrame(positionIndicator);
   try { localStorage.setItem("dat-seo-language", next); } catch { /* Storage may be unavailable. */ }
+  window.dispatchEvent(new Event("portfolio:language"));
 }
 
 export function initLanguage(signal: AbortSignal) {
@@ -69,3 +73,4 @@ export function initLanguage(signal: AbortSignal) {
     : stored === "en" ? "en" : "vi";
   setLanguage(initialLanguage);
 }
+

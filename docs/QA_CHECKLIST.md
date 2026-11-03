@@ -43,7 +43,8 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] If slider is used, keyboard Left/Right, Shift+arrows, Home/End and proper slider semantics update; if omitted no dummy controls.
 - [ ] Comparison exposes *all* actual values without a drag interaction (accessible summary/table).
 - [ ] Process shows 3 connected, readable steps with checklist details.
-- [ ] Skills has 4 manual accessible tabs; autopilot pauses appropriately and stops after manual choice.
+- [ ] Skills has 4 manual accessible tabs with a moving selection, keyboard arrows/Home/End and no automatic switching.
+- [ ] The illustrative SEO flow loads only near Skills, has a visible fallback without WebGL, pauses offscreen and under reduced motion, and never resembles GSC measurement.
 - [ ] Writing shows 4 authentic published links; horizontal swipe and prev/next controls work.
 - [ ] Experience section shows 3 real stages with correct dates/employer, without duplicating the Process interaction.
 - [ ] Contact methods are 2 actual functional destinations; email/LinkedIn retained and phone omitted for privacy.
@@ -82,3 +83,4 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] `npm run dev` confirmed or clearly report test limitation.
 - [ ] Code is legible enough for later editing; constants/data separate from interaction logic when practical.
 - [ ] Changes summarized by file, key interactions implemented, tests performed, known limitations and future optional refinements.
+
