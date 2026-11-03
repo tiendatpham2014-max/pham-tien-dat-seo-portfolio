@@ -1,10 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { BufferGeometry, Group, InstancedMesh, Material, Mesh, Object3D, Vector3 } from "three";
+import type { BufferGeometry, Material, Mesh, Vector3 } from "three";
 
-/** Five connected planes form a spatial map controlled by scroll, direct selection, and drag. */
-export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: { progress: number; theme: "dark" | "light"; onStageSelect: (index: number) => void; onOrbit: (yaw: number, pitch: number) => void }) {
+type AtlasProps = {
+  progress: number;
+  theme: "dark" | "light";
+  onStageSelect: (index: number) => void;
+  onOrbit: (yaw: number, pitch: number) => void;
+};
+
+/** One diagram changes shape as the visitor moves through five SEO decisions. */
+export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: AtlasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(progress);
   const selectRef = useRef(onStageSelect);
@@ -29,121 +36,219 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
       try {
         const THREE = await import("three");
         if (cancelled) return;
+
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(46, 1, 0.1, 90);
+        const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 40);
         const hardware = navigator as Navigator & { deviceMemory?: number };
         const constrained = (navigator.hardwareConcurrency || 8) <= 4 || (hardware.deviceMemory || 8) <= 4;
         const lowEnd = constrained || host.clientWidth <= 520;
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !lowEnd, powerPreference: "low-power" });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lowEnd ? 1 : 1.5));
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         host.appendChild(renderer.domElement);
-        const roots: Object3D[] = [];
-        const disposables: Array<BufferGeometry | Material> = [];
-        const pointPositions: Vector3[][] = [];
-        const dotMeshes: Array<{ mesh: InstancedMesh; z: number }> = [];
-        const layerGroups: Group[] = [];
-        const markers: Array<{ mesh: Mesh; pick: Mesh; z: number; index: number }> = [];
-        const ringCount = [9, 7, 8, 9, 5];
-        const colors = [0x9be3d6, 0x87a4e8, 0xf2b990, 0xb5d3ed, 0xbce8b4];
+
         const light = theme === "light";
-        for (let layer = 0; layer < 5; layer++) {
-          const group = new THREE.Group();
-          group.position.z = -layer * 6;
-          scene.add(group);
-          layerGroups.push(group);
-          const positions: Vector3[] = [];
-          const count = ringCount[layer];
-          for (let i = 0; i < count; i++) {
-            const angle = i / count * Math.PI * 2 + layer * 0.23;
-            const radius = 2.2 + Math.sin(i * 6.4 + layer) * 0.35;
-            positions.push(new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius * .68, 0));
+        const model = new THREE.Group();
+        scene.add(model);
+        const disposables: Array<BufferGeometry | Material> = [];
+        const nodeCount = 36;
+        const stagePositions: Vector3[][] = [[], [], [], [], []];
+        const clusterCenters = [[-1.55, .86], [1.55, .86], [-1.55, -.86], [1.55, -.86]];
+        const fraction = (value: number) => value - Math.floor(value);
+
+        for (let i = 0; i < nodeCount; i++) {
+          // Query signals start scattered; the deterministic layout is illustrative, not GSC data.
+          stagePositions[0].push(new THREE.Vector3(
+            (fraction(Math.sin(i * 127.1) * 43758.5) - .5) * 5.5,
+            (fraction(Math.sin(i * 311.7) * 24634.6) - .5) * 3.35,
+            (fraction(Math.sin(i * 74.3) * 12418.2) - .5) * 1.3,
+          ));
+
+          const cluster = i % 4;
+          const within = Math.floor(i / 4);
+          const angle = within * Math.PI * 2 / 9 + cluster * .22;
+          const radius = within === 0 ? 0 : .2 + (within % 3) * .095;
+          stagePositions[1].push(new THREE.Vector3(
+            clusterCenters[cluster][0] + Math.cos(angle) * radius,
+            clusterCenters[cluster][1] + Math.sin(angle) * radius * .75,
+            (within % 3 - 1) * .15,
+          ));
+
+          if (i === 0) stagePositions[2].push(new THREE.Vector3(-2.35, 0, .3));
+          else if (i < 7) stagePositions[2].push(new THREE.Vector3(-.65, (i - 3.5) * .54, .1));
+          else {
+            const category = (i - 7) % 6;
+            const row = Math.floor((i - 7) / 6);
+            stagePositions[2].push(new THREE.Vector3(1.25 + row * .25, (category - 2.5) * .54 + (row - 2) * .075, -.12));
           }
-          positions.push(new THREE.Vector3(0, 0, 0));
-          pointPositions.push(positions.map((point) => point.clone().add(group.position)));
-          const ring = new THREE.BufferGeometry().setFromPoints([...positions.slice(0, count), positions[0]]);
-          const ringMaterial = new THREE.LineBasicMaterial({ color: light ? 0x366473 : colors[layer], transparent: true, opacity: light ? .32 : .48 });
-          const ringLine = new THREE.Line(ring, ringMaterial);
-          group.add(ringLine); disposables.push(ring, ringMaterial);
-          const spokePoints: Vector3[] = [];
-          for (let i = 0; i < count; i++) spokePoints.push(positions[i], positions[count]);
-          const spokeGeometry = new THREE.BufferGeometry().setFromPoints(spokePoints);
-          const spokeMaterial = new THREE.LineBasicMaterial({ color: light ? 0x527789 : colors[layer], transparent: true, opacity: .2 });
-          group.add(new THREE.LineSegments(spokeGeometry, spokeMaterial));
-          disposables.push(spokeGeometry, spokeMaterial);
-          const dotGeometry = new THREE.SphereGeometry(.025, 8, 8);
-          const dotMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x173c51 : 0xe5f5f2 });
-          const dots = new THREE.InstancedMesh(dotGeometry, dotMaterial, count);
-          const dummy = new THREE.Object3D();
-          positions.slice(0, count).forEach((point, index) => { dummy.position.copy(point); dummy.updateMatrix(); dots.setMatrixAt(index, dummy.matrix); });
-          dots.instanceMatrix.needsUpdate = true;
-          group.add(dots); disposables.push(dotGeometry, dotMaterial);
-          dotMeshes.push({ mesh: dots, z: -layer * 6 });
-          const markerGeometry = new THREE.SphereGeometry(.095, 16, 16);
-          const markerMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x137b8a : 0xc7fff0 });
-          const marker = new THREE.Mesh(markerGeometry, markerMaterial);
-          group.add(marker);
-          const pickGeometry = new THREE.SphereGeometry(.48, 12, 12);
-          const pickMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
+
+          const ring = Math.floor(i / 9);
+          const ringAngle = i % 9 / 9 * Math.PI * 2 + ring * .14;
+          const ringRadius = .65 + ring * .54;
+          stagePositions[3].push(new THREE.Vector3(
+            Math.cos(ringAngle) * ringRadius,
+            Math.sin(ringAngle) * ringRadius * .75,
+            (ring - 1.5) * .13,
+          ));
+
+          const lane = i % 3;
+          const distance = Math.floor(i / 3) / 11;
+          stagePositions[4].push(new THREE.Vector3(
+            -2.45 + distance * 4.9,
+            (lane - 1) * .72 + (lane === 1 ? Math.sin(distance * Math.PI) * .3 : 0),
+            lane === 1 ? .35 : -.22,
+          ));
+        }
+
+        const palettes = light
+          ? [0x285d69, 0x46778f, 0x9b674a, 0x407d75]
+          : [0xb7eee0, 0x9cb6f0, 0xf0c4a2, 0xc3e8c1];
+        const signal = new THREE.Color(light ? 0x315d69 : 0xaedbdc);
+        const muted = new THREE.Color(light ? 0x90aaa9 : 0x527079);
+        const stageColors = stagePositions.map((_, stage) => Array.from({ length: nodeCount }, (_, i) => {
+          if (stage === 1) return new THREE.Color(palettes[i % 4]);
+          if (stage === 4) return new THREE.Color(i % 3 === 1 ? palettes[0] : muted);
+          return signal.clone();
+        }));
+
+        const nodeGeometry = new THREE.SphereGeometry(.06, 8, 6);
+        const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const nodes = new THREE.InstancedMesh(nodeGeometry, nodeMaterial, nodeCount);
+        nodes.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        model.add(nodes);
+        disposables.push(nodeGeometry, nodeMaterial);
+        const dummy = new THREE.Object3D();
+        const blendedPosition = new THREE.Vector3();
+        const blendedColor = new THREE.Color();
+        const currentPositions = Array.from({ length: nodeCount }, () => new THREE.Vector3());
+
+        const links: Array<Array<[number, number]>> = [
+          Array.from({ length: 15 }, (_, i) => [i * 2, i * 2 + 1] as [number, number]),
+          Array.from({ length: 32 }, (_, i) => [i + 4, (i + 4) % 4] as [number, number]),
+          [
+            ...Array.from({ length: 6 }, (_, i) => [0, i + 1] as [number, number]),
+            ...Array.from({ length: 29 }, (_, i) => [7 + i, 1 + i % 6] as [number, number]),
+          ],
+          [
+            ...Array.from({ length: 36 }, (_, i) => [i, Math.floor(i / 9) * 9 + (i + 1) % 9] as [number, number]),
+            ...Array.from({ length: 9 }, (_, i) => [i, i + 9] as [number, number]),
+            ...Array.from({ length: 9 }, (_, i) => [i + 18, i + 27] as [number, number]),
+          ],
+          Array.from({ length: 33 }, (_, i) => [i, i + 3] as [number, number]),
+        ];
+        const edgeOpacity = [.2, .42, .53, .4, .23];
+        const edgeGeometries = links.map((stageLinks, stage) => {
+          const geometry = new THREE.BufferGeometry();
+          geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(stageLinks.length * 6), 3).setUsage(THREE.DynamicDrawUsage));
+          const material = new THREE.LineBasicMaterial({ color: light ? 0x457b83 : palettes[stage % palettes.length], transparent: true, opacity: 0, depthWrite: false });
+          const edges = new THREE.LineSegments(geometry, material);
+          edges.frustumCulled = false;
+          model.add(edges);
+          disposables.push(geometry, material);
+          return { geometry, material };
+        });
+
+        const priorityGeometry = new THREE.BufferGeometry();
+        priorityGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(12 * 3), 3).setUsage(THREE.DynamicDrawUsage));
+        const priorityMaterial = new THREE.LineBasicMaterial({ color: light ? 0x137b8a : 0xc7fff0, transparent: true, opacity: 0, depthWrite: false });
+        const priorityLine = new THREE.Line(priorityGeometry, priorityMaterial);
+        priorityLine.frustumCulled = false;
+        model.add(priorityLine);
+        disposables.push(priorityGeometry, priorityMaterial);
+
+        const intentMaterials = clusterCenters.map(([x, y], index) => {
+          const points = Array.from({ length: 48 }, (_, i) => {
+            const angle = i / 48 * Math.PI * 2;
+            return new THREE.Vector3(x + Math.cos(angle) * .62, y + Math.sin(angle) * .43, -.22);
+          });
+          const geometry = new THREE.BufferGeometry().setFromPoints(points);
+          const material = new THREE.LineBasicMaterial({ color: palettes[index], transparent: true, opacity: 0, depthWrite: false });
+          model.add(new THREE.LineLoop(geometry, material));
+          disposables.push(geometry, material);
+          return material;
+        });
+
+        const pageGeometry = new THREE.PlaneGeometry(.58, .34);
+        const pageMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x377786 : 0xa4d9db, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+        const pageCards = new THREE.InstancedMesh(pageGeometry, pageMaterial, 6);
+        pageCards.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        pageCards.frustumCulled = false;
+        model.add(pageCards);
+        disposables.push(pageGeometry, pageMaterial);
+
+        const scanGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, .42), new THREE.Vector3(2.4, 0, .42)]);
+        const scanMaterial = new THREE.LineBasicMaterial({ color: light ? 0x146c7a : 0xd1fff1, transparent: true, opacity: 0, depthWrite: false });
+        const scanLine = new THREE.Line(scanGeometry, scanMaterial);
+        model.add(scanLine);
+        disposables.push(scanGeometry, scanMaterial);
+
+        const routeGeometry = new THREE.CylinderGeometry(.025, .025, 1, 6);
+        const routeMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x137b8a : 0xc7fff0, transparent: true, opacity: 0, depthWrite: false });
+        const routeSegments = new THREE.InstancedMesh(routeGeometry, routeMaterial, 11);
+        routeSegments.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        routeSegments.frustumCulled = false;
+        model.add(routeSegments);
+        disposables.push(routeGeometry, routeMaterial);
+        const vertical = new THREE.Vector3(0, 1, 0);
+        const direction = new THREE.Vector3();
+
+        const markerGeometry = new THREE.SphereGeometry(.07, 10, 8);
+        const pickGeometry = new THREE.SphereGeometry(.33, 8, 6);
+        const pickMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
+        const markers: Array<{ mesh: Mesh; pick: Mesh; material: Material }> = [];
+        for (let index = 0; index < 5; index++) {
+          const material = new THREE.MeshBasicMaterial({ color: light ? 0x286c77 : 0xb6dfd8, transparent: true, opacity: .5 });
+          const mesh = new THREE.Mesh(markerGeometry, material);
           const pick = new THREE.Mesh(pickGeometry, pickMaterial);
-          pick.userData.stageIndex = layer;
+          mesh.position.set((index - 2) * 1.02, -2.15, .3);
+          pick.position.copy(mesh.position);
+          pick.userData.stageIndex = index;
           pick.layers.set(1);
-          group.add(pick);
-          markers.push({ mesh: marker, pick, z: -layer * 6, index: layer });
-          disposables.push(markerGeometry, markerMaterial, pickGeometry, pickMaterial);
+          model.add(mesh, pick);
+          markers.push({ mesh, pick, material });
+          disposables.push(material);
         }
-        const routePoints: Vector3[] = [];
-        const pathPoints: Vector3[] = [];
-        for (let layer = 0; layer < 4; layer++) {
-          const current = pointPositions[layer];
-          const next = pointPositions[layer + 1];
-          for (let i = 0; i < Math.min(current.length - 1, next.length - 1); i += 2) {
-            routePoints.push(current[i], next[(i + layer) % (next.length - 1)]);
-          }
-          pathPoints.push(current[current.length - 1], next[next.length - 1]);
-        }
-        const routeGeometry = new THREE.BufferGeometry().setFromPoints(routePoints);
-        const routeMaterial = new THREE.LineBasicMaterial({ color: light ? 0x578e9d : 0x9be3d6, transparent: true, opacity: light ? .24 : .31 });
-        const routeLine = new THREE.LineSegments(routeGeometry, routeMaterial);
-        scene.add(routeLine); roots.push(routeLine); disposables.push(routeGeometry, routeMaterial);
-        const pathGeometry = new THREE.BufferGeometry().setFromPoints(pathPoints);
-        const pathMaterial = new THREE.LineBasicMaterial({ color: light ? 0x137b8a : 0xd6fff2, transparent: true, opacity: .8 });
-        const pathLine = new THREE.LineSegments(pathGeometry, pathMaterial);
-        scene.add(pathLine); roots.push(pathLine); disposables.push(pathGeometry, pathMaterial);
+        disposables.push(markerGeometry, pickGeometry, pickMaterial);
+
         let frame = 0;
         let current = progressRef.current;
-        let visible = true;
+        let currentYaw = 0;
+        let currentPitch = 0;
         let targetYaw = 0;
         let targetPitch = 0;
-        let phone = false;
+        let visible = true;
         let previousRender = 0;
         let slowFrames = 0;
         let qualityReduced = false;
         let rendered = false;
         let contextLost = false;
-        let pointer: { id: number; x: number; y: number; travel: number } | null = null;
+        let pointer: { id: number; x: number; y: number; startX: number; startY: number; travel: number; scrolling: boolean } | null = null;
         const raycaster = new THREE.Raycaster();
-        raycaster.layers.enable(1);
+        raycaster.layers.set(1);
         const pointerPoint = new THREE.Vector2();
+
         function scheduleDraw() {
           if (visible && !contextLost && !frame) frame = requestAnimationFrame(draw);
         }
         requestFrameRef.current = scheduleDraw;
+
         const resize = () => {
           const width = host.clientWidth;
           const height = host.clientHeight;
           if (!width || !height) return;
-          phone = width <= 520;
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .75 : constrained || phone ? 1 : 1.5));
+          const phone = width <= 520;
           camera.aspect = width / height;
-          camera.zoom = width > 800 ? 1 : width > 520 ? Math.min(.82, camera.aspect / 1.15) : Math.min(.65, camera.aspect / 1.05);
+          camera.position.z = phone ? 10.5 : width <= 1050 ? 9.5 : 8.5;
           camera.updateProjectionMatrix();
+          model.position.set(phone ? 0 : width <= 1050 ? .5 : .85, phone ? .35 : 0, 0);
+          model.scale.setScalar(phone ? .9 : 1);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .75 : constrained || phone ? 1 : 1.5));
           renderer.setSize(width, height, false);
           scheduleDraw();
         };
         const resizeObserver = new ResizeObserver(resize);
         resizeObserver.observe(host);
         resize();
+
         const onVisibility = () => {
           visible = !document.hidden;
           if (visible) scheduleDraw();
@@ -155,9 +260,10 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           else { cancelAnimationFrame(frame); frame = 0; previousRender = 0; }
         }, { threshold: 0 });
         onIntersect.observe(host);
+
         const onPointerDown = (event: PointerEvent) => {
           if (event.button !== 0 || pointer) return;
-          pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, travel: 0 };
+          pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY, travel: 0, scrolling: false };
           host.setPointerCapture(event.pointerId);
           host.classList.add("is-dragging");
         };
@@ -165,17 +271,21 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           if (pointer?.id !== event.pointerId) return;
           const dx = event.clientX - pointer.x;
           const dy = event.clientY - pointer.y;
+          const totalX = event.clientX - pointer.startX;
+          const totalY = event.clientY - pointer.startY;
           pointer.travel += Math.abs(dx) + Math.abs(dy);
-          targetYaw = Math.max(-.75, Math.min(.75, targetYaw + dx * .006));
-          targetPitch = Math.max(-.42, Math.min(.42, targetPitch + dy * .004));
-          orbitRef.current(targetYaw, targetPitch);
-          scheduleDraw();
           pointer.x = event.clientX;
           pointer.y = event.clientY;
+          if (event.pointerType === "touch" && Math.abs(totalY) > Math.abs(totalX) && Math.abs(totalY) > 5) pointer.scrolling = true;
+          if (pointer.scrolling) return;
+          targetYaw = Math.max(-.7, Math.min(.7, targetYaw + dx * .006));
+          targetPitch = Math.max(-.38, Math.min(.38, targetPitch + dy * .004));
+          orbitRef.current(targetYaw, targetPitch);
+          scheduleDraw();
         };
         const onPointerUp = (event: PointerEvent) => {
           if (pointer?.id !== event.pointerId) return;
-          const wasClick = pointer.travel <= 3;
+          const wasClick = pointer.travel <= 5 && !pointer.scrolling;
           pointer = null;
           host.classList.remove("is-dragging");
           if (host.hasPointerCapture(event.pointerId)) host.releasePointerCapture(event.pointerId);
@@ -183,11 +293,8 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           const rect = host.getBoundingClientRect();
           pointerPoint.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
           raycaster.setFromCamera(pointerPoint, camera);
-          const hits = raycaster.intersectObjects(markers.filter(({ pick }) => pick.visible).map(({ pick }) => pick));
-          if (hits.length) {
-            const index = hits[0].object.userData.stageIndex as number;
-            selectRef.current(index === Math.round(progressRef.current * 4) ? Math.min(4, index + 1) : index);
-          }
+          const hits = raycaster.intersectObjects(markers.map(({ pick }) => pick));
+          if (hits.length) selectRef.current(hits[0].object.userData.stageIndex as number);
         };
         const onPointerCancel = (event: PointerEvent) => {
           if (pointer?.id !== event.pointerId) return;
@@ -200,6 +307,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
         host.addEventListener("pointerup", onPointerUp);
         host.addEventListener("pointercancel", onPointerCancel);
         host.addEventListener("lostpointercapture", onPointerCancel);
+
         const onContextLost = (event: Event) => {
           event.preventDefault();
           contextLost = true;
@@ -208,12 +316,10 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           rendered = false;
           setReady(false);
         };
-        const onContextRestored = () => {
-          contextLost = false;
-          scheduleDraw();
-        };
+        const onContextRestored = () => { contextLost = false; scheduleDraw(); };
         renderer.domElement.addEventListener("webglcontextlost", onContextLost);
         renderer.domElement.addEventListener("webglcontextrestored", onContextRestored);
+
         function draw(time: number) {
           frame = 0;
           if (!visible || contextLost) return;
@@ -226,36 +332,91 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
             }
           }
           previousRender = time;
-          current += (progressRef.current - current) * .12;
-          const stage = current * 4;
-          let moving = Math.abs(progressRef.current - current) > .0007;
-          camera.position.set(0, .15 + Math.sin(stage * .55) * .18, 8 - current * 24);
-          camera.lookAt(0, 0, camera.position.z - 7);
-          layerGroups.forEach((group, index) => {
-            const distance = camera.position.z - group.position.z;
-            group.visible = !phone || (distance > 5.5 && distance < 20);
-            group.rotation.y += (targetYaw * (1 + index * .04) - group.rotation.y) * .12;
-            group.rotation.x += (targetPitch * (1 + index * .03) - group.rotation.x) * .12;
-            moving ||= Math.abs(targetYaw * (1 + index * .04) - group.rotation.y) > .001 || Math.abs(targetPitch * (1 + index * .03) - group.rotation.x) > .001;
+          current += (progressRef.current - current) * .16;
+          currentYaw += (targetYaw - currentYaw) * .16;
+          currentPitch += (targetPitch - currentPitch) * .16;
+          const stage = Math.max(0, Math.min(4, current * 4));
+          const from = Math.min(3, Math.floor(stage));
+          const to = Math.min(4, from + 1);
+          const portion = Math.max(0, Math.min(1, stage - from));
+          const blend = portion * portion * (3 - 2 * portion);
+          model.rotation.set(.12 + currentPitch, currentYaw, 0);
+
+          for (let i = 0; i < nodeCount; i++) {
+            blendedPosition.copy(stagePositions[from][i]).lerp(stagePositions[to][i], blend);
+            currentPositions[i].copy(blendedPosition);
+            dummy.position.copy(blendedPosition);
+            dummy.scale.setScalar(stage > 3 && i % 3 === 1 ? 1.3 : 1);
+            dummy.updateMatrix();
+            nodes.setMatrixAt(i, dummy.matrix);
+            blendedColor.copy(stageColors[from][i]).lerp(stageColors[to][i], blend);
+            nodes.setColorAt(i, blendedColor);
+          }
+          nodes.instanceMatrix.needsUpdate = true;
+          if (nodes.instanceColor) nodes.instanceColor.needsUpdate = true;
+          edgeGeometries.forEach(({ geometry, material }, index) => {
+            material.opacity = edgeOpacity[index] * Math.max(0, 1 - Math.abs(stage - index));
+            if (material.opacity <= 0) return;
+            const attribute = geometry.getAttribute("position") as import("three").BufferAttribute;
+            links[index].forEach(([a, b], linkIndex) => {
+              const start = currentPositions[a];
+              const end = currentPositions[b];
+              attribute.setXYZ(linkIndex * 2, start.x, start.y, start.z);
+              attribute.setXYZ(linkIndex * 2 + 1, end.x, end.y, end.z);
+            });
+            attribute.needsUpdate = true;
           });
-          markers.forEach(({ mesh, pick, z, index }) => {
-            const distance = camera.position.z - z;
-            const shown = index >= Math.round(stage) && (!phone ? Math.abs(distance) > 4 : distance > 5.5 && distance < 20);
-            mesh.visible = shown;
-            pick.visible = shown;
-          });
-          dotMeshes.forEach(({ mesh, z }) => {
-            const distance = camera.position.z - z;
-            mesh.visible = !phone ? Math.abs(distance) > 4 : distance > 5.5 && distance < 20;
+          priorityMaterial.opacity = .88 * Math.max(0, stage - 3);
+          if (priorityMaterial.opacity > 0) {
+            const attribute = priorityGeometry.getAttribute("position") as import("three").BufferAttribute;
+            for (let i = 0; i < 12; i++) {
+              const point = currentPositions[i * 3 + 1];
+              attribute.setXYZ(i, point.x, point.y, point.z);
+            }
+            attribute.needsUpdate = true;
+          }
+          const intentStrength = Math.max(0, 1 - Math.abs(stage - 1));
+          intentMaterials.forEach((material) => { material.opacity = .55 * intentStrength; });
+          pageMaterial.opacity = .2 * Math.max(0, 1 - Math.abs(stage - 2));
+          for (let i = 0; i < 6; i++) {
+            dummy.position.copy(currentPositions[i + 1]);
+            dummy.quaternion.identity();
+            dummy.scale.setScalar(1);
+            dummy.updateMatrix();
+            pageCards.setMatrixAt(i, dummy.matrix);
+          }
+          pageCards.instanceMatrix.needsUpdate = true;
+          scanMaterial.opacity = .55 * Math.max(0, 1 - Math.abs(stage - 3));
+          scanLine.rotation.z = current * Math.PI * 2;
+          routeMaterial.opacity = .82 * Math.max(0, stage - 3);
+          if (routeMaterial.opacity > 0) {
+            for (let i = 0; i < 11; i++) {
+              const start = currentPositions[i * 3 + 1];
+              const end = currentPositions[(i + 1) * 3 + 1];
+              direction.subVectors(end, start);
+              const length = direction.length();
+              dummy.position.copy(start).add(end).multiplyScalar(.5);
+              dummy.quaternion.setFromUnitVectors(vertical, direction.normalize());
+              dummy.scale.set(1, length, 1);
+              dummy.updateMatrix();
+              routeSegments.setMatrixAt(i, dummy.matrix);
+            }
+            routeSegments.instanceMatrix.needsUpdate = true;
+          }
+          markers.forEach(({ mesh, material }, index) => {
+            const focus = Math.max(0, 1 - Math.abs(stage - index));
+            mesh.scale.setScalar(1 + focus * .6);
+            material.opacity = .4 + focus * .6;
           });
           renderer.render(scene, camera);
           if (!rendered && renderer.domElement.clientWidth && renderer.domElement.clientHeight) {
             rendered = true;
             setReady(true);
           }
-          if (moving) scheduleDraw();
+          if (Math.abs(progressRef.current - current) > .0007 || Math.abs(targetYaw - currentYaw) > .001 || Math.abs(targetPitch - currentPitch) > .001) scheduleDraw();
           else previousRender = 0;
         }
+
         document.addEventListener("visibilitychange", onVisibility);
         scheduleDraw();
         cleanup = () => {
@@ -269,11 +430,14 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: {
           host.removeEventListener("pointerup", onPointerUp);
           host.removeEventListener("pointercancel", onPointerCancel);
           host.removeEventListener("lostpointercapture", onPointerCancel);
-          resizeObserver.disconnect(); onIntersect.disconnect();
-          roots.forEach((root) => scene.remove(root));
-          layerGroups.forEach((group) => scene.remove(group));
+          resizeObserver.disconnect();
+          onIntersect.disconnect();
           disposables.forEach((item) => item.dispose());
-          renderer.dispose(); renderer.domElement.remove();
+          nodes.dispose();
+          pageCards.dispose();
+          routeSegments.dispose();
+          renderer.dispose();
+          renderer.domElement.remove();
         };
       } catch (error) {
         console.warn("Search atlas WebGL unavailable; using the CSS diagram.", error);

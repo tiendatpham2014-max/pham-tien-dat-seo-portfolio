@@ -41,9 +41,19 @@ References: https://animate-ui.com/docs/installation and https://github.com/mrdo
 
 - The SEO atlas keeps the five connected 3D planes, route lines, scroll progression and direct interaction on desktop and tablet. Tablet uses a wider camera view and a text legibility gradient, without removing the route geometry.
 - Vietnamese first-person copy in the introduction and contact now uses `mình`; the English copy stays concise and balanced. Project attribution and measured claims are unchanged.
-- `SitePreferences` owns VI/EN and dark/light selection in React. Existing static sections still receive translation through the DOM adapter while the navigation, Skills and SEO atlas read the shared React state.
+- `SitePreferences` owns VI/EN and dark/light selection in React. All sections rendered by the portfolio page read their VI/EN copy from React context. The GSC metric picker also owns its selected metric in React, so changing language does not reset the selection. The legacy language field was removed from the shared mutable state; browser metadata and the document language mirror React's selection for menu and slider accessibility. DOM helpers do not rewrite translated section text.
 - Narrow or constrained devices start at a lower pixel ratio. The atlas batches line geometry and redraws only while scrolling or orbiting changes the view; sustained slow frames lower resolution further. The WebGL fallback remains. This is an adaptive safeguard, not a measured low-end-device benchmark.
 
 ## Later phase
 
 - Evaluate separate VI and EN URLs, metadata and language alternates as one SEO migration. Do not change routing in this rebuild pass.
+
+## Implemented 3D direction — continuous SEO map
+
+The owner selected the first proposed direction and later requested it in this build alongside the language architecture update.
+
+- Keep the existing five conceptual stages: queries, intent, structure, measurement and decision. They form one changing 3D space rather than five nearly identical planes.
+- As the visitor scrolls, dispersed query signals gather inside four intent contours, connect to page-shaped structure nodes, pass through a radial measurement scan, and reveal a brighter priority route. One set of nodes and attached links morphs continuously; drag and direct waypoint selection remain available.
+- Keep stage labels connected to the active geometry on desktop, tablet and mobile. Preserve VI/EN copy, dark/light themes, keyboard access, reduced motion and a readable fallback.
+- The scene represents a method, not measured GSC data. Do not invent client results or show illustrative geometry as factual metrics.
+- Reuse the current adaptive rendering and test the changed scene on a narrow phone before shipping. No content or case expansion is bundled with this direction.
