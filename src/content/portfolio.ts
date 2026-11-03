@@ -57,7 +57,7 @@ export const copy = {
     // Evidence / Work
     workLabel: "Case Study / Dự án thực tế",
     workEyebrow: "Altus Entertainment · US",
-    workTitle: "Một dự án. Hai kỳ dữ liệu.",
+    workTitle: "Một dự án. Hai kỳ dữ liệu.",
     workIntro: "Search intent, nội dung và cấu trúc trang qua lăng kính Google Search Console.",
     workFigure: "+27,1%",
     workFigureLabel: "Lượt nhấp toàn website",
@@ -262,7 +262,7 @@ export const copy = {
     // Evidence / Work
     workLabel: "Featured Project / Case Study",
     workEyebrow: "Altus Entertainment · US",
-    workTitle: "One project. Two reporting periods.",
+    workTitle: "One project. Two reporting periods.",
     workIntro: "Search intent, content and page structure through the lens of Google Search Console.",
     workFigure: "+27.1%",
     workFigureLabel: "Sitewide clicks",
