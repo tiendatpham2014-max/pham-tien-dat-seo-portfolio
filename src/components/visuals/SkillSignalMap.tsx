@@ -158,4 +158,3 @@ export function SkillSignalMap({ active, language }: { active: string; language:
     </div>
   );
 }
-

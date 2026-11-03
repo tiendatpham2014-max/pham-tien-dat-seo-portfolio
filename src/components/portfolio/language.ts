@@ -57,32 +57,4 @@ export function setLanguage(next: Language) {
   updateScenes();
   requestAnimationFrame(positionIndicator);
   try { localStorage.setItem("dat-seo-language", next); } catch { /* Storage may be unavailable. */ }
-  window.dispatchEvent(new Event("portfolio:language"));
 }
-
-export function initLanguage(signal: AbortSignal) {
-  all<HTMLButtonElement>("[data-lang]").forEach((button) => button.addEventListener("click", () => {
-    const next = button.dataset.lang;
-    if (next === "vi" || next === "en") setLanguage(next);
-  }, { signal }));
-  let stored: string | null = null;
-  try { stored = localStorage.getItem("dat-seo-language"); } catch { /* Storage may be unavailable. */ }
-  const requested = new URLSearchParams(window.location.search).get("lang");
-  const initialLanguage = requested === "vi" || requested === "en"
-    ? requested
-    : stored === "en" ? "en" : "vi";
-  setLanguage(initialLanguage);
-  // Next's head manager may restore the server title once after hydration.
-  // Keep the visible title aligned with the active language on this single-page site.
-  if (document.head) {
-    const observer = new MutationObserver(() => {
-      const expected = state.language === "vi"
-        ? "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio"
-        : "Dat Pham (Pham Tien Dat) — SEO Executive | Portfolio";
-      if (document.title !== expected) document.title = expected;
-    });
-    observer.observe(document.head, { childList: true, characterData: true, subtree: true });
-    signal.addEventListener("abort", () => observer.disconnect(), { once: true });
-  }
-}
-

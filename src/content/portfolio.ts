@@ -1,7 +1,8 @@
 export const copy = {
   vi: {
     skip: "Đi tới nội dung",
-    navAbout: "Về tôi",
+    navAbout: "Giới thiệu",
+    navAtlas: "Cách làm",
     navWork: "Dự án",
     navSkills: "Chuyên môn",
     navWriting: "Bài viết",
@@ -16,7 +17,7 @@ export const copy = {
     // Hero
     role: "SEO Executive",
     location: "TP. Hồ Chí Minh, Việt Nam",
-    heroGreeting: "Xin chào, tôi là",
+    heroGreeting: "Chào bạn, mình là",
     heroBadge: "SEO Executive @ Primas Group",
     heroOverline: "SEO EXECUTIVE · PRIMAS GROUP",
     heroName: "Phạm Tiến Đạt",
@@ -38,12 +39,12 @@ export const copy = {
     metaFocus: "Search Intent · Core Web Vitals · AI Workflows",
 
     // About / Manifesto
-    aboutLabel: "Về tôi",
-    aboutTitle: "Xin chào, tôi là Đạt.",
-    aboutLead: "Tôi kết nối nhu cầu tìm kiếm với nội dung, cấu trúc trang và dữ liệu để đưa ra quyết định SEO có cơ sở.",
-    aboutBio: "Nền tảng Ngôn ngữ Anh Thương mại giúp tôi làm việc với nội dung cho thị trường quốc tế.",
+    aboutLabel: "Giới thiệu",
+    aboutTitle: "Chào bạn, mình là Đạt.",
+    aboutLead: "Mình tìm điểm gặp nhau giữa điều người ta đang tìm, nội dung trên trang và dữ liệu thực tế để chọn hướng làm SEO phù hợp.",
+    aboutBio: "Nền tảng Ngôn ngữ Anh Thương mại giúp mình làm việc với nội dung cho thị trường quốc tế.",
     aboutFocus: "Search intent / On-page / Measurement",
-    aboutNext: "Xem hành trình nghề nghiệp ↓",
+    aboutNext: "Xem cách mình làm SEO ↓",
     aboutPillarsAria: "Trọng tâm năng lực",
     aboutStackAria: "Công cụ và nền tảng chuyên môn",
     pillarOneTitle: "Chuyên môn trọng tâm",
@@ -197,7 +198,7 @@ export const copy = {
     // Contact & Footer
     contactLabel: "Kết nối",
     contactTitle: "Cùng trao đổi.",
-    contactIntro: "Nếu bạn đang tìm một SEO Executive chuyên sâu về nội dung, kỹ thuật và tăng trưởng thực tế, tôi rất vui được trao đổi.",
+    contactIntro: "Bạn muốn trao đổi về nội dung, technical SEO hay một bài toán tìm kiếm cụ thể? Mình rất vui được kết nối.",
     footerLine: "Từ nhu cầu tìm kiếm đến nội dung và dữ liệu.",
     footerExplore: "Khám phá",
     footerConnect: "Kết nối",
@@ -207,6 +208,7 @@ export const copy = {
   en: {
     skip: "Skip to content",
     navAbout: "About",
+    navAtlas: "Approach",
     navWork: "Work",
     navSkills: "Skills",
     navWriting: "Writing",
@@ -245,10 +247,10 @@ export const copy = {
     // About / Manifesto
     aboutLabel: "About",
     aboutTitle: "Hi, I’m Dat.",
-    aboutLead: "I connect search intent, content, page structure and evidence to make grounded SEO decisions.",
+    aboutLead: "I look at what people search for, what a page offers, and what the data shows before deciding what to improve.",
     aboutBio: "My Business English background helps me work with content for international audiences.",
     aboutFocus: "Search intent / On-page / Measurement",
-    aboutNext: "Explore my experience ↓",
+    aboutNext: "Explore my SEO approach ↓",
     aboutPillarsAria: "Core capabilities",
     aboutStackAria: "Professional tools and platforms",
     pillarOneTitle: "Core Competencies",
@@ -402,7 +404,7 @@ export const copy = {
     // Contact & Footer
     contactLabel: "Connect",
     contactTitle: "Get in touch.",
-    contactIntro: "If you're looking for an SEO Executive focused on search intent, technical precision, and measurable organic growth, I'd be glad to connect.",
+    contactIntro: "Want to talk about content, technical SEO, or a specific search challenge? I'd be glad to connect.",
     footerLine: "From search intent to content and evidence.",
     footerExplore: "Explore",
     footerConnect: "Connect",

@@ -1,0 +1,99 @@
+/* Demo direction: one spatial SEO story, broad editorial fields, and the actual GSC case. */
+.rebuild-index { display: inline-block; color: var(--accent); font-size: 11px; font-weight: 600; line-height: 1.4; letter-spacing: .13em; text-transform: uppercase; }
+.about.section-space { display: flex; align-items: center; min-height: clamp(680px, 94svh, 1050px); padding-top: clamp(100px, 11vh, 150px); padding-bottom: clamp(100px, 11vh, 150px); }
+.about .about-layout { width: min(calc(100% - 2 * var(--gutter)), var(--max)); grid-template-columns: minmax(0, .87fr) minmax(0, 1.13fr); gap: clamp(45px, 8vw, 145px); align-items: center; }
+.about .about-copy { max-width: 700px; }
+.about .about-copy .display-heading { margin: clamp(20px, 3vh, 38px) 0 clamp(28px, 4vh, 44px); font-size: clamp(54px, 6.3vw, 104px); line-height: 1.02; letter-spacing: -.065em; }
+.about .about-lead { font-size: clamp(20px, 1.7vw, 27px); line-height: 1.47; letter-spacing: -.025em; }
+.about .about-bio { margin-top: 24px; max-width: 440px; font-size: clamp(14px, 1vw, 16px); }
+.about .about-next { margin-top: 44px; }
+.about-image-space { min-height: clamp(450px, 62vh, 780px); background: transparent; }
+.work.section-space { padding-top: clamp(100px, 14vh, 180px); padding-bottom: clamp(90px, 13vh, 170px); }
+.work .case-cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(310px, .65fr); align-items: end; gap: clamp(45px, 7vw, 130px); padding: 0 0 clamp(70px, 10vh, 140px); }
+.work .case-cover-intro { max-width: 730px; }
+.work .case-cover-label { display: inline-block; margin-bottom: 23px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.work .case-cover .display-heading { font-size: clamp(55px, 6.8vw, 110px); line-height: 1.03; letter-spacing: -.065em; }
+.work .case-cover-intro > p:last-child { max-width: 510px; font-size: clamp(16px, 1.25vw, 20px); }
+.work .case-cover-result { align-self: end; padding-bottom: 12px; }
+.work .case-cover-result strong { display: block; font-size: clamp(68px, 8.2vw, 138px); font-weight: 600; line-height: 1; letter-spacing: -.08em; }
+.work .case-cover-result small { display: block; max-width: 390px; margin-top: 16px; line-height: 1.5; }
+.work .metric-stage, .work .compare-wrap { border-radius: 0; }
+.skills.section-space, .writing.section-space { padding-top: clamp(100px, 12vh, 160px); padding-bottom: clamp(100px, 12vh, 160px); }
+.skills .section-head, .writing .section-head { margin-bottom: clamp(55px, 8vh, 100px); }
+.skills .display-heading, .writing .display-heading { font-size: clamp(53px, 6.2vw, 100px); line-height: 1.05; letter-spacing: -.06em; }
+.skills .skill-layout { border-radius: 0; }
+.skills .skill-panels { min-height: 390px; }
+.journey .career-stage { transition: none; }
+.journey .career-stage.is-current { animation: career-arrive .32s ease-out both; }
+@keyframes career-arrive { from { opacity: 0; } to { opacity: 1; } }
+.writing .article-rail { display: block; overflow: visible; padding: 0; scroll-snap-type: none; }
+.js-motion .writing .article-card { opacity: 1; transform: none; }
+.writing .article-card,
+html[data-theme="light"] .writing .article-card {
+  display: grid;
+  grid-template-columns: minmax(150px, .22fr) minmax(0, 1fr) 120px;
+  align-items: center;
+  gap: clamp(25px, 4vw, 68px);
+  width: 100%;
+  min-height: 132px;
+  padding: 26px 0;
+  border: 0;
+  border-top: 1px solid rgba(167, 191, 202, .35);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: color .25s, padding-left .3s;
+}
+.writing .article-card:last-child { border-bottom: 1px solid rgba(167, 191, 202, .35); }
+.writing .article-card:hover,
+.writing .article-card:focus-visible,
+html[data-theme="light"] .writing .article-card:hover,
+html[data-theme="light"] .writing .article-card:focus-visible { padding-left: 12px; background: transparent; border-color: rgba(167, 191, 202, .5); box-shadow: none; transform: none; }
+.writing .article-top { display: flex; justify-content: flex-start; gap: 14px; font-size: 11px; text-transform: uppercase; white-space: nowrap; }
+.writing .article-index { opacity: .6; }
+.writing .article-card strong { margin: 0; font-size: clamp(18px, 1.75vw, 26px); font-weight: 500; line-height: 1.4; }
+.writing .article-link { margin: 0; justify-self: end; white-space: nowrap; }
+.writing .writing-footer { margin-top: 36px; }
+.contact.section-space { padding-top: clamp(110px, 14vh, 190px); padding-bottom: clamp(110px, 14vh, 190px); }
+.contact .contact-editorial { max-width: 970px; padding: 0; }
+.contact .rebuild-index { margin-bottom: clamp(25px, 4vh, 45px); color: #9ed9cf; }
+.contact .contact-editorial .display-heading { font-size: clamp(70px, 9vw, 150px); line-height: 1.02; letter-spacing: -.065em; }
+.contact .contact-intro-text { margin-top: 25px; max-width: 600px; }
+.contact .contact-editorial-links { margin-top: 15px; }
+.contact .contact-editorial-links a { border-radius: 0; min-width: 140px; justify-content: center; }
+.contact-signature { margin: clamp(65px, 9vh, 110px) auto 0; width: 250px; height: 84px; opacity: .65; }
+.contact-signature img { width: 100%; height: 100%; object-fit: contain; }
+.contact-signature-light { display: none; }
+html[data-theme="light"] .contact-signature-dark { display: none; }
+html[data-theme="light"] .contact-signature-light { display: block; }
+html[data-theme="light"] .about { background: #f2f3ef; }
+@media (prefers-reduced-motion: reduce) { .journey .career-stage.is-current { animation: none; } }
+@media (max-width: 1000px) {
+  .about .about-layout { grid-template-columns: minmax(0, 1fr) minmax(0, .85fr); gap: 5vw; }
+  .about-image-space { min-height: 480px; }
+  .work .case-cover { grid-template-columns: 1fr; gap: 38px; }
+}
+@media (max-width: 800px) {
+  .about.section-space { min-height: 0; padding-top: 105px; padding-bottom: 105px; }
+  .about .about-layout { display: block; }
+  .about .about-copy .display-heading { max-width: 620px; font-size: clamp(46px, 9vw, 76px); }
+  .about-image-space { display: none; }
+  .work .case-cover { padding-bottom: 70px; }
+  .work .case-cover .display-heading { font-size: clamp(50px, 9vw, 75px); }
+  .work .case-cover-result strong { font-size: clamp(68px, 11vw, 105px); }
+  .skills .display-heading, .writing .display-heading { font-size: clamp(48px, 8vw, 75px); }
+  .writing .article-card, html[data-theme="light"] .writing .article-card { grid-template-columns: 1fr auto; gap: 8px 22px; min-height: 0; padding: 28px 0; }
+  .writing .article-top { grid-column: 1 / -1; }
+  .writing .article-link { grid-column: 2; }
+}
+@media (max-width: 520px) {
+  .about.section-space { padding-top: 86px; padding-bottom: 90px; }
+  .about .about-copy .display-heading { font-size: clamp(44px, 11vw, 62px); }
+  .about .about-lead { font-size: 19px; }
+  .work .case-cover .display-heading { font-size: clamp(46px, 12vw, 67px); }
+  .work .case-cover-result strong { font-size: clamp(66px, 16vw, 94px); }
+  .writing .article-card, html[data-theme="light"] .writing .article-card { display: flex; align-items: flex-start; gap: 12px; }
+  .writing .article-card strong { font-size: 18px; }
+  .writing .article-link { margin-top: 8px; }
+  .contact .contact-editorial .display-heading { font-size: clamp(53px, 13vw, 75px); }
+}

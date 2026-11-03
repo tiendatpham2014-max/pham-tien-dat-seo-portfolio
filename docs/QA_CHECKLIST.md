@@ -83,4 +83,3 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] `npm run dev` confirmed or clearly report test limitation.
 - [ ] Code is legible enough for later editing; constants/data separate from interaction logic when practical.
 - [ ] Changes summarized by file, key interactions implemented, tests performed, known limitations and future optional refinements.
-

@@ -35,4 +35,3 @@ html[data-theme="light"] .skill-signal-labels { color: #475569; }
 @media (prefers-reduced-motion: reduce) {
   .skill-tab-highlight, .skill-contents { transition: none !important; }
 }
-

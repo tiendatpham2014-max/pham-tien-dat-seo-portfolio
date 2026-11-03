@@ -1,12 +1,12 @@
 "use client";
 
-import { useSyncExternalStore, useState } from "react";
+import { useState } from "react";
 import {
   Tabs, TabsContent, TabsContents, TabsHighlight, TabsHighlightItem,
   TabsList, TabsTrigger,
 } from "@animate-ui/react/primitives/tabs";
-import { copy, type Language } from "@/content/portfolio";
-import { SkillSignalMap } from "@/components/visuals/SkillSignalMap";
+import { copy } from "@/content/portfolio";
+import { useSitePreferences } from "@/components/site-preferences";
 
 const skills = [
   { id: "technical", label: "skillTechnical", headline: "technicalHeadline", problem: "technicalProblem", approach: "technicalApproach", output: "technicalOutput", kicker: "Technical SEO", tools: "Screaming Frog · Core Web Vitals · GSC · GTM · URL patterns" },
@@ -15,17 +15,8 @@ const skills = [
   { id: "workflow", label: "skillWorkflow", headline: "workflowHeadline", problem: "workflowProblem", approach: "workflowApproach", output: "workflowOutput", kicker: "AI & Workflow", tools: "Google Sheets · Apps Script · Claude · GPT" },
 ] as const;
 
-function subscribeLanguage(callback: () => void) {
-  window.addEventListener("portfolio:language", callback);
-  return () => window.removeEventListener("portfolio:language", callback);
-}
-
-function currentLanguage(): Language {
-  return document.documentElement.lang === "en" ? "en" : "vi";
-}
-
 export function Skills() {
-  const language = useSyncExternalStore<Language>(subscribeLanguage, currentLanguage, () => "vi");
+  const { language } = useSitePreferences();
   const [active, setActive] = useState("technical");
   const words = copy[language];
 
@@ -47,7 +38,6 @@ export function Skills() {
             </TabsList>
           </TabsHighlight>
           <div className="skill-panels">
-            <SkillSignalMap active={active} language={language} />
             <TabsContents className="skill-contents">
               {skills.map((skill) => (
                 <TabsContent key={skill.id} value={skill.id} className="skill-panel-content">
@@ -68,4 +58,3 @@ export function Skills() {
     </section>
   );
 }
-

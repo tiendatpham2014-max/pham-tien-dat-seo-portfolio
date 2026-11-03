@@ -37,3 +37,13 @@ Next evaluation: compare field performance on a low-end phone before extending t
 
 References: https://animate-ui.com/docs/installation and https://github.com/mrdoob/three.js/.
 
+## Rebuild pass: responsive spatial story and shared preferences
+
+- The SEO atlas keeps the five connected 3D planes, route lines, scroll progression and direct interaction on desktop and tablet. Tablet uses a wider camera view and a text legibility gradient, without removing the route geometry.
+- Vietnamese first-person copy in the introduction and contact now uses `mình`; the English copy stays concise and balanced. Project attribution and measured claims are unchanged.
+- `SitePreferences` owns VI/EN and dark/light selection in React. Existing static sections still receive translation through the DOM adapter while the navigation, Skills and SEO atlas read the shared React state.
+- Narrow or constrained devices start at a lower pixel ratio and a 30 fps cap; sustained slow frames lower resolution and the cap to 24 fps. The WebGL fallback remains. This is an adaptive safeguard, not a measured low-end-device benchmark.
+
+## Later phase
+
+- Evaluate separate VI and EN URLs, metadata and language alternates as one SEO migration. Do not change routing in this rebuild pass.

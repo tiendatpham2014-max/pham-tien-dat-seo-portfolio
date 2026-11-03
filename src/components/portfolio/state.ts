@@ -12,7 +12,7 @@ export const state = {
   activeSection: "",
 };
 
-export const sections = ["work", "process", "skills", "writing", "journey", "contact"] as const;
+export const sections = ["about", "atlas", "work", "journey", "skills", "writing", "contact"] as const;
 
 export function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -26,4 +26,3 @@ export function resetState() {
   state.currentSignal = 0;
   state.activeSection = "";
 }
-

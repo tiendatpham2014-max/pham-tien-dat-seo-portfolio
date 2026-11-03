@@ -1,12 +1,9 @@
 import { all, text } from "./dom";
 import { resetState, reducedMotion } from "./state";
-import { initTheme } from "./theme";
 import { initMetrics } from "./metrics";
 import { initMobileMenu } from "./mobile-menu";
-import { initWritingRail, updateRail } from "./writing-rail";
 import { initComparison } from "./comparison";
 import { initScrollStories } from "./scroll-stories";
-import { initLanguage } from "./language";
 import { positionIndicator } from "./navigation";
 import { initHeroWaves } from "./hero-waves";
 import { initIntroSplash } from "./intro-splash";
@@ -22,16 +19,13 @@ export function initPortfolio() {
   const { signal } = controller;
   const observers: IntersectionObserver[] = [];
 
-  initTheme(signal);
   initSmoothScroll(signal);
   initIntroSplash(signal);
   initMobileMenu(signal);
   initHeroWaves(signal);
   initMetrics(signal);
   initComparison(signal);
-  initWritingRail(signal);
   initScrollStories(signal);
-  initLanguage(signal);
   all(".contact-methods a").forEach((card) => {
     card.addEventListener("pointermove", (e: Event) => {
       const pe = e as PointerEvent;
@@ -77,7 +71,7 @@ export function initPortfolio() {
       observers.push(revealObserver);
     }
   }
-  document.fonts?.ready.then(() => { if (!signal.aborted) { positionIndicator(); updateRail(); } });
+  document.fonts?.ready.then(() => { if (!signal.aborted) positionIndicator(); });
 
   return () => {
     controller.abort();
@@ -85,4 +79,3 @@ export function initPortfolio() {
     document.body.classList.remove("js-motion", "menu-open", "page-hidden");
   };
 }
-

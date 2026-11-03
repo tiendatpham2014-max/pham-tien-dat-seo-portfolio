@@ -44,7 +44,12 @@
   --accent-light:#a9c8c6;
   --gutter:clamp(20px,3.1vw,48px);
   --max:1520px;
-  --ease:cubic-bezier(.16,1,.3,1)
+  --ease:cubic-bezier(.16,1,.3,1);
+  --motion-fast:180ms;
+  --motion-base:320ms;
+  --motion-reveal:700ms;
+  --motion-slow:1100ms;
+  --motion-ease-out:cubic-bezier(.16,1,.3,1)
 }
 *{
   box-sizing:border-box
