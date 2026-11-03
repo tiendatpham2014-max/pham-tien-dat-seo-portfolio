@@ -1,6 +1,5 @@
 import { all, text } from "./dom";
 import { resetState, reducedMotion } from "./state";
-import { initMetrics } from "./metrics";
 import { initMobileMenu } from "./mobile-menu";
 import { initComparison } from "./comparison";
 import { initScrollStories } from "./scroll-stories";
@@ -23,7 +22,6 @@ export function initPortfolio() {
   initIntroSplash(signal);
   initMobileMenu(signal);
   initHeroWaves(signal);
-  initMetrics(signal);
   initComparison(signal);
   initScrollStories(signal);
   all(".contact-methods a").forEach((card) => {

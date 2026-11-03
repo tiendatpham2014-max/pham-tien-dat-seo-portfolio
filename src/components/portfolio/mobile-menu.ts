@@ -10,7 +10,7 @@ export function closeMenu(returnFocus = false) {
   document.body.classList.remove("menu-open");
   const toggle = get<HTMLButtonElement>("#menu-toggle");
   toggle.setAttribute("aria-expanded", "false");
-  toggle.setAttribute("aria-label", copy[state.language].menuOpen);
+  toggle.setAttribute("aria-label", copy[document.documentElement.lang === "en" ? "en" : "vi"].menuOpen);
   get("#mobile-nav").inert = true;
   get("#menu-backdrop").hidden = true;
   if (focusTimer) clearTimeout(focusTimer);
@@ -23,7 +23,7 @@ function openMenu() {
   document.body.classList.add("menu-open");
   const toggle = get<HTMLButtonElement>("#menu-toggle");
   toggle.setAttribute("aria-expanded", "true");
-  toggle.setAttribute("aria-label", copy[state.language].menuClose);
+  toggle.setAttribute("aria-label", copy[document.documentElement.lang === "en" ? "en" : "vi"].menuClose);
   get("#mobile-nav").inert = false;
   get("#menu-backdrop").hidden = false;
   const focusFirst = () => { if (state.menuOpen) get<HTMLAnchorElement>("#mobile-nav a").focus(); };

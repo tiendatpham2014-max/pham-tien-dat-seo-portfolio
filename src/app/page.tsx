@@ -1,5 +1,6 @@
 import { IntroSplash } from "@/components/sections/IntroSplash";
 import { SitePreferences } from "@/components/site-preferences";
+import { SkipLink } from "@/components/sections/SkipLink";
 import { Navigation } from "@/components/sections/Navigation";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
@@ -15,7 +16,7 @@ export default function Page() {
   return (
     <SitePreferences>
       <IntroSplash />
-      <a className="skip-link" href="#main" data-i18n="skip">Đi tới nội dung</a>
+      <SkipLink />
       <Navigation />
       <main id="main">
         <Hero />

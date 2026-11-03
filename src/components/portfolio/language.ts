@@ -1,60 +1,18 @@
-import { copy, type Language } from "@/content/portfolio";
-import { all, get, text } from "./dom";
-import { state } from "./state";
-import { renderMetric, formatMetric } from "./metrics";
+import type { Language } from "@/content/portfolio";
 import { updateComparison } from "./comparison";
-import { updateThemeControl } from "./theme";
-import { updateScenes } from "./scroll-stories";
 import { positionIndicator } from "./navigation";
 
+// Browser metadata and legacy interaction state stay here. React renders visible copy.
 export function setLanguage(next: Language) {
-  state.language = next;
   document.documentElement.lang = next;
   document.title = next === "vi"
     ? "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio"
     : "Dat Pham (Pham Tien Dat) — SEO Executive | Portfolio";
-  get<HTMLMetaElement>('meta[name="description"]').content = next === "vi"
+  const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+  if (description) description.content = next === "vi"
     ? "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế."
     : "SEO Executive portfolio of Dat Pham at Primas Group — bridging business English, technical SEO, Core Web Vitals, and AI workflows for international search.";
-  const dictionary = copy[next] as Record<string, string | readonly string[]>;
-  all("[data-i18n]").forEach((element) => {
-    const key = element.dataset.i18n;
-    if (key && typeof dictionary[key] === "string") element.textContent = dictionary[key] as string;
-  });
-  all("[data-i18n-aria]").forEach((element) => {
-    const key = (element as HTMLElement).dataset.i18nAria;
-    if (key && typeof dictionary[key] === "string") element.setAttribute("aria-label", dictionary[key] as string);
-  });
-  all<HTMLButtonElement>("[data-lang]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lang === next)));
-  get("#menu-toggle").setAttribute("aria-label", copy[next][state.menuOpen ? "menuClose" : "menuOpen"]);
-  updateThemeControl();
-  const brand = document.querySelector(".brand");
-  if (brand) brand.setAttribute("aria-label", next === "vi" ? "Phạm Tiến Đạt — đầu trang" : "Dat Pham — home");
-  const deskNav = document.querySelector("#desktop-nav");
-  if (deskNav) deskNav.setAttribute("aria-label", copy[next].navigation);
-  const mobNav = document.querySelector("#mobile-nav");
-  if (mobNav) mobNav.setAttribute("aria-label", copy[next].mobileNavigation);
-  const metricPicker = document.querySelector(".metric-picker");
-  if (metricPicker) metricPicker.setAttribute("aria-label", copy[next].metricsLabel);
-  const compareSlider = document.querySelector("#compare-slider");
-  if (compareSlider) compareSlider.setAttribute("aria-label", copy[next].compareSlider);
   updateComparison();
-  const skillTabs = document.querySelector(".skill-tabs");
-  if (skillTabs) skillTabs.setAttribute("aria-label", copy[next].skillsTablist);
-  const railPrev = document.querySelector("#rail-prev");
-  if (railPrev) railPrev.setAttribute("aria-label", copy[next].railPrev);
-  const railNext = document.querySelector("#rail-next");
-  if (railNext) railNext.setAttribute("aria-label", copy[next].railNext);
-  all("[data-value]").forEach((element) => {
-    const value = Number(element.dataset.value);
-    if (element.dataset.value && Number.isFinite(value)) element.textContent = formatMetric(value, "integer");
-  });
-  all("[data-percent]").forEach((element) => { element.textContent = formatMetric(Number(element.dataset.percent), "percent"); });
-  all("[data-decimal]").forEach((element) => { element.textContent = formatMetric(Number(element.dataset.decimal), "decimal"); });
-  const storyValues = next === "vi" ? ["+27,1%", "−5,0%", "+0,34"] : ["+27.1%", "−5.0%", "+0.34"];
-  all(".evidence-card strong").forEach((element, index) => { element.textContent = storyValues[index]; });
-  renderMetric();
-  updateScenes();
   requestAnimationFrame(positionIndicator);
   try { localStorage.setItem("dat-seo-language", next); } catch { /* Storage may be unavailable. */ }
 }

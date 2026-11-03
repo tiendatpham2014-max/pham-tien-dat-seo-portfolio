@@ -1,5 +1,4 @@
 import { get } from "./dom";
-import { state } from "./state";
 
 export function updateComparison() {
   const slider = document.querySelector<HTMLInputElement>("#compare-slider");
@@ -7,7 +6,7 @@ export function updateComparison() {
   if (!slider || !wipe) return;
   const value = Number(slider.value);
   wipe.style.setProperty("--split", `${value}%`);
-  slider.setAttribute("aria-valuetext", state.language === "vi"
+  slider.setAttribute("aria-valuetext", document.documentElement.lang === "vi"
     ? `${100 - value}% kỳ trước, ${value}% kỳ sau`
     : `${100 - value}% earlier period, ${value}% later period`);
 }
@@ -21,7 +20,7 @@ export function initComparison(signal: AbortSignal) {
     const clamped = Math.max(0, Math.min(100, Math.round(value)));
     slider.value = String(clamped);
     wipe.style.setProperty("--split", `${clamped}%`);
-    slider.setAttribute("aria-valuetext", state.language === "vi"
+    slider.setAttribute("aria-valuetext", document.documentElement.lang === "vi"
       ? `${100 - clamped}% kỳ trước, ${clamped}% kỳ sau`
       : `${100 - clamped}% earlier period, ${clamped}% later period`);
   };

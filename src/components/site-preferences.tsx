@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Language } from "@/content/portfolio";
+import { copy, type Language } from "@/content/portfolio";
 import { initPortfolio } from "@/components/portfolio/init";
 import { setLanguage } from "@/components/portfolio/language";
 import { setTheme } from "@/components/portfolio/theme";
@@ -71,4 +71,8 @@ export function useSitePreferences() {
   const preferences = useContext(PreferencesContext);
   if (!preferences) throw new Error("SitePreferences provider is missing");
   return preferences;
+}
+
+export function useCopy() {
+  return copy[useSitePreferences().language];
 }

@@ -1,6 +1,10 @@
+"use client";
+
 import type { CSSProperties } from "react";
+import { useCopy } from "@/components/site-preferences";
 
 export function Journey() {
+  const words = useCopy();
   return (
     <>
 <section className="journey" id="journey" aria-labelledby="journey-title">
@@ -15,24 +19,24 @@ export function Journey() {
     </div>
     <div className="shell journey-scene">
       <div className="journey-heading">
-        <h2 className="display-heading" id="journey-title" data-i18n="journeyTitle">Ba giai đoạn, một hướng đi.</h2>
-        <p className="journey-intro" data-i18n="journeyIntro">Từ nghiên cứu từ khóa và bài viết đầu tiên đến công việc kết nối nội dung, kỹ thuật và hiệu suất tìm kiếm.</p>
+        <h2 className="display-heading" id="journey-title">{words.journeyTitle}</h2>
+        <p className="journey-intro">{words.journeyIntro}</p>
       </div>
-      <div className="career-stages" aria-label="Các giai đoạn nghề nghiệp" data-i18n-aria="careerStagesAria">
+      <div className="career-stages" aria-label={words.careerStagesAria}>
         <article className="career-stage is-current" style={{ "--stage-shift": "-10%" } as CSSProperties}>
-          <h3 data-i18n="internTitle">Thực tập sinh SEO</h3>
-          <p className="career-org">Primas Group <span className="org-sep">·</span> <time data-i18n="dateIntern">11.2023 – 04.2024</time></p>
-          <p data-i18n="internBody">Xây nền tảng về nghiên cứu từ khóa, biên tập bài SEO và nguyên tắc tối ưu qua công việc thực tế.</p>
+          <h3>{words.internTitle}</h3>
+          <p className="career-org">Primas Group <span className="org-sep">·</span> <time>{words.dateIntern}</time></p>
+          <p>{words.internBody}</p>
         </article>
         <article className="career-stage" style={{ "--stage-shift": "-50%" } as CSSProperties}>
-          <h3 data-i18n="contributorTitle">Cộng tác viên SEO</h3>
-          <p className="career-org">Primas Group <span className="org-sep">·</span> <time data-i18n="dateContributor">05.2024 – 10.2024</time></p>
-          <p data-i18n="contributorBody">Phát triển nội dung theo nhóm chủ đề, rà soát nguồn và điều chỉnh bài viết theo yêu cầu dự án.</p>
+          <h3>{words.contributorTitle}</h3>
+          <p className="career-org">Primas Group <span className="org-sep">·</span> <time>{words.dateContributor}</time></p>
+          <p>{words.contributorBody}</p>
         </article>
         <article className="career-stage" style={{ "--stage-shift": "-90%" } as CSSProperties}>
           <h3>SEO Executive</h3>
-          <p className="career-org">Primas Group <span className="org-sep">·</span> <time data-i18n="dateExecutive">11.2024 – hiện tại</time></p>
-          <p data-i18n="executiveBody">Nghiên cứu nội dung cho dự án quốc tế, tối ưu on-page, phân tích GSC và tham gia cải thiện cấu trúc website.</p>
+          <p className="career-org">Primas Group <span className="org-sep">·</span> <time>{words.dateExecutive}</time></p>
+          <p>{words.executiveBody}</p>
         </article>
       </div>
     </div>
