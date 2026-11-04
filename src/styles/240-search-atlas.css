@@ -168,3 +168,10 @@ html[data-theme="light"] .atlas-waypoints button.is-active::before { background:
   .atlas-station { transform: translate(-50%,-50%); }
 }
 @media (prefers-reduced-motion: reduce) and (max-width: 520px) { .atlas-mobile { grid-template-columns: 1fr; } }
+@media (min-width: 801px) {
+  .atlas-station.is-measurement { left: 80%; width: min(36vw, 440px); }
+}
+@media (max-width: 800px) and (prefers-reduced-motion: no-preference) {
+  .search-atlas[data-stage="3"] .atlas-stations { align-self: stretch; align-items: end; margin: 0 5vw; }
+  .search-atlas[data-stage="3"] .atlas-station.is-measurement { align-self: end; left: 0; width: 100%; max-width: none; transform: none; }
+}

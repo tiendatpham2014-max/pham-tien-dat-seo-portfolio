@@ -64,7 +64,7 @@ export function SearchAtlas() {
   };
 
   return (
-    <section className="search-atlas" id="atlas" ref={sectionRef} aria-labelledby="atlas-title">
+    <section className="search-atlas" id="atlas" ref={sectionRef} data-stage={active} aria-labelledby="atlas-title">
       <div className="atlas-sticky">
         <div className="atlas-visual" aria-hidden="true">
           <div className="atlas-fallback">
@@ -87,7 +87,7 @@ export function SearchAtlas() {
               "--atlas-scale": (1 - Math.min(0.28, Math.abs(delta) * .2)).toFixed(3),
             } as CSSProperties;
             return (
-              <article className={`atlas-station ${index % 2 === 0 ? "is-left" : "is-right"}`} style={style} key={index} aria-hidden={index !== active}>
+              <article className={`atlas-station ${index % 2 === 0 ? "is-left" : "is-right"}${index === 3 ? " is-measurement" : ""}`} style={style} key={index} aria-hidden={index !== active}>
                 <span className="atlas-station-index">0{index + 1}<em>/05</em></span>
                 <span className="atlas-station-rule" aria-hidden="true" />
                 <div>

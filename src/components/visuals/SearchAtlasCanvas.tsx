@@ -265,6 +265,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         let slowFrames = 0;
         let qualityReduced = false;
         let restoreTimer = 0;
+        let viewportWidth = host.clientWidth;
         let rendered = false;
         let contextLost = false;
         let pointer: { id: number; x: number; y: number; startX: number; startY: number; travel: number; scrolling: boolean } | null = null;
@@ -282,13 +283,12 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           const width = host.clientWidth;
           const height = host.clientHeight;
           if (!width || !height) return;
+          viewportWidth = width;
           const phone = width <= 520;
           lowEnd = constrained || phone;
           camera.aspect = width / height;
           camera.position.z = phone ? 10.5 : width <= 1050 ? 9.5 : 8.5;
           camera.updateProjectionMatrix();
-          model.position.set(phone ? 0 : width <= 1050 ? .5 : .85, phone ? .35 : 0, 0);
-          model.scale.setScalar(phone ? .9 : 1);
           renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .9 : constrained ? 1 : phone ? 1.3 : 1.6));
           renderer.setSize(width, height, false);
           scheduleDraw();
@@ -384,10 +384,23 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           currentYaw += (targetYaw - currentYaw) * .16;
           currentPitch += (targetPitch - currentPitch) * .16;
           const stage = Math.max(0, Math.min(4, current * 4));
+          const measurementStrength = Math.max(0, 1 - Math.abs(stage - 3));
           const from = Math.min(3, Math.floor(stage));
           const to = Math.min(4, from + 1);
           const portion = Math.max(0, Math.min(1, stage - from));
           const blend = portion * portion * (3 - 2 * portion);
+          const baseX = viewportWidth <= 520 ? 0 : viewportWidth <= 1050 ? .5 : .85;
+          const baseY = viewportWidth <= 520 ? .35 : 0;
+          const targetX = viewportWidth <= 800 ? 0 : viewportWidth <= 850 ? -1.15 : viewportWidth <= 1050 ? -1.4 : -1.8;
+          const targetY = viewportWidth <= 520 ? 1.4 : viewportWidth <= 800 ? .9 : 0;
+          const baseScale = viewportWidth <= 520 ? .9 : 1;
+          const targetScale = viewportWidth <= 800 ? baseScale : viewportWidth <= 850 ? .72 : viewportWidth <= 1050 ? .8 : 1;
+          model.position.set(
+            THREE.MathUtils.lerp(baseX, targetX, measurementStrength),
+            THREE.MathUtils.lerp(baseY, targetY, measurementStrength),
+            0,
+          );
+          model.scale.setScalar(THREE.MathUtils.lerp(baseScale, targetScale, measurementStrength));
           model.rotation.set(.12 + currentPitch, currentYaw, 0);
 
           for (let i = 0; i < nodeCount; i++) {
@@ -430,7 +443,6 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
             pageCards.setMatrixAt(i, dummy.matrix);
           }
           pageCards.instanceMatrix.needsUpdate = true;
-          const measurementStrength = Math.max(0, 1 - Math.abs(stage - 3));
           const measurementVisible = measurementStrength > .001;
           panels.visible = measurementVisible;
           rails.visible = measurementVisible;
