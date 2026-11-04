@@ -9,8 +9,8 @@ Hai URL tĩnh nằm trong `src/app/(vi)/page.tsx` (`/`) và `src/app/(en)/en/pag
 | Giới thiệu và khoảng ảnh riêng | `About.tsx` | Copy VI/EN | `25-about.css`, `250-editorial-layout.css`, `portfolio.ts` |
 | Mô hình SEO 3D | `SearchAtlas.tsx`, `SearchAtlasCanvas.tsx` | Cuộn, kéo và chọn giai đoạn trong React | `240-search-atlas.css`, `search-atlas.ts` |
 | GSC, chọn chỉ số, so sánh | `Evidence.tsx` | `metrics.ts`, `comparison.ts` | `40-evidence.css`, `120-comparison.css`, `gsc.ts` |
-| Tab chuyên môn | `Skills.tsx` | Animate UI Tabs | `60-skills.css`, `230-skill-interaction.css`, `portfolio.ts` |
-| Bài viết | `Writing.tsx` | Các link bài viết thật | `70-writing.css` |
+| Chuyên môn theo cuộn | `Skills.tsx` | Bốn mục hiện lần lượt khi cuộn | `260-scroll-sections.css`, `portfolio.ts`, `init.ts` |
+| Bài viết | `Writing.tsx` | Bốn link bài viết thật, trình bày gọn | `70-writing.css`, `260-scroll-sections.css` |
 | Hành trình theo cuộn | `Journey.tsx` | `scroll-stories.ts` | `196-career-horizon-scene.css` |
 | Liên hệ và footer | `Contact.tsx`, `Footer.tsx` | Copy VI/EN | `90-contact-footer.css`, `130-contact-motion.css` |
 

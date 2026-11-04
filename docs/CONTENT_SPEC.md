@@ -116,7 +116,7 @@ EN:
 
 Note: Process steps represent a general way of working, **not** the claim that every step was completed for the anonymized case.
 
-## 6. Capabilities — four tabs
+## 6. Capabilities — four scroll chapters
 
 | Key | VI title | EN title | Confirmed scope / suggested tag list |
 |---|---|---|---|

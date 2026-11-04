@@ -34,7 +34,7 @@
 3. Short editorial approach — current introduction, no unnecessary elaborate motion.
 4. Selected work / evidence — real metric case study plus clear accessible period comparison; split slider is **conditional**, not compulsory if it undermines interpretation.
 5. SEO work process — 3-phase timeline / checklist cards.
-6. Capabilities — auto-cycling tabs for four SEO competency groups.
+6. Capabilities — four SEO competency groups presented in scroll order.
 7. Published writing — horizontally browsable social-post-inspired editorial article cards.
 8. Experience — cinematic React Bits Features 17 horizon with 3 verified stages and scroll-linked dawn.
 9. Contact — centered statement plus 3 contact-method icon cards.
@@ -113,37 +113,34 @@ This order may be adjusted to support an editorial story. **The nine design refe
 - Checkmarks indicate *stages in a work process*, not claimed finished achievements for a named client.
 - Each card is readable with JS off.
 
-## 6. Capabilities — auto-cycling feature tabs
+## 6. Capabilities — scroll chapters
 
 **Layout**
-- Heading left or above, horizontal tabs / vertical rail depending on viewport.
-- Four tabs: `Technical SEO`, `Content Strategy`, `Analytics`, `Workflow & Automation` (translate for VI).
-- One active tab with an animated progress bar and adjacent content panel: **Problem → Approach → Typical output** from `CONTENT_ARCHITECTURE.md`, short description and quiet tool tags where verified. Avoid duplicating job titles or the Experience section.
+- Heading at left on wide screens and above the content on narrow screens.
+- Four sequential articles: `Technical SEO`, `Content Strategy`, `Analytics`, `Workflow & Automation` (translate for VI).
+- Every article shows **Problem → Approach → Typical output** from `CONTENT_ARCHITECTURE.md` and quiet tool tags where verified. Avoid duplicating job titles or the Experience section.
 - Text and small conceptual diagrams are enough; no invented product screenshot.
 
 **Interactions**
-- Tabs switch manually by click / Enter / Space / arrow keys; automatic cycle every ~6–8s when visible and user has not interacted.
-- Pause on hover/focus, and when document is hidden; stop autoplay for reduced motion and after manual navigation (until explicit optional resume).
-- Transitions use quick crossfade/translate, with only one main active panel visually displayed.
-- Implement accessible tabs using `role=tablist`, `role=tab`, `aria-selected`, `aria-controls`, managed tabIndex and panel role.
-- On narrow screens, horizontally scrollable tab list or accordion variant; do not squeeze four long labels into one row.
+- Each article arrives with an opacity/translate reveal as it enters the viewport. Ordinary page scroll controls the pace; there is no automatic cycling or mandatory click.
+- All four articles remain in DOM reading order and are visible without JS or under reduced motion.
+- On narrow screens, stack the introduction and articles in one column.
 
-## 7. Published writing — social-card-inspired horizontal rail
+## 7. Published writing — compact editorial list
 
 **Important semantic adaptation**
 - This is a presentation pattern resembling short social posts, **not social proof/testimonials**. It showcases actual authored articles, with no fabricated quotes, avatars, likes, reactions, shares or review counts.
-- Use verified 3 Primas article titles and URLs from `CONTENT_SPEC.md`.
+- Use the four verified Primas article titles and URLs from `CONTENT_SPEC.md`.
 
 **Visual**
-- 3 editorial cards visible in a responsive track: source/category label, article title, short factual summary (or topic), `Read article ↗`, optional abstract typographic art instead of fake thumbnails.
-- On desktop show 2–3 partial cards and breathing space; on mobile show ~1.1 cards so swipe affordance is clear.
-- Optional manual previous/next arrows and discreet progress indicator. No loud infinite autoplay.
+- Four compact editorial rows: source/category label, article title and `Read article ↗`.
+- Keep comfortable spacing and readable titles on desktop and mobile without a carousel.
 
 **Behavior**
-- `scroll-snap-type: x mandatory` on track, touch-swipe native. Prev/next use smooth scroll by card width, disable appropriately at edges or wrap *only* if fully handled.
+- Ordinary vertical page scroll reveals the four links in order.
 - Full card or read CTA goes to existing real article. External links `target=_blank rel=noopener noreferrer`.
 - A separate clear `View all writing` link goes to real author page.
-- Hover: border/background lift and arrow translate; focus-visible equally obvious.
+- Hover and focus-visible remain clear without large card motion.
 - All cards must be present in DOM and readable with JS off; this section is not a quote rotator.
 
 ## 8. Experience — timeline with moving illuminated horizon

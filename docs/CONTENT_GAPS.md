@@ -40,7 +40,7 @@ reviewed_by_user: false
 - Editorial point of view về search intent, content và việc đọc dữ liệu.
 - GSC case Q3/2025 vs Q3/2026 với bối cảnh team/sitewide và impressions giảm.
 - 3-step SEO working process được mô tả là phương pháp.
-- 4 SEO skills tabs diễn giải theo Problem → Approach → Typical output.
+- 4 nhóm chuyên môn SEO diễn giải theo Problem → Approach → Typical output.
 - 4 bài viết Primas đã được liên kết trong source.
 - Career progression 3 vai trò, cùng công ty.
 - Email, LinkedIn và Footer links thật; số điện thoại được giữ riêng tư.

@@ -21,8 +21,6 @@
 .skills.section-space, .writing.section-space { padding-top: clamp(100px, 12vh, 160px); padding-bottom: clamp(100px, 12vh, 160px); }
 .skills .section-head, .writing .section-head { margin-bottom: clamp(55px, 8vh, 100px); }
 .skills .display-heading, .writing .display-heading { font-size: clamp(53px, 6.2vw, 100px); line-height: 1.05; letter-spacing: -.06em; }
-.skills .skill-layout { border-radius: 0; }
-.skills .skill-panels { min-height: 390px; }
 .journey .career-stage { transition: none; }
 .journey .career-stage.is-current { animation: career-arrive .32s ease-out both; }
 @keyframes career-arrive { from { opacity: 0; } to { opacity: 1; } }

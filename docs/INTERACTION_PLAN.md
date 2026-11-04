@@ -16,18 +16,18 @@ The existing portfolio remains the baseline. The bilingual hero composition was 
 - Keep animation code close to the section that owns it; retain a shared controller only for genuinely page-wide behavior.
 - VI and EN now have separate static URLs, route metadata and reciprocal language alternates.
 
-## 2. Pilot Animate UI
+## 2. Skills scroll sequence
 
-Implemented: the four Skills groups use Animate UI Tabs with a moving selection and sliding panels. Selection is manual, keyboard accessible and follows reduced-motion preferences. This section now owns its React state; the existing VI/EN switch notifies it when language changes.
+The four Skills groups now appear as sequential articles during ordinary page scroll. All Problem, Approach, Typical output and tool details remain visible in the document in VI/EN. A sticky introduction is used only on wide screens; reduced motion and no-JS leave every article readable. The published-writing rows retain their original links at a smaller scale.
 
-- Start with one interaction, such as Skills tabs or the mobile navigation. Compare keyboard, touch, reduced motion, VI/EN and dark/light before extending it.
+- Compare keyboard, touch, reduced motion, VI/EN and dark/light before extending this pattern to other sections.
 - Consider scroll progress only where it communicates actual reading progress. Consider an animated background in one secondary section without replacing the established hero or career scene.
 - Do not run the `animate all` CLI against the current project: it has no shadcn component configuration to transform. Install or adapt a specific component only when its use is chosen.
 - Page transitions become relevant only if the portfolio gains separate project or writing pages.
 
 ## 3. Evaluate Three.js separately
 
-Implemented as a constrained pilot in Skills: an orthographic, flat signal-flow illustration. It represents the conceptual sequence named under each group, not measured search data. The Three.js chunk loads only as the section approaches view; SVG remains as the static fallback. The scene pauses offscreen or while the page is hidden, respects reduced motion and disposes GPU resources on teardown.
+The interactive SEO atlas is a conceptual Three.js scene, not measured search data. Its chunk loads only as the section approaches view; a static fallback remains. The scene pauses offscreen or while the page is hidden, respects reduced motion and disposes GPU resources on teardown.
 
 For any further expansion, compare field performance on a low-end phone. Keep the hero and career horizon on their existing implementations.
 

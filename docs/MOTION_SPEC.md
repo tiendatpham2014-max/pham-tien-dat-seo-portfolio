@@ -79,24 +79,17 @@ Purpose: deliver motion that supports comprehension and perceived quality. **Not
 - Active node/connector can update to reflect scroll progress, but it must not imply a business outcome or checkmark completion.
 - No automatic card cycling; user scroll determines progress.
 
-## 7. Capability tabs / controlled autoplay
+## 7. Capability scroll chapters
 
-- Default first active tab: `Technical SEO`; use semantic tabs.
-- Autoplay interval suggested `7000ms` **only when** section intersects viewport >=0.4, document visible, pointer not hovering, focus not in tab section, no reduced motion, and no user manual selection in this session.
-- On direct user tab interaction, stop autoplay for remaining session/page lifetime; don't surprise the visitor by moving content while they read.
-- Transition: old panel opacity 1→0 160–200ms, new panel opacity 0→1 and translateY(8px→0) 250–350ms. Ensure no overlapping content leaks into focus/accessibility tree. CSS `display:none`/`hidden` for inactive panel after transition, or implement instant swap + fade-in; avoid simultaneous aria-visible duplicates.
-- Progress bar for autoplay: linear fill 0→100 over 7s; reset on advance; freeze when paused; hide for reduced motion.
-- On mobile tab labels can horizontally scroll; support touch and keyboard; do not auto-swipe whole page.
-- ArrowLeft/Right moves focus and activates adjacent tabs, Home/End first/last; adjust roving tabIndex.
+- Four complete articles remain in document order; the visitor's ordinary page scroll reveals each one.
+- Use a short opacity and vertical movement only when an article enters the viewport. No cycling, sticky scroll trap or hidden panel.
+- On mobile, all content flows in one column. Without JS and under reduced motion, every article is immediately readable.
 
-## 8. Writing article rail
+## 8. Writing list
 
-- Native horizontal scrolling plus CSS `scroll-snap-type:x mandatory`; articles `scroll-snap-align:start`.
-- Prev/next button scrolls by one card width + gap using `scrollBy` or `scrollTo`; disable at edges when reliably detectable.
-- Mobile swipe must work with native scrolling; `touch-action:pan-x` on track where appropriate, not on entire page.
-- On `prefers-reduced-motion`, use instant scrolling and no entrance stagger beyond simple opacity.
-- Cards hover: translateY(-2px) and a slightly darker/lighter *muted* tint/border over 200ms; article arrow translateX(3px) 180ms. No flash or glow. No perpetual automatic movement of cards.
-- On keyboard navigation, ensure focused article is scrolled into view. Optional progress dots should reflect actual scroll and not be dead controls.
+- Keep the four published article links in a compact editorial list on all viewports.
+- Focus and hover remain visible; do not add a carousel or mandatory interaction to reveal a title.
+- Preserve the real outbound URLs and author link.
 
 ## 9. Experience scroll-linked horizon
 
