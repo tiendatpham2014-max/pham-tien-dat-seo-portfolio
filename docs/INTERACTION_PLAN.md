@@ -42,7 +42,7 @@ References: https://animate-ui.com/docs/installation and https://github.com/mrdo
 - The SEO atlas now uses one morphing 3D model with attached route lines, scroll progression and direct interaction across desktop, tablet and mobile. The text legibility gradients remain.
 - Vietnamese first-person copy in the introduction and contact now uses `mình`; the English copy stays concise and balanced. Project attribution and measured claims are unchanged.
 - `SitePreferences` owns VI/EN and dark/light selection in React. All sections rendered by the portfolio page read their VI/EN copy from React context. The GSC metric picker also owns its selected metric in React, so changing language does not reset the selection. The legacy language field was removed from the shared mutable state; browser metadata and the document language mirror React's selection for menu and slider accessibility. DOM helpers do not rewrite translated section text.
-- Narrow or constrained devices start at a lower pixel ratio. The atlas batches line geometry and redraws only while scrolling or orbiting changes the view; sustained slow frames lower resolution further. The WebGL fallback remains. This is an adaptive safeguard, not a measured low-end-device benchmark.
+- The atlas uses a capped pixel ratio and draws only while scrolling or orbiting changes the view. Links and intent contours use lightweight 3D geometry so their stroke stays legible at mobile sizes. Sustained slow frames lower resolution; after movement settles, the sharp frame returns. The WebGL fallback remains. This is an adaptive safeguard, not a measured low-end-device benchmark.
 
 ## Later phase
 

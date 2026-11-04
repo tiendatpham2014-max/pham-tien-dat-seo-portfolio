@@ -41,7 +41,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 40);
         const hardware = navigator as Navigator & { deviceMemory?: number };
         const constrained = (navigator.hardwareConcurrency || 8) <= 4 || (hardware.deviceMemory || 8) <= 4;
-        const lowEnd = constrained || host.clientWidth <= 520;
+        let lowEnd = constrained || host.clientWidth <= 520;
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !lowEnd, powerPreference: "low-power" });
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         host.appendChild(renderer.domElement);
@@ -110,7 +110,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           return signal.clone();
         }));
 
-        const nodeGeometry = new THREE.SphereGeometry(.06, 8, 6);
+        const nodeGeometry = new THREE.SphereGeometry(.072, 12, 8);
         const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const nodes = new THREE.InstancedMesh(nodeGeometry, nodeMaterial, nodeCount);
         nodes.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -135,34 +135,29 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           ],
           Array.from({ length: 33 }, (_, i) => [i, i + 3] as [number, number]),
         ];
-        const edgeOpacity = [.2, .42, .53, .4, .23];
-        const edgeGeometries = links.map((stageLinks, stage) => {
-          const geometry = new THREE.BufferGeometry();
-          geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(stageLinks.length * 6), 3).setUsage(THREE.DynamicDrawUsage));
-          const material = new THREE.LineBasicMaterial({ color: light ? 0x457b83 : palettes[stage % palettes.length], transparent: true, opacity: 0, depthWrite: false });
-          const edges = new THREE.LineSegments(geometry, material);
-          edges.frustumCulled = false;
-          model.add(edges);
-          disposables.push(geometry, material);
-          return { geometry, material };
+        const edgeOpacity = [.32, .58, .66, .55, .32];
+        const edgeGeometry = new THREE.CylinderGeometry(.012, .012, 1, 6);
+        disposables.push(edgeGeometry);
+        const vertical = new THREE.Vector3(0, 1, 0);
+        const direction = new THREE.Vector3();
+        const edgeMeshes = links.map((stageLinks, stage) => {
+          const material = new THREE.MeshBasicMaterial({ color: light ? 0x397581 : palettes[stage % palettes.length], transparent: true, opacity: 0, depthWrite: false });
+          const mesh = new THREE.InstancedMesh(edgeGeometry, material, stageLinks.length);
+          mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+          mesh.frustumCulled = false;
+          model.add(mesh);
+          disposables.push(material);
+          return { mesh, material };
         });
-
-        const priorityGeometry = new THREE.BufferGeometry();
-        priorityGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(12 * 3), 3).setUsage(THREE.DynamicDrawUsage));
-        const priorityMaterial = new THREE.LineBasicMaterial({ color: light ? 0x137b8a : 0xc7fff0, transparent: true, opacity: 0, depthWrite: false });
-        const priorityLine = new THREE.Line(priorityGeometry, priorityMaterial);
-        priorityLine.frustumCulled = false;
-        model.add(priorityLine);
-        disposables.push(priorityGeometry, priorityMaterial);
 
         const intentMaterials = clusterCenters.map(([x, y], index) => {
           const points = Array.from({ length: 48 }, (_, i) => {
             const angle = i / 48 * Math.PI * 2;
             return new THREE.Vector3(x + Math.cos(angle) * .62, y + Math.sin(angle) * .43, -.22);
           });
-          const geometry = new THREE.BufferGeometry().setFromPoints(points);
-          const material = new THREE.LineBasicMaterial({ color: palettes[index], transparent: true, opacity: 0, depthWrite: false });
-          model.add(new THREE.LineLoop(geometry, material));
+          const geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points, true), 48, .013, 5, true);
+          const material = new THREE.MeshBasicMaterial({ color: palettes[index], transparent: true, opacity: 0, depthWrite: false });
+          model.add(new THREE.Mesh(geometry, material));
           disposables.push(geometry, material);
           return material;
         });
@@ -175,10 +170,15 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         model.add(pageCards);
         disposables.push(pageGeometry, pageMaterial);
 
-        const scanGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, .42), new THREE.Vector3(2.4, 0, .42)]);
-        const scanMaterial = new THREE.LineBasicMaterial({ color: light ? 0x146c7a : 0xd1fff1, transparent: true, opacity: 0, depthWrite: false });
-        const scanLine = new THREE.Line(scanGeometry, scanMaterial);
-        model.add(scanLine);
+        const scanGeometry = new THREE.CylinderGeometry(.014, .014, 2.4, 6);
+        const scanMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x146c7a : 0xd1fff1, transparent: true, opacity: 0, depthWrite: false });
+        const scanGroup = new THREE.Group();
+        const scanBeam = new THREE.Mesh(scanGeometry, scanMaterial);
+        scanBeam.position.x = 1.2;
+        scanBeam.position.z = .42;
+        scanBeam.rotation.z = -Math.PI / 2;
+        scanGroup.add(scanBeam);
+        model.add(scanGroup);
         disposables.push(scanGeometry, scanMaterial);
 
         const routeGeometry = new THREE.CylinderGeometry(.025, .025, 1, 6);
@@ -188,10 +188,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         routeSegments.frustumCulled = false;
         model.add(routeSegments);
         disposables.push(routeGeometry, routeMaterial);
-        const vertical = new THREE.Vector3(0, 1, 0);
-        const direction = new THREE.Vector3();
-
-        const markerGeometry = new THREE.SphereGeometry(.07, 10, 8);
+        const markerGeometry = new THREE.SphereGeometry(.085, 14, 10);
         const pickGeometry = new THREE.SphereGeometry(.33, 8, 6);
         const pickMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
         const markers: Array<{ mesh: Mesh; pick: Mesh; material: Material }> = [];
@@ -219,6 +216,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         let previousRender = 0;
         let slowFrames = 0;
         let qualityReduced = false;
+        let restoreTimer = 0;
         let rendered = false;
         let contextLost = false;
         let pointer: { id: number; x: number; y: number; startX: number; startY: number; travel: number; scrolling: boolean } | null = null;
@@ -227,6 +225,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         const pointerPoint = new THREE.Vector2();
 
         function scheduleDraw() {
+          if (restoreTimer) { clearTimeout(restoreTimer); restoreTimer = 0; }
           if (visible && !contextLost && !frame) frame = requestAnimationFrame(draw);
         }
         requestFrameRef.current = scheduleDraw;
@@ -236,12 +235,13 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           const height = host.clientHeight;
           if (!width || !height) return;
           const phone = width <= 520;
+          lowEnd = constrained || phone;
           camera.aspect = width / height;
           camera.position.z = phone ? 10.5 : width <= 1050 ? 9.5 : 8.5;
           camera.updateProjectionMatrix();
           model.position.set(phone ? 0 : width <= 1050 ? .5 : .85, phone ? .35 : 0, 0);
           model.scale.setScalar(phone ? .9 : 1);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .75 : constrained || phone ? 1 : 1.5));
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .9 : constrained ? 1 : phone ? 1.3 : 1.6));
           renderer.setSize(width, height, false);
           scheduleDraw();
         };
@@ -327,7 +327,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
             slowFrames = time - previousRender > 26 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
             if (slowFrames >= 8) {
               qualityReduced = true;
-              renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, .75));
+              renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, .9));
               renderer.setSize(host?.clientWidth || 1, host?.clientHeight || 1, false);
             }
           }
@@ -354,29 +354,25 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           }
           nodes.instanceMatrix.needsUpdate = true;
           if (nodes.instanceColor) nodes.instanceColor.needsUpdate = true;
-          edgeGeometries.forEach(({ geometry, material }, index) => {
+          edgeMeshes.forEach(({ mesh, material }, index) => {
             material.opacity = edgeOpacity[index] * Math.max(0, 1 - Math.abs(stage - index));
-            if (material.opacity <= 0) return;
-            const attribute = geometry.getAttribute("position") as import("three").BufferAttribute;
+            mesh.visible = material.opacity > .001;
+            if (!mesh.visible) return;
             links[index].forEach(([a, b], linkIndex) => {
               const start = currentPositions[a];
               const end = currentPositions[b];
-              attribute.setXYZ(linkIndex * 2, start.x, start.y, start.z);
-              attribute.setXYZ(linkIndex * 2 + 1, end.x, end.y, end.z);
+              direction.subVectors(end, start);
+              const length = direction.length();
+              dummy.position.copy(start).add(end).multiplyScalar(.5);
+              dummy.quaternion.setFromUnitVectors(vertical, direction.normalize());
+              dummy.scale.set(1, length, 1);
+              dummy.updateMatrix();
+              mesh.setMatrixAt(linkIndex, dummy.matrix);
             });
-            attribute.needsUpdate = true;
+            mesh.instanceMatrix.needsUpdate = true;
           });
-          priorityMaterial.opacity = .88 * Math.max(0, stage - 3);
-          if (priorityMaterial.opacity > 0) {
-            const attribute = priorityGeometry.getAttribute("position") as import("three").BufferAttribute;
-            for (let i = 0; i < 12; i++) {
-              const point = currentPositions[i * 3 + 1];
-              attribute.setXYZ(i, point.x, point.y, point.z);
-            }
-            attribute.needsUpdate = true;
-          }
           const intentStrength = Math.max(0, 1 - Math.abs(stage - 1));
-          intentMaterials.forEach((material) => { material.opacity = .55 * intentStrength; });
+          intentMaterials.forEach((material) => { material.opacity = .64 * intentStrength; });
           pageMaterial.opacity = .2 * Math.max(0, 1 - Math.abs(stage - 2));
           for (let i = 0; i < 6; i++) {
             dummy.position.copy(currentPositions[i + 1]);
@@ -387,7 +383,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           }
           pageCards.instanceMatrix.needsUpdate = true;
           scanMaterial.opacity = .55 * Math.max(0, 1 - Math.abs(stage - 3));
-          scanLine.rotation.z = current * Math.PI * 2;
+          scanGroup.rotation.z = current * Math.PI * 2;
           routeMaterial.opacity = .82 * Math.max(0, stage - 3);
           if (routeMaterial.opacity > 0) {
             for (let i = 0; i < 11; i++) {
@@ -414,13 +410,22 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
             setReady(true);
           }
           if (Math.abs(progressRef.current - current) > .0007 || Math.abs(targetYaw - currentYaw) > .001 || Math.abs(targetPitch - currentPitch) > .001) scheduleDraw();
-          else previousRender = 0;
+          else {
+            previousRender = 0;
+            if (qualityReduced && !restoreTimer) restoreTimer = window.setTimeout(() => {
+              restoreTimer = 0;
+              qualityReduced = false;
+              slowFrames = 0;
+              resize();
+            }, 650);
+          }
         }
 
         document.addEventListener("visibilitychange", onVisibility);
         scheduleDraw();
         cleanup = () => {
           cancelAnimationFrame(frame);
+          clearTimeout(restoreTimer);
           requestFrameRef.current = () => {};
           renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
           renderer.domElement.removeEventListener("webglcontextrestored", onContextRestored);
@@ -434,6 +439,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           onIntersect.disconnect();
           disposables.forEach((item) => item.dispose());
           nodes.dispose();
+          edgeMeshes.forEach(({ mesh }) => mesh.dispose());
           pageCards.dispose();
           routeSegments.dispose();
           renderer.dispose();
