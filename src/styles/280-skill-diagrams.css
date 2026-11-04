@@ -1,0 +1,68 @@
+.skills {
+  --diagram-line: rgba(187, 215, 226, .42);
+  --diagram-field: rgba(143, 197, 213, .08);
+  --diagram-accent: #a5e6d7;
+  --diagram-alert: #f4b493;
+}
+.skill-sequence-visual {
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+  height: clamp(105px, 16vh, 155px);
+  margin: 0 0 clamp(12px, 2vh, 20px);
+  overflow: hidden;
+  background-image: linear-gradient(to right, rgba(174, 204, 216, .08) 1px, transparent 1px), linear-gradient(to bottom, rgba(174, 204, 216, .08) 1px, transparent 1px);
+  background-size: 30px 30px;
+  border-top: 1px solid rgba(167, 191, 202, .2);
+  border-bottom: 1px solid rgba(167, 191, 202, .2);
+}
+.skill-diagram { display: block; width: 100%; height: 100%; }
+.skill-diagram :is(path, rect, circle) { vector-effect: non-scaling-stroke; }
+.skill-diagram path,
+.skill-diagram rect { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.skill-diagram .diagram-guide { stroke: var(--diagram-line); stroke-width: 1; opacity: .32; }
+.skill-diagram .diagram-hairline { stroke: var(--diagram-line); stroke-width: 1.5; }
+.skill-diagram .diagram-trace { stroke: var(--diagram-accent); stroke-width: 2.5; }
+.skill-diagram .diagram-alert { stroke: var(--diagram-alert); stroke-width: 1.5; stroke-dasharray: 5 7; opacity: .8; }
+.skill-diagram .diagram-node { fill: var(--diagram-line); }
+.skill-diagram .diagram-node-focus { fill: var(--diagram-accent); }
+.skill-diagram .diagram-frame,
+.skill-diagram .diagram-cell { fill: var(--diagram-field); stroke: var(--diagram-line); stroke-width: 1; }
+.skill-diagram .diagram-cell-focus { fill: var(--diagram-field); stroke: var(--diagram-accent); stroke-width: 2; }
+.skill-diagram .diagram-check { stroke: var(--diagram-accent); stroke-width: 2; }
+.skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-trace {
+  stroke-dasharray: 1;
+  animation: skill-diagram-draw .75s var(--ease) both;
+}
+.skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-node-focus {
+  animation: skill-diagram-arrive .45s .4s both;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes skill-diagram-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes skill-diagram-arrive { from { opacity: .2; transform: scale(.55); } to { opacity: 1; transform: scale(1); } }
+html[data-theme="light"] .skills {
+  --diagram-line: rgba(20, 68, 91, .45);
+  --diagram-field: rgba(12, 112, 146, .08);
+  --diagram-accent: #057c93;
+  --diagram-alert: #aa5d39;
+}
+html[data-theme="light"] .skill-sequence-visual {
+  background-image: linear-gradient(to right, rgba(20, 68, 91, .08) 1px, transparent 1px), linear-gradient(to bottom, rgba(20, 68, 91, .08) 1px, transparent 1px);
+}
+@media (max-width: 520px) {
+  .skill-sequence-visual { height: clamp(60px, 11vh, 82px); margin-bottom: 8px; background-size: 21px 21px; }
+  .skills.is-scroll-enhanced .skill-sequence-item h3 { margin-bottom: 8px; }
+  .skills.is-scroll-enhanced .skill-sequence-item dl { gap: 5px; }
+}
+@media (max-width: 360px) and (min-height: 650px) {
+  .skills.is-scroll-enhanced .skill-sequence { gap: 6px; }
+  .skills.is-scroll-enhanced .skill-sequence-intro .display-heading { font-size: 28px; }
+  .skills.is-scroll-enhanced .skill-sequence-intro p { font-size: 11.5px; }
+  .skills.is-scroll-enhanced .skill-sequence-list { height: calc(100svh - 228px); }
+  .skill-sequence-visual { height: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-trace,
+  .skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-node-focus { animation: none; }
+}

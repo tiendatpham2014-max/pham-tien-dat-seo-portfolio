@@ -19,6 +19,11 @@ export function Evidence() {
   const { language } = useSitePreferences();
   const [activeMetric, setActiveMetric] = useState<Metric>("clicks");
   const metric = metricData[activeMetric];
+  const posterMetrics = [
+    { key: "clicks", label: words.tableClicks, change: words.changeClicks },
+    { key: "impressions", label: words.tableImpressions, change: words.changeImpressions },
+    { key: "ctr", label: "CTR", change: words.changeCtr },
+  ] as const;
   return (
     <>
 <section className="work section-space dark-section" id="work" aria-labelledby="work-title">
@@ -29,14 +34,30 @@ export function Evidence() {
         <h2 className="display-heading" id="work-title">{words.workTitle}</h2>
         <p>{words.workIntro}</p>
       </div>
-      <div className="case-cover-result">
+    </div>
+
+    <div className="evidence-poster">
+      <div className="evidence-poster-lead">
+        <span className="evidence-poster-period">Q3/2025 <span aria-hidden="true">↔</span> Q3/2026</span>
         <strong>{words.workFigure}</strong>
-        <span>{words.workFigureLabel}</span>
-        <small>{words.workScope}</small>
-        <span className="case-cover-secondary">{words.workImpressions}</span>
+        <span className="evidence-poster-label">{words.workFigureLabel}</span>
+        <p>{words.workScope}</p>
+      </div>
+      <div className="evidence-poster-metrics">
+        {posterMetrics.map(({ key, label, change }) => {
+          const entry = metricData[key];
+          return <div className={`evidence-poster-metric evidence-poster-${key}`} key={key}>
+            <div className="evidence-poster-metric-heading"><span>{label}</span><strong>{change}</strong></div>
+            <div className="evidence-poster-bar"><span>2025</span><i><b style={{ width: `${entry.beforeWidth}%` }} /></i><em>{formatMetric(entry.before, entry.unit, language)}</em></div>
+            <div className="evidence-poster-bar"><span>2026</span><i><b style={{ width: `${entry.afterWidth}%` }} /></i><em>{formatMetric(entry.after, entry.unit, language)}</em></div>
+          </div>;
+        })}
       </div>
     </div>
 
+    <details className="case-explore">
+      <summary>{words.exploreData}<span aria-hidden="true">↗</span></summary>
+      <div className="case-explore-content">
     <div className="metric-stage">
       <div className="metric-stage-top">
         <div>
@@ -120,6 +141,8 @@ export function Evidence() {
         <span>CTR</span>
       </div>
     </div>
+      </div>
+    </details>
 
     <details className="data-table-toggle">
       <summary>

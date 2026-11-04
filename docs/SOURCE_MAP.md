@@ -8,8 +8,8 @@ Hai URL tĩnh nằm trong `src/app/(vi)/page.tsx` (`/`) và `src/app/(en)/en/pag
 | Hero | `Hero.tsx` | `hero-waves.ts` | `20-hero.css`, `220-editorial-composition.css`, `portfolio.ts` |
 | Giới thiệu và khoảng ảnh riêng | `About.tsx` | Copy VI/EN | `25-about.css`, `250-editorial-layout.css`, `portfolio.ts` |
 | Mô hình SEO 3D | `SearchAtlas.tsx`, `SearchAtlasCanvas.tsx` | Cuộn, kéo và chọn giai đoạn trong React | `240-search-atlas.css`, `search-atlas.ts` |
-| GSC, chọn chỉ số, so sánh | `Evidence.tsx` | `metrics.ts`, `comparison.ts` | `40-evidence.css`, `120-comparison.css`, `gsc.ts` |
-| Chuyên môn theo cuộn | `Skills.tsx` | Cuộn trang thay nội dung trong một khung cố định | `260-scroll-sections.css`, `270-pinned-skills.css`, `portfolio.ts` |
+| GSC, chọn chỉ số, so sánh | `Evidence.tsx` | Poster ba chỉ số thật; bộ chọn chỉ số và kéo so sánh trong phần mở rộng (`metrics.ts`, `comparison.ts`) | `40-evidence.css`, `120-comparison.css`, `290-evidence-poster.css`, `gsc.ts` |
+| Chuyên môn theo cuộn | `Skills.tsx`, `SkillDiagram.tsx` | Cuộn trang thay từng nhóm và sơ đồ SVG tương ứng trong một vùng ghim | `260-scroll-sections.css`, `270-pinned-skills.css`, `280-skill-diagrams.css`, `portfolio.ts` |
 | Bài viết | `Writing.tsx` | Bốn link bài viết thật, trình bày gọn | `70-writing.css`, `260-scroll-sections.css` |
 | Hành trình theo cuộn | `Journey.tsx` | `scroll-stories.ts` | `196-career-horizon-scene.css` |
 | Liên hệ và footer | `Contact.tsx`, `Footer.tsx` | Copy VI/EN | `90-contact-footer.css`, `130-contact-motion.css` |

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { copy } from "@/content/portfolio";
 import { useSitePreferences } from "@/components/site-preferences";
+import { SkillDiagram } from "./SkillDiagram";
 
 const skills = [
   { id: "technical", label: "skillTechnical", headline: "technicalHeadline", problem: "technicalProblem", approach: "technicalApproach", output: "technicalOutput", tools: "Screaming Frog · Core Web Vitals · GSC · GTM · URL patterns" },
@@ -20,7 +21,7 @@ export function Skills() {
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMode = () => setEnhanced(!motion.matches && window.innerHeight >= 620);
+    const updateMode = () => setEnhanced(!motion.matches && window.innerHeight >= (window.innerWidth <= 360 ? 650 : 620));
     updateMode();
     motion.addEventListener("change", updateMode);
     window.addEventListener("resize", updateMode);
@@ -68,6 +69,7 @@ export function Skills() {
                 <span className="skill-sequence-label">{words[skill.label]}</span>
                 <h3>{words[skill.headline]}</h3>
               </div>
+              <div className="skill-sequence-visual"><SkillDiagram kind={skill.id} /></div>
               <dl>
                 <div><dt>{words.problem}</dt><dd>{words[skill.problem]}</dd></div>
                 <div><dt>{words.approach}</dt><dd>{words[skill.approach]}</dd></div>
