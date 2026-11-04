@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { BufferGeometry, Material, Mesh, Vector3 } from "three";
+import type { BufferGeometry, Material, Mesh, Texture, Vector3 } from "three";
+import type { Language } from "@/content/portfolio";
 
 type AtlasProps = {
   progress: number;
   theme: "dark" | "light";
+  language: Language;
   onStageSelect: (index: number) => void;
   onOrbit: (yaw: number, pitch: number) => void;
 };
 
 /** One diagram changes shape as the visitor moves through five SEO decisions. */
-export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: AtlasProps) {
+export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, onOrbit }: AtlasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(progress);
   const selectRef = useRef(onStageSelect);
@@ -49,10 +51,11 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         const light = theme === "light";
         const model = new THREE.Group();
         scene.add(model);
-        const disposables: Array<BufferGeometry | Material> = [];
+        const disposables: Array<BufferGeometry | Material | Texture> = [];
         const nodeCount = 36;
         const stagePositions: Vector3[][] = [[], [], [], [], []];
         const clusterCenters = [[-1.55, .86], [1.55, .86], [-1.55, -.86], [1.55, -.86]];
+        const measurementCenters = [[-1.3, .82], [1.3, .82], [-1.3, -.78], [1.3, -.78]];
         const fraction = (value: number) => value - Math.floor(value);
 
         for (let i = 0; i < nodeCount; i++) {
@@ -81,13 +84,12 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
             stagePositions[2].push(new THREE.Vector3(1.25 + row * .25, (category - 2.5) * .54 + (row - 2) * .075, -.12));
           }
 
-          const ring = Math.floor(i / 9);
-          const ringAngle = i % 9 / 9 * Math.PI * 2 + ring * .14;
-          const ringRadius = .65 + ring * .54;
+          const metric = Math.floor(i / 9);
+          const point = i % 9;
           stagePositions[3].push(new THREE.Vector3(
-            Math.cos(ringAngle) * ringRadius,
-            Math.sin(ringAngle) * ringRadius * .75,
-            (ring - 1.5) * .13,
+            measurementCenters[metric][0] + (point % 3 - 1) * .53,
+            measurementCenters[metric][1] + (1 - Math.floor(point / 3)) * .3,
+            .1,
           ));
 
           const lane = i % 3;
@@ -106,6 +108,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         const muted = new THREE.Color(light ? 0x90aaa9 : 0x527079);
         const stageColors = stagePositions.map((_, stage) => Array.from({ length: nodeCount }, (_, i) => {
           if (stage === 1) return new THREE.Color(palettes[i % 4]);
+          if (stage === 3) return new THREE.Color(palettes[Math.floor(i / 9)]);
           if (stage === 4) return new THREE.Color(i % 3 === 1 ? palettes[0] : muted);
           return signal.clone();
         }));
@@ -128,22 +131,22 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
             ...Array.from({ length: 6 }, (_, i) => [0, i + 1] as [number, number]),
             ...Array.from({ length: 29 }, (_, i) => [7 + i, 1 + i % 6] as [number, number]),
           ],
-          [
-            ...Array.from({ length: 36 }, (_, i) => [i, Math.floor(i / 9) * 9 + (i + 1) % 9] as [number, number]),
-            ...Array.from({ length: 9 }, (_, i) => [i, i + 9] as [number, number]),
-            ...Array.from({ length: 9 }, (_, i) => [i + 18, i + 27] as [number, number]),
-          ],
+          Array.from({ length: 36 }, (_, i) => [
+            ...(i % 3 < 2 ? [[i, i + 1] as [number, number]] : []),
+            ...(i % 9 < 6 ? [[i, i + 3] as [number, number]] : []),
+          ]).flat(),
           Array.from({ length: 33 }, (_, i) => [i, i + 3] as [number, number]),
         ];
-        const edgeOpacity = [.32, .58, .66, .55, .32];
+        const edgeOpacity = [.32, .58, .66, .72, .32];
         const edgeGeometry = new THREE.CylinderGeometry(.012, .012, 1, 6);
         disposables.push(edgeGeometry);
         const vertical = new THREE.Vector3(0, 1, 0);
         const direction = new THREE.Vector3();
         const edgeMeshes = links.map((stageLinks, stage) => {
-          const material = new THREE.MeshBasicMaterial({ color: light ? 0x397581 : palettes[stage % palettes.length], transparent: true, opacity: 0, depthWrite: false });
+          const material = new THREE.MeshBasicMaterial({ color: stage === 3 ? 0xffffff : light ? 0x397581 : palettes[stage % palettes.length], transparent: true, opacity: 0, depthWrite: false });
           const mesh = new THREE.InstancedMesh(edgeGeometry, material, stageLinks.length);
           mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+          if (stage === 3) stageLinks.forEach(([a], index) => mesh.setColorAt(index, new THREE.Color(palettes[Math.floor(a / 9)])));
           mesh.frustumCulled = false;
           model.add(mesh);
           disposables.push(material);
@@ -170,16 +173,61 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
         model.add(pageCards);
         disposables.push(pageGeometry, pageMaterial);
 
-        const scanGeometry = new THREE.CylinderGeometry(.014, .014, 2.4, 6);
-        const scanMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x146c7a : 0xd1fff1, transparent: true, opacity: 0, depthWrite: false });
-        const scanGroup = new THREE.Group();
-        const scanBeam = new THREE.Mesh(scanGeometry, scanMaterial);
-        scanBeam.position.x = 1.2;
-        scanBeam.position.z = .42;
-        scanBeam.rotation.z = -Math.PI / 2;
-        scanGroup.add(scanBeam);
-        model.add(scanGroup);
-        disposables.push(scanGeometry, scanMaterial);
+        // Four labelled metric panels show what is read, without inventing values or trends.
+        const panelGeometry = new THREE.PlaneGeometry(2.1, 1.13);
+        const panelMaterial = new THREE.MeshBasicMaterial({ color: light ? 0xffffff : 0x2c5663, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+        const panels = new THREE.InstancedMesh(panelGeometry, panelMaterial, 4);
+        panels.frustumCulled = false;
+        measurementCenters.forEach(([x, y], index) => {
+          dummy.position.set(x, y, -.22);
+          dummy.quaternion.identity();
+          dummy.scale.setScalar(1);
+          dummy.updateMatrix();
+          panels.setMatrixAt(index, dummy.matrix);
+        });
+        panels.instanceMatrix.needsUpdate = true;
+        model.add(panels);
+        disposables.push(panelGeometry, panelMaterial);
+
+        const railGeometry = new THREE.BoxGeometry(.035, 1.13, .035);
+        const railMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
+        const rails = new THREE.InstancedMesh(railGeometry, railMaterial, 4);
+        rails.frustumCulled = false;
+        measurementCenters.forEach(([x, y], index) => {
+          dummy.position.set(x - 1.025, y, .16);
+          dummy.quaternion.identity();
+          dummy.scale.setScalar(1);
+          dummy.updateMatrix();
+          rails.setMatrixAt(index, dummy.matrix);
+          rails.setColorAt(index, new THREE.Color(palettes[index]));
+        });
+        rails.instanceMatrix.needsUpdate = true;
+        model.add(rails);
+        disposables.push(railGeometry, railMaterial);
+
+        const metricNames = language === "vi" ? ["NHẤP", "HIỂN THỊ", "CTR", "VỊ TRÍ"] : ["CLICKS", "IMPRESSIONS", "CTR", "POSITION"];
+        const metricLabels = measurementCenters.map(([x, y], index) => {
+          const canvas = document.createElement("canvas");
+          canvas.width = 512;
+          canvas.height = 128;
+          const context = canvas.getContext("2d");
+          if (!context) throw new Error("2D canvas unavailable for measurement labels");
+          context.fillStyle = light ? "#164a55" : "#e5f6f2";
+          context.font = '600 55px "Be Vietnam Pro", sans-serif';
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText(metricNames[index], 256, 64, 480);
+          const texture = new THREE.CanvasTexture(canvas);
+          texture.colorSpace = THREE.SRGBColorSpace;
+          const material = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
+          const sprite = new THREE.Sprite(material);
+          sprite.position.set(x, y - .78, .46);
+          sprite.scale.set(1.75, .44, 1);
+          sprite.renderOrder = 2;
+          model.add(sprite);
+          disposables.push(texture, material);
+          return { sprite, material };
+        });
 
         const routeGeometry = new THREE.CylinderGeometry(.025, .025, 1, 6);
         const routeMaterial = new THREE.MeshBasicMaterial({ color: light ? 0x137b8a : 0xc7fff0, transparent: true, opacity: 0, depthWrite: false });
@@ -382,8 +430,16 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
             pageCards.setMatrixAt(i, dummy.matrix);
           }
           pageCards.instanceMatrix.needsUpdate = true;
-          scanMaterial.opacity = .55 * Math.max(0, 1 - Math.abs(stage - 3));
-          scanGroup.rotation.z = current * Math.PI * 2;
+          const measurementStrength = Math.max(0, 1 - Math.abs(stage - 3));
+          const measurementVisible = measurementStrength > .001;
+          panels.visible = measurementVisible;
+          rails.visible = measurementVisible;
+          panelMaterial.opacity = (light ? .7 : .52) * measurementStrength;
+          railMaterial.opacity = .9 * measurementStrength;
+          metricLabels.forEach(({ sprite, material }) => {
+            sprite.visible = measurementVisible;
+            material.opacity = .95 * measurementStrength;
+          });
           routeMaterial.opacity = .82 * Math.max(0, stage - 3);
           if (routeMaterial.opacity > 0) {
             for (let i = 0; i < 11; i++) {
@@ -441,6 +497,8 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
           nodes.dispose();
           edgeMeshes.forEach(({ mesh }) => mesh.dispose());
           pageCards.dispose();
+          panels.dispose();
+          rails.dispose();
           routeSegments.dispose();
           renderer.dispose();
           renderer.domElement.remove();
@@ -451,7 +509,7 @@ export function SearchAtlasCanvas({ progress, theme, onStageSelect, onOrbit }: A
     }, { rootMargin: "300px" });
     visibility.observe(host);
     return () => { cancelled = true; visibility.disconnect(); cleanup?.(); };
-  }, [theme]);
+  }, [theme, language]);
 
   return <div ref={hostRef} className={`atlas-canvas${ready ? " is-ready" : ""}`} />;
 }

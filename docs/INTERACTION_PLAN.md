@@ -54,7 +54,7 @@ References: https://animate-ui.com/docs/installation and https://github.com/mrdo
 The owner selected the first proposed direction and later requested it in this build alongside the language architecture update.
 
 - Keep the existing five conceptual stages: queries, intent, structure, measurement and decision. They form one changing 3D space rather than five nearly identical planes.
-- As the visitor scrolls, dispersed query signals gather inside four intent contours, connect to page-shaped structure nodes, pass through a radial measurement scan, and reveal a brighter priority route. One set of nodes and attached links morphs continuously; drag and direct waypoint selection remain available.
+- As the visitor scrolls, dispersed query signals gather inside four intent contours, connect to page-shaped structure nodes, form four labelled metric panels (clicks, impressions, CTR and position), and reveal a brighter priority route. The panels identify what to read; their equal grids do not depict values or trends. One set of nodes and attached links morphs continuously; drag and direct waypoint selection remain available.
 - Keep stage labels connected to the active geometry on desktop, tablet and mobile. Preserve VI/EN copy, dark/light themes, keyboard access, reduced motion and a readable fallback.
 - The scene represents a method, not measured GSC data. Do not invent client results or show illustrative geometry as factual metrics.
 - Reuse the current adaptive rendering and fallback. A successful build does not establish frame rate on a physical low-end phone. No content or case expansion is bundled with this direction.

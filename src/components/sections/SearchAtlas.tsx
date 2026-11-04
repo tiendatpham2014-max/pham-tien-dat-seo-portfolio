@@ -70,7 +70,7 @@ export function SearchAtlas() {
           <div className="atlas-fallback">
             {words.steps.map((step, index) => <span key={index} className={index === active ? "is-active" : ""}>{String(index + 1).padStart(2, "0")}</span>)}
           </div>
-          {!reduced && <SearchAtlasCanvas progress={sceneProgress} theme={theme} onStageSelect={goTo} onOrbit={moveWithScene} />}
+          {!reduced && <SearchAtlasCanvas progress={sceneProgress} theme={theme} language={language} onStageSelect={goTo} onOrbit={moveWithScene} />}
         </div>
         <div className="shell atlas-scene-header">
           <span className="rebuild-index">{words.eyebrow}</span>
