@@ -117,14 +117,14 @@ This order may be adjusted to support an editorial story. **The nine design refe
 
 **Layout**
 - Heading at left on wide screens and above the content on narrow screens.
-- Four sequential articles: `Technical SEO`, `Content Strategy`, `Analytics`, `Workflow & Automation` (translate for VI).
-- Every article shows **Problem → Approach → Typical output** from `CONTENT_ARCHITECTURE.md` and quiet tool tags where verified. Avoid duplicating job titles or the Experience section.
+- Four groups replace one another inside one pinned stage: `Technical SEO`, `Content Strategy`, `Analytics`, `Workflow & Automation` (translate for VI).
+- Every group shows **Problem → Approach → Typical output** from `CONTENT_ARCHITECTURE.md` and quiet tool tags where verified. Avoid duplicating job titles or the Experience section.
 - Text and small conceptual diagrams are enough; no invented product screenshot.
 
 **Interactions**
-- Each article arrives with an opacity/translate reveal as it enters the viewport. Ordinary page scroll controls the pace; there is no automatic cycling or mandatory click.
-- All four articles remain in DOM reading order and are visible without JS or under reduced motion.
-- On narrow screens, stack the introduction and articles in one column.
+- Ordinary page scroll changes the active group in a compact pinned stage; there is no automatic cycling or mandatory click.
+- All four groups remain in DOM reading order and fall back to a vertical list without JS or under reduced motion.
+- On narrow screens, the introduction sits above the active group within the same stage.
 
 ## 7. Published writing — compact editorial list
 

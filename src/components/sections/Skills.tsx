@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { copy } from "@/content/portfolio";
 import { useSitePreferences } from "@/components/site-preferences";
 
@@ -13,9 +14,47 @@ const skills = [
 export function Skills() {
   const { language } = useSitePreferences();
   const words = copy[language];
+  const sectionRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
+  const [enhanced, setEnhanced] = useState(false);
+
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMode = () => setEnhanced(!motion.matches && window.innerHeight >= 620);
+    updateMode();
+    motion.addEventListener("change", updateMode);
+    window.addEventListener("resize", updateMode);
+    return () => {
+      motion.removeEventListener("change", updateMode);
+      window.removeEventListener("resize", updateMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enhanced) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const section = sectionRef.current;
+      if (!section) return;
+      const offset = 78;
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight + offset);
+      const progress = Math.max(0, Math.min(1, (offset - section.getBoundingClientRect().top) / travel));
+      setActive(Math.min(skills.length - 1, Math.floor(progress * skills.length)));
+    };
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [enhanced]);
 
   return (
-    <section className="skills section-space" id="skills" aria-labelledby="skills-title">
+    <section className={`skills section-space${enhanced ? " is-scroll-enhanced" : ""}`} id="skills" aria-labelledby="skills-title" ref={sectionRef}>
       <div className="shell skill-sequence">
         <div className="skill-sequence-intro">
           <h2 className="display-heading" id="skills-title">{words.skillsTitle}</h2>
@@ -23,7 +62,7 @@ export function Skills() {
         </div>
         <div className="skill-sequence-list">
           {skills.map((skill, index) => (
-            <article className="skill-sequence-item" key={skill.id}>
+            <article className={`skill-sequence-item${active === index ? " is-current" : ""}`} aria-hidden={enhanced && active !== index} key={skill.id}>
               <div className="skill-sequence-heading">
                 <span className="skill-sequence-index">0{index + 1} / 04</span>
                 <span className="skill-sequence-label">{words[skill.label]}</span>

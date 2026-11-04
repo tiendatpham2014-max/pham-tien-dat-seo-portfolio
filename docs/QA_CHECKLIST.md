@@ -43,7 +43,7 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] If slider is used, keyboard Left/Right, Shift+arrows, Home/End and proper slider semantics update; if omitted no dummy controls.
 - [ ] Comparison exposes *all* actual values without a drag interaction (accessible summary/table).
 - [ ] Process shows 3 connected, readable steps with checklist details.
-- [ ] Skills shows four complete groups in document order, each appearing on scroll without a click; all content stays readable without JS or motion.
+- [ ] Skills shows one complete group at a time as the page scrolls, without a click; all four groups remain readable without JS or motion.
 - [ ] The illustrative SEO atlas loads only near its section, has a visible fallback without WebGL, pauses offscreen and under reduced motion, and never resembles GSC measurement.
 - [ ] Writing shows four authentic published links in a compact list; each link remains keyboard accessible.
 - [ ] Experience section shows 3 real stages with correct dates/employer, without duplicating the Process interaction.

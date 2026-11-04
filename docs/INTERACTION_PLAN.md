@@ -18,7 +18,7 @@ The existing portfolio remains the baseline. The bilingual hero composition was 
 
 ## 2. Skills scroll sequence
 
-The four Skills groups now appear as sequential articles during ordinary page scroll. All Problem, Approach, Typical output and tool details remain visible in the document in VI/EN. A sticky introduction is used only on wide screens; reduced motion and no-JS leave every article readable. The published-writing rows retain their original links at a smaller scale.
+The four Skills groups now replace one another inside a pinned stage during ordinary page scroll. The stage takes roughly one and a half viewport heights rather than stacking four long articles. All Problem, Approach, Typical output and tool details remain in the document in VI/EN. Without JS or under reduced motion, the four groups fall back to a readable vertical list. The published-writing rows retain their original links at a smaller scale.
 
 - Compare keyboard, touch, reduced motion, VI/EN and dark/light before extending this pattern to other sections.
 - Consider scroll progress only where it communicates actual reading progress. Consider an animated background in one secondary section without replacing the established hero or career scene.

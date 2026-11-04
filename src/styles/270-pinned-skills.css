@@ -1,0 +1,88 @@
+/* With JS and motion enabled, ordinary page scroll swaps one Skills chapter in a pinned stage. */
+.skills.is-scroll-enhanced.section-space {
+  height: 150svh;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skills.is-scroll-enhanced .skill-sequence {
+  position: sticky;
+  top: 78px;
+  height: calc(100svh - 78px);
+  align-items: center;
+}
+.skills.is-scroll-enhanced .skill-sequence-intro { position: static; }
+.skills.is-scroll-enhanced .skill-sequence-list {
+  position: relative;
+  height: min(590px, calc(100svh - 150px));
+  border: 0;
+}
+.skills.is-scroll-enhanced .skill-sequence-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(20px, 3vh, 36px) 0;
+  border-top: 1px solid rgba(167, 191, 202, .3);
+  border-bottom: 1px solid rgba(167, 191, 202, .3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: none;
+}
+.skills.is-scroll-enhanced .skill-sequence-item.is-current {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity .38s var(--ease), transform .38s var(--ease), visibility 0s;
+}
+@media (max-width: 900px) {
+  .skills.is-scroll-enhanced .skill-sequence {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: clamp(12px, 2vh, 25px);
+  }
+  .skills.is-scroll-enhanced .skill-sequence-intro .display-heading {
+    max-width: 760px;
+    margin-bottom: 10px;
+    font-size: clamp(34px, 6vw, 52px);
+  }
+  .skills.is-scroll-enhanced .skill-sequence-intro p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .skills.is-scroll-enhanced .skill-sequence-list {
+    width: 100%;
+    height: min(480px, calc(100svh - 285px));
+    flex: none;
+  }
+}
+@media (max-width: 520px) {
+  .skills.is-scroll-enhanced .skill-sequence { gap: 12px; }
+  .skills.is-scroll-enhanced .skill-sequence-intro .display-heading {
+    margin-bottom: 7px;
+    font-size: clamp(30px, 8.7vw, 39px);
+    line-height: 1.06;
+  }
+  .skills.is-scroll-enhanced .skill-sequence-intro p { font-size: 12px; line-height: 1.45; }
+  .skills.is-scroll-enhanced .skill-sequence-list { height: calc(100svh - 255px); }
+  .skills.is-scroll-enhanced .skill-sequence-item { padding: 13px 0; }
+  .skills.is-scroll-enhanced .skill-sequence-item h3 {
+    margin: 4px 0 13px;
+    font-size: clamp(18px, 5vw, 22px);
+  }
+  .skills.is-scroll-enhanced .skill-sequence-item dl { gap: 7px; }
+  .skills.is-scroll-enhanced .skill-sequence-item dt { padding: 0; font-size: 10px; }
+  .skills.is-scroll-enhanced .skill-sequence-item dd { font-size: 12px; line-height: 1.45; }
+  .skills.is-scroll-enhanced .skill-sequence-tools { margin-top: 12px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skills.is-scroll-enhanced .skill-sequence-item,
+  .skills.is-scroll-enhanced .skill-sequence-item.is-current { transition: none; transform: none; }
+}

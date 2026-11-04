@@ -1,4 +1,4 @@
-/* Skills: all four chapters remain in the document and arrive with ordinary page scroll. */
+/* Readable Skills fallback when JS or motion enhancement is unavailable. */
 .skills { background: var(--paper); }
 .skills .skill-sequence {
   display: grid;
@@ -73,12 +73,6 @@
   font-size: 12px;
   line-height: 1.55;
 }
-.js-motion .skills .skill-sequence-item {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .65s var(--ease), transform .65s var(--ease);
-}
-.js-motion .skills .skill-sequence-item.is-visible { opacity: 1; transform: none; }
 
 /* The writing list retains its links and editorial layout at a quieter scale. */
 .writing.section-space { padding-top: clamp(74px, 9vh, 115px); padding-bottom: clamp(74px, 9vh, 115px); }
@@ -125,7 +119,4 @@ html[data-theme="light"] .writing .article-card:focus-visible { padding-left: 8p
   .writing .article-card,
   html[data-theme="light"] .writing .article-card { display: flex; gap: 7px; padding: 16px 0; }
   .writing .article-link { margin-top: 4px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .js-motion .skills .skill-sequence-item { opacity: 1; transform: none; transition: none; }
 }
