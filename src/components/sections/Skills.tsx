@@ -16,12 +16,18 @@ export function Skills() {
   const { language } = useSitePreferences();
   const words = copy[language];
   const sectionRef = useRef<HTMLElement>(null);
+  const activeRef = useRef(0);
   const [active, setActive] = useState(0);
+  const [leaving, setLeaving] = useState<number | null>(null);
+  const [reverse, setReverse] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMode = () => setEnhanced(!motion.matches && window.innerHeight >= (window.innerWidth <= 360 ? 650 : 620));
+    const updateMode = () => {
+      setLeaving(null);
+      setEnhanced(!motion.matches && window.innerHeight >= (window.innerWidth <= 360 ? 650 : 620));
+    };
     updateMode();
     motion.addEventListener("change", updateMode);
     window.addEventListener("resize", updateMode);
@@ -34,6 +40,7 @@ export function Skills() {
   useEffect(() => {
     if (!enhanced) return;
     let frame = 0;
+    let leaveTimeout = 0;
     const update = () => {
       frame = 0;
       const section = sectionRef.current;
@@ -41,7 +48,15 @@ export function Skills() {
       const offset = 78;
       const travel = Math.max(1, section.offsetHeight - window.innerHeight + offset);
       const progress = Math.max(0, Math.min(1, (offset - section.getBoundingClientRect().top) / travel));
-      setActive(Math.min(skills.length - 1, Math.floor(progress * skills.length)));
+      section.style.setProperty("--skill-progress", String(progress));
+      const next = Math.min(skills.length - 1, Math.floor(progress * skills.length));
+      if (next === activeRef.current) return;
+      window.clearTimeout(leaveTimeout);
+      setReverse(next < activeRef.current);
+      setLeaving(activeRef.current);
+      activeRef.current = next;
+      setActive(next);
+      leaveTimeout = window.setTimeout(() => setLeaving(null), 320);
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
     schedule();
@@ -49,13 +64,15 @@ export function Skills() {
     window.addEventListener("resize", schedule);
     return () => {
       window.cancelAnimationFrame(frame);
+      window.clearTimeout(leaveTimeout);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      sectionRef.current?.style.removeProperty("--skill-progress");
     };
   }, [enhanced]);
 
   return (
-    <section className={`skills section-space${enhanced ? " is-scroll-enhanced" : ""}`} id="skills" aria-labelledby="skills-title" ref={sectionRef}>
+    <section className={`skills section-space${enhanced ? " is-scroll-enhanced" : ""}${reverse ? " is-reverse" : ""}`} id="skills" aria-labelledby="skills-title" ref={sectionRef}>
       <div className="shell skill-sequence">
         <div className="skill-sequence-intro">
           <h2 className="display-heading" id="skills-title">{words.skillsTitle}</h2>
@@ -63,7 +80,7 @@ export function Skills() {
         </div>
         <div className="skill-sequence-list">
           {skills.map((skill, index) => (
-            <article className={`skill-sequence-item${active === index ? " is-current" : ""}`} aria-hidden={enhanced && active !== index} key={skill.id}>
+            <article className={`skill-sequence-item${active === index ? " is-current" : ""}${leaving === index && active !== index ? " is-leaving" : ""}`} aria-hidden={enhanced && active !== index} key={skill.id}>
               <div className="skill-sequence-heading">
                 <span className="skill-sequence-index">0{index + 1} / 04</span>
                 <span className="skill-sequence-label">{words[skill.label]}</span>

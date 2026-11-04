@@ -32,10 +32,10 @@
 .skill-diagram .diagram-check { stroke: var(--diagram-accent); stroke-width: 2; }
 .skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-trace {
   stroke-dasharray: 1;
-  animation: skill-diagram-draw .75s var(--ease) both;
+  animation: skill-diagram-draw .9s var(--ease) .12s both;
 }
 .skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-node-focus {
-  animation: skill-diagram-arrive .45s .4s both;
+  animation: skill-diagram-arrive .5s .58s both;
   transform-box: fill-box;
   transform-origin: center;
 }

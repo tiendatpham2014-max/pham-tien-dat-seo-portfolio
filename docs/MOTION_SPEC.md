@@ -83,7 +83,7 @@ Purpose: deliver motion that supports comprehension and perceived quality. **Not
 
 - Four complete groups remain in document order; ordinary page scroll selects one at a time inside a pinned stage.
 - Each active group includes a distinct, decorative SVG diagram for its SEO domain. The path draws once as that group becomes active; it stays static when reduced motion is requested.
-- Keep the stage compact, avoid intercepting wheel or touch input, and switch the active group with a short entrance transition. The outgoing group becomes hidden immediately to prevent overlap.
+- Keep the stage compact and use normal wheel/touch scrolling. A thin line follows exact scroll progress. The outgoing group fades and shifts for 220ms; the next group enters after a short offset, with a 440ms fade and 500ms shift. Both directions work, and the outgoing group is then removed from the visual stage.
 - On mobile, the introduction and active group share one column. Without JS and under reduced motion, all four groups are readable in normal flow.
 
 ## 8. Writing list

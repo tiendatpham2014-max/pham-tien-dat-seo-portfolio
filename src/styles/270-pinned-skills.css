@@ -1,8 +1,14 @@
 /* With JS and motion enabled, ordinary page scroll swaps one Skills chapter in a pinned stage. */
 .skills.is-scroll-enhanced.section-space {
-  height: 150svh;
+  height: 170svh;
   padding-top: 0;
   padding-bottom: 0;
+  --skill-enter-shift: 16px;
+  --skill-exit-shift: -12px;
+}
+.skills.is-scroll-enhanced.is-reverse {
+  --skill-enter-shift: -16px;
+  --skill-exit-shift: 12px;
 }
 .skills.is-scroll-enhanced .skill-sequence {
   position: sticky;
@@ -16,6 +22,19 @@
   height: min(590px, calc(100svh - 150px));
   border: 0;
 }
+.skills.is-scroll-enhanced .skill-sequence-list::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--diagram-accent, var(--accent));
+  transform: scaleX(var(--skill-progress, 0));
+  transform-origin: left center;
+  pointer-events: none;
+}
 .skills.is-scroll-enhanced .skill-sequence-item {
   position: absolute;
   inset: 0;
@@ -27,17 +46,23 @@
   border-bottom: 1px solid rgba(167, 191, 202, .3);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(14px);
+  transform: translateY(var(--skill-enter-shift));
   pointer-events: none;
   transition: none;
 }
-.skills.is-scroll-enhanced .skill-sequence-item.is-current {
+.skills.is-scroll-enhanced .skill-sequence-item.is-leaving {
   z-index: 1;
+  visibility: visible;
+  transform: translateY(var(--skill-exit-shift));
+  transition: opacity .22s ease-out, transform .3s var(--ease);
+}
+.skills.is-scroll-enhanced .skill-sequence-item.is-current {
+  z-index: 2;
   opacity: 1;
   visibility: visible;
   transform: none;
   pointer-events: auto;
-  transition: opacity .38s var(--ease), transform .38s var(--ease), visibility 0s;
+  transition: opacity .44s var(--ease) .08s, transform .5s var(--ease) .08s, visibility 0s;
 }
 @media (max-width: 900px) {
   .skills.is-scroll-enhanced .skill-sequence {
@@ -84,5 +109,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .skills.is-scroll-enhanced .skill-sequence-item,
-  .skills.is-scroll-enhanced .skill-sequence-item.is-current { transition: none; transform: none; }
+  .skills.is-scroll-enhanced .skill-sequence-item.is-current,
+  .skills.is-scroll-enhanced .skill-sequence-item.is-leaving { transition: none; transform: none; }
 }
