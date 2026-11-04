@@ -1,6 +1,6 @@
 # Phạm Tiến Đạt — SEO Portfolio
 
-Portfolio SEO song ngữ VI/EN, viết bằng **Next.js, React và TypeScript**. Mỗi section, hiệu ứng, nhóm CSS và dữ liệu nội dung có file nguồn riêng để xem lịch sử thay đổi trên GitHub.
+Portfolio SEO song ngữ VI/EN, viết bằng **Next.js, React và TypeScript**. Bản Việt ở `/`, bản Anh ở `/en/`. Mỗi section, hiệu ứng, nhóm CSS và dữ liệu nội dung có file nguồn riêng để xem lịch sử thay đổi trên GitHub.
 
 ## Chạy và build
 
@@ -16,15 +16,15 @@ npm run verify   # chạy check, build và audit liên tiếp
 npm run preview  # xem bản build ở http://127.0.0.1:4173
 ```
 
-Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là sản phẩm sinh ra, không commit. Cấu hình `.openai/hosting.json` trỏ tới `out/`. Font Be Vietnam Pro và giấy phép nằm trong `public/fonts/`.
+Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là sản phẩm sinh ra, không commit. `next.config.ts` cấu hình static export vào `out/`. Font Be Vietnam Pro và giấy phép nằm trong `public/fonts/`.
 
 ## Nơi chỉnh sửa
 
 | Đường dẫn | Mục đích |
 | --- | --- |
-| `src/app/layout.tsx`, `page.tsx` | Metadata, cấu trúc trang và thứ tự section |
+| `src/app/(vi)/`, `src/app/(en)/`, `portfolio-layout.tsx`, `portfolio-page.tsx` | Hai route ngôn ngữ, metadata và cấu trúc trang dùng chung |
 | `src/components/sections/` | Component React của từng section: Hero, Evidence, Skills, Journey, Contact… |
-| `src/components/portfolio/` | Các module tương tác: theme, VI/EN, chỉ số GSC, tab, menu, cảnh cuộn, rail bài viết… |
+| `src/components/portfolio/` | Các module tương tác: theme, VI/EN, chỉ số GSC, menu và cảnh cuộn |
 | `src/content/portfolio.ts` | Toàn bộ copy VI/EN |
 | `src/content/gsc.ts` | Chỉ số và cách diễn giải GSC |
 | `src/styles/` | CSS tách theo section, responsive và motion |
@@ -33,7 +33,7 @@ Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là 
 | `docs/evidence.md`, `docs/CONTENT_SPEC.md` | Dữ liệu đã xác minh và giới hạn diễn giải |
 | `docs/CONTENT_GAPS.md` | Nội dung còn thiếu bằng chứng, không xuất bản |
 
-Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Các tương tác chạy ở client qua `PortfolioShell`; HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
+Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Hai bản ngôn ngữ có HTML và metadata riêng; `SitePreferences` giữ trạng thái VI/EN và theme khi tương tác. HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
 Workflow `.github/workflows/verify-site.yml` chạy cùng bộ kiểm tra cho mỗi push lên `main` và pull request. Bước audit chỉ kiểm tra bản export và các link/asset nội bộ; liên kết ngoài không được crawl tự động.
 
@@ -43,6 +43,6 @@ Chạy `npm run verify` trước khi cập nhật `main` trên GitHub. Chỉ đ�
 
 ## Ranh giới dữ liệu công khai
 
-Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website: clicks tăng 27,1%, impressions giảm 5,0%. Kết quả chịu ảnh hưởng của đội ngũ và số trang thay đổi, không quy cho một cá nhân. Ảnh GSC gốc, URL định danh website, ảnh cá nhân và chứng chỉ không có trong source công khai. Ba bài viết Primas và các kênh liên hệ dùng liên kết đã xác minh.
+Case GSC so sánh Q3/2025 và Q3/2026 ở cấp toàn website: clicks tăng 27,1%, impressions giảm 5,0%. Kết quả chịu ảnh hưởng của đội ngũ và số trang thay đổi, không quy cho một cá nhân. Ảnh GSC gốc, URL định danh website, ảnh cá nhân và chứng chỉ không có trong source công khai. Bốn bài viết Primas và các kênh liên hệ dùng liên kết đã xác minh.
 
 Các case, testimonial và KPI chưa có bằng chứng được giữ trong `docs/CONTENT_GAPS.md`. `README_HUONG_DAN.md` và `CODEX_START_PROMPT.md` là tài liệu pack đầu vào để truy vết yêu cầu ban đầu; quy trình hiện tại nằm ở README này.

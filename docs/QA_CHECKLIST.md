@@ -10,7 +10,7 @@ A task is complete only when the Next.js source builds to a working static expor
 ## Source and release
 - [ ] `npm run dev` serves `http://127.0.0.1:4173`.
 - [ ] `npm run check` and `npm run build` pass; `out/` contains a working static export.
-- [ ] `.openai/hosting.json` points to `out/`; generated files remain untracked.
+- [ ] `next.config.ts` exports to `out/`; generated files remain untracked.
 - [ ] React Bits and minwang.dev inform the design; no premium/proprietary code or asset is copied.
 - [ ] Push only the dedicated redesign branch to GitHub. The user has authorized production updates, but verify the new build before publishing.
 

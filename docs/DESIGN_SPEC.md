@@ -7,7 +7,7 @@
 ## 0. Foundation
 
 ### Keep existing project identity
-- Current entry point: `src/app/page.tsx`; VI/EN strings ở `src/content/portfolio.ts`, CSS ở `src/styles/`.
+- Current entry points: `src/app/(vi)/page.tsx` and `src/app/(en)/en/page.tsx`; VI/EN strings ở `src/content/portfolio.ts`, CSS ở `src/styles/`.
 - No portrait necessary. Do not generate a stock photo, fake client logo or fake social testimonial.
 - Respect site as of Oct 23, 2026 and keep public evidence accurate.
 - Keep semantic HTML, descriptive headings, accessible links and indexable text.

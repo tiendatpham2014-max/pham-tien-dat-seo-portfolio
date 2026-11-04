@@ -207,9 +207,10 @@ html.no-js .brand{
   gap:7px;
   white-space:nowrap
 }
-.language-switch button{
+.language-switch a{
   background:none;
   border:0;
+  text-decoration:none;
   min-height:44px;
   min-width:44px;
   padding:10px 8px;
@@ -219,7 +220,7 @@ html.no-js .brand{
   align-items:center;
   justify-content:center;
 }
-.language-switch button[aria-pressed=true]{
+.language-switch a[aria-current="page"]{
   font-weight:600;
   color:var(--ink)
 }

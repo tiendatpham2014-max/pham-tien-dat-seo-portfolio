@@ -55,11 +55,11 @@ html[data-theme="light"] .desktop-nav a[aria-current="location"] {
   color: #0f172a;
 }
 
-html[data-theme="light"] .language-switch button {
+html[data-theme="light"] .language-switch a {
   color: #64748b;
 }
 
-html[data-theme="light"] .language-switch button[aria-pressed="true"] {
+html[data-theme="light"] .language-switch a[aria-current="page"] {
   color: #0f172a;
   font-weight: 600;
 }

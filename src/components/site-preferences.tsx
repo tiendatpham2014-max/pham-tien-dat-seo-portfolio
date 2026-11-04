@@ -16,33 +16,36 @@ type Preferences = {
 
 const PreferencesContext = createContext<Preferences | null>(null);
 
-export function SitePreferences({ children }: { children: ReactNode }) {
-  const [language, setCurrentLanguage] = useState<Language>("vi");
+export function SitePreferences({ children, initialLanguage }: { children: ReactNode; initialLanguage: Language }) {
+  const [language, setCurrentLanguage] = useState<Language>(initialLanguage);
   const [theme, setCurrentTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     const cleanup = initPortfolio();
-    let storedLanguage: string | null = null;
     let storedTheme: string | null = null;
     try {
-      storedLanguage = localStorage.getItem("dat-seo-language");
       storedTheme = localStorage.getItem("dat-seo-theme");
     } catch { /* The page remains usable when storage is unavailable. */ }
-    const requested = new URLSearchParams(location.search).get("lang");
-    const initialLanguage: Language = requested === "vi" || requested === "en" ? requested : storedLanguage === "en" ? "en" : "vi";
+    const query = new URLSearchParams(location.search);
+    const legacyLanguage = query.get("lang");
+    const selectedLanguage: Language = legacyLanguage === "vi" || legacyLanguage === "en" ? legacyLanguage : initialLanguage;
+    if (legacyLanguage === "vi" || legacyLanguage === "en") {
+      query.delete("lang");
+      const remainingQuery = query.toString();
+      history.replaceState(null, "", `${selectedLanguage === "vi" ? "/" : "/en/"}${remainingQuery ? `?${remainingQuery}` : ""}${location.hash}`);
+    }
     const initialTheme: Theme = storedTheme === "light" || document.documentElement.dataset.theme === "light" ? "light" : "dark";
-    setLanguage(initialLanguage);
+    setLanguage(selectedLanguage);
     setTheme(initialTheme, false);
-    setCurrentLanguage(initialLanguage);
+    setCurrentLanguage(selectedLanguage);
     setCurrentTheme(initialTheme);
 
-    const titleObserver = new MutationObserver(() => {
-      const expected = document.documentElement.lang === "en"
-        ? "Dat Pham (Pham Tien Dat) — SEO Executive | Portfolio"
-        : "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio";
-      if (document.title !== expected) document.title = expected;
-    });
-    titleObserver.observe(document.head, { childList: true, characterData: true, subtree: true });
+    const onHistory = () => {
+      const next = location.pathname.startsWith("/en/") || location.pathname === "/en" ? "en" : "vi";
+      setLanguage(next);
+      setCurrentLanguage(next);
+    };
+    window.addEventListener("popstate", onHistory);
 
     const media = window.matchMedia("(prefers-color-scheme: light)");
     const onSystemTheme = () => {
@@ -52,10 +55,13 @@ export function SitePreferences({ children }: { children: ReactNode }) {
       setCurrentTheme(next);
     };
     media.addEventListener("change", onSystemTheme);
-    return () => { titleObserver.disconnect(); media.removeEventListener("change", onSystemTheme); cleanup(); };
+    return () => { window.removeEventListener("popstate", onHistory); media.removeEventListener("change", onSystemTheme); cleanup(); };
   }, []);
 
   const changeLanguage = (next: Language) => {
+    if (next !== language) {
+      history.pushState(null, "", `${next === "vi" ? "/" : "/en/"}${location.hash}`);
+    }
     setLanguage(next);
     setCurrentLanguage(next);
   };

@@ -1,4 +1,4 @@
-/* Clean Lirunghi-inspired editorial composition */
+/* Editorial composition for the portfolio's hero and sections. */
 .hero .hero-inner {
   width: min(calc(100% - 2 * var(--gutter)), var(--max));
   display: grid;

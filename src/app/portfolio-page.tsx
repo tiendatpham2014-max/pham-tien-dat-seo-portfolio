@@ -11,10 +11,11 @@ import { Writing } from "@/components/sections/Writing";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
 import { SearchAtlas } from "@/components/sections/SearchAtlas";
+import type { Language } from "@/content/portfolio";
 
-export default function Page() {
+export function PortfolioPage({ language }: { language: Language }) {
   return (
-    <SitePreferences>
+    <SitePreferences initialLanguage={language}>
       <IntroSplash />
       <SkipLink />
       <Navigation />

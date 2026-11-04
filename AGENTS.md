@@ -10,7 +10,7 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 4. `docs/DESIGN_SPEC.md` — hệ thống bố cục và visual direction.
 5. `docs/MOTION_SPEC.md` — tương tác được chọn; không triển khai hiệu ứng cho thành phần bị bỏ.
 6. `docs/QA_CHECKLIST.md` — tiêu chí nghiệm thu.
-7. `docs/brief.md`, `docs/evidence.md`, `src/app/page.tsx`, `src/content/portfolio.ts`, `package.json` và hosting config để đối chiếu nguồn.
+7. `docs/brief.md`, `docs/evidence.md`, `src/app/portfolio-page.tsx`, hai route trong `src/app/(vi)/` và `src/app/(en)/`, `src/content/portfolio.ts`, `package.json` và `next.config.ts` để đối chiếu nguồn.
 
 ## Quy tắc ra quyết định nội dung/UI
 - Portfolio nên cho thấy **cách nghĩ, cách làm, dự án, bằng chứng, bài viết và kinh nghiệm**, không chỉ là CV web.
@@ -19,7 +19,7 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 - Features 4 dùng cho Problem → Approach → Typical output, không lặp timeline việc làm.
 - How It Works 4: nội dung phương pháp SEO do AI soạn được, không phải lời khẳng định hoàn tất ở khách hàng cụ thể.
 - Comparison 7: dùng dữ liệu thật; nếu slider làm số liệu khó đọc, **chuyển sang thẻ so sánh/bảng**. Không ép hiệu ứng chỉ vì reference có nó.
-- Social Proof 11 là kiểu trình bày 3 bài viết thật, không testimonial giả.
+- Social Proof 11 là kiểu trình bày các bài viết thật, không testimonial giả.
 - Footer 11 rút gọn 2–3 nhóm link thật; không thêm cột trống.
 - Những ý tưởng case/category-location/Apps Script/B2B chưa đủ dữ liệu cần đưa vào `CONTENT_GAPS.md`; chỉ hiển thị khi người dùng xác minh và cho phép công bố.
 - Các đoạn content trong `CONTENT_ARCHITECTURE.md` về góc nhìn và quy trình **được phép soạn, điều chỉnh và xuất bản**; không mô tả chúng thành case study đã hoàn thành hay KPI đạt được.

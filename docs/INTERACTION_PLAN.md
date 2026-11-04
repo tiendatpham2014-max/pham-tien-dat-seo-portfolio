@@ -14,7 +14,7 @@ The existing portfolio remains the baseline. The bilingual hero composition was 
 - Move language and theme state out of the global DOM initializer into React-owned section state incrementally. Preserve server-rendered content, metadata and the existing VI/EN switch.
 - Gather reusable motion timing, color and spacing values into shared tokens so both themes use the same interaction rules.
 - Keep animation code close to the section that owns it; retain a shared controller only for genuinely page-wide behavior.
-- Evaluate separate VI and EN URLs with appropriate metadata and language alternates as a distinct SEO change.
+- VI and EN now have separate static URLs, route metadata and reciprocal language alternates.
 
 ## 2. Pilot Animate UI
 
@@ -44,9 +44,10 @@ References: https://animate-ui.com/docs/installation and https://github.com/mrdo
 - `SitePreferences` owns VI/EN and dark/light selection in React. All sections rendered by the portfolio page read their VI/EN copy from React context. The GSC metric picker also owns its selected metric in React, so changing language does not reset the selection. The legacy language field was removed from the shared mutable state; browser metadata and the document language mirror React's selection for menu and slider accessibility. DOM helpers do not rewrite translated section text.
 - The atlas uses a capped pixel ratio and draws only while scrolling or orbiting changes the view. Links and intent contours use lightweight 3D geometry so their stroke stays legible at mobile sizes. Sustained slow frames lower resolution; after movement settles, the sharp frame returns. The WebGL fallback remains. This is an adaptive safeguard, not a measured low-end-device benchmark.
 
-## Later phase
+## Language route migration
 
-- Evaluate separate VI and EN URLs, metadata and language alternates as one SEO migration. Do not change routing in this rebuild pass.
+- `/` is Vietnamese and `/en/` is English. Each static page declares its own HTML language, title, description, canonical, Open Graph URL and ProfilePage URL. Both pages and the sitemap carry reciprocal `hreflang` links.
+- The VI/EN control changes the URL and React copy without replaying the intro; refreshing either URL renders the correct language from the initial HTML. Browser back/forward updates the selected language.
 
 ## Implemented 3D direction — continuous SEO map
 

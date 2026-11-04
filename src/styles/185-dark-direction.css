@@ -9,8 +9,8 @@ body{background:var(--ground);color:var(--ink)}
 :focus-visible{outline-color:#38bdf8}
 .site-header{background:rgba(16,24,39,.96);color:var(--ink)}
 .site-header.is-scrolled{box-shadow:0 1px 0 rgba(190,214,226,.2)}
-.desktop-nav a,.language-switch button{color:#c5d0d7}
-.desktop-nav a:hover,.desktop-nav a[aria-current="location"],.language-switch button[aria-pressed=true]{color:#fff}
+.desktop-nav a,.language-switch a{color:#c5d0d7}
+.desktop-nav a:hover,.desktop-nav a[aria-current="location"],.language-switch a[aria-current="page"]{color:#fff}
 .language-switch span{color:#8394a4}
 .menu-toggle span{background:#f4f5f1}
 .mobile-nav{background:#142039;color:#f4f5f1}

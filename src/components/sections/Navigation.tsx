@@ -1,6 +1,7 @@
 "use client";
 
-import { copy } from "@/content/portfolio";
+import type { MouseEvent } from "react";
+import { copy, type Language } from "@/content/portfolio";
 import { useSitePreferences } from "@/components/site-preferences";
 import { state } from "@/components/portfolio/state";
 
@@ -16,6 +17,11 @@ export function Navigation() {
   const themeLabel = language === "vi"
     ? theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"
     : theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+  const switchLanguage = (event: MouseEvent<HTMLAnchorElement>, next: Language) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    changeLanguage(next);
+  };
 
   return (
     <>
@@ -31,9 +37,9 @@ export function Navigation() {
           </nav>
           <div className="header-actions">
             <div className="language-switch" role="group" aria-label="Language">
-              <button type="button" data-lang="vi" aria-pressed={language === "vi"} onClick={() => changeLanguage("vi")}>VI</button>
+              <a href="/" data-lang="vi" aria-current={language === "vi" ? "page" : undefined} onClick={(event) => switchLanguage(event, "vi")}>VI</a>
               <span aria-hidden="true">/</span>
-              <button type="button" data-lang="en" aria-pressed={language === "en"} onClick={() => changeLanguage("en")}>EN</button>
+              <a href="/en/" data-lang="en" aria-current={language === "en" ? "page" : undefined} onClick={(event) => switchLanguage(event, "en")}>EN</a>
             </div>
             <button className="theme-toggle" id="theme-toggle" type="button" aria-label={themeLabel} title={themeLabel} onClick={() => changeTheme(theme === "dark" ? "light" : "dark")}>
               <svg className="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx={12} cy={12} r="3.5" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>

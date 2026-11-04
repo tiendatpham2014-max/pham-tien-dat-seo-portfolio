@@ -1,6 +1,6 @@
 # MOTION_SPEC — interaction & animation contracts, v1.2 (calm / conditional patterns)
 
-> Cập nhật 23/10/2026: yêu cầu mới ưu tiên cảnh chữ lớn theo cuộn và thẻ kinh nghiệm xếp lớp. Xem `DARK_REFERENCE_PASS.md` cùng source `190-search-scene.css`, `105-search-scene.js`, `185-dark-direction.css`; các ngưỡng "visual calm" bên dưới là hướng dẫn trước đó.
+> Cập nhật 04/11/2026: source hiện dùng SEO atlas 3D và hành trình dạng chân trời theo cuộn. Các ví dụ lịch sử bên dưới chỉ áp dụng khi section tương ứng còn được render; source hiện hành được liệt kê trong `SOURCE_MAP.md`.
 
 Purpose: deliver motion that supports comprehension and perceived quality. **Not every pattern is mandatory:** implement only the interactions that the final editorial architecture uses (`docs/CONTENT_ARCHITECTURE.md`). No inert controls or animation added to meet a block count. **Values below are intentionally chosen implementation targets**, not claimed measurements copied from any proprietary source. Behavior is implemented with local CSS and TypeScript client modules.
 

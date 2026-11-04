@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import type { Language } from "@/content/portfolio";
 
-export const metadata: Metadata = {
+const titles = {
+  vi: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
+  en: "Dat Pham (Pham Tien Dat) — SEO Executive | Portfolio",
+} as const;
+const descriptions = {
+  vi: "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
+  en: "SEO Executive portfolio of Dat Pham at Primas Group — bridging business English, technical SEO, Core Web Vitals, and AI workflows for international search.",
+} as const;
+
+const baseMetadata: Metadata = {
   title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
   description:
     "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
@@ -145,14 +154,51 @@ const jsonLd = {
       "isPartOf": {
         "@id": "https://datpham.io.vn/#website",
       },
-      "inLanguage": ["vi", "en"],
+      "inLanguage": "vi",
     },
   ],
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export function createPortfolioMetadata(language: Language): Metadata {
+  const path = language === "vi" ? "/" : "/en/";
+  return {
+    ...baseMetadata,
+    title: titles[language],
+    description: descriptions[language],
+    alternates: {
+      canonical: path,
+      languages: { vi: "/", en: "/en/", "x-default": "/" },
+    },
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title: titles[language],
+      description: descriptions[language],
+      locale: language === "vi" ? "vi_VN" : "en_US",
+      alternateLocale: language === "vi" ? ["en_US"] : ["vi_VN"],
+      url: `https://datpham.io.vn${path}`,
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: titles[language],
+      description: descriptions[language],
+    },
+  };
+}
+
+export function PortfolioRootLayout({ children, language }: Readonly<{ children: React.ReactNode; language: Language }>) {
+  const localizedJsonLd = language === "vi" ? jsonLd : {
+    ...jsonLd,
+    "@graph": jsonLd["@graph"].map((entry) => entry["@type"] === "ProfilePage" ? {
+      ...entry,
+      "@id": "https://datpham.io.vn/en/#webpage",
+      url: "https://datpham.io.vn/en/",
+      name: titles.en,
+      description: descriptions.en,
+      inLanguage: "en",
+    } : entry),
+  };
   return (
-    <html lang="vi" className="no-js" suppressHydrationWarning>
+    <html lang={language} className="no-js" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#101827" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -184,7 +230,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
+            __html: JSON.stringify(localizedJsonLd),
           }}
         />
       </head>
