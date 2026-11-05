@@ -1,0 +1,86 @@
+/* Scroll-activated typography, composed at the section level so copy remains readable. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion .hero h1 { animation: hero-type-arrive 1s .14s cubic-bezier(.16, 1, .3, 1) both; }
+  .js-motion .hero-job-title { animation-duration: .95s; animation-delay: .32s; }
+  .js-motion .hero-tagline { animation-duration: .95s; animation-delay: .42s; }
+  .js-motion .hero-clean-bottom { animation-duration: .95s; animation-delay: .52s; }
+  html.intro-playing .js-motion .hero :is(.hero-overline, h1, .hero-job-title, .hero-tagline, .hero-clean-bottom) { animation-play-state: paused; }
+  @keyframes hero-type-arrive {
+    from { opacity: 0; transform: translate3d(0, 46px, 0); clip-path: inset(0 0 100% 0); }
+    to { opacity: 1; transform: none; clip-path: inset(0); }
+  }
+
+  .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) :is(h2, .case-cover-label) {
+    opacity: 0;
+    transform: translate3d(0, 42px, 0);
+    clip-path: inset(0 0 100% 0);
+    transition: opacity .7s ease, transform .95s cubic-bezier(.16, 1, .3, 1), clip-path .95s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial).is-visible :is(h2, .case-cover-label) {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0);
+  }
+
+  .js-motion :is(.about-copy, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) > p,
+  .js-motion .about-copy .about-next,
+  .js-motion .contact-editorial-links,
+  .js-motion .contact-signature {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity .8s ease, transform .9s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .js-motion :is(.about-copy, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial).is-visible > p,
+  .js-motion .about-copy.is-visible .about-next,
+  .js-motion .contact-editorial.is-visible .contact-editorial-links,
+  .js-motion .contact-editorial.is-visible .contact-signature {
+    opacity: 1;
+    transform: none;
+  }
+  .js-motion .contact-editorial.is-visible .contact-signature { opacity: .65; }
+
+  .js-motion :is(.about-copy, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) > p:first-of-type { transition-delay: .12s; }
+  .js-motion .about-copy > p:nth-of-type(2),
+  .js-motion .contact-editorial-links { transition-delay: .22s; }
+  .js-motion .about-copy .about-next,
+  .js-motion .contact-signature { transition-delay: .3s; }
+
+  /* The heading and copy move independently; the section wrapper itself stays fixed. */
+  .js-motion .section-head { opacity: 1; transform: none; transition: none; }
+
+  .js-motion .evidence-poster {
+    opacity: 0;
+    transform: translate3d(0, 38px, 0);
+    transition: opacity .85s ease, transform 1s cubic-bezier(.16, 1, .3, 1);
+  }
+  .js-motion .evidence-poster.is-visible { opacity: 1; transform: none; }
+
+  .js-motion .writing .article-card :is(.article-top, strong, .article-link) {
+    opacity: 0;
+    transform: translate3d(0, 25px, 0);
+    transition: opacity .75s ease, transform .85s cubic-bezier(.16, 1, .3, 1);
+  }
+  .js-motion .writing .article-card.is-visible :is(.article-top, strong, .article-link) { opacity: 1; transform: none; }
+  .js-motion .writing .article-card strong { transition-delay: .1s; }
+  .js-motion .writing .article-card .article-link { transition-delay: .2s; }
+
+  .journey .career-stage.is-current { animation: career-text-arrive .72s cubic-bezier(.16, 1, .3, 1) both; }
+  .journey .career-stage.is-current > :is(h3, p) { animation: career-copy-rise .75s cubic-bezier(.16, 1, .3, 1) both; }
+  .journey .career-stage.is-current .career-org { animation-delay: .08s; }
+  .journey .career-stage.is-current p:last-child { animation-delay: .16s; }
+  @keyframes career-text-arrive { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes career-copy-rise {
+    from { opacity: 0; transform: translate3d(0, 20px, 0); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+@media (max-width: 650px) and (prefers-reduced-motion: no-preference) {
+  .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) :is(h2, .case-cover-label) { transform: translate3d(0, 26px, 0); }
+  .js-motion :is(.about-copy, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) > p,
+  .js-motion .about-copy .about-next,
+  .js-motion .contact-editorial-links,
+  .js-motion .contact-signature { transform: translate3d(0, 20px, 0); }
+}

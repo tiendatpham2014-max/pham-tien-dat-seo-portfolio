@@ -62,7 +62,7 @@ export function initPortfolio() {
           }
         });
       }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".section-head,.about-intro-grid,.about-stack-bar,.case-overview,.evidence-poster,.article-card,.contact-heading,.contact-methods a")
+      all(".about-copy,.atlas-scene-header,.journey-heading,.case-cover-intro,.evidence-poster,.skill-sequence-intro,.section-head,.article-card,.contact-editorial")
         .forEach((element) => revealObserver.observe(element));
       observers.push(revealObserver);
     }
