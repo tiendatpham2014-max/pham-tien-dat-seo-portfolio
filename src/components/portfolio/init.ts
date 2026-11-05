@@ -6,6 +6,7 @@ import { positionIndicator } from "./navigation";
 import { initHeroWaves } from "./hero-waves";
 import { initIntroSplash } from "./intro-splash";
 import { initSmoothScroll } from "./smooth-scroll";
+import { initScrollTextReveal } from "./scroll-text-reveal";
 
 export function initPortfolio() {
   if ("scrollRestoration" in history) {
@@ -15,7 +16,6 @@ export function initPortfolio() {
   resetState();
   const controller = new AbortController();
   const { signal } = controller;
-  const observers: IntersectionObserver[] = [];
 
   initSmoothScroll(signal);
   initIntroSplash(signal);
@@ -51,27 +51,15 @@ export function initPortfolio() {
   }
 
   window.addEventListener("resize", positionIndicator, { signal });
-  if ("IntersectionObserver" in window) {
-    if (!reducedMotion()) {
-      document.body.classList.add("js-motion");
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".about-copy,.atlas-scene-header,.journey-heading,.case-cover-intro,.evidence-poster,.skill-sequence-intro,.section-head,.article-card,.contact-editorial")
-        .forEach((element) => revealObserver.observe(element));
-      observers.push(revealObserver);
-    }
+  const cleanupTextReveal = !reducedMotion() ? initScrollTextReveal(signal) : undefined;
+  if (cleanupTextReveal) {
+    document.body.classList.add("js-motion");
   }
   document.fonts?.ready.then(() => { if (!signal.aborted) positionIndicator(); });
 
   return () => {
     controller.abort();
-    observers.forEach((observer) => observer.disconnect());
+    cleanupTextReveal?.();
     document.body.classList.remove("js-motion", "menu-open", "page-hidden");
   };
 }

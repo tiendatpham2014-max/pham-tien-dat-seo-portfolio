@@ -69,11 +69,40 @@ test("Vietnamese headings keep their diacritics after the text reveal", async ({
   await expect(page.locator("#hero-title")).toHaveCSS("clip-path", "none");
   await expect(page.locator("#hero-title")).toHaveCSS("overflow", "visible");
   await page.locator("#about").evaluate((section) => window.scrollTo({ top: section.offsetTop, behavior: "instant" }));
-  await expect(page.locator(".about-copy")).toHaveClass(/is-visible/);
+  await expect(page.locator("#about-title")).toHaveCSS("opacity", "1");
   await expect(page.locator("#about-title")).toHaveCSS("clip-path", "none");
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator("#hero-title")).toHaveCSS("clip-path", "none");
 });
+
+for (const { route, width } of [{ route: "/", width: 1280 }, { route: "/en/", width: 390 }]) {
+  test(`${route} text reveal follows scroll in both directions at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+    const bounds = await page.locator(".about-copy").evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { top: rect.top + window.scrollY, bottom: rect.bottom + window.scrollY };
+    });
+    const opacity = async () => page.locator("#about-title").evaluate((element) => Number(getComputedStyle(element).opacity));
+    const go = async (top) => {
+      await page.evaluate((position) => window.scrollTo({ top: position, behavior: "instant" }), top);
+      await page.waitForTimeout(100);
+    };
+
+    await go(bounds.top - 800 * .99);
+    expect(await opacity()).toBeLessThan(.05);
+    await go(bounds.top - 800 * .74);
+    expect(await opacity()).toBeGreaterThan(.2);
+    expect(await opacity()).toBeLessThan(.95);
+    await go(bounds.top - 800 * .49);
+    expect(await opacity()).toBeGreaterThan(.98);
+    await go(bounds.bottom - 800 * .01);
+    expect(await opacity()).toBeLessThan(.05);
+    await go(bounds.top - 800 * .49);
+    expect(await opacity()).toBeGreaterThan(.98);
+  });
+}
 
 test("signature animation restarts when the page is refreshed", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
