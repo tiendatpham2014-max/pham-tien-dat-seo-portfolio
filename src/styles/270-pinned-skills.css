@@ -1,6 +1,6 @@
 /* With JS and motion enabled, ordinary page scroll swaps one Skills chapter in a pinned stage. */
 .skills.is-scroll-enhanced.section-space {
-  height: 170svh;
+  height: 150svh;
   padding-top: 0;
   padding-bottom: 0;
   --skill-enter-shift: 16px;

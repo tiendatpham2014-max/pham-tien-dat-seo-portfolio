@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { searchAtlasCopy } from "@/content/search-atlas";
 import { SearchAtlasCanvas } from "@/components/visuals/SearchAtlasCanvas";
 import { useSitePreferences } from "@/components/site-preferences";
+import { getLenis } from "@/components/portfolio/smooth-scroll";
 
 export function SearchAtlas() {
   const { language, theme } = useSitePreferences();
@@ -29,12 +30,14 @@ export function SearchAtlas() {
     if (reduced) return;
     let frame = 0;
     const update = () => {
-      cancelAnimationFrame(frame);
+      if (frame) return;
       frame = requestAnimationFrame(() => {
+        frame = 0;
         const section = sectionRef.current;
         if (!section) return;
         const rect = section.getBoundingClientRect();
-        const distance = Math.max(1, section.offsetHeight - window.innerHeight);
+        const stageHeight = section.querySelector<HTMLElement>(".atlas-sticky")?.offsetHeight ?? window.innerHeight;
+        const distance = Math.max(1, section.offsetHeight - stageHeight);
         setProgress(Math.max(0, Math.min(1, -rect.top / distance)));
       });
     };
@@ -51,8 +54,12 @@ export function SearchAtlas() {
       section.querySelectorAll<HTMLElement>(".atlas-mobile article")[index]?.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "center" });
       return;
     }
-    const distance = Math.max(0, section.offsetHeight - window.innerHeight);
-    window.scrollTo({ top: window.scrollY + section.getBoundingClientRect().top + distance * index / 4, behavior: reduced ? "instant" : "smooth" });
+    const stageHeight = section.querySelector<HTMLElement>(".atlas-sticky")?.offsetHeight ?? window.innerHeight;
+    const distance = Math.max(0, section.offsetHeight - stageHeight);
+    const target = window.scrollY + section.getBoundingClientRect().top + distance * index / 4;
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(target, { duration: 1 });
+    else window.scrollTo({ top: target, behavior: "smooth" });
   };
 
   const moveWithScene = (yaw: number, pitch: number) => {

@@ -26,14 +26,12 @@ export function Skills() {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateMode = () => {
       setLeaving(null);
-      setEnhanced(!motion.matches && window.innerHeight >= (window.innerWidth <= 360 ? 650 : 620));
+      setEnhanced(!motion.matches);
     };
     updateMode();
     motion.addEventListener("change", updateMode);
-    window.addEventListener("resize", updateMode);
     return () => {
       motion.removeEventListener("change", updateMode);
-      window.removeEventListener("resize", updateMode);
     };
   }, []);
 
@@ -46,7 +44,8 @@ export function Skills() {
       const section = sectionRef.current;
       if (!section) return;
       const offset = 78;
-      const travel = Math.max(1, section.offsetHeight - window.innerHeight + offset);
+      const stageHeight = section.querySelector<HTMLElement>(".skill-sequence")?.offsetHeight ?? window.innerHeight - offset;
+      const travel = Math.max(1, section.offsetHeight - stageHeight);
       const progress = Math.max(0, Math.min(1, (offset - section.getBoundingClientRect().top) / travel));
       section.style.setProperty("--skill-progress", String(progress));
       const next = Math.min(skills.length - 1, Math.floor(progress * skills.length));
