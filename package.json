@@ -9,6 +9,8 @@
     "audit:site": "node scripts/audit-static-site.mjs",
     "verify": "npm run check && npm run build && npm run audit:site",
     "preview": "node scripts/preview-export.mjs",
+    "test:browser": "playwright test",
+    "perf:audit": "node scripts/audit-performance.mjs",
     "commit:after-live": "node scripts/commit-after-live.mjs"
   },
   "dependencies": {
@@ -20,10 +22,13 @@
     "three": "^0.187.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@types/node": "26.6.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/three": "^0.187.0",
+    "chrome-launcher": "1.2.2",
+    "lighthouse": "13.6.0",
     "typescript": "5.9.3"
   }
 }

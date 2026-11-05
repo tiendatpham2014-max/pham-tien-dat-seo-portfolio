@@ -14,6 +14,8 @@ npm run build    # xuất site tĩnh vào out/
 npm run audit:site # kiểm tra metadata, structured data, link nội bộ và asset sau build
 npm run verify   # chạy check, build và audit liên tiếp
 npm run preview  # xem bản build ở http://127.0.0.1:4173
+npm run test:browser # kiểm tra VI/EN, sáng/tối, responsive, intro và scroll
+npm run perf:audit   # đo Lighthouse mobile trên bản build, lưu vào .perf-reports/
 ```
 
 Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là sản phẩm sinh ra, không commit. `next.config.ts` cấu hình static export vào `out/`. Font Be Vietnam Pro và giấy phép nằm trong `public/fonts/`.
@@ -35,7 +37,7 @@ Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là 
 
 Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Hai bản ngôn ngữ có HTML và metadata riêng; `SitePreferences` giữ trạng thái VI/EN và theme khi tương tác. HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
-Workflow `.github/workflows/verify-site.yml` chạy cùng bộ kiểm tra cho mỗi push lên `main` và pull request. Bước audit chỉ kiểm tra bản export và các link/asset nội bộ; liên kết ngoài không được crawl tự động.
+Workflow `.github/workflows/verify-site.yml` chạy build, kiểm tra trình duyệt và Lighthouse mobile cho mỗi push lên `main` và pull request. Ngưỡng tự động chỉ chặn dung lượng tải trên 3.200 KiB và CLS trên 0,1. Điểm Lighthouse, LCP và TBT được lưu để theo dõi, vì các số này dao động giữa những lần đo trong môi trường mô phỏng. Báo cáo nằm trong artifact `browser-and-performance` của workflow, lưu 7 ngày. INP cần dữ liệu người dùng thực và không được suy ra từ phép đo này. Bước audit tĩnh kiểm tra bản export và các link/asset nội bộ; liên kết ngoài không được crawl tự động.
 
 ## Cập nhật source
 

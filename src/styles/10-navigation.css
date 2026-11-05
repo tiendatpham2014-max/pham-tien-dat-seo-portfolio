@@ -40,17 +40,8 @@
   display:block;
   transition:transform .2s ease;
 }
-.brand-dark{
-  display:block;
-}
-.brand-light{
-  display:none;
-}
-html[data-theme="light"] .brand-dark{
-  display:none;
-}
-html[data-theme="light"] .brand-light{
-  display:block;
+html[data-theme="light"] .brand-signature{
+  filter:brightness(0) saturate(100%) invert(8%) sepia(13%) saturate(1050%) hue-rotate(179deg) brightness(91%) contrast(95%);
 }
 .brand:hover .brand-signature{
   transform:scale(1.05);
@@ -87,15 +78,11 @@ html[data-theme="light"] .brand-light{
   inset:0;
   z-index:1;
   background:rgba(8,12,24,.95);
-  backdrop-filter:blur(48px) saturate(180%);
-  -webkit-backdrop-filter:blur(48px) saturate(180%);
   pointer-events:none;
-  will-change:opacity,backdrop-filter;
+  will-change:opacity;
 }
 html[data-theme="light"] .intro-splash-backdrop{
   background:rgba(248,250,252,.95);
-  backdrop-filter:blur(48px) saturate(180%);
-  -webkit-backdrop-filter:blur(48px) saturate(180%);
 }
 .intro-splash[data-active="true"]{
   animation:none;
@@ -124,17 +111,8 @@ html[data-theme="light"] .intro-splash-mark{
   -webkit-backface-visibility:hidden;
   transform:translateZ(0);
 }
-.intro-dark{
-  display:block;
-}
-.intro-light{
-  display:none;
-}
-html[data-theme="light"] .intro-dark{
-  display:none;
-}
-html[data-theme="light"] .intro-light{
-  display:block;
+html[data-theme="light"] .intro-signature{
+  filter:brightness(0) saturate(100%) invert(8%) sepia(13%) saturate(1050%) hue-rotate(179deg) brightness(91%) contrast(95%);
 }
 html.intro-playing .brand{
   opacity:0;

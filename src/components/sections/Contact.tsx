@@ -15,8 +15,7 @@ export function Contact() {
           <a href="https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
         </div>
         <div className="contact-signature" aria-hidden="true">
-          <img src="/branding/dat-pham-signature-writing.svg" alt="" className="contact-signature-dark" width={250} height={84} />
-          <img src="/branding/dat-pham-signature-writing-light.svg" alt="" className="contact-signature-light" width={250} height={84} />
+          <img src="/branding/dat-pham-signature-mark.svg" alt="" width={250} height={84} loading="lazy" />
         </div>
       </div>
     </section>

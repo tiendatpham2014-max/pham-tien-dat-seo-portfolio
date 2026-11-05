@@ -11,6 +11,9 @@ Thumbs.db
 private/
 screenshots/
 *.har
+.perf-reports/
+playwright-report/
+test-results/
 
 .taste-skill/
 .claude/

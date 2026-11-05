@@ -3,6 +3,7 @@ import { readFile, stat } from "node:fs/promises";
 import { extname, resolve, sep } from "node:path";
 
 const root = resolve("out");
+const port = Number(process.env.PORT || 4173);
 const mime = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -35,4 +36,4 @@ createServer(async (request, response) => {
     response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     response.end("Not found");
   }
-}).listen(4173, "127.0.0.1", () => console.log(`Static export: http://127.0.0.1:4173 (from ${root})`));
+}).listen(port, "127.0.0.1", () => console.log(`Static export: http://127.0.0.1:${port} (from ${root})`));

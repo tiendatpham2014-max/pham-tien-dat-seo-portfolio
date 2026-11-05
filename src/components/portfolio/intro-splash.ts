@@ -43,8 +43,7 @@ export function initIntroSplash(signal: AbortSignal) {
   getLenis()?.stop();
   getLenis()?.scrollTo(0, { immediate: true });
 
-  // Force restart the SVG signature animation on every page load and refresh (F5)
-  // This bypasses browser image caching that freezes SVG CSS @keyframes on subsequent views
+  // A fresh image request restarts the SVG's internal stroke animation on refresh.
   const images = splash.querySelectorAll<HTMLImageElement>(".intro-signature");
   const cacheBuster = Date.now();
   images.forEach((img) => {
@@ -81,10 +80,7 @@ export function initIntroSplash(signal: AbortSignal) {
     const flightTimer = window.setTimeout(() => {
       if (signal.aborted) return;
 
-      const isLight = document.documentElement.dataset.theme === "light";
-      const targetImg = brand.querySelector<HTMLImageElement>(
-        isLight ? ".brand-light" : ".brand-dark"
-      ) || brand;
+      const targetImg = brand.querySelector<HTMLImageElement>(".brand-signature") || brand;
 
       const markRect = mark.getBoundingClientRect();
       const targetRect = targetImg.getBoundingClientRect();
