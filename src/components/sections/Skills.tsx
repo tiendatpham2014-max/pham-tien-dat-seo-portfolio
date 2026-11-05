@@ -55,7 +55,7 @@ export function Skills() {
       setLeaving(activeRef.current);
       activeRef.current = next;
       setActive(next);
-      leaveTimeout = window.setTimeout(() => setLeaving(null), 320);
+      leaveTimeout = window.setTimeout(() => setLeaving(null), 450);
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
     schedule();
