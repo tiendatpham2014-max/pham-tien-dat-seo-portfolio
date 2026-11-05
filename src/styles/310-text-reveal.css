@@ -6,21 +6,19 @@
   .js-motion .hero-clean-bottom { animation-duration: .95s; animation-delay: .52s; }
   html.intro-playing .js-motion .hero :is(.hero-overline, h1, .hero-job-title, .hero-tagline, .hero-clean-bottom) { animation-play-state: paused; }
   @keyframes hero-type-arrive {
-    from { opacity: 0; transform: translate3d(0, 46px, 0); clip-path: inset(0 0 100% 0); }
-    to { opacity: 1; transform: none; clip-path: inset(0); }
+    from { opacity: 0; transform: translate3d(0, 46px, 0); }
+    to { opacity: 1; transform: none; }
   }
 
   .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) :is(h2, .case-cover-label) {
     opacity: 0;
     transform: translate3d(0, 42px, 0);
-    clip-path: inset(0 0 100% 0);
-    transition: opacity .7s ease, transform .95s cubic-bezier(.16, 1, .3, 1), clip-path .95s cubic-bezier(.16, 1, .3, 1);
+    transition: opacity .7s ease, transform .95s cubic-bezier(.16, 1, .3, 1);
   }
 
   .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial).is-visible :is(h2, .case-cover-label) {
     opacity: 1;
     transform: none;
-    clip-path: inset(0);
   }
 
   .js-motion :is(.about-copy, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) > p,

@@ -62,6 +62,19 @@ test("VI/EN and dark/light controls preserve the current theme", async ({ page }
   await expect(page.locator("#hero-title")).toHaveText(/dat pham/i);
 });
 
+test("Vietnamese headings keep their diacritics after the text reveal", async ({ page }) => {
+  await page.setViewportSize({ width: 625, height: 800 });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+  await expect(page.locator("#hero-title")).toHaveCSS("clip-path", "none");
+  await expect(page.locator("#hero-title")).toHaveCSS("overflow", "visible");
+  await page.locator("#about").evaluate((section) => window.scrollTo({ top: section.offsetTop, behavior: "instant" }));
+  await expect(page.locator(".about-copy")).toHaveClass(/is-visible/);
+  await expect(page.locator("#about-title")).toHaveCSS("clip-path", "none");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator("#hero-title")).toHaveCSS("clip-path", "none");
+});
+
 test("signature animation restarts when the page is refreshed", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await expect(page.locator(".intro-signature")).toHaveAttribute("src", /\?v=\d+$/);
