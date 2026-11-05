@@ -78,3 +78,11 @@ html[data-theme="light"] .skill-sequence-visual {
   .skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-trace,
   .skills.is-scroll-enhanced .skill-sequence-item.is-current .diagram-node-focus { animation: none; }
 }
+
+/* The rule follows each tools line, so every chapter keeps the same spacing. */
+.skills.is-scroll-enhanced .skill-sequence-item { border-bottom: 0; }
+.skills.is-scroll-enhanced .skill-sequence-tools {
+  margin-top: clamp(6px, 1.5vh, 16px);
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(167, 191, 202, .3);
+}
