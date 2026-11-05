@@ -7,7 +7,6 @@ export function Contact() {
   return (
     <section className="contact section-space dark-section" id="contact" aria-labelledby="contact-title">
       <div className="shell contact-editorial">
-        <span className="rebuild-index" aria-hidden="true">07 / CONTACT</span>
         <h2 className="display-heading" id="contact-title">{words.contactTitle}</h2>
         <p className="contact-intro-text">{words.contactIntro}</p>
         <div className="contact-editorial-links">

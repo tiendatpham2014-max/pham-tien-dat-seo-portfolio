@@ -80,7 +80,6 @@ export function SearchAtlas() {
           {!reduced && <SearchAtlasCanvas progress={sceneProgress} theme={theme} language={language} onStageSelect={goTo} onOrbit={moveWithScene} />}
         </div>
         <div className="shell atlas-scene-header">
-          <span className="rebuild-index">{words.eyebrow}</span>
           <h2 id="atlas-title">{words.title}</h2>
         </div>
         <div className="atlas-stations" aria-live="off">
@@ -95,10 +94,7 @@ export function SearchAtlas() {
             } as CSSProperties;
             return (
               <article className={`atlas-station ${index % 2 === 0 ? "is-left" : "is-right"}${index === 3 ? " is-measurement" : ""}`} style={style} key={index} aria-hidden={index !== active}>
-                <span className="atlas-station-index">0{index + 1}<em>/05</em></span>
-                <span className="atlas-station-rule" aria-hidden="true" />
                 <div>
-                  <span className="atlas-station-kicker">{words.stage} {index + 1} · {step.short}</span>
                   <h3>{step.name}</h3>
                   <p>{step.description}</p>
                 </div>

@@ -1,7 +1,6 @@
 import { all, text } from "./dom";
 import { resetState, reducedMotion } from "./state";
 import { initMobileMenu } from "./mobile-menu";
-import { initComparison } from "./comparison";
 import { initScrollStories } from "./scroll-stories";
 import { positionIndicator } from "./navigation";
 import { initHeroWaves } from "./hero-waves";
@@ -22,7 +21,6 @@ export function initPortfolio() {
   initIntroSplash(signal);
   initMobileMenu(signal);
   initHeroWaves(signal);
-  initComparison(signal);
   initScrollStories(signal);
   all(".contact-methods a").forEach((card) => {
     card.addEventListener("pointermove", (e: Event) => {
@@ -64,7 +62,7 @@ export function initPortfolio() {
           }
         });
       }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" });
-      all(".section-head,.about-intro-grid,.about-stack-bar,.case-overview,.evidence-poster,.metric-stage,.period-card,.compare-wrap,.article-card,.contact-heading,.contact-methods a")
+      all(".section-head,.about-intro-grid,.about-stack-bar,.case-overview,.evidence-poster,.article-card,.contact-heading,.contact-methods a")
         .forEach((element) => revealObserver.observe(element));
       observers.push(revealObserver);
     }

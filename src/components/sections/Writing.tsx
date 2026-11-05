@@ -35,9 +35,9 @@ export function Writing() {
           <p>{words.writingIntro}</p>
         </div>
         <div className="article-rail" id="article-rail">
-          {articles.map((article, index) => (
+          {articles.map((article) => (
             <a className="article-card" href={article.url} target="_blank" rel="noopener noreferrer" key={article.url}>
-              <span className="article-top"><span className="article-index">0{index + 1}</span>{article.label}</span>
+              <span className="article-top">{article.label}</span>
               <strong>{article.title}</strong>
               <span className="article-link">{words.readArticle}</span>
             </a>
@@ -45,7 +45,6 @@ export function Writing() {
         </div>
         <div className="writing-footer">
           <a className="text-link" href="https://primas.net/author/datpt/" target="_blank" rel="noopener noreferrer">{words.authorLink}</a>
-          <span>04 / PRIMAS.NET</span>
         </div>
       </div>
     </section>

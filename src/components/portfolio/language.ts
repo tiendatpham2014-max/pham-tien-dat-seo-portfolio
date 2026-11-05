@@ -1,5 +1,4 @@
 import type { Language } from "@/content/portfolio";
-import { updateComparison } from "./comparison";
 import { positionIndicator } from "./navigation";
 
 // Browser metadata and legacy interaction state stay here. React renders visible copy.
@@ -22,7 +21,6 @@ export function setLanguage(next: Language) {
   for (const selector of ['meta[property="og:description"]', 'meta[name="twitter:description"]']) {
     document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", description?.content ?? "");
   }
-  updateComparison();
   requestAnimationFrame(positionIndicator);
   try { localStorage.setItem("dat-seo-language", next); } catch { /* Storage may be unavailable. */ }
 }

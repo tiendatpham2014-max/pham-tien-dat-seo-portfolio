@@ -1,9 +1,8 @@
 /* Current editorial spacing and section composition. */
-.rebuild-index { display: inline-block; color: var(--accent); font-size: 11px; font-weight: 600; line-height: 1.4; letter-spacing: .13em; text-transform: uppercase; }
 .about.section-space { display: flex; align-items: center; min-height: clamp(680px, 94svh, 1050px); padding-top: clamp(100px, 11vh, 150px); padding-bottom: clamp(100px, 11vh, 150px); }
 .about .about-layout { width: min(calc(100% - 2 * var(--gutter)), var(--max)); grid-template-columns: minmax(0, .87fr) minmax(0, 1.13fr); gap: clamp(45px, 8vw, 145px); align-items: center; }
 .about .about-copy { max-width: 700px; }
-.about .about-copy .display-heading { margin: clamp(20px, 3vh, 38px) 0 clamp(28px, 4vh, 44px); font-size: clamp(54px, 6.3vw, 104px); line-height: 1.02; letter-spacing: -.065em; }
+.about .about-copy .display-heading { margin: 0 0 clamp(28px, 4vh, 44px); font-size: clamp(54px, 6.3vw, 104px); line-height: 1.02; letter-spacing: -.065em; }
 .about .about-lead { font-size: clamp(20px, 1.7vw, 27px); line-height: 1.47; letter-spacing: -.025em; }
 .about .about-bio { margin-top: 24px; max-width: 440px; font-size: clamp(14px, 1vw, 16px); }
 .about .about-next { margin-top: 44px; }
@@ -48,13 +47,11 @@ html[data-theme="light"] .writing .article-card {
 html[data-theme="light"] .writing .article-card:hover,
 html[data-theme="light"] .writing .article-card:focus-visible { padding-left: 12px; background: transparent; border-color: rgba(167, 191, 202, .5); box-shadow: none; transform: none; }
 .writing .article-top { display: flex; justify-content: flex-start; gap: 14px; font-size: 11px; text-transform: uppercase; white-space: nowrap; }
-.writing .article-index { opacity: .6; }
 .writing .article-card strong { margin: 0; font-size: clamp(18px, 1.75vw, 26px); font-weight: 500; line-height: 1.4; }
 .writing .article-link { margin: 0; justify-self: end; white-space: nowrap; }
 .writing .writing-footer { margin-top: 36px; }
 .contact.section-space { padding-top: clamp(110px, 14vh, 190px); padding-bottom: clamp(110px, 14vh, 190px); }
 .contact .contact-editorial { max-width: 970px; padding: 0; }
-.contact .rebuild-index { margin-bottom: clamp(25px, 4vh, 45px); color: #9ed9cf; }
 .contact .contact-editorial .display-heading { font-size: clamp(70px, 9vw, 150px); line-height: 1.02; letter-spacing: -.065em; }
 .contact .contact-intro-text { margin-top: 25px; max-width: 600px; }
 .contact .contact-editorial-links { margin-top: 15px; }

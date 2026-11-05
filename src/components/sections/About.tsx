@@ -8,7 +8,6 @@ export function About() {
     <section className="about section-space" id="about" aria-labelledby="about-title">
       <div className="shell about-layout">
         <div className="about-copy">
-          <span className="rebuild-index" aria-hidden="true">01 / ABOUT</span>
           <h2 className="display-heading" id="about-title">{words.aboutTitle}</h2>
           <p className="about-lead">{words.aboutLead}</p>
           <p className="about-bio">{words.aboutBio}</p>
