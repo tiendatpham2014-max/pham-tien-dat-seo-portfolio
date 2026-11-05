@@ -20,10 +20,12 @@ export function Evidence() {
   const [activeMetric, setActiveMetric] = useState<Metric>("clicks");
   const metric = metricData[activeMetric];
   const posterMetrics = [
-    { key: "clicks", label: words.tableClicks, change: words.changeClicks },
-    { key: "impressions", label: words.tableImpressions, change: words.changeImpressions },
+    { key: "clicks", label: language === "vi" ? "Lượt nhấp" : "Clicks", change: words.changeClicks },
+    { key: "impressions", label: language === "vi" ? "Hiển thị" : "Impressions", change: words.changeImpressions },
     { key: "ctr", label: "CTR", change: words.changeCtr },
   ] as const;
+  const featuredMetric = posterMetrics.find(({ key }) => key === activeMetric) ?? posterMetrics[0];
+  const featuredData = metricData[featuredMetric.key];
   return (
     <>
 <section className="work section-space dark-section" id="work" aria-labelledby="work-title">
@@ -39,19 +41,19 @@ export function Evidence() {
     <div className="evidence-poster">
       <div className="evidence-poster-lead">
         <span className="evidence-poster-period">Q3/2025 <span aria-hidden="true">↔</span> Q3/2026</span>
-        <strong>{words.workFigure}</strong>
-        <span className="evidence-poster-label">{words.workFigureLabel}</span>
+        <strong className={featuredMetric.key === "impressions" ? "is-negative" : ""} key={featuredMetric.key}>{featuredMetric.change}</strong>
+        <span className="evidence-poster-label">{featuredMetric.label}</span>
         <p>{words.workScope}</p>
       </div>
       <div className="evidence-poster-metrics">
-        {posterMetrics.map(({ key, label, change }) => {
-          const entry = metricData[key];
-          return <div className={`evidence-poster-metric evidence-poster-${key}`} key={key}>
-            <div className="evidence-poster-metric-heading"><span>{label}</span><strong>{change}</strong></div>
-            <div className="evidence-poster-bar"><span>2025</span><i><b style={{ width: `${entry.beforeWidth}%` }} /></i><em>{formatMetric(entry.before, entry.unit, language)}</em></div>
-            <div className="evidence-poster-bar"><span>2026</span><i><b style={{ width: `${entry.afterWidth}%` }} /></i><em>{formatMetric(entry.after, entry.unit, language)}</em></div>
-          </div>;
-        })}
+        <div className="evidence-poster-picker" role="group" aria-label={words.metricsLabel}>
+          {posterMetrics.map(({ key, label, change }) => <button key={key} type="button" aria-pressed={activeMetric === key} onClick={() => setActiveMetric(key)}><span>{label}</span><strong>{change}</strong></button>)}
+        </div>
+        <div className={`evidence-poster-metric evidence-poster-${featuredMetric.key}`} key={featuredMetric.key} aria-live="polite">
+          <div className="evidence-poster-bar"><span>2025</span><i><b style={{ width: `${featuredData.beforeWidth}%` }} /></i><em>{formatMetric(featuredData.before, featuredData.unit, language)}</em></div>
+          <div className="evidence-poster-bar"><span>2026</span><i><b style={{ width: `${featuredData.afterWidth}%` }} /></i><em>{formatMetric(featuredData.after, featuredData.unit, language)}</em></div>
+          <p>{featuredData.reading[language]}</p>
+        </div>
       </div>
     </div>
 

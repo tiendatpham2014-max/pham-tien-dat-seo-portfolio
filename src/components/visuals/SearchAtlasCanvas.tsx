@@ -55,7 +55,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         const nodeCount = 36;
         const stagePositions: Vector3[][] = [[], [], [], [], []];
         const clusterCenters = [[-1.55, .86], [1.55, .86], [-1.55, -.86], [1.55, -.86]];
-        const measurementCenters = [[-1.3, .82], [1.3, .82], [-1.3, -.78], [1.3, -.78]];
+        const measurementRows = [1.1, .36, -.38, -1.12];
         const fraction = (value: number) => value - Math.floor(value);
 
         for (let i = 0; i < nodeCount; i++) {
@@ -87,9 +87,9 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           const metric = Math.floor(i / 9);
           const point = i % 9;
           stagePositions[3].push(new THREE.Vector3(
-            measurementCenters[metric][0] + (point % 3 - 1) * .53,
-            measurementCenters[metric][1] + (1 - Math.floor(point / 3)) * .3,
-            .1,
+            -.35 + point * .34,
+            measurementRows[metric],
+            .14,
           ));
 
           const lane = i % 3;
@@ -131,10 +131,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
             ...Array.from({ length: 6 }, (_, i) => [0, i + 1] as [number, number]),
             ...Array.from({ length: 29 }, (_, i) => [7 + i, 1 + i % 6] as [number, number]),
           ],
-          Array.from({ length: 36 }, (_, i) => [
-            ...(i % 3 < 2 ? [[i, i + 1] as [number, number]] : []),
-            ...(i % 9 < 6 ? [[i, i + 3] as [number, number]] : []),
-          ]).flat(),
+          Array.from({ length: 36 }, (_, i) => i % 9 < 8 ? [[i, i + 1] as [number, number]] : []).flat(),
           Array.from({ length: 33 }, (_, i) => [i, i + 3] as [number, number]),
         ];
         const edgeOpacity = [.32, .58, .66, .72, .32];
@@ -173,40 +170,23 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         model.add(pageCards);
         disposables.push(pageGeometry, pageMaterial);
 
-        // Four labelled metric panels show what is read, without inventing values or trends.
-        const panelGeometry = new THREE.PlaneGeometry(2.1, 1.13);
+        // One evidence surface keeps the same moving nodes in view across the transition.
+        const panelGeometry = new THREE.PlaneGeometry(5.4, 3.35);
         const panelMaterial = new THREE.MeshBasicMaterial({ color: light ? 0xffffff : 0x2c5663, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
-        const panels = new THREE.InstancedMesh(panelGeometry, panelMaterial, 4);
-        panels.frustumCulled = false;
-        measurementCenters.forEach(([x, y], index) => {
-          dummy.position.set(x, y, -.22);
-          dummy.quaternion.identity();
-          dummy.scale.setScalar(1);
-          dummy.updateMatrix();
-          panels.setMatrixAt(index, dummy.matrix);
-        });
-        panels.instanceMatrix.needsUpdate = true;
-        model.add(panels);
+        const panel = new THREE.Mesh(panelGeometry, panelMaterial);
+        panel.position.z = -.22;
+        model.add(panel);
         disposables.push(panelGeometry, panelMaterial);
 
-        const railGeometry = new THREE.BoxGeometry(.035, 1.13, .035);
+        const railGeometry = new THREE.BoxGeometry(.035, 2.85, .035);
         const railMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
-        const rails = new THREE.InstancedMesh(railGeometry, railMaterial, 4);
-        rails.frustumCulled = false;
-        measurementCenters.forEach(([x, y], index) => {
-          dummy.position.set(x - 1.025, y, .16);
-          dummy.quaternion.identity();
-          dummy.scale.setScalar(1);
-          dummy.updateMatrix();
-          rails.setMatrixAt(index, dummy.matrix);
-          rails.setColorAt(index, new THREE.Color(palettes[index]));
-        });
-        rails.instanceMatrix.needsUpdate = true;
-        model.add(rails);
+        const rail = new THREE.Mesh(railGeometry, railMaterial);
+        rail.position.set(-2.52, 0, .16);
+        model.add(rail);
         disposables.push(railGeometry, railMaterial);
 
         const metricNames = language === "vi" ? ["NHẤP", "HIỂN THỊ", "CTR", "VỊ TRÍ"] : ["CLICKS", "IMPRESSIONS", "CTR", "POSITION"];
-        const metricLabels = measurementCenters.map(([x, y], index) => {
+        const metricLabels = measurementRows.map((y, index) => {
           const canvas = document.createElement("canvas");
           canvas.width = 512;
           canvas.height = 128;
@@ -221,8 +201,8 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           texture.colorSpace = THREE.SRGBColorSpace;
           const material = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
           const sprite = new THREE.Sprite(material);
-          sprite.position.set(x, y - .78, .46);
-          sprite.scale.set(1.75, .44, 1);
+          sprite.position.set(-1.55, y, .46);
+          sprite.scale.set(1.5, .34, 1);
           sprite.renderOrder = 2;
           model.add(sprite);
           disposables.push(texture, material);
@@ -416,7 +396,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           nodes.instanceMatrix.needsUpdate = true;
           if (nodes.instanceColor) nodes.instanceColor.needsUpdate = true;
           edgeMeshes.forEach(({ mesh, material }, index) => {
-            material.opacity = edgeOpacity[index] * Math.max(0, 1 - Math.abs(stage - index));
+            material.opacity = edgeOpacity[index] * Math.max(0, 1 - Math.abs(stage - index) * 1.5);
             mesh.visible = material.opacity > .001;
             if (!mesh.visible) return;
             links[index].forEach(([a, b], linkIndex) => {
@@ -444,8 +424,8 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           }
           pageCards.instanceMatrix.needsUpdate = true;
           const measurementVisible = measurementStrength > .001;
-          panels.visible = measurementVisible;
-          rails.visible = measurementVisible;
+          panel.visible = measurementVisible;
+          rail.visible = measurementVisible;
           panelMaterial.opacity = (light ? .7 : .52) * measurementStrength;
           railMaterial.opacity = .9 * measurementStrength;
           metricLabels.forEach(({ sprite, material }) => {
@@ -509,8 +489,6 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           nodes.dispose();
           edgeMeshes.forEach(({ mesh }) => mesh.dispose());
           pageCards.dispose();
-          panels.dispose();
-          rails.dispose();
           routeSegments.dispose();
           renderer.dispose();
           renderer.domElement.remove();

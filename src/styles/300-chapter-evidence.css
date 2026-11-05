@@ -1,0 +1,85 @@
+/* The introduction closes into the atlas without adding a separate screen. */
+.about .about-layout { position: relative; z-index: 1; }
+.about-chapter-bridge {
+  position: absolute;
+  inset: auto 0 0;
+  height: min(37svh, 330px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(23, 52, 68, .3) 54%, #091521 100%);
+}
+html[data-theme="light"] .about-chapter-bridge {
+  background: linear-gradient(180deg, transparent 0%, rgba(175, 211, 207, .28) 54%, #e7efec 100%);
+}
+@supports (animation-timeline: view()) {
+  .about-chapter-bridge {
+    animation: chapter-arrive linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% cover 55%;
+  }
+  @keyframes chapter-arrive {
+    from { opacity: .25; transform: translateY(16%); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* One comparison occupies the poster; the three readings stay one click away. */
+.evidence-poster { min-height: 440px; }
+.evidence-poster-lead > strong { font-size: clamp(72px, 8vw, 132px); letter-spacing: -.07em; }
+.evidence-poster-lead > strong.is-negative { color: #efba9a; }
+.evidence-poster-metrics { align-content: center; gap: clamp(34px, 5vh, 60px); }
+.evidence-poster-picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid rgba(176, 215, 222, .3); }
+.evidence-poster-picker button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  min-height: 72px;
+  padding: 8px 12px 16px;
+  color: #c3d4d8;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.evidence-poster-picker button:first-child { padding-left: 0; }
+.evidence-poster-picker button[aria-pressed="true"] { color: #effaf6; border-bottom-color: #b5e8d9; }
+.evidence-poster-picker button:focus-visible { outline: 2px solid #b5e8d9; outline-offset: -2px; }
+.evidence-poster-picker button span { font-size: 12px; font-weight: 600; line-height: 1.3; }
+.evidence-poster-picker button strong { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.evidence-poster-picker button:nth-child(2) strong { color: #efba9a; }
+.evidence-poster-metric { padding: 0; border: 0; animation: evidence-arrive .42s cubic-bezier(.16,1,.3,1) both; }
+.evidence-poster-bar { grid-template-columns: 42px minmax(0, 1fr) minmax(78px, 112px); margin-top: 16px; font-size: 12px; }
+.evidence-poster-bar > i { height: 9px; }
+.evidence-poster-metric > p { margin: 24px 0 0; color: #b9cccf; font-size: 13px; line-height: 1.5; }
+@keyframes evidence-arrive { from { opacity: .35; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+html[data-theme="light"] .evidence-poster-lead > strong.is-negative { color: #a34c2d; }
+html[data-theme="light"] .evidence-poster-picker { border-bottom-color: rgba(18, 82, 104, .25); }
+html[data-theme="light"] .evidence-poster-picker button { color: #526676; }
+html[data-theme="light"] .evidence-poster-picker button[aria-pressed="true"] { color: #142a39; border-bottom-color: #17647b; }
+html[data-theme="light"] .evidence-poster-picker button:focus-visible { outline-color: #17647b; }
+html[data-theme="light"] .evidence-poster-picker button:nth-child(2) strong { color: #a34c2d; }
+html[data-theme="light"] .evidence-poster-metric > p { color: #526676; }
+@media (max-width: 900px) {
+  .evidence-poster-metrics { display: grid; grid-template-columns: minmax(0, 1fr); padding-block: 26px 32px; gap: 22px; }
+  .evidence-poster-metric { border: 0; padding: 0; }
+  .evidence-poster-bar { grid-template-columns: 42px minmax(0, 1fr) minmax(78px, 112px); }
+  .evidence-poster-bar em { grid-column: auto; text-align: right; }
+}
+@media (max-width: 650px) {
+  .evidence-poster { min-height: 0; }
+  .evidence-poster-lead > strong { font-size: clamp(64px, 15vw, 88px); }
+  .evidence-poster-metrics { padding: 8px 20px 28px; gap: 20px; }
+  .evidence-poster-picker button { min-height: 66px; padding: 8px 5px 12px; }
+  .evidence-poster-picker button span { font-size: 10px; }
+  .evidence-poster-picker button strong { font-size: 13px; }
+  .evidence-poster-metric { border: 0; padding: 0; }
+  .evidence-poster-bar { grid-template-columns: 32px minmax(0, 1fr) minmax(64px, 82px); gap: 7px; font-size: 10px; }
+  .evidence-poster-metric > p { margin-top: 18px; }
+  .about-chapter-bridge { height: 130px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-chapter-bridge, .evidence-poster-metric { animation: none; }
+}

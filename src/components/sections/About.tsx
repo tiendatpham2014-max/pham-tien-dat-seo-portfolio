@@ -16,6 +16,7 @@ export function About() {
         </div>
         <div className="about-image-space" aria-hidden="true" />
       </div>
+      <div className="about-chapter-bridge" aria-hidden="true" />
     </section>
   );
 }
