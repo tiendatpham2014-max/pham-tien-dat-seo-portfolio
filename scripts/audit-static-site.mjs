@@ -48,6 +48,8 @@ for (const { language, path, titleName } of [
       const data = JSON.parse(value);
       const profile = data["@graph"]?.find((entry) => entry["@type"] === "ProfilePage");
       assert(profile?.url === canonicalUrl && profile?.inLanguage === language, `${label}: wrong ProfilePage URL or language.`);
+      assert(profile?.mainEntity?.["@type"] === "Person" && profile.mainEntity.name === "Phạm Tiến Đạt", `${label}: ProfilePage needs a named Person mainEntity.`);
+      assert(data["@graph"]?.some((entry) => entry["@id"] === profile?.mainEntity?.["@id"] && entry["@type"] === "Person"), `${label}: ProfilePage mainEntity must resolve to the person node.`);
     } catch { issues.push(`${label}: invalid JSON-LD.`); }
   }
 

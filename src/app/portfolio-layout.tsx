@@ -147,6 +147,8 @@ const jsonLd = {
         "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
       "mainEntity": {
         "@id": "https://datpham.io.vn/#person",
+        "@type": "Person",
+        "name": "Phạm Tiến Đạt",
       },
       "about": {
         "@id": "https://datpham.io.vn/#person",
