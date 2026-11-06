@@ -1,15 +1,9 @@
 import { all } from "./dom";
 import { updateActiveSection } from "./navigation";
 
-const clamp = (value: number) => Math.max(0, Math.min(1, value));
-const smooth = (value: number) => {
-  const progress = clamp(value);
-  return progress * progress * (3 - 2 * progress);
-};
-
 function getCareerState(stages: HTMLElement[]) {
   const journey = document.querySelector("#journey");
-  if (!journey) return { progress: 0, active: 0, outro: 0 };
+  if (!journey) return { progress: 0, active: 0 };
   const rect = journey.getBoundingClientRect();
   const travel = Math.max(1, rect.height - window.innerHeight);
   const rawProgress = Math.max(0, Math.min(1, -rect.top / travel));
@@ -26,28 +20,12 @@ function getCareerState(stages: HTMLElement[]) {
     active = 0;
   }
 
-  return { progress, active, outro: smooth((rawProgress - .78) / .22) };
+  return { progress, active };
 }
 
 export function updateScenes() {
-  const viewport = Math.max(window.innerHeight, 1);
-  const about = document.querySelector<HTMLElement>("#about");
-  const work = document.querySelector<HTMLElement>("#work");
-  const aboutTop = about?.getBoundingClientRect().top ?? viewport;
-  const workTop = work?.getBoundingClientRect().top ?? viewport;
-
   document.querySelector(".site-header")?.classList.toggle("is-scrolled", window.scrollY > 24);
   updateActiveSection();
-  if (about) {
-    const entry = clamp((viewport - aboutTop) / (viewport * .85));
-    about.style.setProperty("--about-handoff-glow", (Math.sin(Math.PI * entry) * .64).toFixed(3));
-    about.style.setProperty("--about-handoff-shift", `${((1 - entry) * 80).toFixed(1)}px`);
-  }
-  if (work) {
-    const entry = smooth((viewport * .92 - workTop) / (viewport * .62));
-    work.style.setProperty("--work-entry", entry.toFixed(3));
-    work.style.setProperty("--work-dash", (100 * (1 - entry)).toFixed(1));
-  }
   const stages = all(".career-stage");
   if (stages.length) {
     const career = getCareerState(stages);
@@ -55,10 +33,6 @@ export function updateScenes() {
     const route = document.querySelector<HTMLElement>(".career-route");
     if (journey && route) {
       journey.style.setProperty("--career-progress", career.progress.toFixed(4));
-      journey.style.setProperty("--career-outro", career.outro.toFixed(3));
-      journey.style.setProperty("--career-rim-scale", (1 - career.outro * .98).toFixed(3));
-      journey.style.setProperty("--career-planet-opacity", (1 - career.outro).toFixed(3));
-      journey.style.setProperty("--career-sun-opacity", (1 - career.outro * .8).toFixed(3));
       route.style.setProperty("--career-progress", career.progress.toFixed(4));
       const orbitX = (45 + 70 * career.progress) / 160;
       route.style.setProperty("--sun-y", `${(75 + 70 * (1 - Math.sqrt(1 - (2 * orbitX - 1) ** 2))).toFixed(2)}%`);

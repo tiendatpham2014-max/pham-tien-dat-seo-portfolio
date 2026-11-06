@@ -70,7 +70,8 @@ export function SearchAtlas() {
     section.style.setProperty("--atlas-orbit-rot", `${yaw * 8}deg`);
   };
 
-  const outro = Math.max(0, Math.min(1, (sceneProgress - .82) / .18));
+  const outroProgress = Math.max(0, Math.min(1, (sceneProgress - .94) / .06));
+  const outro = outroProgress * outroProgress * (3 - 2 * outroProgress);
 
   return (
     <section className="search-atlas" id="atlas" ref={sectionRef} data-stage={active} aria-labelledby="atlas-title" style={{ "--atlas-outro": outro } as CSSProperties}>

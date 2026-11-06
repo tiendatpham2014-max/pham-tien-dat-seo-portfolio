@@ -42,11 +42,6 @@ export function Evidence() {
             <h2 className="display-heading" id="work-title">{words.workTitle}</h2>
             <p>{words.workIntro}</p>
           </div>
-          <svg className="work-signal" viewBox="0 0 1200 320" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path className="work-signal-feed" d="M805 12 C766 81 731 111 730 170 M950 53 C836 113 752 130 730 170" pathLength="100" />
-            <path className="work-signal-main" d="M600 0 C603 90 697 101 730 170 C762 236 843 250 850 320" pathLength="100" />
-            <circle cx="805" cy="12" r="5" /><circle cx="950" cy="53" r="5" /><circle cx="730" cy="170" r="7" /><circle cx="850" cy="315" r="6" />
-          </svg>
         </div>
 
         <div className="evidence-poster">

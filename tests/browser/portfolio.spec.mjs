@@ -63,7 +63,7 @@ test("VI/EN and dark/light controls preserve the current theme", async ({ page }
 });
 
 for (const { route, width } of [{ route: "/", width: 1280 }, { route: "/en/", width: 390 }]) {
-  test(`${route} scene handoff reverses and evidence remains interactive at ${width}px`, async ({ page }) => {
+  test(`${route} atlas fades into evidence and reverses at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto(route, { waitUntil: "domcontentloaded" });
     await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
@@ -73,13 +73,17 @@ for (const { route, width } of [{ route: "/", width: 1280 }, { route: "/en/", wi
       travel: section.offsetHeight - section.querySelector(".atlas-sticky").offsetHeight,
     }));
     await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel * .98);
-    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeGreaterThan(.8);
-
-    const workTop = await page.locator("#work").evaluate((section) => section.getBoundingClientRect().top + scrollY);
-    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), workTop - 80);
-    await expect.poll(() => page.locator("#work").evaluate((section) => Number(section.style.getPropertyValue("--work-entry")))).toBeGreaterThan(.95);
-    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), workTop - 800 * 1.2);
-    await expect.poll(() => page.locator("#work").evaluate((section) => Number(section.style.getPropertyValue("--work-entry")))).toBeLessThan(.05);
+    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeGreaterThan(.7);
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel);
+    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeGreaterThan(.99);
+    const surfaces = await page.evaluate(() => ({
+      outgoing: getComputedStyle(document.querySelector(".atlas-sticky"), "::after").backgroundColor,
+      incoming: getComputedStyle(document.querySelector("#work")).backgroundColor,
+    }));
+    expect(surfaces.outgoing).toBe(surfaces.incoming);
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel * .88);
+    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBe(0);
+    await expect(page.locator(".work-signal")).toHaveCount(0);
 
     await page.locator(".evidence-poster").scrollIntoViewIfNeeded();
     const metric = page.locator(".evidence-poster-metric");

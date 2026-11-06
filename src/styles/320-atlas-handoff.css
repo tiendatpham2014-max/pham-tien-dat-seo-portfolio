@@ -1,0 +1,16 @@
+/* The final 3D scene settles into the exact surface of the evidence chapter. */
+@media (prefers-reduced-motion: no-preference) {
+  .atlas-sticky::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    background: #142039;
+    opacity: var(--atlas-outro, 0);
+  }
+
+  html[data-theme="light"] .atlas-sticky::after {
+    background: #f8fafc;
+  }
+}
