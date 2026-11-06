@@ -70,8 +70,10 @@ export function SearchAtlas() {
     section.style.setProperty("--atlas-orbit-rot", `${yaw * 8}deg`);
   };
 
+  const outro = Math.max(0, Math.min(1, (sceneProgress - .82) / .18));
+
   return (
-    <section className="search-atlas" id="atlas" ref={sectionRef} data-stage={active} aria-labelledby="atlas-title">
+    <section className="search-atlas" id="atlas" ref={sectionRef} data-stage={active} aria-labelledby="atlas-title" style={{ "--atlas-outro": outro } as CSSProperties}>
       <div className="atlas-sticky">
         <div className="atlas-visual" aria-hidden="true">
           <div className="atlas-fallback">

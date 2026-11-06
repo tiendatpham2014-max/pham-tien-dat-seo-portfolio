@@ -62,6 +62,37 @@ test("VI/EN and dark/light controls preserve the current theme", async ({ page }
   await expect(page.locator("#hero-title")).toHaveText(/dat pham/i);
 });
 
+for (const { route, width } of [{ route: "/", width: 1280 }, { route: "/en/", width: 390 }]) {
+  test(`${route} scene handoff reverses and evidence remains interactive at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+
+    const atlas = await page.locator("#atlas").evaluate((section) => ({
+      top: section.getBoundingClientRect().top + scrollY,
+      travel: section.offsetHeight - section.querySelector(".atlas-sticky").offsetHeight,
+    }));
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel * .98);
+    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeGreaterThan(.8);
+
+    const workTop = await page.locator("#work").evaluate((section) => section.getBoundingClientRect().top + scrollY);
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), workTop - 80);
+    await expect.poll(() => page.locator("#work").evaluate((section) => Number(section.style.getPropertyValue("--work-entry")))).toBeGreaterThan(.95);
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), workTop - 800 * 1.2);
+    await expect.poll(() => page.locator("#work").evaluate((section) => Number(section.style.getPropertyValue("--work-entry")))).toBeLessThan(.05);
+
+    await page.locator(".evidence-poster").scrollIntoViewIfNeeded();
+    const metric = page.locator(".evidence-poster-metric");
+    await metric.evaluate((element) => { element.dataset.testIdentity = "same-node"; });
+    await expect.poll(() => metric.locator(".evidence-poster-bar b").first().evaluate((bar) => bar.getBoundingClientRect().width)).toBeGreaterThan(1);
+    await page.locator(".evidence-poster-picker button").nth(2).click();
+    await expect(page.locator(".evidence-poster-picker button").nth(2)).toHaveAttribute("aria-pressed", "true");
+    await expect(metric).toHaveAttribute("data-test-identity", "same-node");
+    await expect(metric).toHaveClass(/evidence-poster-ctr/);
+    await expect.poll(() => metric.locator(".evidence-poster-bar b").first().evaluate((bar) => bar.getBoundingClientRect().width)).toBeGreaterThan(1);
+  });
+}
+
 test("Vietnamese headings keep their diacritics after the text reveal", async ({ page }) => {
   await page.setViewportSize({ width: 625, height: 800 });
   await page.goto("/", { waitUntil: "domcontentloaded" });

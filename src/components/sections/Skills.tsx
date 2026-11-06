@@ -48,6 +48,8 @@ export function Skills() {
       const travel = Math.max(1, section.offsetHeight - stageHeight);
       const progress = Math.max(0, Math.min(1, (offset - section.getBoundingClientRect().top) / travel));
       section.style.setProperty("--skill-progress", String(progress));
+      section.style.setProperty("--skill-dot-left", `${(progress * 100).toFixed(2)}%`);
+      section.style.setProperty("--skill-dot-opacity", String(Math.min(1, progress * 12)));
       const next = Math.min(skills.length - 1, Math.floor(progress * skills.length));
       if (next === activeRef.current) return;
       window.clearTimeout(leaveTimeout);
@@ -67,6 +69,8 @@ export function Skills() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       sectionRef.current?.style.removeProperty("--skill-progress");
+      sectionRef.current?.style.removeProperty("--skill-dot-left");
+      sectionRef.current?.style.removeProperty("--skill-dot-opacity");
     };
   }, [enhanced]);
 

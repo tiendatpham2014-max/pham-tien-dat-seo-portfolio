@@ -66,8 +66,8 @@
 .evidence-poster-bar + .evidence-poster-bar b { background: #a5e6d7; }
 .evidence-poster-impressions .evidence-poster-bar + .evidence-poster-bar b { background: #efba9a; }
 .evidence-poster-bar em { color: #e3edf0; font-style: normal; text-align: right; }
-.js-motion .evidence-poster:not(.is-visible) .evidence-poster-bar b { transform: scaleX(0); }
-.evidence-poster .evidence-poster-bar b { transition: transform .85s var(--ease); }
+.js-motion .evidence-poster .evidence-poster-bar b { transform: scaleX(var(--text-detail-opacity, 1)); }
+.evidence-poster .evidence-poster-bar b { transition: width .65s var(--ease), background-color .45s ease; }
 html[data-theme="light"] .evidence-poster {
   border-color: rgba(18, 82, 104, .34);
   background: linear-gradient(90deg, rgba(2, 132, 199, .06), transparent 58%), linear-gradient(to right, rgba(18, 82, 104, .06) 1px, transparent 1px), linear-gradient(to bottom, rgba(18, 82, 104, .06) 1px, transparent 1px);
