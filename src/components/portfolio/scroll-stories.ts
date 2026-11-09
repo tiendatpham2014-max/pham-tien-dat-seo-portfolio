@@ -1,6 +1,42 @@
 import { all } from "./dom";
 import { updateActiveSection } from "./navigation";
 
+const clamp = (value: number) => Math.max(0, Math.min(1, value));
+const smooth = (value: number) => {
+  const progress = clamp(value);
+  return progress * progress * (3 - 2 * progress);
+};
+const chapterIds = ["about", "atlas", "work", "journey", "skills", "writing", "contact"];
+const setProgress = (element: HTMLElement, property: string, value: number) => {
+  const next = value.toFixed(4);
+  if (element.style.getPropertyValue(property) !== next) element.style.setProperty(property, next);
+};
+
+function updateChapterTransitions() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const height = Math.max(1, window.innerHeight);
+  const chapters = chapterIds.map((id) => document.getElementById(id));
+  const positions = chapters.map((chapter) => chapter?.getBoundingClientRect());
+  const signature = document.querySelector<HTMLElement>(".contact-signature");
+  const signatureTop = signature?.getBoundingClientRect().top;
+  chapters.forEach((chapter, index) => {
+    const rect = positions[index];
+    if (!chapter || !rect) return;
+    // A chapter takes over while its top crosses the lower half of the viewport.
+    const enter = clamp((height * .94 - rect.top) / (height * .62));
+    const leave = clamp((rect.bottom - height * .08) / (height * .54));
+    const surface = clamp(rect.top / (height * .55));
+    setProgress(chapter, "--chapter-enter", enter);
+    setProgress(chapter, "--chapter-leave", leave);
+    setProgress(chapter, "--chapter-surface", surface);
+  });
+  if (signature && signatureTop !== undefined) {
+    // Keep the handwritten mark tied to the same scroll direction as the chapters.
+    const progress = smooth((height * .9 - signatureTop) / (height * .42));
+    setProgress(signature, "--signature-progress", progress);
+  }
+}
+
 function getCareerState(stages: HTMLElement[]) {
   const journey = document.querySelector("#journey");
   if (!journey) return { progress: 0, active: 0 };
@@ -26,6 +62,7 @@ function getCareerState(stages: HTMLElement[]) {
 export function updateScenes() {
   document.querySelector(".site-header")?.classList.toggle("is-scrolled", window.scrollY > 24);
   updateActiveSection();
+  updateChapterTransitions();
   const stages = all(".career-stage");
   if (stages.length) {
     const career = getCareerState(stages);

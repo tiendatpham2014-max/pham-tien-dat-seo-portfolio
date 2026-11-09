@@ -78,6 +78,7 @@ export function SearchAtlas() {
   const previewStyle = {
     "--atlas-outro": outro,
     "--atlas-proof-y": `${((1 - outro) * 26).toFixed(1)}px`,
+    "--atlas-proof-scale": (0.94 + outro * 0.06).toFixed(4),
   } as CSSProperties;
 
   return (

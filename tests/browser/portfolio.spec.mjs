@@ -83,6 +83,7 @@ for (const { route, width, height } of [
     const preview = page.locator(".atlas-proof-preview");
     await expect(preview).toContainText(route === "/" ? "17.540" : "17,540");
     await expect.poll(() => preview.evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(.99);
+    await expect.poll(() => preview.evaluate((element) => getComputedStyle(element).transform)).not.toBe("none");
     if (width <= 520) {
       const bounds = await page.evaluate(() => {
         const box = (selector) => document.querySelector(selector).getBoundingClientRect();
@@ -209,3 +210,28 @@ test("reduced motion keeps all four skill groups readable", async ({ page }) => 
   await expect(page.locator("#atlas .atlas-mobile article")).toHaveCount(5);
   await expect(page.locator(".atlas-proof-preview")).toBeHidden();
 });
+
+for (const { route, theme, width, height } of [
+  { route: "/", theme: "dark", width: 1280, height: 800 },
+  { route: "/en/", theme: "light", width: 390, height: 844 },
+]) {
+  test(`${route} chapter surfaces and signature follow scroll at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+
+    const journeyTop = await page.locator("#journey").evaluate((section) => section.getBoundingClientRect().top + scrollY);
+    await page.evaluate((top) => scrollTo({ top: top - innerHeight * .52, behavior: "instant" }), journeyTop);
+    await expect.poll(() => page.locator("#journey").evaluate((section) => Number(section.style.getPropertyValue("--chapter-surface")))).toBeGreaterThan(.9);
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), journeyTop);
+    await expect.poll(() => page.locator("#journey").evaluate((section) => Number(section.style.getPropertyValue("--chapter-surface")))).toBeLessThan(.01);
+
+    const signatureTop = await page.locator(".contact-signature").evaluate((mark) => mark.getBoundingClientRect().top + scrollY);
+    await page.evaluate((top) => scrollTo({ top: top - innerHeight * .5, behavior: "instant" }), signatureTop);
+    await expect.poll(() => page.locator(".contact-signature").evaluate((mark) => Number(mark.style.getPropertyValue("--signature-progress")))).toBeGreaterThan(.95);
+    await page.evaluate((top) => scrollTo({ top: top - innerHeight * .98, behavior: "instant" }), signatureTop);
+    await expect.poll(() => page.locator(".contact-signature").evaluate((mark) => Number(mark.style.getPropertyValue("--signature-progress")))).toBeLessThan(.01);
+    await expect.poll(() => page.locator(".contact-signature img").evaluate((mark) => getComputedStyle(mark).clipPath)).toContain("100%");
+  });
+}

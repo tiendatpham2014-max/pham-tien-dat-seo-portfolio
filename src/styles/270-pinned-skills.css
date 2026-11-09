@@ -54,7 +54,7 @@
   z-index: 1;
   visibility: visible;
   transform: translateY(var(--skill-exit-shift));
-  transition: opacity .36s ease-out, transform .44s var(--ease);
+  transition: opacity .14s ease-in, transform .22s ease-in;
 }
 .skills.is-scroll-enhanced .skill-sequence-item.is-current {
   z-index: 2;
@@ -62,7 +62,7 @@
   visibility: visible;
   transform: none;
   pointer-events: auto;
-  transition: opacity .52s var(--ease) .04s, transform .56s var(--ease) .04s, visibility 0s;
+  transition: opacity .44s var(--ease) .15s, transform .48s var(--ease) .15s, visibility 0s;
 }
 @media (max-width: 900px) {
   .skills.is-scroll-enhanced .skill-sequence {

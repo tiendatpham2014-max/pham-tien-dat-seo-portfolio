@@ -53,6 +53,9 @@ export function initScrollTextReveal(signal: AbortSignal) {
         target.element.style.setProperty(`--text-${name}-opacity`, String(Math.round(entry * exit * 1000) / 1000));
         target.element.style.setProperty(`--text-${name}-shift`, `${Math.round(((1 - entry) * distance - (1 - exit) * distance * .55) * 10) / 10}px`);
       }
+      if (target.element.classList.contains("evidence-poster")) {
+        target.element.style.setProperty("--evidence-scale", (0.96 + detailIn * exit * 0.04).toFixed(4));
+      }
     }
 
     if (hero) {
@@ -72,6 +75,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
   return () => {
     window.cancelAnimationFrame(frame);
     targets.forEach(({ element }) => {
+      element.style.removeProperty("--evidence-scale");
       for (const name of ["title", "copy", "detail"]) {
         element.style.removeProperty(`--text-${name}-opacity`);
         element.style.removeProperty(`--text-${name}-shift`);
