@@ -212,6 +212,35 @@ test("reduced motion keeps all four skill groups readable", async ({ page }) => 
 });
 
 for (const { route, theme, width, height } of [
+  { route: "/", theme: "light", width: 768, height: 568 },
+  { route: "/en/", theme: "dark", width: 521, height: 681 },
+]) {
+  test(`${route} Skills text stays clear on a short ${width}×${height} viewport`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+    const position = await page.locator("#skills").evaluate((section) => ({
+      top: section.getBoundingClientRect().top + scrollY,
+      travel: section.offsetHeight - section.querySelector(".skill-sequence").offsetHeight,
+    }));
+    for (let index = 0; index < 4; index++) {
+      await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), position.top - 78 + position.travel * (index + .5) / 4);
+      await expect.poll(() => page.locator("#skills .skill-sequence-item.is-current").evaluate((item) => [...item.parentElement.children].indexOf(item))).toBe(index);
+      const bounds = await page.locator("#skills").evaluate((section) => {
+        const item = section.querySelector(".skill-sequence-item.is-current");
+        const intro = section.querySelector(".skill-sequence-intro p").getBoundingClientRect();
+        const heading = item.querySelector(".skill-sequence-heading").getBoundingClientRect();
+        const tools = item.querySelector(".skill-sequence-tools").getBoundingClientRect();
+        return { gap: heading.top - intro.bottom, bottomSpace: innerHeight - tools.bottom };
+      });
+      expect(bounds.gap).toBeGreaterThan(8);
+      expect(bounds.bottomSpace).toBeGreaterThan(12);
+    }
+  });
+}
+
+for (const { route, theme, width, height } of [
   { route: "/", theme: "dark", width: 1280, height: 800 },
   { route: "/en/", theme: "light", width: 390, height: 844 },
 ]) {
