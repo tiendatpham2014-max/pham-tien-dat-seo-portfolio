@@ -64,10 +64,11 @@ test("VI/EN and dark/light controls preserve the current theme", async ({ page }
 
 for (const { route, width, height } of [
   { route: "/", width: 1280, height: 800 },
+  { route: "/", width: 930, height: 516 },
   { route: "/en/", width: 390, height: 800 },
   { route: "/en/", width: 320, height: 568 },
 ]) {
-  test(`${route} atlas reveals verified evidence and reverses at ${width}px`, async ({ page }) => {
+  test(`${route} atlas ends before verified evidence and reverses at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height });
     await page.goto(route, { waitUntil: "domcontentloaded" });
     await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
@@ -77,34 +78,27 @@ for (const { route, width, height } of [
       travel: section.offsetHeight - section.querySelector(".atlas-sticky").offsetHeight,
     }));
     await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel * .98);
-    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeGreaterThan(.7);
+    await expect(page.locator("#atlas")).toHaveAttribute("data-stage", "4");
     await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel);
-    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeGreaterThan(.99);
-    const preview = page.locator(".atlas-proof-preview");
-    await expect(preview).toContainText(route === "/" ? "17.540" : "17,540");
-    await expect.poll(() => preview.evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(.99);
-    await expect.poll(() => preview.evaluate((element) => getComputedStyle(element).transform)).not.toBe("none");
-    if (width <= 520) {
-      const bounds = await page.evaluate(() => {
-        const box = (selector) => document.querySelector(selector).getBoundingClientRect();
-        const preview = box(".atlas-proof-preview");
-        const controls = box(".atlas-controls");
-        const station = box(".atlas-station[aria-hidden='false']");
-        return { previewTop: preview.top, previewBottom: preview.bottom, controlsTop: controls.top, stationBottom: station.bottom };
-      });
-      expect(bounds.previewBottom).toBeLessThan(bounds.controlsTop);
-      expect(bounds.previewTop).toBeGreaterThan(bounds.stationBottom);
+    await expect(page.locator("#atlas")).toHaveAttribute("data-stage", "4");
+    await expect(page.locator(".atlas-proof-preview")).toHaveCount(0);
+    const workTop = await page.locator("#work").evaluate((section) => section.getBoundingClientRect().top);
+    expect(workTop).toBeGreaterThanOrEqual(height - 1);
+    if (width === 930) {
+      const bounds = await page.locator("#atlas").evaluate((section) => ({
+        stationBottom: section.querySelector('.atlas-station[aria-hidden="false"]').getBoundingClientRect().bottom,
+        controlsTop: section.querySelector(".atlas-controls").getBoundingClientRect().top,
+        controlsBottom: section.querySelector(".atlas-controls").getBoundingClientRect().bottom,
+      }));
+      expect(bounds.controlsBottom).toBeLessThan(height);
+      expect(bounds.stationBottom).toBeLessThan(bounds.controlsTop);
     }
-    const surfaces = await page.evaluate(() => ({
-      outgoing: getComputedStyle(document.querySelector(".atlas-sticky"), "::after").backgroundColor,
-      incoming: getComputedStyle(document.querySelector("#work")).backgroundColor,
-    }));
-    expect(surfaces.outgoing).toBe(surfaces.incoming);
-    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel * .88);
-    await expect.poll(() => page.locator("#atlas").evaluate((section) => Number(section.style.getPropertyValue("--atlas-outro")))).toBeLessThan(.001);
+    await page.evaluate((top) => scrollTo({ top, behavior: "instant" }), atlas.top + atlas.travel * .7);
+    await expect(page.locator("#atlas")).toHaveAttribute("data-stage", "3");
     await expect(page.locator(".work-signal")).toHaveCount(0);
 
     await page.locator(".evidence-poster").scrollIntoViewIfNeeded();
+    await expect(page.locator(".evidence-poster")).toContainText(route === "/" ? "17.540" : "17,540");
     const metric = page.locator(".evidence-poster-metric");
     await metric.evaluate((element) => { element.dataset.testIdentity = "same-node"; });
     await expect.poll(() => metric.locator(".evidence-poster-bar b").first().evaluate((bar) => bar.getBoundingClientRect().width)).toBeGreaterThan(1);
@@ -208,7 +202,7 @@ test("reduced motion keeps all four skill groups readable", async ({ page }) => 
   await expect(page.locator("#skills")).not.toHaveClass(/is-scroll-enhanced/);
   await expect(page.locator("#skills .skill-sequence-item")).toHaveCount(4);
   await expect(page.locator("#atlas .atlas-mobile article")).toHaveCount(5);
-  await expect(page.locator(".atlas-proof-preview")).toBeHidden();
+  await expect(page.locator(".atlas-proof-preview")).toHaveCount(0);
 });
 
 for (const { route, theme, width, height } of [

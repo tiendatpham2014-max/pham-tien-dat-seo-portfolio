@@ -26,12 +26,7 @@
   .writing > .shell,
   .contact > .shell { position: relative; z-index: 1; }
 
-  /* The Atlas proof becomes the opening data surface, without a separate interlude. */
-  .atlas-proof-preview {
-    transform: translate3d(0, calc(-50% + var(--atlas-proof-y, 0px)), 0)
-      scale(var(--atlas-proof-scale, 1));
-    transform-origin: 50% 50%;
-  }
+  /* The data poster enters only after the 3D route has ended. */
   .work::before {
     background: radial-gradient(ellipse 70% 80% at 78% 0, rgba(155, 228, 211, .13), transparent 78%);
   }
@@ -80,13 +75,6 @@
   /* The signature is a short, reversible finishing stroke before the footer. */
   .js-motion .contact-signature img {
     clip-path: inset(0 calc((1 - var(--signature-progress, 1)) * 100%) 0 0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (max-width: 1050px) {
-  .atlas-proof-preview {
-    transform: translate3d(0, var(--atlas-proof-y, 0px), 0)
-      scale(var(--atlas-proof-scale, 1));
   }
 }
 

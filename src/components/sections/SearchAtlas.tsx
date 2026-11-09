@@ -3,14 +3,11 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { searchAtlasCopy } from "@/content/search-atlas";
 import { SearchAtlasCanvas } from "@/components/visuals/SearchAtlasCanvas";
-import { useCopy, useSitePreferences } from "@/components/site-preferences";
+import { useSitePreferences } from "@/components/site-preferences";
 import { getLenis } from "@/components/portfolio/smooth-scroll";
-import { formatMetric } from "@/components/portfolio/metrics";
-import { metricData } from "@/content/gsc";
 
 export function SearchAtlas() {
   const { language, theme } = useSitePreferences();
-  const evidenceCopy = useCopy();
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [reduced, setReduced] = useState(false);
@@ -73,16 +70,8 @@ export function SearchAtlas() {
     section.style.setProperty("--atlas-orbit-rot", `${yaw * 8}deg`);
   };
 
-  const outroProgress = Math.max(0, Math.min(1, (sceneProgress - .88) / .12));
-  const outro = outroProgress * outroProgress * (3 - 2 * outroProgress);
-  const previewStyle = {
-    "--atlas-outro": outro,
-    "--atlas-proof-y": `${((1 - outro) * 26).toFixed(1)}px`,
-    "--atlas-proof-scale": (0.94 + outro * 0.06).toFixed(4),
-  } as CSSProperties;
-
   return (
-    <section className="search-atlas" id="atlas" ref={sectionRef} data-stage={active} aria-labelledby="atlas-title" style={previewStyle}>
+    <section className="search-atlas" id="atlas" ref={sectionRef} data-stage={active} aria-labelledby="atlas-title">
       <div className="atlas-sticky">
         <div className="atlas-visual" aria-hidden="true">
           <div className="atlas-fallback">
@@ -112,14 +101,6 @@ export function SearchAtlas() {
               </article>
             );
           })}
-        </div>
-        <div className="atlas-proof-preview" aria-hidden="true">
-          <div className="atlas-proof-meta"><span>ALTUS ENTERTAINMENT</span><span>GSC · Q3/2025 → Q3/2026</span></div>
-          <div className="atlas-proof-head"><span>{metricData.clicks.title[language]}</span><strong>{evidenceCopy.changeClicks}</strong></div>
-          <div className="atlas-proof-bars">
-            <div><span>2025</span><i><b style={{ width: `${metricData.clicks.beforeWidth}%` }} /></i><em>{formatMetric(metricData.clicks.before, metricData.clicks.unit, language)}</em></div>
-            <div><span>2026</span><i><b style={{ width: `${metricData.clicks.afterWidth}%` }} /></i><em>{formatMetric(metricData.clicks.after, metricData.clicks.unit, language)}</em></div>
-          </div>
         </div>
         <div className="shell atlas-controls">
           <p>{words.instruction}</p>
