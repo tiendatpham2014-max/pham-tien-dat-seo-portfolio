@@ -128,3 +128,85 @@ html[data-theme="light"] .work .data-table-toggle summary:focus-visible { outlin
 @media (prefers-reduced-motion: reduce) {
   .about-chapter-bridge, .evidence-poster-lead > strong { animation: none; }
 }
+
+/* Keep the case study at the scale of the surrounding chapters. */
+.work.section-space {
+  padding-top: clamp(78px, 10vh, 112px);
+  padding-bottom: clamp(76px, 10vh, 112px);
+}
+.work > .shell {
+  display: grid;
+  grid-template-columns: minmax(0, .44fr) minmax(0, 1fr);
+  column-gap: clamp(34px, 4vw, 68px);
+  align-items: center;
+}
+.work .case-cover {
+  min-width: 0;
+  padding: 0;
+}
+.work .case-cover-label { margin-bottom: 17px; }
+.work .case-cover .display-heading {
+  font-size: clamp(45px, 4.2vw, 66px);
+  line-height: 1.06;
+}
+.work .case-cover-intro > p:last-child {
+  max-width: 34ch;
+  margin-top: 20px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.5;
+}
+.work .evidence-poster {
+  min-width: 0;
+  min-height: 360px;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+}
+.work .evidence-poster-lead { padding: clamp(24px, 2.4vw, 38px); }
+.work .evidence-poster-lead > strong {
+  margin: 25px 0 4px;
+  font-size: clamp(60px, 5.5vw, 82px);
+}
+.work .evidence-poster-lead p { margin-top: 17px; }
+.work .evidence-poster-metrics {
+  gap: 28px;
+  padding: 24px clamp(22px, 2.4vw, 38px);
+}
+.work .evidence-poster-picker button {
+  min-height: 65px;
+  transition: color .3s ease, border-color .3s ease;
+}
+.work .evidence-poster-bar { margin-top: 12px; }
+.work .evidence-poster-metric > p { margin-top: 19px; }
+.work .data-table-toggle,
+.work .case-notes { grid-column: 1 / -1; }
+.work .data-table-toggle { margin-top: 24px; }
+.work .data-table-toggle summary { min-height: 54px; }
+.work .case-notes { margin-top: 24px; }
+
+@media (max-width: 1150px) {
+  .work > .shell { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .work .case-cover { padding-bottom: 30px; }
+  .work .case-cover-intro > p:last-child { max-width: 58ch; }
+  .work .evidence-poster { min-height: 340px; }
+}
+@media (max-width: 650px) {
+  .work.section-space { padding-top: 70px; padding-bottom: 72px; }
+  .work .case-cover { padding-bottom: 25px; }
+  .work .case-cover-label { margin-bottom: 12px; }
+  .work .case-cover .display-heading { font-size: clamp(38px, 10vw, 50px); }
+  .work .case-cover-intro > p:last-child { margin-top: 15px; font-size: 15px; }
+  .work .evidence-poster { min-height: 0; grid-template-columns: minmax(0, 1fr); }
+  .work .evidence-poster-lead { padding: 21px 20px 19px; }
+  .work .evidence-poster-lead > strong { margin-top: 13px; font-size: clamp(55px, 14vw, 70px); }
+  .work .evidence-poster-lead p { margin-top: 12px; }
+  .work .evidence-poster-metrics { gap: 16px; padding: 6px 20px 22px; }
+  .work .evidence-poster-picker button { min-height: 60px; }
+  .work .evidence-poster-picker button strong {
+    font-size: 11px;
+    letter-spacing: -.025em;
+    white-space: nowrap;
+  }
+  .work .evidence-poster-bar { margin-top: 9px; }
+  .work .evidence-poster-metric > p { margin-top: 14px; }
+  .work .data-table-toggle { margin-top: 18px; }
+  .work .case-notes { margin-top: 20px; }
+}
