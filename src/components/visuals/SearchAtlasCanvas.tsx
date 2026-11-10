@@ -252,6 +252,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         const raycaster = new THREE.Raycaster();
         raycaster.layers.set(1);
         const pointerPoint = new THREE.Vector2();
+        const desktopLanes = [2.1, -2.1, 2.1, -1.8, 2.1];
 
         function scheduleDraw() {
           if (restoreTimer) { clearTimeout(restoreTimer); restoreTimer = 0; }
@@ -269,7 +270,9 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           camera.aspect = width / height;
           camera.position.z = phone ? 10.5 : width <= 1050 ? 9.5 : 8.5;
           camera.updateProjectionMatrix();
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .9 : constrained ? 1 : phone ? 1.3 : 1.6));
+          // Keep a fullscreen window within a stable GPU pixel budget.
+          const pixelBudgetRatio = Math.sqrt(6_000_000 / (width * height));
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qualityReduced ? .9 : constrained ? 1 : phone ? 1.3 : 1.6, pixelBudgetRatio));
           renderer.setSize(width, height, false);
           scheduleDraw();
         };
@@ -375,8 +378,13 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           const targetY = viewportWidth <= 520 ? 1.4 : viewportWidth <= 800 ? .9 : 0;
           const baseScale = viewportWidth <= 520 ? .9 : 1;
           const targetScale = viewportWidth <= 800 ? baseScale : viewportWidth <= 850 ? .72 : viewportWidth <= 1050 ? .8 : 1;
+          // On wide screens the geometry takes the lane opposite the reading copy.
+          // The final route used to cross the "Decision" heading at fullscreen sizes.
+          const modelX = viewportWidth > 1050
+            ? THREE.MathUtils.lerp(desktopLanes[from], desktopLanes[to], blend)
+            : THREE.MathUtils.lerp(baseX, targetX, measurementStrength);
           model.position.set(
-            THREE.MathUtils.lerp(baseX, targetX, measurementStrength),
+            modelX,
             THREE.MathUtils.lerp(baseY, targetY, measurementStrength),
             0,
           );
