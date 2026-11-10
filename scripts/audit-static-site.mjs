@@ -33,6 +33,7 @@ for (const { language, path, titleName } of [
   assert((html.match(/<title>(.*?)<\/title>/i)?.[1] ?? "").includes(titleName), `${label}: wrong title.`);
   const meta = tags("meta");
   assert(meta.some((tag) => attribute(tag, "name") === "description" && attribute(tag, "content")), `${label}: missing description.`);
+  assert(meta.some((tag) => attribute(tag, "name") === "googlebot" && /(?:^|,)\s*max-image-preview:none\s*(?:,|$)/i.test(attribute(tag, "content") ?? "")), `${label}: Google image previews must be disabled.`);
   assert(meta.some((tag) => attribute(tag, "property") === "og:image" && attribute(tag, "content")), `${label}: missing OG image.`);
   assert(meta.some((tag) => attribute(tag, "name") === "twitter:image" && attribute(tag, "content")), `${label}: missing Twitter image.`);
   const links = tags("link");
