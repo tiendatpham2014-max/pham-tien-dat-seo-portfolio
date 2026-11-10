@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import type { Language } from "@/content/portfolio";
+
+function versionedSocialImage(filename: string) {
+  const hash = createHash("sha256")
+    .update(readFileSync(join(process.cwd(), "public", filename)))
+    .digest("hex")
+    .slice(0, 12);
+  return `/${filename}?v=${hash}`;
+}
+const socialImageUrls = {
+  vi: versionedSocialImage("og-image.png"),
+  en: versionedSocialImage("og-image-en.png"),
+} as const;
 
 const titles = {
   vi: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
@@ -57,9 +72,9 @@ const baseMetadata: Metadata = {
     siteName: "Phạm Tiến Đạt SEO Portfolio",
     images: [
       {
-        url: "/og-image.png",
-        width: 1873,
-        height: 916,
+        url: socialImageUrls.vi,
+        width: 1200,
+        height: 630,
         alt: "Phạm Tiến Đạt (Dat Pham) — SEO Executive Portfolio",
       },
     ],
@@ -69,7 +84,7 @@ const baseMetadata: Metadata = {
     title: "Phạm Tiến Đạt (Dat Pham) — SEO Executive | Portfolio",
     description:
       "Hồ sơ năng lực của Phạm Tiến Đạt, SEO Executive tại Primas Group — kết hợp chuyên môn ngôn ngữ thương mại, Technical SEO và AI tối ưu tìm kiếm quốc tế.",
-    images: ["/og-image.png"],
+    images: [socialImageUrls.vi],
   },
   icons: {
     icon: [
@@ -175,6 +190,12 @@ export function createPortfolioMetadata(language: Language): Metadata {
       ...baseMetadata.openGraph,
       title: titles[language],
       description: descriptions[language],
+      images: [{
+        url: socialImageUrls[language],
+        width: 1200,
+        height: 630,
+        alt: language === "vi" ? "Phạm Tiến Đạt — SEO Executive Portfolio" : "Dat Pham — SEO Executive Portfolio",
+      }],
       locale: language === "vi" ? "vi_VN" : "en_US",
       alternateLocale: language === "vi" ? ["en_US"] : ["vi_VN"],
       url: `https://datpham.io.vn${path}`,
@@ -183,6 +204,7 @@ export function createPortfolioMetadata(language: Language): Metadata {
       ...baseMetadata.twitter,
       title: titles[language],
       description: descriptions[language],
+      images: [socialImageUrls[language]],
     },
   };
 }

@@ -7,6 +7,7 @@
     "build": "next build",
     "check": "tsc --noEmit",
     "audit:site": "node scripts/audit-static-site.mjs",
+    "capture:og": "node scripts/capture-social-preview.mjs",
     "verify": "npm run check && npm run build && npm run audit:site",
     "preview": "node scripts/preview-export.mjs",
     "test:browser": "playwright test",

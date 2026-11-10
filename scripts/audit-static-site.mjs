@@ -1,8 +1,13 @@
 import { existsSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { resolve, sep } from "node:path";
 
 const outputDir = resolve(process.argv[2] ?? "out");
 const siteOrigin = "https://datpham.io.vn";
+const socialImageUrl = (filename) => {
+  const hash = createHash("sha256").update(readFileSync(resolve("public", filename))).digest("hex").slice(0, 12);
+  return `${siteOrigin}/${filename}?v=${hash}`;
+};
 const issues = [];
 const assert = (condition, message) => { if (!condition) issues.push(message); };
 const attribute = (tag, name) => {
@@ -26,6 +31,7 @@ for (const { language, path, titleName } of [
   const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]));
   const label = `${language.toUpperCase()} ${path}`;
   const canonicalUrl = `${siteOrigin}${path}`;
+  const expectedSocialImage = socialImageUrl(language === "vi" ? "og-image.png" : "og-image-en.png");
 
   assert(tags("h1").length === 1, `${label}: expected exactly one H1.`);
   assert((html.match(/<h1\b[^>]*>(.*?)<\/h1>/i)?.[1] ?? "").includes(titleName), `${label}: hero copy is not rendered in the route language.`);
@@ -34,8 +40,8 @@ for (const { language, path, titleName } of [
   const meta = tags("meta");
   assert(meta.some((tag) => attribute(tag, "name") === "description" && attribute(tag, "content")), `${label}: missing description.`);
   assert(meta.some((tag) => attribute(tag, "name") === "googlebot" && /(?:^|,)\s*max-image-preview:none\s*(?:,|$)/i.test(attribute(tag, "content") ?? "")), `${label}: Google image previews must be disabled.`);
-  assert(meta.some((tag) => attribute(tag, "property") === "og:image" && attribute(tag, "content")), `${label}: missing OG image.`);
-  assert(meta.some((tag) => attribute(tag, "name") === "twitter:image" && attribute(tag, "content")), `${label}: missing Twitter image.`);
+  assert(meta.some((tag) => attribute(tag, "property") === "og:image" && attribute(tag, "content") === expectedSocialImage), `${label}: social image URL does not match the current screenshot.`);
+  assert(meta.some((tag) => attribute(tag, "name") === "twitter:image" && attribute(tag, "content") === expectedSocialImage), `${label}: Twitter image URL does not match the current screenshot.`);
   const links = tags("link");
   assert(links.some((tag) => attribute(tag, "rel") === "canonical" && attribute(tag, "href") === canonicalUrl), `${label}: wrong canonical.`);
   for (const [alternateLanguage, alternateUrl] of [["vi", `${siteOrigin}/`], ["en", `${siteOrigin}/en/`], ["x-default", `${siteOrigin}/`]]) {

@@ -16,6 +16,7 @@ npm run verify   # chạy check, build và audit liên tiếp
 npm run preview  # xem bản build ở http://127.0.0.1:4173
 npm run test:browser # kiểm tra VI/EN, sáng/tối, responsive, intro và scroll
 npm run perf:audit   # đo Lighthouse mobile trên bản build, lưu vào .perf-reports/
+npm run capture:og    # chụp hero của bản build thành ảnh chia sẻ (cần Chromium Playwright)
 ```
 
 Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là sản phẩm sinh ra, không commit. `next.config.ts` cấu hình static export vào `out/`. Font Be Vietnam Pro và giấy phép nằm trong `public/fonts/`.
@@ -38,6 +39,8 @@ Lệnh preview cần chạy sau build. `out/`, `.next/` và `node_modules/` là 
 Website được xuất tĩnh bằng `output: "export"` trong `next.config.ts`. Hai bản ngôn ngữ có HTML và metadata riêng; `SitePreferences` giữ trạng thái VI/EN và theme khi tương tác. HTML nội dung chính được Next.js render sẵn để vẫn đọc được khi JavaScript không chạy.
 
 Workflow `.github/workflows/verify-site.yml` chạy build, kiểm tra trình duyệt và Lighthouse mobile cho mỗi push lên `main` và pull request. Ngưỡng tự động chỉ chặn dung lượng tải trên 3.200 KiB và CLS trên 0,1. Điểm Lighthouse, LCP và TBT được lưu để theo dõi, vì các số này dao động giữa những lần đo trong môi trường mô phỏng. Báo cáo nằm trong artifact `browser-and-performance` của workflow, lưu 7 ngày. INP cần dữ liệu người dùng thực và không được suy ra từ phép đo này. Bước audit tĩnh kiểm tra bản export và các link/asset nội bộ; liên kết ngoài không được crawl tự động.
+
+Workflow `.github/workflows/social-preview.yml` chụp hero của bản build sau mỗi push lên `main` và tự commit `public/og-image.png` cho bản Việt cùng `public/og-image-en.png` cho bản Anh nếu ảnh thay đổi. Metadata ảnh chia sẻ dùng mã hash của file để URL đổi theo phiên bản, giúp các ứng dụng nhắn tin tải ảnh mới. Chỉ dẫn `googlebot` vẫn đặt `max-image-preview:none`, nên ảnh này không được yêu cầu hiển thị bên cạnh kết quả Google. Google và các ứng dụng chia sẻ có cache riêng; thời điểm cập nhật ảnh do từng nền tảng quyết định.
 
 ## Cập nhật source
 
