@@ -125,7 +125,7 @@ html[data-theme="light"] .work .data-table-toggle summary:focus-visible { outlin
 }
 .work .case-cover-label { margin-bottom: 17px; }
 .work .case-cover .display-heading {
-  font-size: clamp(44px, 4.1vw, 64px);
+  font-size: clamp(38px, 3.35vw, 50px);
   line-height: 1.06;
 }
 .work .case-cover-intro > p:last-child {
@@ -151,7 +151,7 @@ html[data-theme="light"] .work .data-table-toggle summary:focus-visible { outlin
   .work.section-space { padding-top: 70px; padding-bottom: 72px; }
   .work .case-cover { padding-bottom: 25px; }
   .work .case-cover-label { margin-bottom: 12px; }
-  .work .case-cover .display-heading { font-size: clamp(38px, 10vw, 50px); }
+  .work .case-cover .display-heading { font-size: clamp(32px, 8.4vw, 38px); }
   .work .case-cover-intro > p:last-child { margin-top: 15px; font-size: 15px; }
   .work .data-table-toggle { margin-top: 18px; }
 }
