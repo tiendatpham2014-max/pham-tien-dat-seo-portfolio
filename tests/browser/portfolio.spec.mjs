@@ -112,7 +112,7 @@ for (const { route, language, theme, width, height } of layoutCases) {
     else await expect(page.locator("html")).not.toHaveAttribute("data-theme", "light");
     await expect(page.locator("#hero-title")).toHaveText(language === "vi" ? /phạm tiến đạt/i : /dat pham/i);
     await expect(page.locator("#intro-splash")).toBeHidden();
-    await expect(page.locator(".brand-signature")).toHaveAttribute("src", /signature-mark\.svg$/);
+    await expect(page.locator(".brand-signature")).toHaveAttribute("src", /signature-source\.png$/);
     await expect(page.locator(".intro-signature")).toHaveCount(1);
     if (theme === "light") {
       expect(await page.locator(".brand-signature").evaluate((image) => getComputedStyle(image).filter)).not.toBe("none");
@@ -276,13 +276,23 @@ for (const { route, width } of [{ route: "/", width: 1280 }, { route: "/en/", wi
 }
 
 test("signature animation restarts when the page is refreshed", async ({ page }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
-  await expect(page.locator(".intro-signature")).toHaveAttribute("src", /\?v=\d+$/);
-  const firstSource = await page.locator(".intro-signature").getAttribute("src");
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await expect(page.locator(".intro-signature")).toHaveAttribute("src", /\?v=\d+$/);
-  expect(await page.locator(".intro-signature").getAttribute("src")).not.toBe(firstSource);
-  await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+  // The splash signature is an inline SVG now: its CSS stroke animation
+  // runs on mount, so a refresh restarts it without a cache-buster request.
+  const signatureRequests = [];
+  page.on("request", (request) => {
+    if (request.url().includes("signature")) signatureRequests.push(request.url());
+  });
+  for (const load of ["goto", "reload"]) {
+    if (load === "goto") await page.goto("/", { waitUntil: "domcontentloaded" });
+    else await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(page.locator("svg.intro-signature")).toHaveCount(1);
+    await expect(page.locator(".intro-signature .stroke")).toHaveCount(9);
+    await expect(page.locator(".intro-signature image")).toHaveAttribute("href", /signature-source\.png$/);
+    await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+  }
+  expect(signatureRequests.filter((url) => url.includes("?v=") || url.endsWith(".svg"))).toEqual([]);
+  const pngNames = new Set(signatureRequests.filter((url) => url.endsWith(".png")).map((url) => url.split("/").pop()));
+  expect(pngNames).toEqual(new Set(["dat-pham-signature-source.png"]));
 });
 
 test("scroll swaps four Skills chapters in one stage and advances the atlas", async ({ page }) => {

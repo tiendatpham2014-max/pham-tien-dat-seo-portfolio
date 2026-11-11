@@ -92,11 +92,13 @@ Không hỏi tôi từng dữ liệu không thiết yếu rồi dừng tiến đ
 
 ## 9. GitHub và Preview sau khi hoàn thiện
 
-**Tôi cho phép bạn push source sau khi hoàn tất kiểm thử, nhưng CHỈ lên nhánh mới dành cho redesign.**
+**Quy tắc đã sửa ngày 11/11/2026 theo yêu cầu của chủ website — quy tắc cũ “chỉ push lên nhánh mới, không push thẳng `main`” là do Codex tự thêm, không phải yêu cầu của chủ website, nên đã bỏ.**
 
-- Tạo branch ví dụ `feature/seo-portfolio-redesign-v4`, commit toàn bộ source và spec đã chỉnh, push branch lên repository private hiện tại.
-- **Không** push thẳng `main`, không merge/đổi visibility repository, không xóa các nhánh khác.
-- Triển khai **Preview/Staging** nếu có môi trường an toàn, tách biệt production, và kiểm tra đường link thực tế. Không sửa hoặc thay thế production nếu chưa được tôi đồng ý.
+**Yêu cầu duy nhất của chủ website: KHÔNG tự triển khai / KHÔNG tự push lên `main` khi chưa được chủ website duyệt.**
+
+- Không bắt buộc tạo nhánh mới. Có thể làm trực tiếp trên `main` sau khi được duyệt, hoặc tạo nhánh nếu công việc cần tách ra — nhánh không phải là yêu cầu.
+- Sau khi hoàn tất kiểm thử, phải có bản **Preview/Demo tách biệt production** cho chủ website xem trước, và kiểm tra đường link thực tế. Chỉ push lên `main` / triển khai production khi chủ website đã xem demo và đồng ý.
+- Không merge/đổi visibility repository, không xóa các nhánh khác.
 - Nếu không thể deploy staging, cung cấp cách chạy local/preview thật; không tạo URL giả, không tuyên bố đã deploy nếu chưa được xác minh.
 
 ## 10. Báo cáo kết quả bằng tiếng Việt

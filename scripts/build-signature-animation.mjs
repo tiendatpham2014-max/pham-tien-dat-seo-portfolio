@@ -6,11 +6,21 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const branding = join(root, 'public', 'branding');
 const png = await readFile(join(branding, 'dat-pham-signature-source.png'));
 const source = `data:image/png;base64,${png.toString('base64')}`;
+// The site no longer embeds the PNG in the SVG: the inline component
+// (src/components/sections/SignatureWriting.tsx) references the shared
+// /branding/dat-pham-signature-source.png instead, so the browser can
+// cache it and the splash animation restarts on mount without a
+// cache-buster request. The base64 data URI below is only kept for the
+// --frames preview rasterization, which never ships.
+const imageHref = '/branding/dat-pham-signature-source.png';
 
 // Hand-traced pen routes. They only reveal pixels from the original PNG; the
 // displayed signature itself is never replaced by these approximate paths.
-// Speed factor: accelerates tempo to ~2.06s for an organic, elegant writing speed that is clearly visible across all platforms.
-const SPEED_FACTOR = 2.8;
+// Speed factor: the live site's stroke sequence totals ~1.09s, matching the
+// 1150 ms flourish timer in intro-splash.ts. Do NOT slow this down: a total
+// near 2s would start the flight to the header while the signature is still
+// half-written.
+const SPEED_FACTOR = 5.29;
 
 export const rawStrokes = [
   { name: 'D loop', d: 'M 338 279 C 300 248 299 210 332 177 C 414 112 568 92 681 98 C 819 103 891 158 882 232 C 868 332 761 410 616 485 C 467 557 296 602 185 600', width: 62, start: 0.15, duration: 1.30 },
@@ -74,7 +84,7 @@ function strokePath(stroke, index, frameTime) {
   return `<path class="stroke stroke-${index}" d="${stroke.d}" fill="none" stroke="#fff" stroke-width="${stroke.width}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${length} ${length}" stroke-dashoffset="${offset}" ${style}/>`;
 }
 
-function buildSvg(ink, frameTime) {
+function buildSvg(ink, frameTime, href = imageHref) {
   const animated = frameTime === undefined;
   const maskPaths = strokes.map((stroke, index) => strokePath(stroke, index, frameTime)).join('\n');
   const finalOpacity = frameTime === undefined ? 0 : Math.max(0, Math.min(1, (frameTime - total) / finish));
@@ -83,7 +93,7 @@ function buildSvg(ink, frameTime) {
   <defs>
     <filter id="ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="${colorMatrix(ink)}"/></filter>
     <mask id="written" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="2172" height="724">${maskPaths}</mask>
-    <image id="signature-source" href="${source}" width="2172" height="724"/>
+    <image id="signature-source" href="${href}" width="2172" height="724"/>
   </defs>
   ${animated ? `<style>
     @keyframes write { to { stroke-dashoffset:0 } }
@@ -103,8 +113,88 @@ function buildSvg(ink, frameTime) {
 </svg>`;
 }
 
-await writeFile(join(branding, 'dat-pham-signature-writing.svg'), buildSvg('#F4F5F1'));
-await writeFile(join(branding, 'dat-pham-signature-writing-light.svg'), buildSvg('#101827'));
+function strokePathJsx(stroke, index) {
+  const length = pathLength(stroke.d);
+  return `      <path className="stroke stroke-${index}" d="${stroke.d}" fill="none" stroke="#fff" strokeWidth="${stroke.width}" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="${length} ${length}" strokeDashoffset="${length}" style={{ animation: "write ${stroke.duration}s ${stroke.start}s linear forwards" }} />`;
+}
+
+function buildTsx() {
+  const maskPaths = strokes.map((stroke, index) => strokePathJsx(stroke, index)).join('\n');
+  return `// Chữ ký viết từng nét (inline SVG).
+// Đường nét và timing được tạo bởi scripts/build-signature-animation.mjs
+// từ cùng dữ liệu nét bút; ảnh nền là /branding/dat-pham-signature-source.png
+// (tách ra khỏi file SVG để trình duyệt cache được, thay vì nhúng base64).
+// Animation CSS chạy khi component mount (mỗi lần tải trang), nên không cần
+// cache-buster ?v=Date.now() để restart nữa.
+export function SignatureWriting() {
+  return (
+    <svg
+      className="intro-signature"
+      viewBox="0 0 2172 724"
+      role="img"
+      aria-label="Chữ ký Đạt P được viết theo từng nét"
+    >
+      <defs>
+        <filter id="ink" colorInterpolationFilters="sRGB">
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0.95686  0 0 0 0 0.96078  0 0 0 0 0.94510  0 0 0 1 0"
+          />
+        </filter>
+        <mask
+          id="written"
+          maskUnits="userSpaceOnUse"
+          maskContentUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="2172"
+          height="724"
+        >
+${maskPaths}
+        </mask>
+        <image
+          id="signature-source"
+          href="/branding/dat-pham-signature-source.png"
+          width="2172"
+          height="724"
+        />
+      </defs>
+      <style>{\`
+    @keyframes write { to { stroke-dashoffset:0 } }
+    @keyframes revealFinal { to { opacity:1 } }
+    @keyframes hideTrace { to { opacity:0 } }
+    .stroke { will-change:stroke-dashoffset;-webkit-transform:translateZ(0) }
+    .final { opacity:0; animation:revealFinal ${finish}s ${total}s linear forwards }
+    .trace { animation:hideTrace ${finish}s ${total}s linear forwards }
+    @media (prefers-reduced-motion:reduce) {
+      .stroke,.trace,.final { animation:none!important }
+      .trace { opacity:0!important }
+      .final { opacity:1!important }
+    }
+  \`}</style>
+      <use
+        className="trace"
+        href="#signature-source"
+        filter="url(#ink)"
+        mask="url(#written)"
+        opacity="1"
+      />
+      <use
+        className="final"
+        href="#signature-source"
+        filter="url(#ink)"
+        opacity="0"
+      />
+    </svg>
+  );
+}
+`;
+}
+
+// The site inlines this component (IntroSplash renders SignatureWriting),
+// so the generator writes the component — not the old 533 KB writing.svg
+// files that embedded the PNG as base64.
+await writeFile(join(root, 'src', 'components', 'sections', 'SignatureWriting.tsx'), buildTsx());
 
 if (process.argv.includes('--frames')) {
   const { default: sharp } = await import('sharp');
@@ -114,7 +204,7 @@ if (process.argv.includes('--frames')) {
   const fps = 25;
   for (let frame = 0; frame <= Math.ceil((total + finish + .25) * fps); frame++) {
     const time = frame / fps;
-    const svg = buildSvg('#F4F5F1', time);
+    const svg = buildSvg('#F4F5F1', time, source);
     const background = `<svg xmlns="http://www.w3.org/2000/svg" width="1086" height="362"><rect width="100%" height="100%" fill="#101827"/></svg>`;
     const sig = await sharp(Buffer.from(svg)).resize(1086, 362).png().toBuffer();
     await sharp(Buffer.from(background)).composite([{ input: sig }]).png().toFile(join(output, `${String(frame).padStart(3, '0')}.png`));

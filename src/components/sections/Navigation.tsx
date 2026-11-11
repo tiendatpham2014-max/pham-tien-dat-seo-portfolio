@@ -28,7 +28,7 @@ export function Navigation() {
       <header className="site-header" id="site-header">
         <div className="shell header-inner">
           <a className="brand" href="#top" aria-label={words.brandAria}>
-            <img src="/branding/dat-pham-signature-mark.svg" alt="Phạm Tiến Đạt" className="brand-signature" width={114} height={38} />
+            <img src="/branding/dat-pham-signature-source.png" alt="Phạm Tiến Đạt" className="brand-signature" width={114} height={38} />
           </a>
           <nav className="desktop-nav" id="desktop-nav" aria-label={words.navigation}>
             {links.map(([id, key]) => <a href={`#${id}`} key={id}>{words[key]}</a>)}

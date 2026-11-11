@@ -57,7 +57,7 @@ html[data-theme="light"] .writing .article-card:focus-visible { padding-left: 12
 .contact .contact-editorial-links { margin-top: 15px; }
 .contact .contact-editorial-links a { border-radius: 0; min-width: 140px; justify-content: center; }
 .contact-signature { margin: clamp(65px, 9vh, 110px) auto 0; width: 250px; height: 84px; opacity: .65; }
-.contact-signature img { width: 100%; height: 100%; object-fit: contain; }
+.contact-signature img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(.96); }
 html[data-theme="light"] .contact-signature img { filter:brightness(0) saturate(100%) invert(8%) sepia(13%) saturate(1050%) hue-rotate(179deg) brightness(91%) contrast(95%); }
 html[data-theme="light"] .about { background: #f2f3ef; }
 @media (prefers-reduced-motion: reduce) { .journey .career-stage.is-current { animation: none; } }

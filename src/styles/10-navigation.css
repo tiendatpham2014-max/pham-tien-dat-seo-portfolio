@@ -39,6 +39,10 @@
   aspect-ratio:2172/724;
   display:block;
   transition:transform .2s ease;
+  /* The PNG ink is dark; whiten it for the dark theme. The light-theme
+     rule below overrides this. (Previously the SVG's internal
+     feColorMatrix did this; the PNG has no such filter.) */
+  filter:brightness(0) invert(.96);
 }
 html[data-theme="light"] .brand-signature{
   filter:brightness(0) saturate(100%) invert(8%) sepia(13%) saturate(1050%) hue-rotate(179deg) brightness(91%) contrast(95%);

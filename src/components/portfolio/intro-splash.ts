@@ -43,14 +43,9 @@ export function initIntroSplash(signal: AbortSignal) {
   getLenis()?.stop();
   getLenis()?.scrollTo(0, { immediate: true });
 
-  // A fresh image request restarts the SVG's internal stroke animation on refresh.
-  const images = splash.querySelectorAll<HTMLImageElement>(".intro-signature");
-  const cacheBuster = Date.now();
-  images.forEach((img) => {
-    const rawSrc = img.getAttribute("src") || img.src;
-    const clean = rawSrc.split("?")[0];
-    img.src = `${clean}?v=${cacheBuster}`;
-  });
+  // The signature is an inline SVG now (see SignatureWriting): its CSS
+  // stroke animation runs when the component mounts on every page load,
+  // so no cache-buster request is needed to restart it.
 
   // Engage active intro state
   splash.setAttribute("data-active", "true");

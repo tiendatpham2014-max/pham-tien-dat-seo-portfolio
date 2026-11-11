@@ -36,20 +36,10 @@ export function initPortfolio() {
   text("#year", String(new Date().getFullYear()));
   document.documentElement.classList.remove("no-js");
 
-  const brand = document.querySelector<HTMLElement>(".brand");
-  if (brand) {
-    let lastReplay = 0;
-    brand.addEventListener("mouseenter", () => {
-      const now = performance.now();
-      if (now - lastReplay < 1600) return;
-      lastReplay = now;
-      const images = brand.querySelectorAll<HTMLImageElement>(".brand-signature");
-      images.forEach((img) => {
-        const clean = img.src.split("?")[0];
-        img.src = `${clean}?t=${Date.now()}`;
-      });
-    }, { signal });
-  }
+  // No hover replay for the header signature: the mark is a static image
+  // (it has no stroke animation), and the CSS :hover scale in
+  // 10-navigation.css already gives the hover feedback. Reloading it with
+  // ?t=Date.now() only re-downloaded ~500 KB for no visual change.
 
   window.addEventListener("resize", positionIndicator, { signal });
   const cleanupTextReveal = !reducedMotion() ? initScrollTextReveal(signal) : undefined;

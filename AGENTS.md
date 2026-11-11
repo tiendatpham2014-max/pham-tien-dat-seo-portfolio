@@ -52,5 +52,5 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 
 - Phát triển từ source Next.js trong checkout GitHub này; không lấy bản HTML/CSS/JS cũ làm nguồn chỉnh sửa song song.
 - Trước khi cập nhật GitHub, xem `git status` và diff để chắc chắn chỉ gồm source/tài liệu của lần cập nhật đó. Chạy `npm run verify`; bỏ qua `out/`, `.next/`, `node_modules/`.
-- Theo yêu cầu hiện tại của chủ website, cập nhật source lên GitHub sau mỗi thay đổi đã xác minh. Giữ repo private và kiểm tra bản công khai `https://datpham.io.vn/` sau khi hosting hoàn tất build/deploy.
+- Theo yêu cầu hiện tại của chủ website, cập nhật source lên GitHub sau mỗi thay đổi đã xác minh — nhưng **KHÔNG tự triển khai / KHÔNG tự push lên `main` khi chưa được chủ website duyệt**. Không bắt buộc tạo nhánh mới (quy tắc cũ bắt tạo nhánh là do Codex tự thêm, đã bỏ ngày 11/11/2026). Trước khi push production phải có bản Preview/Demo tách biệt cho chủ website xem và duyệt. Giữ repo private và kiểm tra bản công khai `https://datpham.io.vn/` sau khi hosting hoàn tất build/deploy.
 - Báo cáo bằng tiếng Việt: commit trên GitHub, các file chính đã đổi, kết quả build và trạng thái live.
