@@ -11,7 +11,7 @@ Hai URL tĩnh nằm trong `src/app/(vi)/page.tsx` (`/`) và `src/app/(en)/en/pag
 | Altus Entertainment, GSC và phần việc SEO | `Evidence.tsx` | Bộ chọn ba chỉ số, thanh so sánh 2025/2026 theo cuộn; bảng sáu chỉ số mở rộng | `290-project-profile.css`, `295-case-signal.css`, `300-chapter-evidence.css`, `gsc.ts` |
 | BattleBots | `BattleBots.tsx` | Ba nhóm trang đã triển khai hiện dần khi cuộn | `305-battlebots.css`, `battlebots-reveal.ts`, `portfolio.ts` |
 | Chuyên môn theo cuộn | `Skills.tsx`, `SkillDiagram.tsx` | Cuộn trang thay từng nhóm và sơ đồ SVG tương ứng trong một vùng ghim | `260-scroll-sections.css`, `270-pinned-skills.css`, `280-skill-diagrams.css`, `portfolio.ts` |
-| Bài viết | `Writing.tsx` | Bốn link bài viết thật, trình bày gọn | `70-writing.css`, `260-scroll-sections.css` |
+| Bài viết | `Writing.tsx` | Năm link bài viết thật; hai bài hiện sẵn, ba bài mở rộng theo yêu cầu; link Primas có `nofollow` | `70-writing.css`, `260-scroll-sections.css`, `scroll-text-reveal.ts` |
 | Hành trình theo cuộn | `Journey.tsx` | `scroll-stories.ts` | `196-career-horizon-scene.css` |
 | Liên hệ và footer | `Contact.tsx`, `Footer.tsx` | Copy VI/EN | `90-contact-footer.css`, `130-contact-motion.css` |
 

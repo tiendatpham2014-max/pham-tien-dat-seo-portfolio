@@ -139,10 +139,11 @@ Do not advertise developer-level engineering, custom APIs, deployed automation p
 
 ## 7. Published writing — real authored articles only
 
-These four published writing links appear in the current website. **Preserve exact article titles and URL slug strings; don't invent engagement counts or publication dates.**
+These five published writing links appear in the current website. **Preserve the published H1 titles and URL slug strings; don't invent engagement counts or publication dates.** Show two articles initially and the remaining three in an accessible disclosure. Primas links use `nofollow` while retaining normal click navigation.
 
 | Topic tag | Display title | Destination |
 |---|---|---|
+| Primas · AI | How Altus Entertainment Uses AI for Customer Service to Scale Global Bookings | https://primas.net/ai-for-customer-service-altus-case-study/ |
 | Primas · IVR | 5 Key Benefits of Interactive Voice Response (IVR) | https://primas.net/5-key-benefits-of-interactive-voice-response-ivr/ |
 | Primas · CTI | Simple Reasons Why Your Business Need Computer Telephony Integration? | https://primas.net/simple-reasons-why-your-business-need-computer-telephony-integration/ |
 | Primas · CX | Best 5 Customer Experience (CX) Solutions to Watch in 2026 | https://primas.net/best-5-customer-experience-cx-solutions-to-watch-in-2026/ |
@@ -151,8 +152,9 @@ These four published writing links appear in the current website. **Preserve exa
 More writing/author profile: https://primas.net/author/datpt/
 
 Section copy:
-- VI H2: `Bài viết đã xuất bản`; description: `Bốn bài viết tiếng Anh dưới tên Dat Pham tại Primas.`
-- EN H2: `Published writing`; description: `Four English articles published under Dat Pham at Primas.`
+- VI H2: `Bài viết đã xuất bản`; description: `Năm bài viết tiếng Anh dưới tên Dat Pham tại Primas.`
+- EN H2: `Published writing`; description: `Five English articles published under Dat Pham at Primas.`
+- VI disclosure: `Xem thêm 3 bài` / `Thu gọn`; EN disclosure: `Show 3 more articles` / `Show less`.
 - VI CTA: `Đọc bài viết ↗`; EN CTA: `Read article ↗`.
 - VI author CTA: `Xem trang tác giả ↗`; EN author CTA: `View author page ↗`.
 - No testimonial quote boxes or fabricated customer comments.

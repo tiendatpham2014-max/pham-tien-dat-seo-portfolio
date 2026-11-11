@@ -117,7 +117,6 @@ const jsonLd = {
       "worksFor": {
         "@type": "Organization",
         "name": "Primas Group",
-        "url": "https://primas.net",
       },
       "alumniOf": {
         "@type": "CollegeOrUniversity",
@@ -130,7 +129,6 @@ const jsonLd = {
       },
       "sameAs": [
         "https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/",
-        "https://primas.net/author/datpt/",
       ],
       "knowsAbout": [
         "Search Engine Optimization (SEO)",

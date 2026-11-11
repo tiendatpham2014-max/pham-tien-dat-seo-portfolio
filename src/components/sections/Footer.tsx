@@ -24,7 +24,7 @@ export function Footer() {
               <span>{words.footerConnect}</span>
               <a href="#journey">{words.navJourney}</a>
               <a href="#contact">{words.navContact}</a>
-              <a href="https://primas.net/author/datpt/" target="_blank" rel="noopener noreferrer">{words.footerAuthor}</a>
+              <a href="https://primas.net/author/datpt/" target="_blank" rel="nofollow noopener noreferrer">{words.footerAuthor}</a>
               <a href="https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
             </div>
           </div>

@@ -59,6 +59,7 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] No fabricated testimonials, awards, precise publication dates, business results or project durations.
 - [ ] Career current role is shown as ongoing (Oct 2026 context), not ended in future Nov 2026.
 - [ ] Navigation anchors work locally; published-writing/contact external URLs match CONTENT_SPEC exactly (inspect href values without opening external sites).
+- [ ] Writing shows two of five articles initially; the disclosure opens and closes the remaining three in VI/EN. All Primas links are `nofollow`; structured data keeps the employer name without Primas URLs.
 
 ## Responsive
 - [ ] Desktop 1440×900 (or close): alignment and typography polished.

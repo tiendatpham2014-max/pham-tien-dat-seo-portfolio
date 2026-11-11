@@ -41,13 +41,13 @@ reviewed_by_user: false
 - GSC case Q3/2025 vs Q3/2026 với bối cảnh team/sitewide và impressions giảm.
 - 3-step SEO working process được mô tả là phương pháp.
 - 4 nhóm chuyên môn SEO diễn giải theo Problem → Approach → Typical output.
-- 4 bài viết Primas đã được liên kết trong source.
+- 5 bài viết Primas đã được liên kết trong source với `nofollow`.
 - Career progression 3 vai trò, cùng công ty.
 - Email, LinkedIn và Footer links thật; số điện thoại được giữ riêng tư.
 
 ## Ghi nhận sau bản redesign v4
 
-Bản public hiện có case GSC của Altus Entertainment, phần công việc định tính tại BattleBots và bốn bài viết Primas có URL thật. Các slot chưa xác minh trong bảng trên **không có card hoặc mục “sắp ra mắt”** trên website.
+Bản public hiện có case GSC của Altus Entertainment, phần công việc định tính tại BattleBots và năm bài viết Primas có URL thật. Mục Bài viết hiện hai bài đầu, ba bài còn lại mở theo yêu cầu. Các slot chưa xác minh trong bảng trên **không có card hoặc mục “sắp ra mắt”** trên website.
 
 Để xuất bản thêm một case, vui lòng gửi một bản ngắn gồm: (1) tên công khai hoặc cách ẩn danh; (2) vấn đề và phạm vi trang; (3) việc Đạt trực tiếp làm so với đề xuất của đội; (4) trạng thái đề xuất / đã triển khai / đã đo lường; (5) đầu ra hoặc URL/ảnh đã được che thông tin và có quyền đăng; (6) kỳ đo và cách lấy số nếu có KPI. Case không có KPI vẫn có thể dùng nếu các sự kiện trên được xác nhận.
 

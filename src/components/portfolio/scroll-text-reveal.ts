@@ -128,6 +128,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
   update();
   window.addEventListener("scroll", schedule, { passive: true, signal });
   window.addEventListener("resize", () => { rowCenters = workRows.map((row) => row.offsetTop + row.offsetHeight / 2); lastWork = ""; schedule(); }, { signal });
+  document.querySelector<HTMLDetailsElement>(".writing-more")?.addEventListener("toggle", schedule, { signal });
   document.fonts?.ready.then(() => { if (!signal.aborted) { rowCenters = workRows.map((row) => row.offsetTop + row.offsetHeight / 2); lastWork = ""; schedule(); } });
 
   return () => {

@@ -1,5 +1,35 @@
 import { expect, test } from "@playwright/test";
 
+for (const { route, theme, width, height, showMore } of [
+  { route: "/", theme: "dark", width: 1440, height: 900, showMore: "Xem thêm 3 bài" },
+  { route: "/en/", theme: "light", width: 390, height: 844, showMore: "Show 3 more articles" },
+]) {
+  test(`Published writing expands on ${route} at ${width}px without passing link credit`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    const preview = page.locator("#writing .article-rail > .article-card");
+    const more = page.locator("#writing .writing-more-list .article-card");
+    const disclosure = page.locator("#writing .writing-more");
+    await expect(preview).toHaveCount(2);
+    await expect(more).toHaveCount(3);
+    await expect(more.first()).toBeHidden();
+    await expect(preview.first()).toContainText("How Altus Entertainment Uses AI for Customer Service");
+    await expect(preview.first()).toHaveAttribute("href", "https://primas.net/ai-for-customer-service-altus-case-study/");
+    await expect(page.locator("a[href^='https://primas.net/']")).toHaveCount(7);
+    expect(await page.locator("a[href^='https://primas.net/']").evaluateAll((links) => links.every((link) => link.relList.contains("nofollow")))).toBe(true);
+    expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) => scripts.every((script) => !script.textContent.includes("https://primas.net")))).toBe(true);
+    await disclosure.locator("summary").click();
+    await expect(disclosure).toHaveAttribute("open", "");
+    await expect(more.first()).toBeVisible();
+    await disclosure.locator("summary").click();
+    await expect(more.first()).toBeHidden();
+    await expect(disclosure.locator("summary")).toContainText(showMore);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  });
+}
+
 for (const { route, theme, width, height, negative } of [
   { route: "/", theme: "dark", width: 1440, height: 900, negative: "−5,0%" },
   { route: "/en/", theme: "light", width: 390, height: 844, negative: "−5.0%" },

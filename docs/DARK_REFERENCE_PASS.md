@@ -16,7 +16,7 @@ Quan sát trực tiếp preview của cả chín URL React Bits Pro do chủ por
 | Hero 24 | Silk water waves, chuyển động sóng nước siêu mịn linh hoạt, entrance | Nền sóng nước chuyển động êm dịu, tên lớn, sơ đồ SEO có thể bấm |
 | Features 17 | Bầu trời tối, vầng sáng chạy dọc đường cong địa cầu; ba nhãn sáng theo trình tự | Ba vai trò nghề nghiệp thật đồng bộ theo cuộn; giữ chân trời/địa cầu, bỏ văn phòng và múi giờ không có dữ liệu |
 | Features 4 | Tab tự chuyển, panel thông tin | Bốn nhóm năng lực với progress, dừng khi người xem chọn |
-| Social Proof 11 | Carousel bài viết dạng testimonial | Rail bốn bài thật đã xuất bản, không giả review |
+| Social Proof 11 | Carousel bài viết dạng testimonial | Danh sách năm bài thật đã xuất bản, có mở rộng; không giả review |
 | Contact 3 | Ba thẻ liên hệ có icon | Email và LinkedIn; giữ số điện thoại riêng tư |
 | Footer 11 | Sitemap nhiều cột thoáng | Chỉ hai nhóm link thật và về đầu trang |
 | Comparison 7 | Wipe kéo, chạm và bàn phím | Hai kỳ GSC với bộ chỉ số và bảng số liệu luôn đọc được |

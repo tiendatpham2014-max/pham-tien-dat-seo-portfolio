@@ -18,6 +18,7 @@ The non-brand group is site total minus queries containing the brand string; thi
 The user states that Primas blogs attributed to Dat Pham are his work, predominantly editorial production. Examples already linked from the portfolio:
 
 - https://primas.net/author/datpt/
+- https://primas.net/ai-for-customer-service-altus-case-study/
 - https://primas.net/5-key-benefits-of-interactive-voice-response-ivr/
 - https://primas.net/simple-reasons-why-your-business-need-computer-telephony-integration/
 - https://primas.net/best-5-customer-experience-cx-solutions-to-watch-in-2026/
