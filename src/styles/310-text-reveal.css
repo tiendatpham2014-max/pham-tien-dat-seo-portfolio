@@ -11,11 +11,11 @@
     to { opacity: 1; transform: none; }
   }
 
-  .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) :is(h2, .case-cover-label) {
+  .js-motion :is(.about-copy, .atlas-scene-header, .journey-heading, .skill-sequence-intro, .section-head, .contact-editorial) :is(h2, .case-cover-label) {
     opacity: var(--text-title-opacity, 1);
     transform: translate3d(0, var(--text-title-shift, 0px), 0);
   }
-  .js-motion :is(.about-copy, .journey-heading, .case-cover-intro, .skill-sequence-intro, .section-head, .contact-editorial) > p:not(.case-cover-label):not(.about-bio) {
+  .js-motion :is(.about-copy, .journey-heading, .skill-sequence-intro, .section-head, .contact-editorial) > p:not(.case-cover-label):not(.about-bio) {
     opacity: var(--text-copy-opacity, 1);
     transform: translate3d(0, var(--text-copy-shift, 0px), 0);
   }
@@ -30,10 +30,6 @@
   /* Legacy reveal styles target the whole wrapper; leave its layout untouched. */
   .js-motion .section-head { opacity: 1; transform: none; transition: none; }
 
-  .js-motion .evidence-poster {
-    opacity: var(--text-detail-opacity, 1);
-    transform: translate3d(0, var(--text-detail-shift, 0px), 0);
-  }
   .js-motion .writing .article-card :is(.article-top, strong, .article-link) {
     opacity: var(--text-copy-opacity, 1);
     transform: translate3d(0, var(--text-copy-shift, 0px), 0);

@@ -1,0 +1,178 @@
+.battlebots {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(90px, 12vw, 170px) clamp(90px, 11vw, 150px);
+  color: #f5f5f3;
+  background:
+    radial-gradient(ellipse 60% 75% at 88% 55%, rgba(185, 117, 87, .13), transparent 75%),
+    linear-gradient(180deg, #080d1a 0%, #111c2b 55%, #080d1a 100%);
+}
+.battlebots::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 9%;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(231, 197, 179, .18) 25%, rgba(231, 197, 179, .18) 75%, transparent);
+  pointer-events: none;
+}
+.battlebots-shell { position: relative; z-index: 1; }
+.battlebots-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  align-items: end;
+  gap: clamp(24px, 5vw, 100px);
+  padding-bottom: clamp(56px, 7vw, 110px);
+}
+.battlebots-eyebrow,
+.battlebots-team,
+.battlebots-output-heading,
+.battlebots-output-index {
+  color: #edbea6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.battlebots-heading h2 {
+  margin: clamp(24px, 3vw, 44px) 0 0;
+  color: #f5f5f3;
+  font-size: clamp(64px, 8.9vw, 160px);
+  font-weight: 650;
+  letter-spacing: -.078em;
+  line-height: .84;
+  white-space: nowrap;
+}
+.battlebots-heading h2 span { font-weight: 380; }
+.battlebots-heading h2 i { color: #edbea6; font-style: normal; }
+.battlebots-intro { max-width: 33ch; padding-bottom: .1em; }
+.battlebots-intro p:last-child {
+  margin: 15px 0 0;
+  color: #d1d9dc;
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.55;
+}
+.battlebots-output-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 0 15px;
+  border-bottom: 1px solid rgba(229, 224, 216, .28);
+}
+.battlebots-output-heading span:last-child { color: #a4b0ba; font-variant-numeric: tabular-nums; }
+.battlebots-outputs { padding-top: clamp(12px, 2.2vw, 30px); }
+.battlebots-output {
+  display: grid;
+  grid-template-columns: minmax(45px, .13fr) minmax(0, 1fr) minmax(0, .8fr);
+  align-items: baseline;
+  column-gap: clamp(12px, 2vw, 35px);
+  width: min(88%, 1120px);
+  min-height: clamp(106px, 10vw, 160px);
+  padding: clamp(24px, 3vw, 43px) clamp(22px, 3.3vw, 54px);
+  border: 1px solid rgba(229, 224, 216, .23);
+  border-top: 0;
+  background: rgba(255, 255, 255, .025);
+}
+.battlebots-output:nth-child(1) { margin-left: 0; }
+.battlebots-output:nth-child(2) { margin-left: auto; background: rgba(237, 190, 166, .045); }
+.battlebots-output:nth-child(3) { width: min(94%, 1190px); margin-left: 3%; }
+.battlebots-output h3 {
+  margin: 0;
+  color: #f5f5f3;
+  font-size: clamp(27px, 3.2vw, 48px);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1.12;
+}
+.battlebots-output p {
+  margin: 0;
+  color: #b5c2c9;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.55;
+}
+.battlebots-maintenance {
+  display: grid;
+  grid-template-columns: minmax(0, .45fr) minmax(0, 1fr);
+  gap: clamp(24px, 6vw, 100px);
+  margin-top: clamp(44px, 6vw, 90px);
+  padding: clamp(26px, 3vw, 42px) 0 0;
+  border-top: 1px solid rgba(229, 224, 216, .28);
+}
+.battlebots-maintenance h3 {
+  margin: 0;
+  color: #edbea6;
+  font-size: clamp(19px, 2vw, 26px);
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+.battlebots-maintenance p {
+  max-width: 68ch;
+  margin: 0;
+  color: #c3cdd2;
+  font-size: clamp(14px, 1.12vw, 17px);
+  line-height: 1.7;
+}
+.battlebots.battlebots-motion .battlebots-header,
+.battlebots.battlebots-motion .battlebots-output,
+.battlebots.battlebots-motion .battlebots-maintenance {
+  opacity: var(--battle-reveal, 1);
+  transform: translate3d(var(--battle-shift-x, 0px), var(--battle-shift-y, 0px), 0);
+  will-change: opacity, transform;
+}
+html[data-theme="light"] .battlebots {
+  color: #172434;
+  background:
+    radial-gradient(ellipse 60% 75% at 88% 55%, rgba(211, 152, 119, .16), transparent 75%),
+    linear-gradient(180deg, #edf0fa 0%, #f5f0eb 55%, #edf0fa 100%);
+}
+html[data-theme="light"] .battlebots::before { background: linear-gradient(transparent, rgba(101, 80, 69, .22) 25%, rgba(101, 80, 69, .22) 75%, transparent); }
+html[data-theme="light"] .battlebots-heading h2,
+html[data-theme="light"] .battlebots-output h3 { color: #172434; }
+html[data-theme="light"] .battlebots-eyebrow,
+html[data-theme="light"] .battlebots-team,
+html[data-theme="light"] .battlebots-output-heading,
+html[data-theme="light"] .battlebots-output-index,
+html[data-theme="light"] .battlebots-maintenance h3,
+html[data-theme="light"] .battlebots-heading h2 i { color: #914b34; }
+html[data-theme="light"] .battlebots-intro p:last-child,
+html[data-theme="light"] .battlebots-output p,
+html[data-theme="light"] .battlebots-maintenance p { color: #495a68; }
+html[data-theme="light"] .battlebots-output-heading span:last-child { color: #697985; }
+html[data-theme="light"] .battlebots-output-heading,
+html[data-theme="light"] .battlebots-output,
+html[data-theme="light"] .battlebots-maintenance { border-color: rgba(56, 67, 83, .24); }
+html[data-theme="light"] .battlebots-output { background: rgba(255, 255, 255, .28); }
+html[data-theme="light"] .battlebots-output:nth-child(2) { background: rgba(204, 121, 87, .055); }
+@media (max-width: 1150px) {
+  .battlebots-header { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .battlebots-intro { max-width: 60ch; }
+  .battlebots-heading h2 { font-size: clamp(64px, 11vw, 120px); }
+}
+@media (max-width: 700px) {
+  .battlebots { padding-block: 78px 90px; }
+  .battlebots::before { left: 5%; }
+  .battlebots-header { gap: 26px; padding-bottom: 56px; }
+  .battlebots-heading h2 { font-size: clamp(52px, 13vw, 90px); }
+  .battlebots-intro p:last-child { font-size: 15px; }
+  .battlebots-output,
+  .battlebots-output:nth-child(3) {
+    grid-template-columns: 33px minmax(0, 1fr);
+    gap: 8px 12px;
+    width: 100%;
+    min-height: 0;
+    margin-left: 0;
+    padding: 23px 16px;
+  }
+  .battlebots-output h3 { font-size: clamp(26px, 6.5vw, 38px); }
+  .battlebots-output p { grid-column: 2; font-size: 13px; }
+  .battlebots-maintenance { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 48px; }
+}
+@media (max-width: 370px) {
+  .battlebots-heading h2 { font-size: 13vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .battlebots.battlebots-motion .battlebots-header,
+  .battlebots.battlebots-motion .battlebots-output,
+  .battlebots.battlebots-motion .battlebots-maintenance { opacity: 1; transform: none; will-change: auto; }
+}

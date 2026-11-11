@@ -57,9 +57,12 @@ export const copy = {
 
     // Evidence / Work
     workLabel: "Case Study / Dự án thực tế",
-    workEyebrow: "Altus Entertainment · US",
-    workTitle: "Một dự án. Hai kỳ dữ liệu.",
-    workIntro: "Ý định tìm kiếm, nội dung và cấu trúc trang qua dữ liệu Google Search Console.",
+    workEyebrow: "DỊCH VỤ GIẢI TRÍ · MỸ",
+    workTitle: "SEO cho nền tảng giải trí",
+    workIntro: "Tôi tham gia nghiên cứu nhu cầu tìm kiếm, phát triển nội dung và tối ưu cấu trúc trang cho một website dịch vụ giải trí tại Mỹ.",
+    workRoleLabel: "Phần tôi tham gia",
+    workAgencyLabel: "Tại Primas Group",
+    workTasks: ["Nghiên cứu Search Intent", "Nội dung & cấu trúc trang", "Tối ưu On-page", "Phân tích dữ liệu GSC"],
     workFigure: "+27,1%",
     workFigureLabel: "Lượt nhấp toàn website",
     workScope: "Kết quả cấp website của cả đội ngũ · Q3/2025 so với Q3/2026",
@@ -75,9 +78,10 @@ export const copy = {
     pillFocusValue: "Search Intent & On-page",
     pillGrowthLabel: "Tăng trưởng",
     pillGrowthValue: "+27,1% Clicks",
-    sitewideDisclaimer: "Lưu ý minh bạch: Đây là kết quả tăng trưởng cấp website của toàn đội ngũ, không quy riêng thành tích cá nhân duy nhất.",
+    sitewideDisclaimer: "Lưu ý minh bạch: Đây là dữ liệu hiệu suất cấp website của cả đội ngũ, không quy riêng kết quả cho một cá nhân.",
     metricsLabel: "Chọn chỉ số",
-    toggleTable: "Bảng số liệu GSC đầy đủ (6 chỉ số)",
+    toggleTable: "Xem dữ liệu GSC & ghi chú đo lường",
+    evidenceCount: "06 chỉ số",
     tableCaption: "Toàn bộ chỉ số GSC trong hai kỳ, ở cấp website",
     tableMetric: "Chỉ số",
     tableChange: "Thay đổi",
@@ -95,6 +99,19 @@ export const copy = {
     caseContribution: "Vai trò: Nghiên cứu Search Intent, tối ưu On-page, cấu trúc Content và phân tích GSC tại Primas Group.",
     nonbrandFootnote: "* Non-brand: Chỉ số ước tính sau khi loại bỏ các truy vấn chứa từ khóa thương hiệu.",
     caseSource: "Nguồn: Google Search Console · Web · Q3/2025 vs Q3/2026 (92 ngày mỗi kỳ). Vị trí trung bình theo lượt hiển thị.",
+
+    // BattleBots / team delivery
+    battleEyebrow: "WEBSITE · SỰ KIỆN & CHIẾN DỊCH",
+    battleTeam: "Triển khai cùng nhóm theo yêu cầu khách hàng",
+    battleIntro: "Tôi tham gia thực hiện các yêu cầu cập nhật và phát triển website BattleBots, từ trang chiến dịch đến nội dung về sự kiện, đội thi và robot.",
+    battleOutputLabel: "Các trang đã triển khai",
+    battleOutputs: [
+      { title: "Trang sự kiện", detail: "Tạo và đưa lên các landing page cho sự kiện trực tiếp." },
+      { title: "Trang nhà tài trợ", detail: "Triển khai trang và nội dung dành cho nhà tài trợ." },
+      { title: "Microsite chiến dịch", detail: "Xây dựng và xuất bản các microsite quảng bá." },
+    ],
+    battleMaintenanceLabel: "Hỗ trợ duy trì website",
+    battleMaintenance: "Cập nhật nội dung cuộc thi, đội thi, robot và sự kiện; xử lý nội dung WordPress, tài sản số, video, cấu trúc URL và phối hợp giải quyết lỗi, cải tiến website.",
 
     // Process
     processLabel: "Quy trình thực thi",
@@ -243,9 +260,12 @@ export const copy = {
 
     // Evidence / Work
     workLabel: "Featured Project / Case Study",
-    workEyebrow: "Altus Entertainment · US",
-    workTitle: "One project. Two reporting periods.",
-    workIntro: "Search intent, content and page structure through the lens of Google Search Console.",
+    workEyebrow: "ENTERTAINMENT SERVICES · US",
+    workTitle: "SEO for an entertainment platform",
+    workIntro: "I worked on search-intent research, content development and page structure for a US entertainment services website.",
+    workRoleLabel: "My contribution",
+    workAgencyLabel: "At Primas Group",
+    workTasks: ["Search-intent research", "Content & page structure", "On-page optimization", "GSC performance analysis"],
     workFigure: "+27.1%",
     workFigureLabel: "Sitewide clicks",
     workScope: "Sitewide team result · Q3/2025 compared with Q3/2026",
@@ -261,9 +281,10 @@ export const copy = {
     pillFocusValue: "Search Intent & On-page",
     pillGrowthLabel: "Growth",
     pillGrowthValue: "+27.1% Clicks",
-    sitewideDisclaimer: "Transparency note: This is sitewide growth achieved by the wider team, not an individual result attributed solely to me.",
+    sitewideDisclaimer: "Transparency note: These are sitewide performance figures for the wider team, not results attributed solely to one person.",
     metricsLabel: "Choose a metric",
-    toggleTable: "Full GSC data table (6 metrics)",
+    toggleTable: "View GSC data & measurement notes",
+    evidenceCount: "06 metrics",
     tableCaption: "Complete GSC comparison across the two periods, sitewide",
     tableMetric: "Metric",
     tableChange: "Change",
@@ -281,6 +302,19 @@ export const copy = {
     caseContribution: "My contribution: search-intent research, on-page optimization, content architecture, and GSC data analysis at Primas Group.",
     nonbrandFootnote: "* Non-brand is an estimated metric after filtering queries containing the brand string.",
     caseSource: "Source: Google Search Console · Web · July 1–September 30 in 2025 and 2026, 92 days each. Average position is impression-weighted.",
+
+    // BattleBots / team delivery
+    battleEyebrow: "WEBSITE · EVENTS & CAMPAIGNS",
+    battleTeam: "Delivered with a team in response to client requests",
+    battleIntro: "I contributed to BattleBots website updates and new pages, from campaign launches to content about events, teams and robots.",
+    battleOutputLabel: "Pages delivered",
+    battleOutputs: [
+      { title: "Event landing pages", detail: "Created and launched pages for live events." },
+      { title: "Sponsor pages", detail: "Delivered sponsor pages and related content." },
+      { title: "Campaign microsites", detail: "Built and published promotional microsites." },
+    ],
+    battleMaintenanceLabel: "Ongoing website support",
+    battleMaintenance: "Updated competition, team, robot and event content; worked with WordPress content, digital assets, videos and URL structures; and helped resolve issues and improve the site.",
 
     // Process
     processLabel: "Execution process",

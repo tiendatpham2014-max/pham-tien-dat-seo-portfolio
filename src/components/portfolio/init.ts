@@ -7,6 +7,7 @@ import { initHeroWaves } from "./hero-waves";
 import { initIntroSplash } from "./intro-splash";
 import { initSmoothScroll } from "./smooth-scroll";
 import { initScrollTextReveal } from "./scroll-text-reveal";
+import { initBattleBotsReveal } from "./battlebots-reveal";
 
 export function initPortfolio() {
   if ("scrollRestoration" in history) {
@@ -52,6 +53,7 @@ export function initPortfolio() {
 
   window.addEventListener("resize", positionIndicator, { signal });
   const cleanupTextReveal = !reducedMotion() ? initScrollTextReveal(signal) : undefined;
+  const cleanupBattleBots = !reducedMotion() ? initBattleBotsReveal(signal) : undefined;
   if (cleanupTextReveal) {
     document.body.classList.add("js-motion");
   }
@@ -60,6 +62,7 @@ export function initPortfolio() {
   return () => {
     controller.abort();
     cleanupTextReveal?.();
+    cleanupBattleBots?.();
     document.body.classList.remove("js-motion", "menu-open", "page-hidden");
   };
 }

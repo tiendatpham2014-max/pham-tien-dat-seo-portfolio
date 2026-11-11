@@ -6,6 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Journey } from "@/components/sections/Journey";
 import { Evidence } from "@/components/sections/Evidence";
+import { BattleBots } from "@/components/sections/BattleBots";
 import { Skills } from "@/components/sections/Skills";
 import { Writing } from "@/components/sections/Writing";
 import { Contact } from "@/components/sections/Contact";
@@ -24,6 +25,7 @@ export function PortfolioPage({ language }: { language: Language }) {
         <About />
         <SearchAtlas />
         <Evidence />
+        <BattleBots />
         <Journey />
         <Skills />
         <Writing />

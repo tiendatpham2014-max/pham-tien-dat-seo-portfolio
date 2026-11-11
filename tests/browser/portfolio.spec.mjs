@@ -1,5 +1,28 @@
 import { expect, test } from "@playwright/test";
 
+for (const { route, theme, width, height, output } of [
+  { route: "/", theme: "dark", width: 1440, height: 900, output: "Trang sự kiện" },
+  { route: "/en/", theme: "light", width: 390, height: 844, output: "Event landing pages" },
+]) {
+  test(`BattleBots team work is readable on ${route} at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#battlebots-title")).toHaveText("BattleBots.");
+    await expect(page.locator("#battlebots .battlebots-output")).toHaveCount(3);
+    await expect(page.locator("#battlebots .battlebots-output").first()).toContainText(output);
+    await expect(page.locator("#battlebots .battlebots-intro")).toContainText(route === "/" ? "tham gia" : "contributed");
+    const layout = await page.locator("#battlebots").evaluate((section) => ({
+      viewport: innerWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      titleRight: section.querySelector("h2").getBoundingClientRect().right,
+    }));
+    expect(layout.scrollWidth).toBeLessThanOrEqual(layout.viewport + 2);
+    expect(layout.titleRight).toBeLessThanOrEqual(layout.viewport + 2);
+  });
+}
+
 const layoutCases = [
   { route: "/", language: "vi", theme: "dark", width: 390, height: 844 },
   { route: "/", language: "vi", theme: "light", width: 1280, height: 800 },
@@ -97,16 +120,46 @@ for (const { route, width, height } of [
     await expect(page.locator("#atlas")).toHaveAttribute("data-stage", "3");
     await expect(page.locator(".work-signal")).toHaveCount(0);
 
-    await page.locator(".evidence-poster").scrollIntoViewIfNeeded();
-    await expect(page.locator(".evidence-poster")).toContainText(route === "/" ? "17.540" : "17,540");
-    const metric = page.locator(".evidence-poster-metric");
-    await metric.evaluate((element) => { element.dataset.testIdentity = "same-node"; });
-    await expect.poll(() => metric.locator(".evidence-poster-bar b").first().evaluate((bar) => bar.getBoundingClientRect().width)).toBeGreaterThan(1);
-    await page.locator(".evidence-poster-picker button").nth(2).click();
-    await expect(page.locator(".evidence-poster-picker button").nth(2)).toHaveAttribute("aria-pressed", "true");
-    await expect(metric).toHaveAttribute("data-test-identity", "same-node");
-    await expect(metric).toHaveClass(/evidence-poster-ctr/);
-    await expect.poll(() => metric.locator(".evidence-poster-bar b").first().evaluate((bar) => bar.getBoundingClientRect().width)).toBeGreaterThan(1);
+    const profile = page.locator("#work .project-profile");
+    await profile.scrollIntoViewIfNeeded();
+    await expect(profile.locator(".project-profile-list li")).toHaveCount(4);
+    await expect(page.locator("#work .data-table-toggle")).not.toHaveAttribute("open", "");
+    await expect(page.locator("#work .data-table")).toBeHidden();
+    await page.locator("#work .data-table-toggle summary").click();
+    await expect(page.locator("#work .data-table tbody tr")).toHaveCount(6);
+    await expect(page.locator("#work .data-table")).toBeVisible();
+    await expect(page.locator("#work .evidence-detail-intro")).toContainText(route === "/" ? "cả đội ngũ" : "wider team");
+  });
+}
+
+for (const { route, theme, width, height } of [
+  { route: "/", theme: "dark", width: 1440, height: 900 },
+  { route: "/en/", theme: "light", width: 390, height: 844 },
+]) {
+  test(`${route} project signal follows scroll and reverses at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+    const top = await page.locator("#work").evaluate((section) => section.getBoundingClientRect().top + scrollY);
+    const go = async (progress) => {
+      await page.evaluate(({ top, progress, height }) => scrollTo({ top: top - height * (.93 - progress * .76), behavior: "instant" }), { top, progress, height });
+    };
+    const lastRowOpacity = () => page.locator("#work .project-profile-list li").last().evaluate((row) => Number(getComputedStyle(row).opacity));
+    await go(.32);
+    await expect.poll(lastRowOpacity).toBeLessThan(.05);
+    await go(1);
+    if (width <= 1150) {
+      await page.locator("#work .project-profile-list li").last().evaluate((row) => {
+        scrollTo({ top: row.getBoundingClientRect().top + scrollY - innerHeight * .65, behavior: "instant" });
+      });
+    }
+    await expect.poll(lastRowOpacity).toBeGreaterThan(.98);
+    await expect(page.locator("#work .project-profile-list li")).toHaveCount(4);
+    await expect(page.locator("#work .data-table")).toBeHidden();
+    await go(.32);
+    await expect.poll(lastRowOpacity).toBeLessThan(.05);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   });
 }
 

@@ -26,7 +26,7 @@
   .writing > .shell,
   .contact > .shell { position: relative; z-index: 1; }
 
-  /* The data poster enters only after the 3D route has ended. */
+  /* The evidence comparison enters after the 3D route has ended. */
   .work::before {
     background: radial-gradient(ellipse 70% 80% at 78% 0, rgba(155, 228, 211, .13), transparent 78%);
   }
@@ -45,12 +45,6 @@
   .skills::after { background: linear-gradient(transparent, #111c2e); }
   .writing::after { background: linear-gradient(transparent, #080d1a); }
   .contact::after { background: linear-gradient(transparent, #0d1421); }
-  .js-motion .evidence-poster {
-    transform: translate3d(0, var(--text-detail-shift, 0px), 0)
-      scale(var(--evidence-scale, 1));
-    transform-origin: 70% 0;
-  }
-
   /* The last data panel yields to the sky in the same reading direction. */
   .journey .career-route::after {
     content: "";
