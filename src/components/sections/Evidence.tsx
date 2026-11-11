@@ -1,6 +1,7 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import { metricData } from "@/content/gsc";
 import { useCopy, useSitePreferences } from "@/components/site-preferences";
 import { formatMetric } from "@/components/portfolio/metrics";
 
@@ -13,6 +14,14 @@ function labelledNote(value: string) {
 export function Evidence() {
   const words = useCopy();
   const { language } = useSitePreferences();
+  const [activeMetric, setActiveMetric] = useState<"clicks" | "impressions" | "ctr">("clicks");
+  const signalMetrics = [
+    { key: "clicks", change: words.changeClicks },
+    { key: "impressions", change: words.changeImpressions },
+    { key: "ctr", change: words.changeCtr },
+  ] as const;
+  const selectedMetric = signalMetrics.find((metric) => metric.key === activeMetric) ?? signalMetrics[0];
+  const selectedData = metricData[selectedMetric.key];
   const tableRows = [
     { label: words.tableClicks, before: 13795, after: 17540, unit: "integer", change: words.changeClicks },
     { label: words.tableImpressions, before: 1358505, after: 1290541, unit: "integer", change: words.changeImpressions },
@@ -37,6 +46,32 @@ export function Evidence() {
               ))}
             </h2>
             <p>{words.workIntro}</p>
+          </div>
+          <div className="case-signal">
+            <div className="case-signal-tabs" role="group" aria-label={words.metricsLabel}>
+              {signalMetrics.map((metric) => (
+                <button key={metric.key} type="button" aria-pressed={activeMetric === metric.key} onClick={() => setActiveMetric(metric.key)}>
+                  <span>{metricData[metric.key].title[language]}</span>
+                  <strong>{metric.change}</strong>
+                </button>
+              ))}
+            </div>
+            <div className="case-signal-readout" aria-live="polite">
+              <div className="case-signal-summary">
+                <strong className={activeMetric === "impressions" ? "is-negative" : ""}>{selectedMetric.change}</strong>
+                <span>{selectedData.title[language]}</span>
+              </div>
+              <div className="case-signal-bars">
+                {(["before", "after"] as const).map((period) => (
+                  <div className="case-signal-bar" key={period}>
+                    <span>{period === "before" ? "2025" : "2026"}</span>
+                    <i><b style={{ width: `${selectedData[`${period}Width`]}%` }} /></i>
+                    <em>{formatMetric(selectedData[period], selectedData.unit, language)}</em>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <p className="case-signal-context">{words.workScope}</p>
           </div>
         </div>
 

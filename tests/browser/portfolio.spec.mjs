@@ -1,5 +1,44 @@
 import { expect, test } from "@playwright/test";
 
+for (const { route, theme, width, height, negative } of [
+  { route: "/", theme: "dark", width: 1440, height: 900, negative: "−5,0%" },
+  { route: "/en/", theme: "light", width: 390, height: 844, negative: "−5.0%" },
+]) {
+  test(`Altus metric comparison returns on ${route} at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    const tabs = page.locator("#work .case-signal-tabs button");
+    await expect(tabs).toHaveCount(3);
+    await tabs.nth(1).click();
+    await expect(tabs.nth(1)).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator("#work .case-signal-summary strong")).toHaveText(negative);
+    await expect(page.locator("#work .case-signal-bar em")).toHaveCount(2);
+    await tabs.nth(2).click();
+    await expect(tabs.nth(2)).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator("#work .case-signal-summary strong")).toContainText(route === "/" ? "+0,34" : "+0.34");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 2);
+  });
+}
+
+test("Altus comparison bars enter and reverse with scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#intro-splash")).toBeHidden({ timeout: 8_000 });
+  const top = await page.locator("#work .case-signal").evaluate((element) => element.getBoundingClientRect().top + scrollY);
+  const scale = () => page.locator("#work .case-signal-bar b").first().evaluate((bar) => {
+    const matrix = getComputedStyle(bar).transform;
+    return matrix === "none" ? 1 : Number(matrix.match(/matrix\(([^,]+)/)?.[1] ?? 0);
+  });
+  await page.evaluate((position) => scrollTo({ top: position, behavior: "instant" }), top - 844 * .94);
+  await expect.poll(scale).toBeLessThan(.05);
+  await page.evaluate((position) => scrollTo({ top: position, behavior: "instant" }), top - 844 * .45);
+  await expect.poll(scale).toBeGreaterThan(.98);
+  await page.evaluate((position) => scrollTo({ top: position, behavior: "instant" }), top - 844 * .94);
+  await expect.poll(scale).toBeLessThan(.05);
+});
+
 for (const { route, theme, width, height, output } of [
   { route: "/", theme: "dark", width: 1440, height: 900, output: "Trang sự kiện" },
   { route: "/en/", theme: "light", width: 390, height: 844, output: "Event landing pages" },

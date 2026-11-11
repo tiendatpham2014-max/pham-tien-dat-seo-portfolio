@@ -20,6 +20,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
   const hero = document.querySelector<HTMLElement>(".hero-inner");
   const work = document.querySelector<HTMLElement>("#work");
   const workProfile = work?.querySelector<HTMLElement>(".project-profile");
+  const workSignal = work?.querySelector<HTMLElement>(".case-signal");
   const workWords = Array.from(work?.querySelectorAll<HTMLElement>(".work-title-word") ?? []);
   const workRows = Array.from(work?.querySelectorAll<HTMLElement>(".project-profile-list li") ?? []);
   let rowCenters = workRows.map((row) => row.offsetTop + row.offsetHeight / 2);
@@ -39,6 +40,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
       return { target, top: rect.top, bottom: exitRect.bottom };
     });
     const workTop = work?.getBoundingClientRect().top;
+    const workSignalTop = workSignal?.getBoundingClientRect().top;
     const workStacked = window.innerWidth <= 1150;
     const workRowTops = workStacked ? workRows.map((row) => row.getBoundingClientRect().top) : [];
     for (const { target, top, bottom } of measurements) {
@@ -67,7 +69,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
     if (work && workProfile && workTop !== undefined) {
       // One short scroll scene: the title arrives word by word as the signal visits each role.
       const progress = clamp((height * .93 - workTop) / (height * .76));
-      const key = `${Math.round(progress * 1000)}:${workRowTops.map((top) => Math.round(top)).join(":")}`;
+      const key = `${Math.round(progress * 1000)}:${Math.round(workSignalTop ?? 0)}:${workRowTops.map((top) => Math.round(top)).join(":")}`;
       if (key !== lastWork) {
         lastWork = key;
         const set = (name: string, value: number) => work.style.setProperty(name, String(Math.round(value * 1000) / 1000));
@@ -79,6 +81,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
         work.style.setProperty("--work-profile-shift", `${Math.round((1 - smooth((progress - .18) / .26)) * 26)}px`);
         set("--work-field-opacity", smooth((progress - .05) / .22) * .78);
         work.style.setProperty("--work-field-shift", `${Math.round(-85 + progress * 170)}px`);
+        set("--work-signal-scale", smooth((height * .84 - (workSignalTop ?? height)) / (height * .26)));
         workWords.forEach((word, index) => {
           const reveal = smooth((progress - .055 - index * .055) / .2);
           word.style.setProperty("--work-word-opacity", String(Math.round(reveal * 1000) / 1000));
@@ -137,7 +140,7 @@ export function initScrollTextReveal(signal: AbortSignal) {
     });
     hero?.style.removeProperty("--hero-scroll-opacity");
     if (work) {
-      for (const name of ["--work-kicker-opacity", "--work-kicker-shift", "--work-intro-opacity", "--work-intro-shift", "--work-profile-opacity", "--work-profile-shift", "--work-field-opacity", "--work-field-shift", "--work-detail-opacity", "--work-detail-shift"]) {
+      for (const name of ["--work-kicker-opacity", "--work-kicker-shift", "--work-intro-opacity", "--work-intro-shift", "--work-profile-opacity", "--work-profile-shift", "--work-field-opacity", "--work-field-shift", "--work-signal-scale", "--work-detail-opacity", "--work-detail-shift"]) {
         work.style.removeProperty(name);
       }
     }
