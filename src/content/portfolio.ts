@@ -57,9 +57,9 @@ export const copy = {
 
     // Evidence / Work
     workLabel: "Case Study / Dự án thực tế",
-    workEyebrow: "DỊCH VỤ GIẢI TRÍ · MỸ",
-    workTitle: "SEO cho nền tảng giải trí",
-    workIntro: "Tôi tham gia nghiên cứu nhu cầu tìm kiếm, phát triển nội dung và tối ưu cấu trúc trang cho một website dịch vụ giải trí tại Mỹ.",
+    workEyebrow: "SEO · DỊCH VỤ GIẢI TRÍ TẠI MỸ",
+    workTitle: "Altus Entertainment",
+    workIntro: "Tôi tham gia nghiên cứu nhu cầu tìm kiếm, phát triển nội dung và tối ưu cấu trúc trang cho Altus Entertainment tại Mỹ.",
     workRoleLabel: "Phần tôi tham gia",
     workAgencyLabel: "Tại Primas Group",
     workTasks: ["Nghiên cứu Search Intent", "Nội dung & cấu trúc trang", "Tối ưu On-page", "Phân tích dữ liệu GSC"],
@@ -260,9 +260,9 @@ export const copy = {
 
     // Evidence / Work
     workLabel: "Featured Project / Case Study",
-    workEyebrow: "ENTERTAINMENT SERVICES · US",
-    workTitle: "SEO for an entertainment platform",
-    workIntro: "I worked on search-intent research, content development and page structure for a US entertainment services website.",
+    workEyebrow: "SEO · US ENTERTAINMENT SERVICES",
+    workTitle: "Altus Entertainment",
+    workIntro: "I contributed search-intent research, content development and page structure for Altus Entertainment's US website.",
     workRoleLabel: "My contribution",
     workAgencyLabel: "At Primas Group",
     workTasks: ["Search-intent research", "Content & page structure", "On-page optimization", "GSC performance analysis"],

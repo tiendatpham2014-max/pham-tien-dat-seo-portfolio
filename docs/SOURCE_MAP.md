@@ -8,7 +8,8 @@ Hai URL tĩnh nằm trong `src/app/(vi)/page.tsx` (`/`) và `src/app/(en)/en/pag
 | Hero | `Hero.tsx` | `hero-waves.ts` | `20-hero.css`, `220-editorial-composition.css`, `portfolio.ts` |
 | Giới thiệu và khoảng ảnh riêng | `About.tsx` | Copy VI/EN | `25-about.css`, `250-editorial-layout.css`, `portfolio.ts` |
 | Mô hình SEO 3D | `SearchAtlas.tsx`, `SearchAtlasCanvas.tsx` | Cuộn, kéo và chọn giai đoạn trong React | `240-search-atlas.css`, `search-atlas.ts` |
-| GSC, chọn chỉ số, so sánh | `Evidence.tsx` | Poster ba chỉ số thật; bộ chọn chỉ số và kéo so sánh trong phần mở rộng (`metrics.ts`, `comparison.ts`) | `40-evidence.css`, `120-comparison.css`, `290-evidence-poster.css`, `gsc.ts` |
+| Altus Entertainment, GSC và phần việc SEO | `Evidence.tsx` | Bộ chọn ba chỉ số, thanh so sánh 2025/2026 theo cuộn; bảng sáu chỉ số mở rộng | `290-project-profile.css`, `295-case-signal.css`, `300-chapter-evidence.css`, `gsc.ts` |
+| BattleBots | `BattleBots.tsx` | Ba nhóm trang đã triển khai hiện dần khi cuộn | `305-battlebots.css`, `battlebots-reveal.ts`, `portfolio.ts` |
 | Chuyên môn theo cuộn | `Skills.tsx`, `SkillDiagram.tsx` | Cuộn trang thay từng nhóm và sơ đồ SVG tương ứng trong một vùng ghim | `260-scroll-sections.css`, `270-pinned-skills.css`, `280-skill-diagrams.css`, `portfolio.ts` |
 | Bài viết | `Writing.tsx` | Bốn link bài viết thật, trình bày gọn | `70-writing.css`, `260-scroll-sections.css` |
 | Hành trình theo cuộn | `Journey.tsx` | `scroll-stories.ts` | `196-career-horizon-scene.css` |
@@ -23,4 +24,4 @@ Hai URL tĩnh nằm trong `src/app/(vi)/page.tsx` (`/`) và `src/app/(en)/en/pag
 3. Chạy `npm run check`, `npm run build` và xem desktop/mobile bằng `npm run dev` hoặc `npm run preview`.
 4. Commit source và tài liệu liên quan. Không commit `.next/` hoặc `out/`.
 
-Không lưu ảnh chụp GSC gốc, URL khách hàng hay dữ liệu định danh trong repo. `docs/IMPLEMENTATION_DECISIONS.md` ghi cách áp dụng ý tưởng từ React Bits và minwang.dev; CSS và TypeScript là mã của dự án.
+Tên Altus Entertainment và BattleBots được phép hiển thị. Không lưu ảnh chụp GSC gốc, URL quản trị, tài khoản hoặc bản xuất dữ liệu thô trong repo. `docs/IMPLEMENTATION_DECISIONS.md` ghi cách áp dụng ý tưởng từ React Bits và minwang.dev; CSS và TypeScript là mã của dự án.

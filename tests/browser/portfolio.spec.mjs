@@ -9,6 +9,7 @@ for (const { route, theme, width, height, negative } of [
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.addInitScript((nextTheme) => localStorage.setItem("dat-seo-theme", nextTheme), theme);
     await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#work-title")).toHaveText("Altus Entertainment");
     const tabs = page.locator("#work .case-signal-tabs button");
     await expect(tabs).toHaveCount(3);
     await tabs.nth(1).click();

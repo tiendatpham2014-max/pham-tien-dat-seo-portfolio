@@ -8,7 +8,7 @@
 |---|---|---|---|
 | Cao | `CASE_02` — Category × Location technical SEO | Có thể công khai đến mức nào? Vấn đề, phạm vi/trách nhiệm của tôi, trạng thái đề xuất/triển khai, bài học hoặc bằng chứng (đã ẩn thông tin nhạy cảm) | Một card hoặc trang case thứ hai, không cần KPI nếu minh bạch trạng thái |
 | Cao | `CASE_03` — Sheets / Apps Script URL workflow | Ví dụ sheet input → logic → output (ẩn URL/tài khoản), phần mình thực sự xây và áp dụng | Mini case có minh họa thao tác và giải thích lợi ích, không cần bịa số giờ tiết kiệm |
-| Cao | `BATTLEBOTS_PAGES` — landing pages BattleBots | URL công khai, vai trò cá nhân và phần đã thực sự xuất bản | Chỉ nêu công việc cụ thể trên trang khi đã xác minh phạm vi đóng góp |
+| Trung bình | `BATTLEBOTS_PROOF` — minh chứng cho BattleBots | URL công khai của trang sự kiện, nhà tài trợ hoặc microsite nếu được phép chia sẻ | Bổ sung link minh chứng cho phần công việc đã công khai, không cần bịa KPI |
 | Cao | `AI_MCP_WORKFLOWS` — Hermes Agent / MCP | Quy trình đã dùng, đầu ra có thể công khai và trạng thái thử nghiệm hay triển khai | Mô tả thành case thực hiện chỉ sau khi xác minh; hiện chỉ nêu phương pháp chung |
 | Trung bình | `CASE_04` — B2B content | 1–2 URL, brief/outline được quyền chia sẻ, vai trò cụ thể, kết quả nếu có | Content project case kết nối với các bài blog công khai |
 | Trung bình | `VISUAL_ASSETS` | Ảnh chart GSC đã che tên website; screenshot Screaming Frog/Sheets; ảnh thuộc quyền sử dụng | Minh họa thật cho case, thay vì hình mockup giả |
@@ -47,7 +47,7 @@ reviewed_by_user: false
 
 ## Ghi nhận sau bản redesign v4
 
-Bản public hiện chỉ có một case GSC đã đủ số liệu và bốn bài viết Primas có URL thật. Những slot trong bảng trên **không có card hoặc mục “sắp ra mắt”** trên website.
+Bản public hiện có case GSC của Altus Entertainment, phần công việc định tính tại BattleBots và bốn bài viết Primas có URL thật. Các slot chưa xác minh trong bảng trên **không có card hoặc mục “sắp ra mắt”** trên website.
 
 Để xuất bản thêm một case, vui lòng gửi một bản ngắn gồm: (1) tên công khai hoặc cách ẩn danh; (2) vấn đề và phạm vi trang; (3) việc Đạt trực tiếp làm so với đề xuất của đội; (4) trạng thái đề xuất / đã triển khai / đã đo lường; (5) đầu ra hoặc URL/ảnh đã được che thông tin và có quyền đăng; (6) kỳ đo và cách lấy số nếu có KPI. Case không có KPI vẫn có thể dùng nếu các sự kiện trên được xác nhận.
 

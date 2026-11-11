@@ -1,6 +1,6 @@
 # Public-safe evidence notes
 
-These are aggregate figures supplied by the user from Google Search Console, Search type = Web. The periods are July 1–September 30 in 2025 and 2026, 92 days each. The case study refers to a confidential US entertainment services website. Site totals came from complete daily data rather than sums of privacy-thresholded page or query rows. CTR = clicks ÷ impressions; average position is impression-weighted.
+These are aggregate figures supplied by the user from Google Search Console, Search type = Web. The periods are July 1–September 30 in 2025 and 2026, 92 days each. The case study names Altus Entertainment with the portfolio owner's permission. Site totals came from complete daily data rather than sums of privacy-thresholded page or query rows. CTR = clicks ÷ impressions; average position is impression-weighted. Internal URLs, accounts and raw exports remain private.
 
 | Metric | Q3 2025 | Q3 2026 | Difference |
 | --- | ---: | ---: | ---: |

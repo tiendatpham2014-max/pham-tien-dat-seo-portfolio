@@ -46,7 +46,7 @@ Redesign trực tiếp website SEO Portfolio song ngữ hiện có. **Không coi
 ## Quy tắc dữ liệu
 - Không bịa kết quả cá nhân từ KPI sitewide; không giấu impressions giảm.
 - Không bịa dự án đã triển khai, khách hàng, testimonial, screenshots, publication dates, chứng chỉ, thời hạn dự án, trang pháp lý hoặc trang liên kết.
-- Không đưa client URL/exports định danh vào public source; các demo/gợi ý còn thiếu phải được đánh dấu chờ trong `docs/CONTENT_GAPS.md`.
+- Hiển thị tên khách hàng/dự án khi chủ portfolio đã xác nhận quyền công khai; Altus Entertainment và BattleBots được phép nêu tên. Không đưa URL quản trị, tài khoản, bản xuất dữ liệu thô hoặc thông tin nội bộ nhạy cảm vào public source; các case chưa xác minh giữ trong `docs/CONTENT_GAPS.md`.
 
 ## Live và GitHub
 

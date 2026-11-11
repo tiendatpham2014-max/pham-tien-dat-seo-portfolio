@@ -55,7 +55,7 @@ A task is complete only when the Next.js source builds to a working static expor
 - [ ] Q3 2025 vs Q3 2026 metrics match `docs/CONTENT_SPEC.md` exactly.
 - [ ] Negative impressions context (`−5.0%`) remains visible.
 - [ ] The sitewide team-level attribution disclaimer remains prominently available.
-- [ ] Client identity stays confidential; no client URL or secret export is added.
+- [ ] Approved project names, including Altus Entertainment and BattleBots, display consistently in VI/EN; no internal URL, account or raw export is added.
 - [ ] No fabricated testimonials, awards, precise publication dates, business results or project durations.
 - [ ] Career current role is shown as ongoing (Oct 2026 context), not ended in future Nov 2026.
 - [ ] Navigation anchors work locally; published-writing/contact external URLs match CONTENT_SPEC exactly (inspect href values without opening external sites).
