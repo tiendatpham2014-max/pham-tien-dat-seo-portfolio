@@ -101,7 +101,7 @@ export const copy = {
     caseSource: "Nguồn: Google Search Console · Web · Q3/2025 vs Q3/2026 (92 ngày mỗi kỳ). Vị trí trung bình theo lượt hiển thị.",
 
     // BattleBots / team delivery
-    battleEyebrow: "WEBSITE · SỰ KIỆN & CHIẾN DỊCH",
+    battleEyebrow: "ĐẤU ROBOT · TRUYỀN HÌNH & SỰ KIỆN",
     battleTeam: "Triển khai cùng nhóm theo yêu cầu khách hàng",
     battleIntro: "Tôi tham gia thực hiện các yêu cầu cập nhật và phát triển website BattleBots, từ trang chiến dịch đến nội dung về sự kiện, đội thi và robot.",
     battleOutputLabel: "Các trang đã triển khai",
@@ -304,7 +304,7 @@ export const copy = {
     caseSource: "Source: Google Search Console · Web · July 1–September 30 in 2025 and 2026, 92 days each. Average position is impression-weighted.",
 
     // BattleBots / team delivery
-    battleEyebrow: "WEBSITE · EVENTS & CAMPAIGNS",
+    battleEyebrow: "ROBOT COMBAT · TV & LIVE EVENTS",
     battleTeam: "Delivered with a team in response to client requests",
     battleIntro: "I contributed to BattleBots website updates and new pages, from campaign launches to content about events, teams and robots.",
     battleOutputLabel: "Pages delivered",
