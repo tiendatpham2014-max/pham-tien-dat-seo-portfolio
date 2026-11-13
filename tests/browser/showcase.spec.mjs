@@ -23,10 +23,12 @@ for (const { home, route, language, title } of cases) {
     expect(errors).toEqual([]);
   });
 
-  test(`Homepage ${home} links from Hero to the BMW page`, async ({ page }) => {
+  test(`Homepage ${home} links from Nav to the BMW page`, async ({ page }) => {
     await page.goto(home, { waitUntil: "domcontentloaded" });
     await expect(page.locator("#about .about-showcase")).toHaveCount(0);
-    await expect(page.locator(".hero-social .hero-garage")).toHaveAttribute("href", route);
+    await expect(page.locator(".hero-social .hero-garage")).toHaveCount(0);
+    await expect(page.locator(".desktop-nav .nav-garage")).toHaveAttribute("href", route);
+    await expect(page.locator(".mobile-nav .nav-garage")).toHaveAttribute("href", route);
   });
 }
 

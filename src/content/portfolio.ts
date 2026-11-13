@@ -204,7 +204,7 @@ export const copy = {
     footerAuthor: "Trang tác giả ↗",
     backTop: "Về đầu trang ↑",
 
-    heroGarage: "Garage 3D ↗",
+    heroGarage: "Góc đam mê xe ↗",
   },
   en: {
     skip: "Skip to content",
@@ -411,7 +411,7 @@ export const copy = {
     footerAuthor: "Author page ↗",
     backTop: "Back to top ↑",
 
-    heroGarage: "3D garage ↗",
+    heroGarage: "Car passion corner ↗",
   },
 } as const;
 

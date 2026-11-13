@@ -167,6 +167,12 @@ html.no-js .brand{
 .desktop-nav a:hover,.desktop-nav a[aria-current="location"]{
   color:var(--ink)
 }
+.desktop-nav .nav-garage{
+  border-left:1px solid currentColor;
+  padding-left:clamp(15px,1.9vw,31px);
+  color:var(--ink);
+  font-weight:600
+}
 .nav-indicator{
   position:absolute;
   bottom:14px;
@@ -264,4 +270,9 @@ html.no-js .brand{
   text-decoration:none;
   font:400 32px/1.15 "Be Vietnam Pro","Segoe UI",sans-serif;
   letter-spacing:-.04em
+}
+.mobile-nav .nav-garage{
+  border-top:1px solid rgba(128,140,150,.35);
+  margin-top:10px;
+  padding-top:19px
 }

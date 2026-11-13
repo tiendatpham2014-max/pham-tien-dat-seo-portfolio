@@ -15,6 +15,7 @@ export function Navigation({ isShowcase = false }: { isShowcase?: boolean }) {
   const { language, theme, changeLanguage, changeTheme } = useSitePreferences();
   const words = copy[language];
   const homeHref = language === "vi" ? "/" : "/en/";
+  const garageHref = language === "vi" ? "/showcase/bmw-m4-csl/" : "/en/showcase/bmw-m4-csl/";
   const sectionHref = (id: string) => isShowcase ? `${homeHref}#${id}` : `#${id}`;
   const languageHref = (next: Language) => isShowcase
     ? next === "vi" ? "/showcase/bmw-m4-csl/" : "/en/showcase/bmw-m4-csl/"
@@ -37,6 +38,7 @@ export function Navigation({ isShowcase = false }: { isShowcase?: boolean }) {
           </a>
           <nav className="desktop-nav" id="desktop-nav" aria-label={words.navigation}>
             {links.map(([id, key]) => <a href={sectionHref(id)} key={id}>{words[key]}</a>)}
+            <a className="nav-garage" href={garageHref}>{words.heroGarage}</a>
             <span className="nav-indicator" aria-hidden="true" />
           </nav>
           <div className="header-actions">
@@ -56,6 +58,7 @@ export function Navigation({ isShowcase = false }: { isShowcase?: boolean }) {
       <div className="menu-backdrop" id="menu-backdrop" hidden />
       <nav className="mobile-nav" id="mobile-nav" aria-label={words.mobileNavigation} inert>
         {links.map(([id, key]) => <a href={sectionHref(id)} key={id}>{words[key]}</a>)}
+        <a className="nav-garage" href={garageHref}>{words.heroGarage}</a>
       </nav>
     </>
   );
