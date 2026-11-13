@@ -863,6 +863,23 @@
         });
         needsRender = true;
       }
+      function clearSelection(){
+        if (!selected) return;
+        selected = null;
+        fly = null;
+        clearHighlight();
+        Object.keys(btnById).forEach(function(k){ btnById[k].setAttribute('aria-pressed','false'); });
+        document.getElementById('toDetail').hidden = true;
+        document.getElementById('selbar').hidden = true;
+        document.getElementById('d-sys').textContent = msg('Chưa chọn bộ phận','No part selected');
+        document.getElementById('d-name').textContent = msg('Bấm vào một bộ phận trên xe','Select a part of the car');
+        document.getElementById('d-desc').textContent = msg('Chọn một bộ phận trên xe để xem chức năng, vật liệu và thông số.','Select a part of the car to see its function, materials and specifications.');
+        document.getElementById('d-dl').hidden = true;
+        applyXrayVisuals();
+        needsRender = true;
+      }
+      document.getElementById('sb-clear').addEventListener('click', clearSelection);
+      document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && selected) clearSelection(); });
       function flyTo(center, dist, heightFrac){
         var dir = camera.position.clone().sub(controls.target);
         if (dir.lengthSq() < 0.001) dir.set(1,0.4,1);
@@ -880,6 +897,7 @@
       }
       function selectPart(id, flyCam){
         var p = PARTS.filter(function(x){return x.id===id;})[0]; if(!p) return;
+        if (selected === id) { clearSelection(); return; }
         selected = id;
         Object.keys(btnById).forEach(function(k){ btnById[k].setAttribute('aria-pressed', k===id?'true':'false'); });
         document.getElementById('d-sys').textContent = systemLabel(p.sys);
@@ -891,6 +909,7 @@
         document.getElementById('d-note').textContent = partField(p,'note');
         document.getElementById('d-dl').hidden = false;
         highlight(id);
+        applyXrayVisuals();
         if (id === 'engine' && carRoot) setOpen('hood', true); // xem động cơ thì tự mở ca-pô
         if (flyCam){
           var pc = partCenter(id);
@@ -917,7 +936,6 @@
       var downPos = null;
       function onCanvasClick(ev){
         if (!carRoot) return;
-        if (fly) return;
         /* Kéo để xoay xong thả chuột trình duyệt vẫn bắn 'click' — nếu
            con trỏ đã di chuyển quá 6px thì đó là thao tác xoay, không
            phải bấm chọn bộ phận (bản cũ chọn nhầm + camera tự bay). */
@@ -931,6 +949,7 @@
           var pid = hits[i].object.userData.partId;
           if (pid){ selectPart(pid, true); return; }
         }
+        clearSelection();
       }
 
       /* Sơn */
@@ -993,26 +1012,37 @@
          Trạng thái gốc của từng vật liệu được lưu và khôi phục đúng y
          nguyên khi tắt (bản cũ ép kính về opacity 0,45 bất kể gốc). */
       var XRAY_KEEP = {engine:1, strutbrace:1, cooling:1, gearbox:1, diff:1, exhaust:1, suspension:1, brake:1, wheel:1, seat:1, cockpit:1};
-      document.getElementById('xray').addEventListener('click', function(){
-        xray = !xray; this.setAttribute('aria-pressed', xray?'true':'false');
+      function applyXrayVisuals(){
         allMeshes.forEach(function(m){
-          // Thành khoang máy (enginebay) mờ theo thân xe dù thuộc part
-          // "engine" — giữ đặc thì nó phủ kín khối động cơ bên trong
-          if (XRAY_KEEP[m.userData.partId] && !m.userData.bay) return;
-          var mats = Array.isArray(m.material)?m.material:[m.material];
+          var pid=m.userData.partId;
+          var selectedMesh=selected && pid===selected && !(selected==='engine' && m.userData.bay);
+          var ghost=xray && !selectedMesh && (!XRAY_KEEP[pid] || m.userData.bay);
+          var mats=Array.isArray(m.material)?m.material:[m.material];
           mats.forEach(function(mm){
-            if (xray){
-              if (!mm.userData._xr) mm.userData._xr = {t:mm.transparent, o:mm.opacity, d:mm.depthWrite};
-              mm.transparent = true;
-              mm.opacity = /GlassClear/.test(mm.name||'') ? 0.06 : 0.15;
-              mm.depthWrite = false; mm.needsUpdate = true;
-            } else if (mm.userData._xr){
-              mm.transparent = mm.userData._xr.t; mm.opacity = mm.userData._xr.o; mm.depthWrite = mm.userData._xr.d;
-              mm.needsUpdate = true;
+            if (xray && !mm.userData._xr) mm.userData._xr={t:mm.transparent,o:mm.opacity,d:mm.depthWrite};
+            var original=mm.userData._xr;
+            if (!xray){
+              if (original){
+                mm.transparent=original.t; mm.opacity=original.o; mm.depthWrite=original.d;
+                delete mm.userData._xr; mm.needsUpdate=true;
+              }
+            } else if (selectedMesh){
+              mm.transparent=false; mm.opacity=1; mm.depthWrite=true; mm.needsUpdate=true;
+            } else if (ghost){
+              mm.transparent=true;
+              mm.opacity=/GlassClear/.test(mm.name||'') ? 0.06 : 0.15;
+              mm.depthWrite=false; mm.needsUpdate=true;
+            } else if (original){
+              mm.transparent=original.t; mm.opacity=original.o; mm.depthWrite=original.d;
+              mm.needsUpdate=true;
             }
           });
         });
-        needsRender = true;
+        needsRender=true;
+      }
+      document.getElementById('xray').addEventListener('click', function(){
+        xray=!xray; this.setAttribute('aria-pressed',xray?'true':'false');
+        applyXrayVisuals();
       });
       document.getElementById('spin').addEventListener('click', function(){
         controls.autoRotate = !controls.autoRotate;
@@ -1029,9 +1059,7 @@
         });
       });
       document.getElementById('reset').addEventListener('click', function(){
-        selected = null; clearHighlight();
-        document.getElementById('toDetail').hidden = true;
-        Object.keys(btnById).forEach(function(k){ btnById[k].setAttribute('aria-pressed','false'); });
+        clearSelection();
         document.getElementById('explode').value = 0; applyExplode(0);
         if (xray) document.getElementById('xray').click();
         if (lightsOn) document.getElementById('lights').click();
