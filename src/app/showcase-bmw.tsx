@@ -25,7 +25,7 @@ function ShowcaseContent() {
           <p className="showcase-car">{words.showcaseCar}</p>
           <p className="showcase-intro">{words.showcaseIntro}</p>
           <iframe
-            src="/showcase/bmw-m4-csl/app/index.html"
+            src="/showcase/bmw-m4-csl/app/"
             title={words.showcaseCar}
             className="showcase-frame"
             allowFullScreen
