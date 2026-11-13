@@ -11,14 +11,19 @@ const links = [
   ["writing", "navWriting"], ["contact", "navContact"],
 ] as const;
 
-export function Navigation() {
+export function Navigation({ isShowcase = false }: { isShowcase?: boolean }) {
   const { language, theme, changeLanguage, changeTheme } = useSitePreferences();
   const words = copy[language];
+  const homeHref = language === "vi" ? "/" : "/en/";
+  const sectionHref = (id: string) => isShowcase ? `${homeHref}#${id}` : `#${id}`;
+  const languageHref = (next: Language) => isShowcase
+    ? next === "vi" ? "/showcase/bmw-m4-csl/" : "/en/showcase/bmw-m4-csl/"
+    : next === "vi" ? "/" : "/en/";
   const themeLabel = language === "vi"
     ? theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"
     : theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
   const switchLanguage = (event: MouseEvent<HTMLAnchorElement>, next: Language) => {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (isShowcase || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     changeLanguage(next);
   };
@@ -27,18 +32,18 @@ export function Navigation() {
     <>
       <header className="site-header" id="site-header">
         <div className="shell header-inner">
-          <a className="brand" href="#top" aria-label={words.brandAria}>
+          <a className="brand" href={isShowcase ? homeHref : "#top"} aria-label={words.brandAria}>
             <img src="/branding/dat-pham-signature-source.png" alt="Phạm Tiến Đạt" className="brand-signature" width={114} height={38} />
           </a>
           <nav className="desktop-nav" id="desktop-nav" aria-label={words.navigation}>
-            {links.map(([id, key]) => <a href={`#${id}`} key={id}>{words[key]}</a>)}
+            {links.map(([id, key]) => <a href={sectionHref(id)} key={id}>{words[key]}</a>)}
             <span className="nav-indicator" aria-hidden="true" />
           </nav>
           <div className="header-actions">
             <div className="language-switch" role="group" aria-label="Language">
-              <a href="/" data-lang="vi" aria-current={language === "vi" ? "page" : undefined} onClick={(event) => switchLanguage(event, "vi")}>VI</a>
+              <a href={languageHref("vi")} data-lang="vi" aria-current={language === "vi" ? "page" : undefined} onClick={(event) => switchLanguage(event, "vi")}>VI</a>
               <span aria-hidden="true">/</span>
-              <a href="/en/" data-lang="en" aria-current={language === "en" ? "page" : undefined} onClick={(event) => switchLanguage(event, "en")}>EN</a>
+              <a href={languageHref("en")} data-lang="en" aria-current={language === "en" ? "page" : undefined} onClick={(event) => switchLanguage(event, "en")}>EN</a>
             </div>
             <button className="theme-toggle" id="theme-toggle" type="button" aria-label={themeLabel} title={themeLabel} onClick={() => changeTheme(theme === "dark" ? "light" : "dark")}>
               <svg className="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx={12} cy={12} r="3.5" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
@@ -50,7 +55,7 @@ export function Navigation() {
       </header>
       <div className="menu-backdrop" id="menu-backdrop" hidden />
       <nav className="mobile-nav" id="mobile-nav" aria-label={words.mobileNavigation} inert>
-        {links.map(([id, key]) => <a href={`#${id}`} key={id}>{words[key]}</a>)}
+        {links.map(([id, key]) => <a href={sectionHref(id)} key={id}>{words[key]}</a>)}
       </nav>
     </>
   );

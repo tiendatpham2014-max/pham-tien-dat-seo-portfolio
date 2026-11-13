@@ -15,7 +15,7 @@ function ShowcaseContent() {
   return (
     <>
       <SkipLink />
-      <Navigation />
+      <Navigation isShowcase />
       <main id="main">
         <section className="shell showcase-page">
           <p className="showcase-back">
@@ -32,7 +32,7 @@ function ShowcaseContent() {
           />
         </section>
       </main>
-      <Footer />
+      <Footer isShowcase />
     </>
   );
 }

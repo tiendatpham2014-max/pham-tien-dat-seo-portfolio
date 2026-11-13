@@ -3,6 +3,11 @@ import { positionIndicator } from "./navigation";
 
 // Browser metadata and legacy interaction state stay here. React renders visible copy.
 export function setLanguage(next: Language) {
+  if (location.pathname.includes("/showcase/bmw-m4-csl")) {
+    document.documentElement.lang = next;
+    try { localStorage.setItem("dat-seo-language", next); } catch { /* Storage may be unavailable. */ }
+    return;
+  }
   const canonicalUrl = `https://datpham.io.vn${next === "vi" ? "/" : "/en/"}`;
   document.documentElement.lang = next;
   document.title = next === "vi"

@@ -205,6 +205,7 @@ export const copy = {
     backTop: "Về đầu trang ↑",
 
     // Showcase BMW
+    showcaseLink: "Ngoài SEO: khám phá BMW M4 CSL 3D ↗",
     showcaseTitle: "Đam mê xe của Đạt",
     showcaseCar: "BMW M4 CSL 2023 (G82)",
     showcaseIntro:
@@ -417,6 +418,7 @@ export const copy = {
     backTop: "Back to top ↑",
 
     // Showcase BMW
+    showcaseLink: "Beyond SEO: explore the BMW M4 CSL 3D ↗",
     showcaseTitle: "Dat's Passion for Cars",
     showcaseCar: "BMW M4 CSL 2023 (G82)",
     showcaseIntro:

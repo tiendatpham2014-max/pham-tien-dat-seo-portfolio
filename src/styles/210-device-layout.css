@@ -2,8 +2,16 @@
 @media (max-width: 1024px) {
   .desktop-nav { display: none; }
   .menu-toggle { display: flex; }
-  .header-inner { gap: 18px; }
+  .header-inner { height: 68px; gap: 18px; }
   .header-actions { margin-left: auto; }
+  .menu-backdrop, .mobile-nav { top: 68px; }
+  .mobile-nav {
+    width: min(360px, 100vw);
+    padding: 20px var(--gutter) calc(20px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .mobile-nav a { font-size: clamp(19px, 2.4vw, 24px); line-height: 1.2; padding: 9px 0; }
 
   .hero h1 { font-size: clamp(60px, 8.5vw, 104px); }
   .hero-main { max-width: 860px; }
@@ -68,18 +76,18 @@
 @media (max-width: 650px) {
   html { scroll-padding-top: 76px; }
   body { font-size: 16px; }
-  .header-inner { height: 68px; gap: 8px; }
+  .header-inner { height: 60px; gap: 8px; }
   .brand { font-size: 19px; }
   .header-actions { gap: 6px; }
-  .menu-backdrop { top: 68px; }
+  .menu-backdrop { top: 60px; }
   .mobile-nav {
-    top: 68px;
-    width: min(430px, 100vw);
-    padding: 24px var(--gutter) calc(24px + env(safe-area-inset-bottom));
+    top: 60px;
+    width: min(360px, 100vw);
+    padding: 16px var(--gutter) calc(16px + env(safe-area-inset-bottom));
     overflow-y: auto;
     overscroll-behavior: contain;
   }
-  .mobile-nav a { font-size: clamp(24px, 7vw, 32px); padding: 11px 0; }
+  .mobile-nav a { font-size: clamp(18px, 5.6vw, 22px); padding: 9px 0; }
 
   .hero {
     min-height: 100svh;

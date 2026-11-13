@@ -1,8 +1,7 @@
-import { get } from "./dom";
 import { reducedMotion } from "./state";
 
 export function initHeroWaves(signal: AbortSignal) {
-  const canvas = get<HTMLCanvasElement>("#hero-waves-canvas");
+  const canvas = document.querySelector<HTMLCanvasElement>("#hero-waves-canvas");
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");

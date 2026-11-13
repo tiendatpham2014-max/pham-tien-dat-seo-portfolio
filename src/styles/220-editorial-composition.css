@@ -151,6 +151,10 @@ html[data-theme="light"] .hero .hero-tagline {
   color: var(--accent);
 }
 
+.about-showcase { margin: 10px 0 0; font-size: 13px; line-height: 1.5; }
+.about-showcase a { color: var(--quiet); text-decoration: none; border-bottom: 1px solid currentColor; transition: color .2s; }
+.about-showcase a:hover, .about-showcase a:focus-visible { color: var(--accent); }
+
 .about-pillars {
   display: flex;
   flex-direction: column;
