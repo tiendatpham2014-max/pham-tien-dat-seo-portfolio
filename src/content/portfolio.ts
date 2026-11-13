@@ -27,7 +27,7 @@ export const copy = {
     heroDescription: "Kết hợp ngôn ngữ thương mại, kỹ thuật SEO và tự động hóa AI để hỗ trợ tăng trưởng tìm kiếm tự nhiên cho các dự án quốc tế.",
     viewWork: "Xem dự án",
     getInTouch: "Liên hệ",
-    heroSocialAria: "Liên hệ",
+    heroSocialAria: "Liên kết nhanh",
     heroBottom: "Hồ sơ năng lực, bằng chứng GSC và kinh nghiệm thực tế.",
     scrollHint: "Cuộn để tìm hiểu ↓",
     heroMetaAria: "Thông tin nghề nghiệp",
@@ -204,13 +204,7 @@ export const copy = {
     footerAuthor: "Trang tác giả ↗",
     backTop: "Về đầu trang ↑",
 
-    // Showcase BMW
-    showcaseLink: "Ngoài SEO: khám phá BMW M4 CSL 3D ↗",
-    showcaseTitle: "Đam mê xe của Đạt",
-    showcaseCar: "BMW M4 CSL 2023 (G82)",
-    showcaseIntro:
-      "Mô hình 3D tương tác của chiếc M4 CSL — xoay, đổi màu sơn, mở cửa, ca-pô, cốp sau, X-ray và nổ tung để xem chi tiết từng bộ phận.",
-    showcaseBack: "← Về trang chính",
+    heroGarage: "Garage 3D ↗",
   },
   en: {
     skip: "Skip to content",
@@ -240,7 +234,7 @@ export const copy = {
     heroDescription: "Combining business English, technical SEO, and AI workflows to support organic search growth across international projects.",
     viewWork: "View projects",
     getInTouch: "Get in touch",
-    heroSocialAria: "Contact",
+    heroSocialAria: "Quick links",
     heroBottom: "Executive profile, verified GSC performance and practical track record.",
     scrollHint: "Scroll to explore ↓",
     heroMetaAria: "Professional background",
@@ -417,13 +411,7 @@ export const copy = {
     footerAuthor: "Author page ↗",
     backTop: "Back to top ↑",
 
-    // Showcase BMW
-    showcaseLink: "Beyond SEO: explore the BMW M4 CSL 3D ↗",
-    showcaseTitle: "Dat's Passion for Cars",
-    showcaseCar: "BMW M4 CSL 2023 (G82)",
-    showcaseIntro:
-      "An interactive 3D model of the M4 CSL — rotate it, change the paint, open the doors, hood and trunk, and use X-ray and exploded view to explore every part.",
-    showcaseBack: "← Back to home",
+    heroGarage: "3D garage ↗",
   },
 } as const;
 

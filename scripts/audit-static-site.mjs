@@ -90,11 +90,11 @@ if (existsSync(robotsPath)) {
 }
 if (existsSync(sitemapPath)) {
   const sitemap = readFileSync(sitemapPath, "utf8");
-  for (const path of ["/", "/en/"]) {
+  for (const path of ["/", "/en/", "/showcase/bmw-m4-csl/", "/en/showcase/bmw-m4-csl/"]) {
     assert(sitemap.includes(`<loc>${siteOrigin}${path}</loc>`), `sitemap.xml is missing ${path}.`);
   }
   for (const language of ["vi", "en"]) {
-    assert((sitemap.match(new RegExp(`hreflang="${language}"`, "g")) ?? []).length === 2, `sitemap.xml is missing reciprocal ${language} alternates.`);
+    assert((sitemap.match(new RegExp(`hreflang="${language}"`, "g")) ?? []).length === 4, `sitemap.xml is missing reciprocal ${language} alternates.`);
   }
 }
 

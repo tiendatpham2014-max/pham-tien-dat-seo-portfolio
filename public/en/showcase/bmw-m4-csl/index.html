@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Interactive BMW M4 CSL 3D — Dat’s Car Collection</title>
+    <meta name="description" content="Explore a 2023 BMW M4 CSL (G82) in 3D: rotate, choose seven paints, open the doors, hood and trunk, use X-ray and exploded view, and inspect 20 parts." />
+    <meta name="keywords" content="BMW M4 CSL, interactive car 3D, BMW M4 CSL G82, S58 engine, carbon ceramic brakes" />
+    <meta name="author" content="Dat" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="max-image-preview:none" />
+    <meta name="theme-color" content="#0c0e11" />
+    <link rel="alternate" hreflang="vi" href="https://datpham.io.vn/showcase/bmw-m4-csl/" />
+    <link rel="alternate" hreflang="en" href="https://datpham.io.vn/en/showcase/bmw-m4-csl/" />
+    <link rel="alternate" hreflang="x-default" href="https://datpham.io.vn/showcase/bmw-m4-csl/" />
+    <link rel="canonical" href="https://datpham.io.vn/en/showcase/bmw-m4-csl/" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dat Pham — Cars" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Interactive BMW M4 CSL 3D — Dat’s Car Collection" />
+    <meta property="og:description" content="Rotate, recolour and explore the 2023 BMW M4 CSL in your browser. Open the doors, hood and trunk, use X-ray and exploded view, and inspect 20 parts." />
+    <meta property="og:url" content="https://datpham.io.vn/en/showcase/bmw-m4-csl/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Interactive BMW M4 CSL 3D — Dat’s Car Collection" />
+    <meta name="twitter:description" content="Interactive BMW M4 CSL (G82): 550 hp, 650 Nm and carbon ceramic brakes. Select parts to inspect their details." />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "name": "Interactive BMW M4 CSL 3D — Dat’s Car Collection",
+          "url": "https://datpham.io.vn/en/showcase/bmw-m4-csl/",
+          "inLanguage": "en",
+          "description": "Interactive 3D BMW M4 CSL (G82) 2023 with paint choices, opening panels, X-ray, exploded view and details of 20 parts.",
+          "about": { "@id": "#car" }
+        },
+        {
+          "@type": "Car",
+          "@id": "#car",
+          "name": "BMW M4 CSL 2023",
+          "brand": { "@type": "Brand", "name": "BMW" },
+          "model": "M4 CSL (G82)",
+          "productionDate": "2023",
+          "bodyType": "Coupé",
+          "vehicleEngine": {
+            "@type": "EngineSpecification",
+            "name": "S58 3.0L I6 Twin-Turbo",
+            "enginePower": "550 hp",
+            "torque": "650 Nm"
+          },
+          "speed": "0–100 km/h in 3.7 seconds; top speed 307 km/h",
+          "weightTotal": "1625 kg"
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="data:," />
+    <script>try{var t=localStorage.getItem("dat-seo-theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+    <link rel="stylesheet" href="/showcase/bmw-m4-csl/app/assets/showcase.css" />
+  </head>
+  <body>
+    <nav class="showcase-nav" aria-label="Car showcase navigation"><a href="/en/">← Back to portfolio</a><div class="showcase-nav-controls"><a href="/showcase/bmw-m4-csl/" lang="vi" >VI</a><a href="/en/showcase/bmw-m4-csl/" lang="en" aria-current="page">EN</a><button type="button" id="theme-toggle" aria-label="Toggle light and dark theme">◐</button></div></nav>
+    <div class="wrap">
+      <header class="top">
+        <div>
+          <span class="hero-tag">A personal passion</span>
+          <h1>Dat’s passion for cars</h1>
+          <p class="carname">BMW M4 CSL 2023 <span>(G82)</span></p>
+        </div>
+        <div class="specbar" aria-label="Published BMW M4 CSL specifications">
+          <div class="spec"><b>550 hp</b><span>Power</span></div>
+          <div class="spec"><b>650 Nm</b><span>Torque</span></div>
+          <div class="spec"><b>3,7 s</b><span>0–100 km/h</span></div>
+          <div class="spec"><b>307 km/h</b><span>Top speed</span></div>
+          <div class="spec"><b>1.625 kg</b><span>Weight</span></div>
+        </div>
+      </header>
+
+      <div class="viewtabs" role="group" aria-label="Jump between the model, details and parts list">
+        <button type="button" id="tabModel">3D model</button>
+        <button type="button" id="tabParts">Details ↓</button>
+        <button type="button" id="tabList">Parts list ↓</button>
+      </div>
+      <main class="layout">
+        <section class="stagebox" aria-label="Dat’s 3D garage — BMW M4 CSL viewer">
+          <div id="stage">
+            <div class="hint">Drag to rotate · Scroll or pinch to zoom · Select a part</div>
+            <div id="selbar" hidden><strong id="sb-name"></strong><span id="sb-spec"></span><button type="button" id="sb-detail">Details ↓</button></div>
+            <div id="loadveil">
+              <p><strong>Loading the M4 CSL model…</strong></p>
+              <div class="bar"><i id="loadbar"></i></div>
+              <p id="loadmsg">Loading the M4 CSL model… you can browse the parts list while you wait.</p>
+            </div>
+            <div id="errbox" role="alert"></div>
+          </div>
+          <div class="stagebar">
+            <div class="grp" role="group" aria-label="Góc nhìn">
+              <span class="lbl">View</span>
+              <button class="btn viewbtn" data-view="hero" aria-pressed="true">Front 3/4</button>
+              <button class="btn viewbtn" data-view="side" aria-pressed="false">Side</button>
+              <button class="btn viewbtn" data-view="rear" aria-pressed="false">Rear</button>
+              <button class="btn viewbtn" data-view="front" aria-pressed="false">Front</button>
+              <button class="btn viewbtn" data-view="top" aria-pressed="false">Top</button>
+              <button class="btn viewbtn" data-view="engine" aria-pressed="false">Engine bay</button>
+            </div>
+            <div class="grp" role="group" aria-label="Car controls">
+              <span class="lbl">Controls</span>
+              <button class="btn" id="opendoors" aria-pressed="false">Doors</button>
+              <button class="btn" id="openhood" aria-pressed="false">Hood</button>
+              <button class="btn" id="opentrunk" aria-pressed="false">Trunk</button>
+              <button class="btn" id="lights" aria-pressed="false">Lights</button>
+              <button class="btn" id="spin" aria-pressed="true">Auto rotate</button>
+              <button class="btn" id="reset" >Reset</button>
+            </div>
+            <div class="grp" role="group" aria-label="Paint colours">
+              <span class="lbl">Paint</span>
+              <div class="swatches" id="swatches"></div>
+              <span class="muted" id="paintname" style="font-size:13px"></span>
+            </div>
+            <div class="grp" role="group" aria-label="Advanced controls" style="flex:1;min-width:230px">
+              <span class="lbl">Advanced</span>
+              <button class="btn accent" id="xray" aria-pressed="false">Body X-ray</button>
+              <span class="lbl">Exploded view</span>
+              <input type="range" id="explode" min="0" max="100" value="0" style="flex:1" aria-label="Exploded view amount" /><span id="explodeval" style="font-size:12.5px;color:var(--muted);min-width:34px">0%</span><button class="btn" id="explodebtn" type="button">Explode all</button>
+            </div>
+          </div>
+        </section>
+        <button id="toDetail" hidden>Details: <span></span> ↓</button>
+
+        <div class="rail">
+          <div class="card" id="detail" aria-live="polite">
+            <button class="btn tostage" id="toStage">↑ Back to 3D model</button>
+            <span class="tag" id="d-sys">No part selected</span>
+            <h2 id="d-name">Select a part of the car</h2>
+            <p id="d-desc">Select a part to highlight it, move the camera closer and read its function, materials and specifications.</p>
+            <dl id="d-dl" hidden>
+              <dt>Function</dt><dd id="d-fn"></dd>
+              <dt>Materials</dt><dd id="d-mat"></dd>
+              <dt>Specifications</dt><dd id="d-spec"></dd>
+              <dt>Note</dt><dd id="d-note"></dd>
+            </dl>
+          </div>
+
+          <div class="card" id="listcard">
+            <h2>Parts guide — 20 components</h2>
+            <p class="muted" style="font-size:13.5px">Browse the car by system: exterior, drivetrain, chassis and interior.</p>
+            <input id="search" type="search" placeholder="Search parts… for example: brakes, carbon, turbo" aria-label="Search parts" />
+            <div id="groups"></div>
+            <p class="muted" id="nomatch" hidden style="margin-top:10px">No matching part. Try “tyre”, “seat” or “exhaust”.</p>
+          </div>
+        </div>
+      </main>
+
+    </div>
+
+    <div class="credit-corner">
+      <div id="licbody" class="credit-pop" hidden role="dialog" aria-label="Model source and licence">
+        <div class="credit-head"><strong>Model source &amp; licence</strong><button type="button" class="credit-close" id="licclose">Close</button></div>
+        <p>3D model: “BMW M4 CSL 2023” by <a href="https://sketchfab.com/BlackSnow02" target="_blank" rel="noopener">Black Snow</a> on Sketchfab, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> — the original 3.5 MB Meshopt compressed GLB was expanded to 7 MB for direct browser loading, while preserving the model geometry and part names. Project: <a href="https://github.com/AshishB2000/bmw-m4-csl-configurator" target="_blank" rel="noopener">bmw-m4-csl-configurator</a> (MIT code). Vehicle and part specifications are compiled from published M4 CSL (G82) data for reference. This is an unofficial demo and is not affiliated with BMW AG.</p>
+      </div>
+      <button type="button" class="licbtn" id="licbtn" aria-expanded="false" aria-controls="licbody" aria-label="View model source and licence" title="Model source &amp; licence">i</button>
+    </div>
+
+    <script src="/showcase/bmw-m4-csl/app/assets/three.min.js"></script>
+    <script defer src="/showcase/bmw-m4-csl/app/assets/showcase.js"></script>
+  </body>
+</html>

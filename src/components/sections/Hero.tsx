@@ -1,9 +1,10 @@
 "use client";
 
-import { useCopy } from "@/components/site-preferences";
+import { useCopy, useSitePreferences } from "@/components/site-preferences";
 
 export function Hero() {
   const words = useCopy();
+  const { language } = useSitePreferences();
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-waves-bg" aria-hidden="true">
@@ -23,6 +24,7 @@ export function Hero() {
           <div className="hero-social" aria-label={words.heroSocialAria}>
             <a href="mailto:tiendatpham2014@gmail.com">Email ↗</a>
             <a href="https://www.linkedin.com/in/ph%E1%BA%A1m-ti%E1%BA%BFn-%C4%91%E1%BA%A1t-b9a157444/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a className="hero-garage" href={language === "vi" ? "/showcase/bmw-m4-csl/" : "/en/showcase/bmw-m4-csl/"}>{words.heroGarage}</a>
           </div>
           <a className="hero-scroll-cue" href="#about">{words.scrollHint}</a>
         </div>

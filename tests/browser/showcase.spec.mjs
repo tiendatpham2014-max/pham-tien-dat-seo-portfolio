@@ -1,32 +1,43 @@
 import { expect, test } from "@playwright/test";
 
 const cases = [
-  { home: "/", route: "/showcase/bmw-m4-csl/", language: "vi" },
-  { home: "/en/", route: "/en/showcase/bmw-m4-csl/", language: "en" },
+  { home: "/", route: "/showcase/bmw-m4-csl/", language: "vi", title: "Đam mê xe của Đạt" },
+  { home: "/en/", route: "/en/showcase/bmw-m4-csl/", language: "en", title: "Dat’s passion for cars" },
 ];
 
-for (const { home, route, language } of cases) {
-  test(`BMW showcase loads from ${route} without a client error`, async ({ page }) => {
+for (const { home, route, language, title } of cases) {
+  test(`BMW page is standalone at ${route}`, async ({ page }) => {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    await page.goto(route, { waitUntil: "domcontentloaded" });
-
-    await expect(page.locator(".showcase-title")).toBeVisible();
-    await expect(page.locator(".showcase-frame")).toHaveAttribute("src", "/showcase/bmw-m4-csl/app/");
-    await expect(page.frameLocator(".showcase-frame").locator("#stage")).toBeVisible({ timeout: 15_000 });
-    await expect(page.locator("#desktop-nav a").first()).toHaveAttribute("href", `${home}#about`);
-    await expect(page.locator(".footer-links a").first()).toHaveAttribute("href", `${home}#work`);
-    await expect(page.locator('[data-lang="en"]')).toHaveAttribute("href", "/en/showcase/bmw-m4-csl/");
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://datpham.io.vn${route}`);
+    const response = await page.goto(route, { waitUntil: "domcontentloaded" });
+    expect(response?.status()).toBe(200);
     await expect(page.locator("html")).toHaveAttribute("lang", language);
+    await expect(page.locator("h1")).toHaveText(title);
+    await expect(page.locator("#stage")).toBeVisible();
+    await expect(page.locator("iframe")).toHaveCount(0);
+    await expect(page.locator(".showcase-nav a").first()).toHaveAttribute("href", home);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://datpham.io.vn${route}`);
+    expect(await page.locator(".rail").evaluate((el) => getComputedStyle(el).overflowY)).toBe("visible");
+    const model = await page.request.get("/showcase/bmw-m4-csl/app/assets/car.glb");
+    expect(model.status()).toBe(200);
     expect(errors).toEqual([]);
   });
 
-  test(`Homepage ${home} links to the BMW showcase`, async ({ page }) => {
+  test(`Homepage ${home} links from Hero to the BMW page`, async ({ page }) => {
     await page.goto(home, { waitUntil: "domcontentloaded" });
-    await expect(page.locator("#about .about-showcase a")).toHaveAttribute("href", route);
+    await expect(page.locator("#about .about-showcase")).toHaveCount(0);
+    await expect(page.locator(".hero-social .hero-garage")).toHaveAttribute("href", route);
   });
 }
+
+test("BMW theme switch preserves selected theme", async ({ page }) => {
+  await page.goto("/showcase/bmw-m4-csl/", { waitUntil: "domcontentloaded" });
+  await page.locator("#theme-toggle").click();
+  const theme = await page.locator("html").getAttribute("data-theme");
+  expect(["dark", "light"]).toContain(theme);
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+});
 
 for (const { width, height, maxFont } of [
   { width: 768, height: 560, maxFont: 24 },

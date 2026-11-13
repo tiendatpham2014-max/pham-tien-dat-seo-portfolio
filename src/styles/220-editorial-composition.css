@@ -72,6 +72,8 @@ html[data-theme="light"] .hero .hero-tagline {
   transition: color .2s;
 }
 
+.hero-social .hero-garage { border-left: 1px solid currentColor; padding-left: clamp(14px, 1.5vw, 20px); }
+
 .hero-social a:hover {
   color: var(--accent);
 }
@@ -150,10 +152,6 @@ html[data-theme="light"] .hero .hero-tagline {
 .about-next:hover {
   color: var(--accent);
 }
-
-.about-showcase { margin: 10px 0 0; font-size: 13px; line-height: 1.5; }
-.about-showcase a { color: var(--quiet); text-decoration: none; border-bottom: 1px solid currentColor; transition: color .2s; }
-.about-showcase a:hover, .about-showcase a:focus-visible { color: var(--accent); }
 
 .about-pillars {
   display: flex;
