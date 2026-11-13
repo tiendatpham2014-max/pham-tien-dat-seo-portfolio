@@ -203,6 +203,13 @@ export const copy = {
     footerConnect: "Kết nối",
     footerAuthor: "Trang tác giả ↗",
     backTop: "Về đầu trang ↑",
+
+    // Showcase BMW
+    showcaseTitle: "Đam mê xe của Đạt",
+    showcaseCar: "BMW M4 CSL 2023 (G82)",
+    showcaseIntro:
+      "Mô hình 3D tương tác của chiếc M4 CSL — xoay, đổi màu sơn, mở cửa, ca-pô, cốp sau, X-ray và nổ tung để xem chi tiết từng bộ phận.",
+    showcaseBack: "← Về trang chính",
   },
   en: {
     skip: "Skip to content",
@@ -408,6 +415,13 @@ export const copy = {
     footerConnect: "Connect",
     footerAuthor: "Author page ↗",
     backTop: "Back to top ↑",
+
+    // Showcase BMW
+    showcaseTitle: "Dat's Passion for Cars",
+    showcaseCar: "BMW M4 CSL 2023 (G82)",
+    showcaseIntro:
+      "An interactive 3D model of the M4 CSL — rotate it, change the paint, open the doors, hood and trunk, and use X-ray and exploded view to explore every part.",
+    showcaseBack: "← Back to home",
   },
 } as const;
 
