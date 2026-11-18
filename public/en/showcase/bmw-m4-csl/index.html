@@ -89,7 +89,7 @@
       </div>
       <main class="layout">
         <section class="stagebox" aria-label="Dat’s 3D garage — BMW M4 CSL viewer">
-          <div id="stage">
+          <div id="stage" data-environment="none">
             <div class="hint">Drag to rotate · Scroll or pinch to zoom · Select a part</div>
             <div id="selbar" hidden><strong id="sb-name"></strong><span id="sb-spec"></span><button type="button" id="sb-detail">Details ↓</button><button type="button" id="sb-clear" aria-label="Deselect part" title="Deselect">×</button></div>
             <div id="loadveil">
@@ -122,6 +122,15 @@
               <span class="lbl">Paint</span>
               <div class="swatches" id="swatches"></div>
               <span class="muted" id="paintname" style="font-size:13px"></span>
+            </div>
+            <div class="grp environment-group" role="group" aria-label="Environment">
+              <label class="lbl" for="environment">Scene</label>
+              <select id="environment" disabled>
+                <option value="none">No environment</option>
+                <option value="garage">Underground garage</option>
+                <option value="station">Old gas station</option>
+              </select>
+              <span id="environment-status" class="environment-status" role="status" aria-live="polite"></span>
             </div>
             <div class="grp" role="group" aria-label="Advanced controls" style="flex:1;min-width:230px">
               <span class="lbl">Advanced</span>
@@ -162,7 +171,7 @@
     <div class="credit-corner">
       <div id="licbody" class="credit-pop" hidden role="dialog" aria-label="Model source and licence">
         <div class="credit-head"><strong>Model source &amp; licence</strong><button type="button" class="credit-close" id="licclose">Close</button></div>
-        <p>3D model: “BMW M4 CSL 2023” by <a href="https://sketchfab.com/BlackSnow02" target="_blank" rel="noopener">Black Snow</a> on Sketchfab, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> — the original 3.5 MB Meshopt compressed GLB was expanded to 7 MB for direct browser loading, while preserving the model geometry and part names. Project: <a href="https://github.com/AshishB2000/bmw-m4-csl-configurator" target="_blank" rel="noopener">bmw-m4-csl-configurator</a> (MIT code). Vehicle and part specifications are compiled from published M4 CSL (G82) data for reference. This is an unofficial demo and is not affiliated with BMW AG.</p>
+        <p>Car model “BMW M4 CSL 2023” by <a href="https://sketchfab.com/BlackSnow02" target="_blank" rel="noopener">Black Snow</a> on Sketchfab, under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>; the web viewer is adapted from <a href="https://github.com/AshishB2000/bmw-m4-csl-configurator" target="_blank" rel="noopener">bmw-m4-csl-configurator</a> (MIT code). <a href="https://sketchfab.com/3d-models/parking-garage-free-download-5310b7d77b70427d936ec4253fff679c" target="_blank" rel="noopener">Parking garage</a> by <a href="https://sketchfab.com/idmental.id" target="_blank" rel="noopener">Idmenthal</a> and <a href="https://sketchfab.com/3d-models/abandoned-gas-station-0720be99fcfd41d9a5772eee5edf5013" target="_blank" rel="noopener">Abandoned Gas Station</a> by <a href="https://sketchfab.com/survivedua" target="_blank" rel="noopener">SURVIVED</a> are both CC BY 4.0. Their 1K GLBs were repositioned and scaled for this car study. Vehicle specifications are for reference. This is an unofficial demo, unaffiliated with BMW AG.</p>
       </div>
       <button type="button" class="licbtn" id="licbtn" aria-expanded="false" aria-controls="licbody" aria-label="View model source and licence" title="Model source &amp; licence">i</button>
     </div>

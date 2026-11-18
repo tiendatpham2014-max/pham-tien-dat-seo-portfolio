@@ -212,6 +212,9 @@
       var stage = document.getElementById('stage');
       var renderer, scene, camera, controls, carRoot = null;
       var groundMesh = null, discMesh = null;
+      var pmremGenerator = null, defaultEnvironment = null, environmentRoot = null, environmentShell = null;
+      var keyLight = null, fillLight = null, rimLight = null, ambientLight = null;
+      var activeEnvironment = 'none', environmentRequest = 0, environmentModels = {};
       var paintMats = [], glassMats = [], frontLightMats = [], rearLightMats = [], allMeshes = [];
       var beamL = null, beamR = null, tailGlow = null, bayLight = null;
       var openers = [], doorOps = [], hoodOp = null, trunkOp = null;
@@ -229,13 +232,148 @@
         document.documentElement.dataset.theme=next;
         try { localStorage.setItem('dat-seo-theme',next); } catch(e){}
         if(scene){
-          var bg=next==='dark'?0x101216:0xdfe3e7;
-          scene.background.setHex(bg); scene.fog.color.setHex(bg);
-          if(groundMesh) groundMesh.material.color.setHex(next==='dark'?0x171a1f:0xc9ced4);
-          if(discMesh) discMesh.material.color.setHex(next==='dark'?0x1e2229:0xb9bfc7);
+          if(activeEnvironment==='none'){
+            var bg=next==='dark'?0x101216:0xdfe3e7;
+            scene.background.setHex(bg); scene.fog.color.setHex(bg);
+            if(groundMesh) groundMesh.material.color.setHex(next==='dark'?0x171a1f:0xc9ced4);
+            if(discMesh) discMesh.material.color.setHex(next==='dark'?0x1e2229:0xb9bfc7);
+          }
           needsRender=true;
         }
       });
+
+      var environmentSelect = document.getElementById('environment');
+      var environmentStatus = document.getElementById('environment-status');
+      var ENVIRONMENTS = {
+        garage:{file:'parking_garage_free_download.glb',background:0x12151b,key:1.45,fill:0.65,rim:0.8,ambient:0.5,keyColor:0xf7f4ec,fillColor:0xced9e8},
+        station:{file:'abandoned_gas_station.glb',background:0xb0a69a,key:2.1,fill:0.7,rim:0.6,ambient:0.65,keyColor:0xffdfb9,fillColor:0xdde5ef}
+      };
+      function makeGarageShell(root){
+        var bounds=new THREE.Box3().setFromObject(root);
+        var width=bounds.max.x-bounds.min.x, depth=bounds.max.z-bounds.min.z;
+        var height=bounds.max.y+0.14;
+        var shell=new THREE.Group();
+        var wallMat=new THREE.MeshStandardMaterial({color:0x44494d,roughness:0.96,metalness:0,side:THREE.FrontSide});
+        var ceilingMat=new THREE.MeshStandardMaterial({color:0x303438,roughness:0.94,metalness:0,side:THREE.DoubleSide});
+        function panel(w,h,d,x,y,z,material){
+          var mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+          mesh.position.set(x,y,z); mesh.receiveShadow=true; shell.add(mesh);
+          return mesh;
+        }
+        function wall(w,x,z,rotation){
+          var mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,height),wallMat);
+          mesh.position.set(x,height/2,z);
+          mesh.rotation.y=rotation;
+          mesh.receiveShadow=true;
+          shell.add(mesh);
+        }
+        var midX=(bounds.min.x+bounds.max.x)/2, midZ=(bounds.min.z+bounds.max.z)/2;
+        // One-sided inward walls remain visible inside the garage. When a
+        // preset camera moves just beyond a wall, that near wall cannot hide the car.
+        wall(depth+0.4,bounds.min.x-0.12,midZ,Math.PI/2);
+        wall(depth+0.4,bounds.max.x+0.12,midZ,-Math.PI/2);
+        wall(width+0.4,midX,bounds.min.z-0.12,0);
+        wall(width+0.4,midX,bounds.max.z+0.12,Math.PI);
+        shell.userData.ceiling=panel(width+0.5,0.18,depth+0.5,midX,height+0.08,midZ,ceilingMat);
+        var lineMat=new THREE.MeshBasicMaterial({color:0xe8f1f6,toneMapped:false});
+        [-2.8,2.8].forEach(function(z){
+          var lamp=panel(2.8,0.025,0.075,0,height-0.06,z,lineMat);
+          lamp.material=lineMat;
+        });
+        return shell;
+      }
+      function prepareEnvironment(mode, root){
+        if(root.userData.prepared) return root;
+        root.traverse(function(node){
+          if(node.isMesh){ node.receiveShadow=true; node.castShadow=false; }
+        });
+        if(mode==='station'){
+          // The asphalt is a cylinder: its top face, rather than the bottom
+          // of the whole diorama, is the wheel contact plane.
+          root.scale.setScalar(0.35);
+          root.rotation.y=Math.PI;
+          root.updateMatrixWorld(true);
+          var asphalt=root.getObjectByName('Object_4');
+          var asphaltBox=new THREE.Box3().setFromObject(asphalt || root);
+          root.position.set(-2,-asphaltBox.max.y,-2);
+        } else {
+          // The garage GLB is already in metres; align its floor with the car.
+          var box=new THREE.Box3().setFromObject(root);
+          root.position.set(0,-box.min.y,0);
+        }
+        root.userData.prepared=true;
+        return root;
+      }
+      function showEnvironment(mode, root){
+        if(environmentRoot) scene.remove(environmentRoot);
+        if(environmentShell){scene.remove(environmentShell);environmentShell=null;}
+        environmentRoot=prepareEnvironment(mode,root);
+        scene.add(environmentRoot);
+        if(mode==='garage'){
+          environmentShell=makeGarageShell(environmentRoot);
+          scene.add(environmentShell);
+        }
+        var spec=ENVIRONMENTS[mode];
+        scene.background=new THREE.Color(spec.background);
+        scene.fog.color.setHex(spec.background); scene.fog.near=28; scene.fog.far=85;
+        scene.environment=defaultEnvironment.texture;
+        groundMesh.visible=false; discMesh.visible=false;
+        keyLight.intensity=spec.key; keyLight.color.setHex(spec.keyColor);
+        fillLight.intensity=spec.fill; fillLight.color.setHex(spec.fillColor);
+        rimLight.intensity=spec.rim; ambientLight.intensity=spec.ambient;
+        controls.maxDistance=mode==='garage'?6.2:16;
+        controls.update();
+        renderer.shadowMap.needsUpdate=true;
+        activeEnvironment=mode;
+        stage.dataset.environment=mode; stage.classList.remove('environment-loading');
+        environmentStatus.textContent=''; needsRender=true;
+      }
+      function restoreEmptyEnvironment(){
+        if(environmentRoot){scene.remove(environmentRoot);environmentRoot=null;}
+        if(environmentShell){scene.remove(environmentShell);environmentShell=null;}
+        activeEnvironment='none';
+        scene.environment=defaultEnvironment.texture;
+        scene.background=new THREE.Color(isDark()?0x101216:0xdfe3e7);
+        scene.fog.color.setHex(isDark()?0x101216:0xdfe3e7); scene.fog.near=18; scene.fog.far=42;
+        groundMesh.visible=true; discMesh.visible=true;
+        keyLight.intensity=1.7; keyLight.color.setHex(0xffffff);
+        fillLight.intensity=0.7; fillLight.color.setHex(0xdfe8ff);
+        rimLight.intensity=1; ambientLight.intensity=0.25;
+        controls.maxDistance=16;
+        renderer.toneMappingExposure=1;
+        renderer.shadowMap.needsUpdate=true;
+        stage.dataset.environment='none'; stage.classList.remove('environment-loading');
+        environmentStatus.textContent='';
+        needsRender=true;
+      }
+      function setEnvironment(mode){
+        if(!scene) return;
+        var request=++environmentRequest;
+        if(mode==='none'){restoreEmptyEnvironment();return;}
+        var spec=ENVIRONMENTS[mode];
+        if(!spec){environmentSelect.value='none';restoreEmptyEnvironment();return;}
+        if(activeEnvironment===mode){
+          stage.classList.remove('environment-loading'); environmentStatus.textContent=''; return;
+        }
+        if(environmentModels[mode]){showEnvironment(mode,environmentModels[mode]);return;}
+        stage.classList.add('environment-loading');
+        environmentStatus.textContent=msg('Đang tải cảnh 3D…','Loading 3D scene…');
+        var loader=new THREE.GLTFLoader();
+        loader.load(new URL('environments/'+spec.file,modelUrl()).href,function(gltf){
+          environmentModels[mode]=gltf.scene;
+          if(request!==environmentRequest) return;
+          try { showEnvironment(mode,gltf.scene); }
+          catch(error){
+            environmentSelect.value='none';restoreEmptyEnvironment();
+            showErr(msg('Không mở được bối cảnh.','Could not open the environment.')+' '+error.message);
+          }
+        },undefined,function(){
+          if(request!==environmentRequest)return;
+          environmentSelect.value='none'; restoreEmptyEnvironment();
+          showErr(msg('Không tải được bối cảnh.','Could not load the environment.'));
+        });
+      }
+      environmentSelect.addEventListener('change',function(){ setEnvironment(this.value); });
 
       function init(){
         renderer = new THREE.WebGLRenderer({antialias:true});
@@ -268,17 +406,18 @@
         camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
         camera.position.set(4.55, 1.75, 5.35);
 
-        var pmrem = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+        pmremGenerator = new THREE.PMREMGenerator(renderer);
+        defaultEnvironment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.04);
+        scene.environment = defaultEnvironment.texture;
 
-        var key = new THREE.DirectionalLight(0xffffff, 1.7);
+        var key = new THREE.DirectionalLight(0xffffff, 1.7); keyLight=key;
         key.position.set(6, 9, 4); key.castShadow = true;
         key.shadow.mapSize.set(1024, 1024);
         key.shadow.camera.left=-7; key.shadow.camera.right=7; key.shadow.camera.top=7; key.shadow.camera.bottom=-7;
         scene.add(key);
-        var fill = new THREE.DirectionalLight(0xdfe8ff, 0.7); fill.position.set(-7,4,-5); scene.add(fill);
-        var rim = new THREE.DirectionalLight(0xffffff, 1.0); rim.position.set(-3,5,8); scene.add(rim);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+        var fill = new THREE.DirectionalLight(0xdfe8ff, 0.7); fill.position.set(-7,4,-5); scene.add(fill); fillLight=fill;
+        var rim = new THREE.DirectionalLight(0xffffff, 1.0); rim.position.set(-3,5,8); scene.add(rim); rimLight=rim;
+        ambientLight = new THREE.AmbientLight(0xffffff, 0.25); scene.add(ambientLight);
 
         var ground = new THREE.Mesh(
           new THREE.CircleGeometry(16, 48),
@@ -361,6 +500,7 @@
           renderer.shadowMap.needsUpdate = true;
           needsRender = true;
           document.getElementById('loadveil').style.display='none';
+          document.getElementById('environment').disabled = false;
           setPaint(0);
         }
         function onProgress(ev){
@@ -1131,6 +1271,11 @@
           }
           if (layoutDirty) layoutAll();
           if (controls) controls.update();
+          if(environmentShell && environmentShell.userData.ceiling){
+            var ceiling=environmentShell.userData.ceiling;
+            var showCeiling=camera.position.y<ceiling.position.y;
+            if(ceiling.visible!==showCeiling){ceiling.visible=showCeiling;needsRender=true;}
+          }
           if (renderer && (needsRender || (controls && controls.autoRotate))){
             renderer.render(scene, camera);
             needsRender = false;

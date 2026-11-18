@@ -89,7 +89,7 @@
       </div>
       <main class="layout">
         <section class="stagebox" aria-label="Garage 3D của Đạt — khung xem BMW M4 CSL">
-          <div id="stage">
+          <div id="stage" data-environment="none">
             <div class="hint">Kéo: xoay · Cuộn / pinch: zoom · Bấm lên xe: chọn bộ phận</div>
             <div id="selbar" hidden><strong id="sb-name"></strong><span id="sb-spec"></span><button type="button" id="sb-detail">Chi tiết ↓</button><button type="button" id="sb-clear" aria-label="Bỏ chọn bộ phận" title="Bỏ chọn">×</button></div>
             <div id="loadveil">
@@ -122,6 +122,15 @@
               <span class="lbl">Màu sơn</span>
               <div class="swatches" id="swatches"></div>
               <span class="muted" id="paintname" style="font-size:13px"></span>
+            </div>
+            <div class="grp environment-group" role="group" aria-label="Bối cảnh">
+              <label class="lbl" for="environment">Bối cảnh</label>
+              <select id="environment" disabled>
+                <option value="none">Không bối cảnh</option>
+                <option value="garage">Gara ngầm</option>
+                <option value="station">Trạm xăng cũ</option>
+              </select>
+              <span id="environment-status" class="environment-status" role="status" aria-live="polite"></span>
             </div>
             <div class="grp" role="group" aria-label="Tùy chỉnh nâng cao" style="flex:1;min-width:230px">
               <span class="lbl">Nâng cao</span>
@@ -162,7 +171,7 @@
     <div class="credit-corner">
       <div id="licbody" class="credit-pop" hidden role="dialog" aria-label="Nguồn model và giấy phép">
         <div class="credit-head"><strong>Nguồn model &amp; giấy phép</strong><button type="button" class="credit-close" id="licclose">Đóng</button></div>
-        <p>Model 3D: “BMW M4 CSL 2023” của <a href="https://sketchfab.com/BlackSnow02" target="_blank" rel="noopener">Black Snow</a> trên Sketchfab, giấy phép <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> — bản GLB gốc nén Meshopt 3,5 MB trong dự án mã nguồn mở, bản đặt trên trang này đã giải nén về 7 MB để trình duyệt tải trực tiếp, hình học và tên từng bộ phận giữ nguyên. Dự án: <a href="https://github.com/AshishB2000/bmw-m4-csl-configurator" target="_blank" rel="noopener">bmw-m4-csl-configurator</a> (code MIT). Thông số xe và từng bộ phận biên soạn từ số liệu công bố của bản M4 CSL (G82) để tham khảo. Đây là demo không chính thức, không liên kết với BMW AG.</p>
+        <p>Model xe “BMW M4 CSL 2023” của <a href="https://sketchfab.com/BlackSnow02" target="_blank" rel="noopener">Black Snow</a> trên Sketchfab, giấy phép <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>; bản dựng web điều chỉnh từ <a href="https://github.com/AshishB2000/bmw-m4-csl-configurator" target="_blank" rel="noopener">bmw-m4-csl-configurator</a> (mã MIT). Cảnh <a href="https://sketchfab.com/3d-models/parking-garage-free-download-5310b7d77b70427d936ec4253fff679c" target="_blank" rel="noopener">Parking garage</a> của <a href="https://sketchfab.com/idmental.id" target="_blank" rel="noopener">Idmenthal</a> và cảnh <a href="https://sketchfab.com/3d-models/abandoned-gas-station-0720be99fcfd41d9a5772eee5edf5013" target="_blank" rel="noopener">Abandoned Gas Station</a> của <a href="https://sketchfab.com/survivedua" target="_blank" rel="noopener">SURVIVED</a>, đều theo CC BY 4.0; bản GLB 1K được đặt lại tỉ lệ và vị trí để thử cùng xe. Thông số chỉ để tham khảo. Đây là demo không chính thức, không liên kết với BMW AG.</p>
       </div>
       <button type="button" class="licbtn" id="licbtn" aria-expanded="false" aria-controls="licbody" aria-label="Xem nguồn model và giấy phép" title="Nguồn model &amp; giấy phép">i</button>
     </div>
