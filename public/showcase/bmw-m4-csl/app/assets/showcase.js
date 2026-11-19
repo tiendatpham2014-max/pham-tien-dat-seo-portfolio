@@ -211,8 +211,8 @@
       /* ============ THREE.JS ============ */
       var stage = document.getElementById('stage');
       var renderer, scene, camera, controls, carRoot = null;
-      var groundMesh = null, discMesh = null;
-      var pmremGenerator = null, defaultEnvironment = null, environmentRoot = null, environmentShell = null;
+      var groundMesh = null, discMesh = null, environmentFloor = null;
+      var pmremGenerator = null, defaultEnvironment = null, environmentRoot = null, environmentShell = null, garageShellCache = null;
       var keyLight = null, fillLight = null, rimLight = null, ambientLight = null;
       var activeEnvironment = 'none', environmentRequest = 0, environmentModels = {};
       var paintMats = [], glassMats = [], frontLightMats = [], rearLightMats = [], allMeshes = [];
@@ -245,41 +245,234 @@
       var environmentSelect = document.getElementById('environment');
       var environmentStatus = document.getElementById('environment-status');
       var ENVIRONMENTS = {
-        garage:{file:'parking_garage_free_download.glb',background:0x12151b,key:1.45,fill:0.65,rim:0.8,ambient:0.5,keyColor:0xf7f4ec,fillColor:0xced9e8},
+        garage:{file:'parking_garage_free_download.glb',background:0x777d7c,key:1.25,fill:0.72,rim:0.65,ambient:0.48,keyColor:0xf4f0e7,fillColor:0xdde2e6},
         station:{file:'abandoned_gas_station.glb',background:0xb0a69a,key:2.1,fill:0.7,rim:0.6,ambient:0.65,keyColor:0xffdfb9,fillColor:0xdde5ef}
       };
+      function garageConcreteTexture(){
+        var canvas=document.createElement('canvas');
+        canvas.width=512; canvas.height=512;
+        var ctx=canvas.getContext('2d');
+        ctx.fillStyle='#999790'; ctx.fillRect(0,0,512,512);
+        var seed=1937;
+        function random(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
+        // Broad stains and fine aggregate give the new surfaces the same
+        // weathered concrete character as the downloaded floor and columns.
+        for(var i=0;i<190;i++){
+          var x=random()*512,y=random()*512,r=14+random()*78;
+          var shade=random()<0.56?'35,37,38':'225,219,204';
+          var gradient=ctx.createRadialGradient(x,y,0,x,y,r);
+          gradient.addColorStop(0,'rgba('+shade+','+(0.025+random()*0.055)+')');
+          gradient.addColorStop(1,'rgba('+shade+',0)');
+          ctx.fillStyle=gradient; ctx.fillRect(x-r,y-r,r*2,r*2);
+        }
+        for(var grain=0;grain<5600;grain++){
+          var value=random()<0.57?'26,30,32':'234,229,218';
+          ctx.fillStyle='rgba('+value+','+(0.025+random()*0.08)+')';
+          var size=0.5+random()*1.5;
+          ctx.fillRect(random()*512,random()*512,size,size);
+        }
+        var texture=new THREE.CanvasTexture(canvas);
+        texture.colorSpace=THREE.SRGBColorSpace;
+        texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
+        texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
+        return texture;
+      }
       function makeGarageShell(root){
         var bounds=new THREE.Box3().setFromObject(root);
         var width=bounds.max.x-bounds.min.x, depth=bounds.max.z-bounds.min.z;
-        var height=bounds.max.y+0.14;
+        var height=bounds.max.y+0.18;
         var shell=new THREE.Group();
-        var wallMat=new THREE.MeshStandardMaterial({color:0x44494d,roughness:0.96,metalness:0,side:THREE.FrontSide});
-        var ceilingMat=new THREE.MeshStandardMaterial({color:0x303438,roughness:0.94,metalness:0,side:THREE.DoubleSide});
-        function panel(w,h,d,x,y,z,material){
+        var concrete=garageConcreteTexture();
+        var textureLoader=new THREE.TextureLoader();
+        var floorMap=concrete.clone();
+        floorMap.repeat.set(width/3.5,depth/3.5);
+        floorMap.needsUpdate=true;
+        var floorMaterial=new THREE.MeshStandardMaterial({map:floorMap,color:0xb7b9b8,roughness:0.98,metalness:0});
+        function floorTexture(file,property,isColor){
+          textureLoader.load(new URL('materials/'+file,modelUrl()).href,function(texture){
+            texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
+            texture.repeat.set(width/3.5,depth/3.5);
+            texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
+            if(isColor)texture.colorSpace=THREE.SRGBColorSpace;
+            floorMaterial[property]=texture;
+            floorMaterial.needsUpdate=true;
+            needsRender=true;
+          });
+        }
+        floorTexture('concrete_floor_rough_1k.jpg','roughnessMap',false);
+        floorTexture('concrete_floor_nor_gl_1k.jpg','normalMap',false);
+        floorMaterial.normalScale=new THREE.Vector2(0.18,0.18);
+        var matteFloor=new THREE.Mesh(new THREE.PlaneGeometry(width+0.1,depth+0.1),floorMaterial);
+        matteFloor.rotation.x=-Math.PI/2;
+        matteFloor.position.set((bounds.min.x+bounds.max.x)/2,0.012,(bounds.min.z+bounds.max.z)/2);
+        matteFloor.receiveShadow=true;
+        shell.add(matteFloor);
+        var seamMat=new THREE.MeshBasicMaterial({color:0x575956,side:THREE.FrontSide});
+        var baseMat=new THREE.MeshStandardMaterial({color:0x71716d,roughness:0.95,side:THREE.FrontSide});
+        var beamMat=new THREE.MeshStandardMaterial({color:0x60625f,roughness:0.94,metalness:0});
+        var steelMat=new THREE.MeshStandardMaterial({color:0x343a3c,roughness:0.68,metalness:0.48});
+        var cabinetMat=new THREE.MeshStandardMaterial({color:0x454d50,roughness:0.72,metalness:0.28});
+        var trimMat=new THREE.MeshStandardMaterial({color:0x9d8060,roughness:0.82,metalness:0.08});
+        function panel(group,w,h,d,x,y,z,material){
           var mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
-          mesh.position.set(x,y,z); mesh.receiveShadow=true; shell.add(mesh);
+          mesh.position.set(x,y,z); mesh.receiveShadow=true; group.add(mesh);
           return mesh;
         }
         function wall(w,x,z,rotation){
-          var mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,height),wallMat);
-          mesh.position.set(x,height/2,z);
-          mesh.rotation.y=rotation;
-          mesh.receiveShadow=true;
-          shell.add(mesh);
+          var group=new THREE.Group();
+          group.position.set(x,0,z); group.rotation.y=rotation;
+          var map=concrete.clone(); map.repeat.set(w/3.5,height/3.5); map.needsUpdate=true;
+          var surface=new THREE.Mesh(new THREE.PlaneGeometry(w,height),new THREE.MeshStandardMaterial({map:map,color:0xaaa9a3,roughness:0.96,metalness:0,side:THREE.FrontSide}));
+          surface.position.y=height/2; surface.receiveShadow=true; group.add(surface);
+          var lower=new THREE.Mesh(new THREE.PlaneGeometry(w,0.58),baseMat);
+          lower.position.set(0,0.29,0.018); lower.receiveShadow=true; group.add(lower);
+          var jointCount=Math.max(1,Math.round(w/3.45));
+          for(var joint=1;joint<jointCount;joint++){
+            var seam=new THREE.Mesh(new THREE.PlaneGeometry(0.018,height-0.68),seamMat);
+            seam.position.set(-w/2+(w/jointCount)*joint,0.58+(height-0.68)/2,0.021);
+            group.add(seam);
+          }
+          var cap=new THREE.Mesh(new THREE.PlaneGeometry(w,0.025),seamMat);
+          cap.position.set(0,0.59,0.023); group.add(cap);
+          shell.add(group);
         }
         var midX=(bounds.min.x+bounds.max.x)/2, midZ=(bounds.min.z+bounds.max.z)/2;
-        // One-sided inward walls remain visible inside the garage. When a
-        // preset camera moves just beyond a wall, that near wall cannot hide the car.
+        // Keep the service walls around the car, but leave a real drive-in bay
+        // on the entrance side. Single-sided walls keep exterior camera views clear.
         wall(depth+0.4,bounds.min.x-0.12,midZ,Math.PI/2);
-        wall(depth+0.4,bounds.max.x+0.12,midZ,-Math.PI/2);
-        wall(width+0.4,midX,bounds.min.z-0.12,0);
-        wall(width+0.4,midX,bounds.max.z+0.12,Math.PI);
-        shell.userData.ceiling=panel(width+0.5,0.18,depth+0.5,midX,height+0.08,midZ,ceilingMat);
-        var lineMat=new THREE.MeshBasicMaterial({color:0xe8f1f6,toneMapped:false});
-        [-2.8,2.8].forEach(function(z){
-          var lamp=panel(2.8,0.025,0.075,0,height-0.06,z,lineMat);
-          lamp.material=lineMat;
+        var sideEnd=bounds.min.z+depth*0.69;
+        wall(sideEnd-bounds.min.z+0.2,bounds.max.x+0.12,(bounds.min.z+sideEnd)/2,-Math.PI/2);
+        var rearBayHalfWidth=Math.min(3.35,width*0.25);
+        var rearBayCenter=0;
+        var rearLeft=rearBayCenter-rearBayHalfWidth;
+        var rearRight=rearBayCenter+rearBayHalfWidth;
+        var rearZ=bounds.min.z-0.12;
+        wall(rearLeft-bounds.min.x,(bounds.min.x+rearLeft)/2,rearZ,0);
+        wall(bounds.max.x-rearRight,(rearRight+bounds.max.x)/2,rearZ,0);
+        var rearClearance=Math.min(3.12,height-0.62);
+        panel(shell,rearBayHalfWidth*2,height-rearClearance,0.16,rearBayCenter,rearClearance+(height-rearClearance)/2,rearZ,beamMat);
+        [-1,1].forEach(function(side){
+          panel(shell,0.095,rearClearance,0.18,rearBayCenter+side*rearBayHalfWidth,rearClearance/2,rearZ+0.055,steelMat);
         });
+        for(var rearSlat=0;rearSlat<5;rearSlat++){
+          panel(shell,rearBayHalfWidth*2-0.19,0.065,0.12,rearBayCenter,rearClearance+0.10+rearSlat*0.105,rearZ+0.14,cabinetMat);
+        }
+        // A short apron continues the floor beyond the visible drive-through bay.
+        var apronMat=new THREE.MeshStandardMaterial({color:0x73797b,roughness:0.98,metalness:0});
+        panel(shell,rearBayHalfWidth*2+2.0,0.045,8.5,rearBayCenter,-0.027,bounds.min.z-4.28,apronMat);
+        var laneMat=new THREE.MeshBasicMaterial({color:0xc0c2bc});
+        for(var mark=0;mark<3;mark++){
+          panel(shell,0.055,0.003,0.82,rearBayCenter-2.12,-0.001,bounds.min.z-1.65-mark*2.25,laneMat);
+          panel(shell,0.055,0.003,0.82,rearBayCenter+2.12,-0.001,bounds.min.z-1.65-mark*2.25,laneMat);
+        }
+        var fenceZ=bounds.min.z-8.2;
+        for(var post=-4;post<=4;post+=2){
+          panel(shell,0.065,0.82,0.065,post,0.40,fenceZ,steelMat);
+        }
+        panel(shell,8.4,0.042,0.055,0,0.78,fenceZ,steelMat);
+        panel(shell,8.4,0.034,0.055,0,0.38,fenceZ,steelMat);
+        // A recessed service building gives the open bay a believable depth.
+        var farZ=bounds.min.z-10.4;
+        panel(shell,10.8,2.6,0.22,0,1.3,farZ,new THREE.MeshStandardMaterial({color:0x666a68,roughness:0.97}));
+        panel(shell,10.9,0.24,1.35,0,2.68,farZ+0.2,beamMat);
+        for(var exteriorBay=-1;exteriorBay<=1;exteriorBay++){
+          var exteriorX=exteriorBay*3.25;
+          panel(shell,2.65,1.35,0.035,exteriorX,1.02,farZ+0.14,steelMat);
+          for(var rib=0;rib<7;rib++){
+            panel(shell,2.5,0.018,0.045,exteriorX,0.42+rib*0.19,farZ+0.17,cabinetMat);
+          }
+        }
+        var bayHalfWidth=Math.min(3.15,width*0.24);
+        var bayCenter=0;
+        var entranceZ=bounds.max.z+0.12;
+        var leftEnd=bayCenter-bayHalfWidth, rightStart=bayCenter+bayHalfWidth;
+        wall(leftEnd-bounds.min.x, (bounds.min.x+leftEnd)/2,entranceZ,Math.PI);
+        wall(bounds.max.x-rightStart,(rightStart+bounds.max.x)/2,entranceZ,Math.PI);
+        var clearance=Math.min(3.12,height-0.62);
+        panel(shell,bayHalfWidth*2,height-clearance,0.16,bayCenter,clearance+(height-clearance)/2,entranceZ,beamMat);
+        // Exposed guides and a rolled-up shutter identify the opening as a garage bay.
+        [-1,1].forEach(function(side){
+          panel(shell,0.085,clearance,0.18,bayCenter+side*bayHalfWidth,clearance/2,entranceZ-0.055,steelMat);
+          panel(shell,0.16,0.16,0.30,bayCenter+side*bayHalfWidth,clearance-0.04,entranceZ-0.12,steelMat);
+        });
+        for(var slat=0;slat<5;slat++){
+          panel(shell,bayHalfWidth*2-0.19,0.065,0.12,bayCenter,clearance+0.10+slat*0.105,entranceZ-0.14,cabinetMat);
+        }
+        // A compact work zone gives the otherwise empty rear wall a practical role.
+        var workX=Math.min(bounds.max.x-2.2,rearRight+2.3);
+        var workZ=bounds.min.z+0.38;
+        panel(shell,3.25,0.78,0.52,workX,0.40,workZ,cabinetMat);
+        panel(shell,3.45,0.09,0.70,workX,0.84,workZ+0.08,steelMat);
+        var pegboardMat=new THREE.MeshStandardMaterial({color:0x353c3d,roughness:0.84,metalness:0.12});
+        panel(shell,3.45,1.05,0.06,workX,1.59,bounds.min.z+0.015,pegboardMat);
+        var toolboxMat=new THREE.MeshStandardMaterial({color:0x9f312f,roughness:0.56,metalness:0.3});
+        var handleMat=new THREE.MeshStandardMaterial({color:0x9ba5a7,roughness:0.43,metalness:0.73});
+        panel(shell,1.08,0.82,0.48,workX-0.95,0.47,workZ+0.29,toolboxMat);
+        for(var drawer=0;drawer<4;drawer++){
+          panel(shell,0.95,0.015,0.022,workX-0.95,0.18+drawer*0.18,workZ+0.545,handleMat);
+        }
+        panel(shell,1.12,0.055,0.52,workX-0.95,0.91,workZ+0.29,steelMat);
+        for(var holeRow=0;holeRow<5;holeRow++){
+          for(var holeCol=0;holeCol<16;holeCol++){
+            var dot=new THREE.Mesh(new THREE.CircleGeometry(0.009,5),seamMat);
+            dot.position.set(workX-1.56+holeCol*0.20,1.20+holeRow*0.17,bounds.min.z+0.051);
+            shell.add(dot);
+          }
+        }
+        for(var tool=0;tool<4;tool++){
+          var toolX=workX+0.18+tool*0.37;
+          panel(shell,0.034,0.34+(tool%2)*0.06,0.028,toolX,1.59,bounds.min.z+0.080,handleMat);
+          panel(shell,0.12,0.055,0.028,toolX,1.78+(tool%2)*0.03,bounds.min.z+0.082,handleMat);
+        }
+        var sideWorkX=bounds.min.x+0.43, sideWorkZ=0.75;
+        panel(shell,0.70,0.80,3.15,sideWorkX,0.41,sideWorkZ,cabinetMat);
+        panel(shell,0.83,0.085,3.35,sideWorkX+0.03,0.85,sideWorkZ,steelMat);
+        panel(shell,0.055,1.00,3.20,bounds.min.x+0.045,1.55,sideWorkZ,steelMat);
+        for(var sideTool=0;sideTool<5;sideTool++){
+          var toolZ=sideWorkZ-1.20+sideTool*0.60;
+          panel(shell,0.065,0.23+(sideTool%2)*0.09,0.045,bounds.min.x+0.10,1.58,toolZ,trimMat);
+          panel(shell,0.07,0.04,0.20,bounds.min.x+0.11,1.72+(sideTool%2)*0.04,toolZ,trimMat);
+        }
+        var extinguisher=new THREE.Mesh(new THREE.CylinderGeometry(0.10,0.10,0.44,12),new THREE.MeshStandardMaterial({color:0x9c3330,roughness:0.52,metalness:0.18}));
+        extinguisher.position.set(bounds.min.x+0.27,0.72,sideWorkZ+2.05); shell.add(extinguisher);
+        panel(shell,0.15,0.04,0.13,bounds.min.x+0.27,0.96,sideWorkZ+2.05,steelMat);
+        var signCanvas=document.createElement('canvas'); signCanvas.width=512; signCanvas.height=128;
+        var signContext=signCanvas.getContext('2d');
+        signContext.fillStyle='#2b3132'; signContext.fillRect(0,0,512,128);
+        signContext.fillStyle='#a88961'; signContext.fillRect(18,18,6,92);
+        signContext.fillStyle='#e8e5dc'; signContext.font='bold 46px Arial, sans-serif';
+        signContext.fillText('SERVICE BAY',44,58);
+        signContext.fillStyle='#b9b8b0'; signContext.font='28px Arial, sans-serif';
+        signContext.fillText('01  /  WORKSHOP',46,96);
+        var signTexture=new THREE.CanvasTexture(signCanvas); signTexture.colorSpace=THREE.SRGBColorSpace;
+        var sign=new THREE.Mesh(new THREE.PlaneGeometry(3.3,0.825),new THREE.MeshBasicMaterial({map:signTexture,side:THREE.FrontSide}));
+        sign.position.set(workX,2.82,bounds.min.z+0.005); shell.add(sign);
+        var overhead=new THREE.Group(); shell.add(overhead);
+        var ceilingMap=concrete.clone(); ceilingMap.repeat.set(width/3.5,depth/3.5); ceilingMap.needsUpdate=true;
+        var ceilingMat=new THREE.MeshStandardMaterial({map:ceilingMap,color:0x82847f,roughness:0.96,metalness:0,side:THREE.DoubleSide});
+        panel(overhead,width+0.5,0.12,depth+0.5,midX,height+0.09,midZ,ceilingMat);
+        for(var bx=bounds.min.x+2.6;bx<bounds.max.x-0.6;bx+=3.4){
+          panel(overhead,0.27,0.26,depth+0.3,bx,height-0.06,midZ,beamMat);
+        }
+        for(var bz=bounds.min.z+2.6;bz<bounds.max.z-0.6;bz+=3.4){
+          panel(overhead,width+0.3,0.22,0.27,midX,height-0.07,bz,beamMat);
+        }
+        var housingMat=new THREE.MeshStandardMaterial({color:0x33383a,roughness:0.8,metalness:0.2});
+        var diffuserMat=new THREE.MeshStandardMaterial({color:0xece8dc,emissive:0xd1c9b5,emissiveIntensity:0.9,roughness:0.55,metalness:0});
+        [-2.2,2.2].forEach(function(z){
+          [-1.4,3.5,8.4].forEach(function(x){
+            if(x<bounds.min.x+1||x>bounds.max.x-1)return;
+            panel(overhead,1.85,0.085,0.19,x,height-0.16,z,housingMat);
+            panel(overhead,1.65,0.018,0.12,x,height-0.21,z,diffuserMat);
+          });
+        });
+        [-1.4,3.5].forEach(function(x){
+          var light=new THREE.PointLight(0xffead0,1.2,7,2);
+          light.position.set(x,height-0.29,0);
+          overhead.add(light);
+        });
+        shell.userData.overhead=overhead;
+        shell.userData.overheadHeight=height;
         return shell;
       }
       function prepareEnvironment(mode, root){
@@ -300,6 +493,23 @@
           // The garage GLB is already in metres; align its floor with the car.
           var box=new THREE.Box3().setFromObject(root);
           root.position.set(0,-box.min.y,0);
+          root.traverse(function(node){
+            if(!node.isMesh)return;
+            var materials=Array.isArray(node.material)?node.material:[node.material];
+            var toned=materials.map(function(material){
+              if(material.name!=='Mat.1')return material;
+              var concreteMat=material.clone();
+              // The source GLB gives its entire concrete mesh a metallic map,
+              // which makes the garage floor look permanently wet.
+              concreteMat.metalness=0;
+              concreteMat.roughness=0.96;
+              concreteMat.metalnessMap=null;
+              concreteMat.roughnessMap=null;
+              concreteMat.envMapIntensity=0.12;
+              return concreteMat;
+            });
+            node.material=Array.isArray(node.material)?toned:toned[0];
+          });
         }
         root.userData.prepared=true;
         return root;
@@ -310,14 +520,15 @@
         environmentRoot=prepareEnvironment(mode,root);
         scene.add(environmentRoot);
         if(mode==='garage'){
-          environmentShell=makeGarageShell(environmentRoot);
+          if(!garageShellCache)garageShellCache=makeGarageShell(environmentRoot);
+          environmentShell=garageShellCache;
           scene.add(environmentShell);
         }
         var spec=ENVIRONMENTS[mode];
         scene.background=new THREE.Color(spec.background);
         scene.fog.color.setHex(spec.background); scene.fog.near=28; scene.fog.far=85;
         scene.environment=defaultEnvironment.texture;
-        groundMesh.visible=false; discMesh.visible=false;
+        groundMesh.visible=false; discMesh.visible=false; environmentFloor.visible=false;
         keyLight.intensity=spec.key; keyLight.color.setHex(spec.keyColor);
         fillLight.intensity=spec.fill; fillLight.color.setHex(spec.fillColor);
         rimLight.intensity=spec.rim; ambientLight.intensity=spec.ambient;
@@ -327,6 +538,7 @@
         activeEnvironment=mode;
         stage.dataset.environment=mode; stage.classList.remove('environment-loading');
         environmentStatus.textContent=''; needsRender=true;
+        window.__bmwScene={environment:mode, floor:environmentRoot.position.y};
       }
       function restoreEmptyEnvironment(){
         if(environmentRoot){scene.remove(environmentRoot);environmentRoot=null;}
@@ -335,7 +547,7 @@
         scene.environment=defaultEnvironment.texture;
         scene.background=new THREE.Color(isDark()?0x101216:0xdfe3e7);
         scene.fog.color.setHex(isDark()?0x101216:0xdfe3e7); scene.fog.near=18; scene.fog.far=42;
-        groundMesh.visible=true; discMesh.visible=true;
+        groundMesh.visible=true; discMesh.visible=true; environmentFloor.visible=false;
         keyLight.intensity=1.7; keyLight.color.setHex(0xffffff);
         fillLight.intensity=0.7; fillLight.color.setHex(0xdfe8ff);
         rimLight.intensity=1; ambientLight.intensity=0.25;
@@ -344,6 +556,7 @@
         renderer.shadowMap.needsUpdate=true;
         stage.dataset.environment='none'; stage.classList.remove('environment-loading');
         environmentStatus.textContent='';
+        window.__bmwScene={environment:'none'};
         needsRender=true;
       }
       function setEnvironment(mode){
@@ -429,6 +642,9 @@
           new THREE.MeshStandardMaterial({color: isDark()?0x1e2229:0xb9bfc7, roughness:.85, metalness:.05})
         );
         disc.rotation.x = -Math.PI/2; disc.position.y = 0.005; disc.receiveShadow = true; scene.add(disc); discMesh=disc;
+        environmentFloor = new THREE.Mesh(new THREE.CircleGeometry(80, 64), new THREE.ShadowMaterial({color:0x000000, opacity:0.26}));
+        environmentFloor.rotation.x = -Math.PI/2; environmentFloor.position.y = -0.003;
+        environmentFloor.receiveShadow = true; environmentFloor.visible = false; scene.add(environmentFloor);
 
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target.set(0, 0.62, 0);
@@ -1271,10 +1487,10 @@
           }
           if (layoutDirty) layoutAll();
           if (controls) controls.update();
-          if(environmentShell && environmentShell.userData.ceiling){
-            var ceiling=environmentShell.userData.ceiling;
-            var showCeiling=camera.position.y<ceiling.position.y;
-            if(ceiling.visible!==showCeiling){ceiling.visible=showCeiling;needsRender=true;}
+          if(environmentShell && environmentShell.userData.overhead){
+            var overhead=environmentShell.userData.overhead;
+            var showOverhead=camera.position.y<environmentShell.userData.overheadHeight;
+            if(overhead.visible!==showOverhead){overhead.visible=showOverhead;needsRender=true;}
           }
           if (renderer && (needsRender || (controls && controls.autoRotate))){
             renderer.render(scene, camera);
