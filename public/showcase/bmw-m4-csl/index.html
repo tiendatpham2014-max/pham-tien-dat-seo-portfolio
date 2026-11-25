@@ -132,6 +132,17 @@
               </select>
               <span id="environment-status" class="environment-status" role="status" aria-live="polite"></span>
             </div>
+            <div class="grp garage-controls" id="garage-controls" role="group" aria-label="Điều khiển gara" hidden>
+              <span class="lbl">Cửa gara</span>
+              <button class="btn" id="garage-door" type="button" aria-pressed="false">Đóng hai cửa</button>
+              <span class="lbl" id="garage-light-label">Màu đèn</span>
+              <div class="garage-light-colors" role="group" aria-labelledby="garage-light-label">
+                <button class="garage-light-swatch" type="button" data-garage-light="warm" aria-pressed="true" style="--bulb:#ffad62"><span>Ấm</span></button>
+                <button class="garage-light-swatch" type="button" data-garage-light="neutral" aria-pressed="false" style="--bulb:#f5f2ec"><span>Trắng</span></button>
+                <button class="garage-light-swatch" type="button" data-garage-light="cool" aria-pressed="false" style="--bulb:#a6d5ff"><span>Lạnh</span></button>
+                <button class="garage-light-swatch" type="button" data-garage-light="blue" aria-pressed="false" style="--bulb:#5685ff"><span>Xanh</span></button>
+              </div>
+            </div>
             <div class="grp" role="group" aria-label="Tùy chỉnh nâng cao" style="flex:1;min-width:230px">
               <span class="lbl">Nâng cao</span>
               <button class="btn accent" id="xray" aria-pressed="false">X-ray thân xe</button>

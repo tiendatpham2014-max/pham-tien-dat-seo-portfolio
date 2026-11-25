@@ -222,6 +222,7 @@
       var basePos = new Map();
       var bayMeshes = []; var bayGroup = null; var hoodOpen = false;
       var selected = null, xray = false, lightsOn = false;
+      var selectionReveal = false, selectionAutoXray = false, selectionOpenedHood = false;
       var fly = null;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -244,6 +245,12 @@
 
       var environmentSelect = document.getElementById('environment');
       var environmentStatus = document.getElementById('environment-status');
+      var garageControls = document.getElementById('garage-controls');
+      var garageLightButtons = document.querySelectorAll('[data-garage-light]');
+      var garageLightPreset = 'warm';
+      var garageDoors = {front:{cur:0,target:0},rear:{cur:0,target:0}};
+      var GARAGE_LIGHTS = {warm:0xffad62,neutral:0xf5f2ec,cool:0xa6d5ff,blue:0x5685ff};
+      var garageLightCurrent = null, garageLightTarget = null;
       var ENVIRONMENTS = {
         garage:{file:'parking_garage_free_download.glb',background:0x777d7c,key:1.25,fill:0.72,rim:0.65,ambient:0.48,keyColor:0xf4f0e7,fillColor:0xdde2e6},
         station:{file:'abandoned_gas_station.glb',background:0xb0a69a,key:2.1,fill:0.7,rim:0.6,ambient:0.65,keyColor:0xffdfb9,fillColor:0xdde5ef}
@@ -282,12 +289,15 @@
         var width=bounds.max.x-bounds.min.x, depth=bounds.max.z-bounds.min.z;
         var height=bounds.max.y+0.18;
         var shell=new THREE.Group();
+        var tintSurfaces=[];
+        function tintSurface(material,strength){tintSurfaces.push({material:material,base:material.color.clone(),strength:strength});}
         var concrete=garageConcreteTexture();
         var textureLoader=new THREE.TextureLoader();
         var floorMap=concrete.clone();
         floorMap.repeat.set(width/3.5,depth/3.5);
         floorMap.needsUpdate=true;
         var floorMaterial=new THREE.MeshStandardMaterial({map:floorMap,color:0xb7b9b8,roughness:0.98,metalness:0});
+        tintSurface(floorMaterial,0.58);
         function floorTexture(file,property,isColor){
           textureLoader.load(new URL('materials/'+file,modelUrl()).href,function(texture){
             texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
@@ -318,11 +328,34 @@
           mesh.position.set(x,y,z); mesh.receiveShadow=true; group.add(mesh);
           return mesh;
         }
+        var shutterCanvas=document.createElement('canvas');
+        shutterCanvas.width=8; shutterCanvas.height=64;
+        var shutterContext=shutterCanvas.getContext('2d');
+        var shutterFade=shutterContext.createLinearGradient(0,0,0,64);
+        shutterFade.addColorStop(0,'#788184');
+        shutterFade.addColorStop(0.72,'#606a6d');
+        shutterFade.addColorStop(0.91,'#444e51');
+        shutterFade.addColorStop(1,'#2e373a');
+        shutterContext.fillStyle=shutterFade; shutterContext.fillRect(0,0,8,64);
+        function makeShutter(w,h,z){
+          var texture=new THREE.CanvasTexture(shutterCanvas);
+          texture.wrapT=THREE.RepeatWrapping;
+          texture.colorSpace=THREE.SRGBColorSpace;
+          var material=new THREE.MeshStandardMaterial({map:texture,color:0xd5d9d9,roughness:0.65,metalness:0.28});
+          var curtain=panel(shell,w-0.19,h,0.09,0,h,z,material);
+          curtain.castShadow=true;
+          curtain.visible=false;
+          var bottomRail=panel(shell,w-0.15,0.085,0.16,0,h,z,steelMat);
+          bottomRail.visible=false;
+          return {curtain:curtain,bottomRail:bottomRail,texture:texture,clearance:h};
+        }
         function wall(w,x,z,rotation){
           var group=new THREE.Group();
           group.position.set(x,0,z); group.rotation.y=rotation;
           var map=concrete.clone(); map.repeat.set(w/3.5,height/3.5); map.needsUpdate=true;
-          var surface=new THREE.Mesh(new THREE.PlaneGeometry(w,height),new THREE.MeshStandardMaterial({map:map,color:0xaaa9a3,roughness:0.96,metalness:0,side:THREE.FrontSide}));
+          var wallMaterial=new THREE.MeshStandardMaterial({map:map,color:0xaaa9a3,roughness:0.96,metalness:0,side:THREE.FrontSide});
+          tintSurface(wallMaterial,0.68);
+          var surface=new THREE.Mesh(new THREE.PlaneGeometry(w,height),wallMaterial);
           surface.position.y=height/2; surface.receiveShadow=true; group.add(surface);
           var lower=new THREE.Mesh(new THREE.PlaneGeometry(w,0.58),baseMat);
           lower.position.set(0,0.29,0.018); lower.receiveShadow=true; group.add(lower);
@@ -336,12 +369,30 @@
           cap.position.set(0,0.59,0.023); group.add(cap);
           shell.add(group);
         }
+        // A continuous sky surrounds both outdoor yards. A flat backdrop showed
+        // its edge as soon as the camera looked diagonally through either bay.
+        var skyCanvas=document.createElement('canvas'); skyCanvas.width=8; skyCanvas.height=256;
+        var skyContext=skyCanvas.getContext('2d');
+        var skyFade=skyContext.createLinearGradient(0,0,0,256);
+        skyFade.addColorStop(0,'#718493');
+        skyFade.addColorStop(0.46,'#a2b2b9');
+        skyFade.addColorStop(0.58,'#bdc5c3');
+        skyFade.addColorStop(1,'#858d8d');
+        skyContext.fillStyle=skyFade; skyContext.fillRect(0,0,8,256);
+        var skyTexture=new THREE.CanvasTexture(skyCanvas); skyTexture.colorSpace=THREE.SRGBColorSpace;
+        var skyDome=new THREE.Mesh(new THREE.SphereGeometry(70,32,16),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
+        skyDome.renderOrder=-1; shell.add(skyDome);
         var midX=(bounds.min.x+bounds.max.x)/2, midZ=(bounds.min.z+bounds.max.z)/2;
         // Keep the service walls around the car, but leave a real drive-in bay
         // on the entrance side. Single-sided walls keep exterior camera views clear.
         wall(depth+0.4,bounds.min.x-0.12,midZ,Math.PI/2);
-        var sideEnd=bounds.min.z+depth*0.69;
-        wall(sideEnd-bounds.min.z+0.2,bounds.max.x+0.12,(bounds.min.z+sideEnd)/2,-Math.PI/2);
+        wall(depth+0.4,bounds.max.x+0.12,midZ,-Math.PI/2);
+        // Slim wall lights make each ceiling-light preset legible from the
+        // normal car viewing height without recolouring the car paint.
+        var garageAccentMat=new THREE.MeshBasicMaterial({color:0xffead0,toneMapped:false});
+        var accentHeight=Math.min(2.45,height-0.7);
+        panel(shell,0.035,0.055,depth-1.2,bounds.min.x+0.08,accentHeight,midZ,garageAccentMat);
+        panel(shell,0.035,0.055,depth-1.2,bounds.max.x-0.08,accentHeight,midZ,garageAccentMat);
         var rearBayHalfWidth=Math.min(3.35,width*0.25);
         var rearBayCenter=0;
         var rearLeft=rearBayCenter-rearBayHalfWidth;
@@ -357,30 +408,43 @@
         for(var rearSlat=0;rearSlat<5;rearSlat++){
           panel(shell,rearBayHalfWidth*2-0.19,0.065,0.12,rearBayCenter,rearClearance+0.10+rearSlat*0.105,rearZ+0.14,cabinetMat);
         }
-        // A short apron continues the floor beyond the visible drive-through bay.
-        var apronMat=new THREE.MeshStandardMaterial({color:0x73797b,roughness:0.98,metalness:0});
-        panel(shell,rearBayHalfWidth*2+2.0,0.045,8.5,rearBayCenter,-0.027,bounds.min.z-4.28,apronMat);
+        var frontShutter=makeShutter(rearBayHalfWidth*2,rearClearance,rearZ+0.18);
+        // Carry the paving well past the bay's side sightlines.
+        var apronMap=concrete.clone(); apronMap.repeat.set(11.5,6.0); apronMap.needsUpdate=true;
+        var apronMat=new THREE.MeshStandardMaterial({map:apronMap,color:0x858b89,roughness:0.98,metalness:0});
+        var apron=new THREE.Mesh(new THREE.PlaneGeometry(42,22),apronMat);
+        apron.rotation.x=-Math.PI/2;
+        apron.position.set(rearBayCenter,0.008,rearZ-10.9);
+        apron.receiveShadow=true; shell.add(apron);
         var laneMat=new THREE.MeshBasicMaterial({color:0xc0c2bc});
         for(var mark=0;mark<3;mark++){
           panel(shell,0.055,0.003,0.82,rearBayCenter-2.12,-0.001,bounds.min.z-1.65-mark*2.25,laneMat);
           panel(shell,0.055,0.003,0.82,rearBayCenter+2.12,-0.001,bounds.min.z-1.65-mark*2.25,laneMat);
         }
         var fenceZ=bounds.min.z-8.2;
-        for(var post=-4;post<=4;post+=2){
+        for(var post=-12;post<=12;post+=2){
           panel(shell,0.065,0.82,0.065,post,0.40,fenceZ,steelMat);
         }
-        panel(shell,8.4,0.042,0.055,0,0.78,fenceZ,steelMat);
-        panel(shell,8.4,0.034,0.055,0,0.38,fenceZ,steelMat);
-        // A recessed service building gives the open bay a believable depth.
-        var farZ=bounds.min.z-10.4;
-        panel(shell,10.8,2.6,0.22,0,1.3,farZ,new THREE.MeshStandardMaterial({color:0x666a68,roughness:0.97}));
-        panel(shell,10.9,0.24,1.35,0,2.68,farZ+0.2,beamMat);
-        for(var exteriorBay=-1;exteriorBay<=1;exteriorBay++){
-          var exteriorX=exteriorBay*3.25;
-          panel(shell,2.65,1.35,0.035,exteriorX,1.02,farZ+0.14,steelMat);
+        panel(shell,24.4,0.042,0.055,0,0.78,fenceZ,steelMat);
+        panel(shell,24.4,0.034,0.055,0,0.38,fenceZ,steelMat);
+        // The original service building remains, with its wings extending
+        // beyond the widest view through the opening.
+        var farZ=rearZ-14.3;
+        var rearFacadeMap=concrete.clone(); rearFacadeMap.repeat.set(9,1.2); rearFacadeMap.needsUpdate=true;
+        var rearFacadeMat=new THREE.MeshStandardMaterial({map:rearFacadeMap,color:0x777b78,roughness:0.97});
+        panel(shell,36,3.05,0.24,0,1.525,farZ,rearFacadeMat);
+        panel(shell,36.4,0.24,1.35,0,3.16,farZ+0.2,beamMat);
+        [-1,1].forEach(function(side){
+          panel(shell,0.22,2.45,14.4,side*12,1.225,rearZ-7.15,rearFacadeMat);
+          panel(shell,0.32,0.12,14.4,side*12,2.49,rearZ-7.15,beamMat);
+        });
+        for(var exteriorBay=-3;exteriorBay<=3;exteriorBay++){
+          var exteriorX=exteriorBay*4.5;
+          panel(shell,2.85,1.7,0.035,exteriorX,1.03,farZ+0.14,steelMat);
           for(var rib=0;rib<7;rib++){
-            panel(shell,2.5,0.018,0.045,exteriorX,0.42+rib*0.19,farZ+0.17,cabinetMat);
+            panel(shell,2.7,0.018,0.045,exteriorX,0.36+rib*0.21,farZ+0.17,cabinetMat);
           }
+          panel(shell,2.62,0.27,0.025,exteriorX,2.62,farZ+0.14,steelMat);
         }
         var bayHalfWidth=Math.min(3.15,width*0.24);
         var bayCenter=0;
@@ -398,44 +462,117 @@
         for(var slat=0;slat<5;slat++){
           panel(shell,bayHalfWidth*2-0.19,0.065,0.12,bayCenter,clearance+0.10+slat*0.105,entranceZ-0.14,cabinetMat);
         }
-        // A compact work zone gives the otherwise empty rear wall a practical role.
-        var workX=Math.min(bounds.max.x-2.2,rearRight+2.3);
-        var workZ=bounds.min.z+0.38;
-        panel(shell,3.25,0.78,0.52,workX,0.40,workZ,cabinetMat);
-        panel(shell,3.45,0.09,0.70,workX,0.84,workZ+0.08,steelMat);
-        var pegboardMat=new THREE.MeshStandardMaterial({color:0x353c3d,roughness:0.84,metalness:0.12});
-        panel(shell,3.45,1.05,0.06,workX,1.59,bounds.min.z+0.015,pegboardMat);
-        var toolboxMat=new THREE.MeshStandardMaterial({color:0x9f312f,roughness:0.56,metalness:0.3});
-        var handleMat=new THREE.MeshStandardMaterial({color:0x9ba5a7,roughness:0.43,metalness:0.73});
-        panel(shell,1.08,0.82,0.48,workX-0.95,0.47,workZ+0.29,toolboxMat);
-        for(var drawer=0;drawer<4;drawer++){
-          panel(shell,0.95,0.015,0.022,workX-0.95,0.18+drawer*0.18,workZ+0.545,handleMat);
+        var rearShutter=makeShutter(bayHalfWidth*2,clearance,entranceZ-0.18);
+        // Continue the opposite opening into a small outdoor service yard.
+        // The original rear apron remains visible from the car's front view.
+        var yardZ=entranceZ+10.9;
+        var yardMap=concrete.clone(); yardMap.repeat.set(11.5,6.0); yardMap.needsUpdate=true;
+        var yardFloor=new THREE.Mesh(new THREE.PlaneGeometry(42,22),new THREE.MeshStandardMaterial({map:yardMap,color:0xa3aaa8,roughness:0.98,metalness:0}));
+        yardFloor.rotation.x=-Math.PI/2;
+        yardFloor.position.set(bayCenter,0.01,yardZ);
+        yardFloor.receiveShadow=true; shell.add(yardFloor);
+        var curbMat=new THREE.MeshStandardMaterial({color:0x858c89,roughness:0.95});
+        [-1,1].forEach(function(side){
+          panel(shell,0.16,0.18,14.2,bayCenter+side*(bayHalfWidth+1.15),0.09,entranceZ+7.15,curbMat);
+        });
+        var yardMark=new THREE.MeshBasicMaterial({color:0xd1d2ca});
+        for(var yardStripe=0;yardStripe<4;yardStripe++){
+          panel(shell,0.055,0.003,0.82,bayCenter-1.55,0.014,entranceZ+1.65+yardStripe*2.25,yardMark);
+          panel(shell,0.055,0.003,0.82,bayCenter+1.55,0.014,entranceZ+1.65+yardStripe*2.25,yardMark);
         }
-        panel(shell,1.12,0.055,0.52,workX-0.95,0.91,workZ+0.29,steelMat);
+        var yardBuildingZ=entranceZ+14.3;
+        var yardWallMap=concrete.clone(); yardWallMap.repeat.set(9,1.2); yardWallMap.needsUpdate=true;
+        var yardWallMat=new THREE.MeshStandardMaterial({map:yardWallMap,color:0x777e7d,roughness:0.96,metalness:0});
+        panel(shell,36,2.85,0.26,bayCenter,1.425,yardBuildingZ,yardWallMat);
+        panel(shell,36.4,0.22,0.72,bayCenter,2.96,yardBuildingZ-0.18,beamMat);
+        [-1,1].forEach(function(side){
+          panel(shell,0.22,2.45,14.4,bayCenter+side*12,1.225,entranceZ+7.15,yardWallMat);
+          panel(shell,0.32,0.12,14.4,bayCenter+side*12,2.49,entranceZ+7.15,beamMat);
+        });
+        var yardDoorMat=new THREE.MeshStandardMaterial({color:0x404a4d,roughness:0.72,metalness:0.25});
+        var yardWindowMat=new THREE.MeshBasicMaterial({color:0x8a9a9b});
+        for(var yardBay=-3;yardBay<=3;yardBay++){
+          var yardBayX=bayCenter+yardBay*4.5;
+          panel(shell,2.85,1.85,0.035,yardBayX,1.0,yardBuildingZ-0.15,yardDoorMat);
+          for(var yardRib=0;yardRib<8;yardRib++){
+            panel(shell,2.71,0.018,0.018,yardBayX,0.20+yardRib*0.23,yardBuildingZ-0.178,cabinetMat);
+          }
+          panel(shell,2.7,0.34,0.026,yardBayX,2.25,yardBuildingZ-0.157,steelMat);
+          panel(shell,2.48,0.22,0.008,yardBayX,2.25,yardBuildingZ-0.175,yardWindowMat);
+        }
+        // One deliberate work zone reads as a workshop without crowding the car.
+        var workX=Math.min(bounds.max.x-2.2,rearRight+2.3);
+        var workZ=bounds.min.z+0.42;
+        var redSteel=new THREE.MeshStandardMaterial({color:0x9d2927,roughness:0.48,metalness:0.35});
+        var redInset=new THREE.MeshStandardMaterial({color:0x812321,roughness:0.58,metalness:0.24});
+        var brushedSteel=new THREE.MeshStandardMaterial({color:0xa4aaab,roughness:0.44,metalness:0.72});
+        var rubber=new THREE.MeshStandardMaterial({color:0x1b2021,roughness:0.94,metalness:0});
+        var worktop=new THREE.MeshStandardMaterial({color:0x777b79,roughness:0.68,metalness:0.28});
+        panel(shell,3.34,0.075,0.72,workX,0.89,workZ+0.1,worktop);
+        panel(shell,3.15,0.035,0.56,workX,0.82,workZ+0.07,rubber);
+        [-1.47,1.47].forEach(function(offset){
+          panel(shell,0.065,0.76,0.56,workX+offset,0.44,workZ+0.06,steelMat);
+        });
+        var boardZ=bounds.min.z+0.055;
+        panel(shell,3.35,1.08,0.065,workX,1.67,boardZ,new THREE.MeshStandardMaterial({color:0x343a3b,roughness:0.83,metalness:0.12}));
+        var pegDots=new THREE.InstancedMesh(new THREE.CircleGeometry(0.008,6),new THREE.MeshBasicMaterial({color:0x202526}),80);
+        var pegMatrix=new THREE.Matrix4(), pegIndex=0;
         for(var holeRow=0;holeRow<5;holeRow++){
           for(var holeCol=0;holeCol<16;holeCol++){
-            var dot=new THREE.Mesh(new THREE.CircleGeometry(0.009,5),seamMat);
-            dot.position.set(workX-1.56+holeCol*0.20,1.20+holeRow*0.17,bounds.min.z+0.051);
-            shell.add(dot);
+            pegMatrix.makeTranslation(workX-1.5+holeCol*0.2,1.3+holeRow*0.17,boardZ+0.037);
+            pegDots.setMatrixAt(pegIndex++,pegMatrix);
           }
         }
-        for(var tool=0;tool<4;tool++){
-          var toolX=workX+0.18+tool*0.37;
-          panel(shell,0.034,0.34+(tool%2)*0.06,0.028,toolX,1.59,bounds.min.z+0.080,handleMat);
-          panel(shell,0.12,0.055,0.028,toolX,1.78+(tool%2)*0.03,bounds.min.z+0.082,handleMat);
+        pegDots.instanceMatrix.needsUpdate=true; shell.add(pegDots);
+        // The tool chest has recessed drawers, metal pulls, a rubber top and casters.
+        var chestX=workX-0.98, chestZ=workZ+0.16;
+        panel(shell,1.12,0.77,0.53,chestX,0.47,chestZ,redSteel);
+        panel(shell,1.15,0.055,0.57,chestX,0.89,chestZ,rubber);
+        for(var drawer=0;drawer<5;drawer++){
+          var drawerY=0.19+drawer*0.135;
+          panel(shell,0.99,0.109,0.016,chestX,drawerY,chestZ+0.274,redInset);
+          panel(shell,0.76,0.018,0.028,chestX,drawerY+0.024,chestZ+0.291,brushedSteel);
         }
-        var sideWorkX=bounds.min.x+0.43, sideWorkZ=0.75;
-        panel(shell,0.70,0.80,3.15,sideWorkX,0.41,sideWorkZ,cabinetMat);
-        panel(shell,0.83,0.085,3.35,sideWorkX+0.03,0.85,sideWorkZ,steelMat);
-        panel(shell,0.055,1.00,3.20,bounds.min.x+0.045,1.55,sideWorkZ,steelMat);
-        for(var sideTool=0;sideTool<5;sideTool++){
-          var toolZ=sideWorkZ-1.20+sideTool*0.60;
-          panel(shell,0.065,0.23+(sideTool%2)*0.09,0.045,bounds.min.x+0.10,1.58,toolZ,trimMat);
-          panel(shell,0.07,0.04,0.20,bounds.min.x+0.11,1.72+(sideTool%2)*0.04,toolZ,trimMat);
+        [-0.42,0.42].forEach(function(offset){
+          var caster=new THREE.Mesh(new THREE.CylinderGeometry(0.065,0.065,0.052,12),rubber);
+          caster.rotation.z=Math.PI/2;
+          caster.position.set(chestX+offset,0.065,chestZ+0.15);
+          shell.add(caster);
+        });
+        panel(shell,0.025,0.65,0.05,chestX+0.62,0.53,chestZ+0.1,brushedSteel);
+        // An open shelf and a few recognisable tools replace the repeated T shapes.
+        panel(shell,1.18,0.045,0.32,workX+0.95,1.18,boardZ+0.18,worktop);
+        for(var can=0;can<3;can++){
+          var bottle=new THREE.Mesh(new THREE.CylinderGeometry(0.052,0.052,0.18,10),can===1?redSteel:brushedSteel);
+          bottle.position.set(workX+0.61+can*0.31,1.29,boardZ+0.17); shell.add(bottle);
         }
-        var extinguisher=new THREE.Mesh(new THREE.CylinderGeometry(0.10,0.10,0.44,12),new THREE.MeshStandardMaterial({color:0x9c3330,roughness:0.52,metalness:0.18}));
-        extinguisher.position.set(bounds.min.x+0.27,0.72,sideWorkZ+2.05); shell.add(extinguisher);
-        panel(shell,0.15,0.04,0.13,bounds.min.x+0.27,0.96,sideWorkZ+2.05,steelMat);
+        for(var tool=0;tool<3;tool++){
+          var toolX=workX-0.23+tool*0.31;
+          panel(shell,0.025,0.30+(tool%2)*0.08,0.022,toolX,1.67,boardZ+0.055,brushedSteel);
+          var wrenchHead=new THREE.Mesh(new THREE.TorusGeometry(0.048,0.013,6,10),brushedSteel);
+          wrenchHead.position.set(toolX,1.84+(tool%2)*0.04,boardZ+0.065); shell.add(wrenchHead);
+        }
+        // Spare tyres stand on a low rack against the opposite wall.
+        var rackX=bounds.min.x+0.62, rackZ=bounds.min.z+2.1;
+        panel(shell,0.64,0.045,2.85,rackX,0.13,rackZ,steelMat);
+        for(var tyre=0;tyre<3;tyre++){
+          var tyreZ=rackZ-0.82+tyre*0.82;
+          var spare=new THREE.Mesh(new THREE.TorusGeometry(0.34,0.115,10,28),rubber);
+          spare.rotation.y=Math.PI/2;
+          spare.position.set(rackX,0.58,tyreZ);
+          spare.castShadow=true; shell.add(spare);
+          var hub=new THREE.Mesh(new THREE.TorusGeometry(0.19,0.015,6,20),brushedSteel);
+          hub.rotation.y=Math.PI/2;
+          hub.position.set(rackX+0.12,0.58,tyreZ); shell.add(hub);
+        }
+        panel(shell,0.08,0.58,0.08,rackX,0.42,rackZ-1.35,steelMat);
+        panel(shell,0.08,0.58,0.08,rackX,0.42,rackZ+1.35,steelMat);
+        var hose=new THREE.Mesh(new THREE.TorusGeometry(0.26,0.026,8,32),new THREE.MeshStandardMaterial({color:0xb2935a,roughness:0.82}));
+        hose.rotation.y=Math.PI/2;
+        hose.position.set(bounds.min.x+0.12,1.72,rackZ+1.75); shell.add(hose);
+        var extinguisher=new THREE.Mesh(new THREE.CylinderGeometry(0.10,0.10,0.44,12),redSteel);
+        extinguisher.position.set(bounds.min.x+0.27,0.72,rackZ+2.15); shell.add(extinguisher);
+        panel(shell,0.15,0.04,0.13,bounds.min.x+0.27,0.96,rackZ+2.15,steelMat);
         var signCanvas=document.createElement('canvas'); signCanvas.width=512; signCanvas.height=128;
         var signContext=signCanvas.getContext('2d');
         signContext.fillStyle='#2b3132'; signContext.fillRect(0,0,512,128);
@@ -450,6 +587,7 @@
         var overhead=new THREE.Group(); shell.add(overhead);
         var ceilingMap=concrete.clone(); ceilingMap.repeat.set(width/3.5,depth/3.5); ceilingMap.needsUpdate=true;
         var ceilingMat=new THREE.MeshStandardMaterial({map:ceilingMap,color:0x82847f,roughness:0.96,metalness:0,side:THREE.DoubleSide});
+        tintSurface(ceilingMat,0.62);
         panel(overhead,width+0.5,0.12,depth+0.5,midX,height+0.09,midZ,ceilingMat);
         for(var bx=bounds.min.x+2.6;bx<bounds.max.x-0.6;bx+=3.4){
           panel(overhead,0.27,0.26,depth+0.3,bx,height-0.06,midZ,beamMat);
@@ -458,7 +596,7 @@
           panel(overhead,width+0.3,0.22,0.27,midX,height-0.07,bz,beamMat);
         }
         var housingMat=new THREE.MeshStandardMaterial({color:0x33383a,roughness:0.8,metalness:0.2});
-        var diffuserMat=new THREE.MeshStandardMaterial({color:0xece8dc,emissive:0xd1c9b5,emissiveIntensity:0.9,roughness:0.55,metalness:0});
+        var diffuserMat=new THREE.MeshStandardMaterial({color:0xece8dc,emissive:0xd1c9b5,emissiveIntensity:1.6,roughness:0.55,metalness:0});
         [-2.2,2.2].forEach(function(z){
           [-1.4,3.5,8.4].forEach(function(x){
             if(x<bounds.min.x+1||x>bounds.max.x-1)return;
@@ -466,14 +604,70 @@
             panel(overhead,1.65,0.018,0.12,x,height-0.21,z,diffuserMat);
           });
         });
+        var garageRoomLights=[];
         [-1.4,3.5].forEach(function(x){
-          var light=new THREE.PointLight(0xffead0,1.2,7,2);
+          var light=new THREE.PointLight(0xffead0,1.25,9,2);
           light.position.set(x,height-0.29,0);
           overhead.add(light);
+          garageRoomLights.push(light);
         });
+        panel(shell,1.42,0.045,0.14,workX+0.86,2.28,boardZ+0.3,housingMat);
+        var taskDiffuser=panel(shell,1.25,0.012,0.07,workX+0.86,2.245,boardZ+0.34,diffuserMat);
+        taskDiffuser.material=diffuserMat;
+        var taskLight=new THREE.PointLight(0xffe7c4,0.45,3.2,2);
+        taskLight.position.set(workX+0.86,2.12,boardZ+0.5); shell.add(taskLight);
+        garageRoomLights.push(taskLight);
         shell.userData.overhead=overhead;
         shell.userData.overheadHeight=height;
+        shell.userData.shutters={front:frontShutter,rear:rearShutter};
+        shell.userData.garageRoomLights=garageRoomLights;
+        shell.userData.garageDiffuser=diffuserMat;
+        shell.userData.garageAccent=garageAccentMat;
+        shell.userData.tintSurfaces=tintSurfaces;
         return shell;
+      }
+      function updateGarageShutter(which){
+        if(!garageShellCache)return;
+        var shutter=garageShellCache.userData.shutters[which];
+        var raw=garageDoors[which].cur;
+        var progress=raw*raw*(3-2*raw);
+        shutter.curtain.visible=progress>0.002;
+        shutter.bottomRail.visible=progress>0.002;
+        shutter.curtain.scale.y=Math.max(progress,0.001);
+        shutter.curtain.position.y=shutter.clearance*(1-progress/2);
+        shutter.bottomRail.position.y=shutter.clearance*(1-progress)+0.045;
+        shutter.texture.repeat.y=Math.max(0.01,18*progress);
+        if(renderer)renderer.shadowMap.needsUpdate=true;
+        needsRender=true;
+      }
+      function setGarageDoorsClosed(closed){
+        garageDoors.front.target=closed?1:0;
+        garageDoors.rear.target=closed?1:0;
+        var button=document.getElementById('garage-door');
+        button.setAttribute('aria-pressed',closed?'true':'false');
+        button.textContent=closed?msg('Mở hai cửa','Open both doors'):msg('Đóng hai cửa','Close both doors');
+      }
+      function updateGarageLighting(){
+        if(activeEnvironment!=='garage'||!garageShellCache||!garageLightCurrent)return;
+        garageShellCache.userData.garageRoomLights.forEach(function(light){light.color.copy(garageLightCurrent);});
+        garageShellCache.userData.garageDiffuser.emissive.copy(garageLightCurrent);
+        garageShellCache.userData.garageAccent.color.copy(garageLightCurrent);
+        garageShellCache.userData.tintSurfaces.forEach(function(surface){
+          surface.material.color.copy(surface.base).lerp(garageLightCurrent,surface.strength);
+        });
+        keyLight.color.setHex(ENVIRONMENTS.garage.keyColor).lerp(garageLightCurrent,0.72);
+        fillLight.color.setHex(ENVIRONMENTS.garage.fillColor).lerp(garageLightCurrent,0.7);
+        rimLight.color.setHex(0xffffff).lerp(garageLightCurrent,0.55);
+        ambientLight.color.setHex(0xffffff).lerp(garageLightCurrent,0.65);
+        needsRender=true;
+      }
+      function setGarageLight(preset){
+        if(!Object.prototype.hasOwnProperty.call(GARAGE_LIGHTS,preset))preset='warm';
+        garageLightPreset=preset;
+        garageLightButtons.forEach(function(button){button.setAttribute('aria-pressed',button.dataset.garageLight===preset?'true':'false');});
+        garageLightTarget=new THREE.Color(GARAGE_LIGHTS[preset]);
+        if(!garageLightCurrent)garageLightCurrent=garageLightTarget.clone();
+        needsRender=true;
       }
       function prepareEnvironment(mode, root){
         if(root.userData.prepared) return root;
@@ -523,6 +717,9 @@
           if(!garageShellCache)garageShellCache=makeGarageShell(environmentRoot);
           environmentShell=garageShellCache;
           scene.add(environmentShell);
+          // The source mesh combines its floor with freestanding pillars. The
+          // rebuilt shell supplies the floor and walls without blocking the car.
+          environmentRoot.visible=false;
         }
         var spec=ENVIRONMENTS[mode];
         scene.background=new THREE.Color(spec.background);
@@ -531,11 +728,18 @@
         groundMesh.visible=false; discMesh.visible=false; environmentFloor.visible=false;
         keyLight.intensity=spec.key; keyLight.color.setHex(spec.keyColor);
         fillLight.intensity=spec.fill; fillLight.color.setHex(spec.fillColor);
-        rimLight.intensity=spec.rim; ambientLight.intensity=spec.ambient;
+        rimLight.intensity=spec.rim; rimLight.color.setHex(0xffffff); ambientLight.intensity=spec.ambient;
+        ambientLight.color.setHex(0xffffff);
         controls.maxDistance=mode==='garage'?6.2:16;
         controls.update();
         renderer.shadowMap.needsUpdate=true;
         activeEnvironment=mode;
+        garageControls.hidden=mode!=='garage';
+        if(mode==='garage'){
+          updateGarageShutter('front'); updateGarageShutter('rear');
+          setGarageLight(garageLightPreset);
+          updateGarageLighting();
+        }
         stage.dataset.environment=mode; stage.classList.remove('environment-loading');
         environmentStatus.textContent=''; needsRender=true;
         window.__bmwScene={environment:mode, floor:environmentRoot.position.y};
@@ -544,13 +748,15 @@
         if(environmentRoot){scene.remove(environmentRoot);environmentRoot=null;}
         if(environmentShell){scene.remove(environmentShell);environmentShell=null;}
         activeEnvironment='none';
+        garageControls.hidden=true;
         scene.environment=defaultEnvironment.texture;
         scene.background=new THREE.Color(isDark()?0x101216:0xdfe3e7);
         scene.fog.color.setHex(isDark()?0x101216:0xdfe3e7); scene.fog.near=18; scene.fog.far=42;
         groundMesh.visible=true; discMesh.visible=true; environmentFloor.visible=false;
         keyLight.intensity=1.7; keyLight.color.setHex(0xffffff);
         fillLight.intensity=0.7; fillLight.color.setHex(0xdfe8ff);
-        rimLight.intensity=1; ambientLight.intensity=0.25;
+        rimLight.intensity=1; rimLight.color.setHex(0xffffff); ambientLight.intensity=0.25;
+        ambientLight.color.setHex(0xffffff);
         controls.maxDistance=16;
         renderer.toneMappingExposure=1;
         renderer.shadowMap.needsUpdate=true;
@@ -587,6 +793,12 @@
         });
       }
       environmentSelect.addEventListener('change',function(){ setEnvironment(this.value); });
+      document.getElementById('garage-door').addEventListener('click',function(){
+        setGarageDoorsClosed(garageDoors.front.target!==1);
+      });
+      garageLightButtons.forEach(function(button){
+        button.addEventListener('click',function(){setGarageLight(this.dataset.garageLight);});
+      });
 
       function init(){
         renderer = new THREE.WebGLRenderer({antialias:true});
@@ -931,6 +1143,7 @@
       var movable = new Map();    // obj -> {base:Vector3, off:Vector3 (đã đổi về local)}
       var openerSets = [];        // {which, objs, hinge, axis, openVal, cur, target, orig:Map}
       var setByWhich = {};
+      var trunkGlass = null;
       var explodeCur = 0, explodeTarget = 0;
       function findNode(name){
         var f = null;
@@ -939,6 +1152,7 @@
       }
       function setupOpeners(){
         openerSets = []; setByWhich = {};
+        trunkGlass = findNode('M4xNME_taillightglass_R_custom');
         carRoot.updateMatrixWorld(true);
         /* Từng cụm mở được đăng ký độc lập: một cụm lỗi không kéo sập
            các cụm còn lại (bản cũ một lần throw là chết cả mở nắp lẫn
@@ -984,7 +1198,7 @@
         // cốp (trunkint) và dải đèn hậu gắn trên nắp — bản cũ thiếu
         // trunkint nên mở cốp là tấm ốp đen ở lại lơ lửng che miệng cốp.
         var bt = boxOf('M4xNME_trunk_csl');
-        regSafe('trunk', ['M4xNME_trunk_csl','M4xNME_tailgatelight_csl','M4xNME_trunkint'], new THREE.Vector3(1,0,0), 0.60,
+        regSafe('trunk', ['M4xNME_trunk_csl','M4xNME_tailgatelight_csl','M4xNME_tailgateframe','M4xNME_trunkint'], new THREE.Vector3(1,0,0), 0.60,
             new THREE.Vector3(0, bt.max.y - 0.03, bt.max.z - 0.05));
       }
       function setOpen(which, open){
@@ -1066,6 +1280,10 @@
           }
           o.position.copy(tmp);
         });
+        // Tấm kính đèn hậu trong GLB là một mesh liền ngang cả hai bên.
+        // Khi mở cốp, phần giữa mesh này sẽ lơ lửng trong miệng cốp;
+        // giữ các cụm đèn hai bên và ẩn riêng tấm kính không chia được.
+        if (trunkGlass && setByWhich.trunk) trunkGlass.visible = setByWhich.trunk.cur <= 0.01;
         if (renderer) renderer.shadowMap.needsUpdate = true;
         needsRender = true;
       }
@@ -1224,6 +1442,14 @@
         selected = null;
         fly = null;
         clearHighlight();
+        selectionReveal = false;
+        if (selectionAutoXray){
+          xray = false; selectionAutoXray = false;
+          document.getElementById('xray').setAttribute('aria-pressed','false');
+        }
+        if (selectionOpenedHood){
+          setOpen('hood', false); selectionOpenedHood = false;
+        }
         Object.keys(btnById).forEach(function(k){ btnById[k].setAttribute('aria-pressed','false'); });
         document.getElementById('toDetail').hidden = true;
         document.getElementById('selbar').hidden = true;
@@ -1236,15 +1462,6 @@
       }
       document.getElementById('sb-clear').addEventListener('click', clearSelection);
       document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && selected) clearSelection(); });
-      function flyTo(center, dist, heightFrac){
-        var dir = camera.position.clone().sub(controls.target);
-        if (dir.lengthSq() < 0.001) dir.set(1,0.4,1);
-        dir.normalize();
-        var dest = center.clone().add(dir.multiplyScalar(dist));
-        dest.y = Math.max(dest.y, center.y + dist*(heightFrac||0.25));
-        fly = {t:0, fromP:camera.position.clone(), toP:dest, fromT:controls.target.clone(), toT:center.clone()};
-        controls.autoRotate = false; document.getElementById('spin').setAttribute('aria-pressed','false');
-      }
       function partCenter(pid){
         var box = new THREE.Box3(), found=false;
         allMeshes.forEach(function(m){ if(m.userData.partId===pid){ box.union(new THREE.Box3().setFromObject(m)); found=true; } });
@@ -1265,17 +1482,9 @@
         document.getElementById('d-note').textContent = partField(p,'note');
         document.getElementById('d-dl').hidden = false;
         highlight(id);
+        setSelectionViewState(id);
         applyXrayVisuals();
-        if (id === 'engine' && carRoot) setOpen('hood', true); // xem động cơ thì tự mở ca-pô
-        if (flyCam){
-          var pc = partCenter(id);
-          if (pc){
-            var d = Math.max(pc.size.x, pc.size.y, pc.size.z);
-            // Không bay gần hơn minDistance của OrbitControls (2,2) — bản
-            // cũ xin 1,6 nên controls kẹp lại gây giật camera khi tới nơi
-            flyTo(pc.center, Math.min(Math.max(d*1.6, 2.4), 6), 0.3);
-          }
-        }
+        if (flyCam) flyToPart(id);
         // Không tự cuộn xuống bảng chi tiết nữa (xe bị đẩy khỏi màn hình
         // điện thoại) — hiện chip "Chi tiết" cố định để người dùng tự nhảy
         var chip = document.getElementById('toDetail');
@@ -1340,24 +1549,68 @@
          x=1,15 (trúng cánh cửa) trong khi động cơ nằm giữa xe, z≈+1,3–1,5. */
       var VIEWS = {
         hero:  {p:[4.55,1.75,5.35], t:[0,0.62,0]},
-        side:  {p:[7.6,1.0,0],    t:[0,0.62,0]},
-        rear:  {p:[0,1.45,-8.0],  t:[0,0.65,0]},
-        front: {p:[0,1.2,8.0],    t:[0,0.62,0]},
-        top:   {p:[0.7,9.6,0.7],  t:[0,0.3,0]},
-        engine:{p:[2.7,2.5,5.0],  t:[0,0.85,1.5]}
+        side:  {p:[8.4,1.2,0],    t:[0,0.68,0]},
+        rear:  {p:[0,1.35,-5.8],  t:[0,0.7,0]},
+        front: {p:[0,1.3,5.8],    t:[0,0.65,0]},
+        top:   {p:[0.7,11.7,0.7], t:[0,0.62,0]},
+        engine:{p:[1.9,3.5,3.55], t:[0,0.8,1.5]}
       };
+      // Tọa độ xe sau chuẩn hóa: đầu +Z, đuôi -Z, bên trái +X.
+      // Mỗi mục Sổ tay có một hướng riêng; các cụm lặp lại ở hai bên
+      // ưu tiên phía +X để nút không nhắm vào khoảng giữa xe.
+      var PART_VIEWS = {
+        grille:     {p:[1.4,1.35,4.7], t:[0,0.55,2.1]},
+        headlight:  {p:[2.6,1.65,4.3], t:[0.65,0.83,2.0]},
+        hood:       {p:[1.7,3.0,3.8], t:[0,0.93,1.5]},
+        roof:       {p:[2.3,3.4,1.5], t:[0,1.35,0]},
+        mirror:     {p:[3.6,1.8,2.3], t:[0.95,1.05,0.8]},
+        door:       {p:[5.6,1.6,0.8], t:[0.75,0.8,0]},
+        trunk:      {p:[1.5,2.2,-4.3], t:[0,0.9,-1.9]},
+        taillight:  {p:[1.4,1.4,-4.3], t:[0,0.85,-2.0]},
+        diffuser:   {p:[1.2,0.85,-4.4], t:[0,0.35,-2.15]},
+        engine:     VIEWS.engine,
+        strutbrace: {p:[1.9,3.2,3.4], t:[0,1.0,1.3]},
+        cooling:    {p:[1.5,2.4,4.1], t:[0,0.65,2.0]},
+        gearbox:    {p:[3.4,1.9,1.2], t:[0,0.4,0.2]},
+        diff:       {p:[3.4,1.7,-2.1], t:[0,0.4,-1.35]},
+        exhaust:    {p:[2.9,1.5,-3.6], t:[0,0.32,-1.8]},
+        wheel:      {p:[3.4,1.1,2.0], t:[0.9,0.4,1.35]},
+        brake:      {p:[3.2,1.3,2.0], t:[0.95,0.43,1.35]},
+        suspension: {p:[3.3,1.7,1.8], t:[0.9,0.55,1.3]},
+        seat:       {p:[2.9,2.4,0.9], t:[0.5,0.9,0.1]},
+        cockpit:    {p:[2.7,2.6,2.0], t:[0.3,1.0,0.75]}
+      };
+      var REVEAL_PARTS = {cooling:1, gearbox:1, diff:1, exhaust:1, brake:1, suspension:1, seat:1, cockpit:1};
+      var HOOD_PARTS = {engine:1, strutbrace:1, cooling:1};
+      function setSelectionViewState(id){
+        var reveal = !!REVEAL_PARTS[id], openHood = !!HOOD_PARTS[id];
+        if (selectionAutoXray && !reveal){ xray = false; selectionAutoXray = false; }
+        selectionReveal = reveal;
+        if (reveal && !xray){ xray = true; selectionAutoXray = true; }
+        document.getElementById('xray').setAttribute('aria-pressed', xray ? 'true' : 'false');
+        if (selectionOpenedHood && !openHood){ setOpen('hood', false); selectionOpenedHood = false; }
+        if (openHood && !hoodOpen){ setOpen('hood', true); selectionOpenedHood = true; }
+      }
+      function flyToCamera(v){
+        if (!v) return;
+        controls.autoRotate = false;
+        document.getElementById('spin').setAttribute('aria-pressed','false');
+        fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
+      }
+      function flyToView(name){ flyToCamera(VIEWS[name]); }
+      function flyToPart(id){
+        document.querySelectorAll('.viewbtn').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+        flyToCamera(PART_VIEWS[id]);
+      }
       document.querySelectorAll('.viewbtn').forEach(function(b){
         b.addEventListener('click', function(){
+          if (selected) clearSelection();
           document.querySelectorAll('.viewbtn').forEach(function(x){x.setAttribute('aria-pressed','false');});
           b.setAttribute('aria-pressed','true');
-          controls.autoRotate = false; document.getElementById('spin').setAttribute('aria-pressed','false');
           if (b.dataset.view === 'engine'){
             setOpen('hood', true); // xem khoang máy thì tự mở ca-pô
-            var pc = partCenter('engine');
-            if (pc){ flyTo(pc.center, 3.6, 0.5); return; }
           }
-          var v = VIEWS[b.dataset.view];
-          fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
+          flyToView(b.dataset.view);
         });
       });
 
@@ -1372,7 +1625,7 @@
         allMeshes.forEach(function(m){
           var pid=m.userData.partId;
           var selectedMesh=selected && pid===selected && !(selected==='engine' && m.userData.bay);
-          var ghost=xray && !selectedMesh && (!XRAY_KEEP[pid] || m.userData.bay);
+          var ghost=xray && !selectedMesh && (selectionReveal || !XRAY_KEEP[pid] || m.userData.bay);
           var mats=Array.isArray(m.material)?m.material:[m.material];
           mats.forEach(function(mm){
             if (xray && !mm.userData._xr) mm.userData._xr={t:mm.transparent,o:mm.opacity,d:mm.depthWrite};
@@ -1397,6 +1650,7 @@
         needsRender=true;
       }
       document.getElementById('xray').addEventListener('click', function(){
+        selectionAutoXray = false; // thao tác tay giữ quyền quyết định sau khi bỏ chọn
         xray=!xray; this.setAttribute('aria-pressed',xray?'true':'false');
         applyXrayVisuals();
       });
@@ -1411,6 +1665,7 @@
       /* Nút mở cửa / ca-pô / cốp */
       [['opendoors','doors'],['openhood','hood'],['opentrunk','trunk']].forEach(function(pair){
         document.getElementById(pair[0]).addEventListener('click', function(){
+          if (pair[1] === 'hood') selectionOpenedHood = false;
           setOpen(pair[1], this.getAttribute('aria-pressed') !== 'true');
         });
       });
@@ -1420,9 +1675,12 @@
         if (xray) document.getElementById('xray').click();
         if (lightsOn) document.getElementById('lights').click();
         setOpen('doors', false); setOpen('hood', false); setOpen('trunk', false);
+        setGarageDoorsClosed(false);
+        setGarageLight('warm');
         document.getElementById('selbar').hidden = true;
         var v = VIEWS.hero;
         fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
+        document.querySelectorAll('.viewbtn').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.view === 'hero' ? 'true' : 'false'); });
         document.getElementById('d-sys').textContent = msg('Chưa chọn bộ phận','No part selected');
         document.getElementById('d-name').textContent = msg('Bấm vào một bộ phận trên xe','Select a part of the car');
         document.getElementById('d-desc').textContent = msg('Mỗi cụm bấm được sẽ sáng lên, camera bay tới gần và hiện chi tiết ở đây: chức năng, vật liệu và thông số của đúng cụm đó trên bản M4 CSL — phần Đạt thích “mổ xẻ” nhất khi ngắm một chiếc xe.','Select a part to highlight it, move the camera closer and see its function, materials and specifications.');
@@ -1484,6 +1742,28 @@
             var estep = reduceMotion ? Math.abs(ed) : dt * 1.8;
             explodeCur += Math.abs(ed) <= estep ? ed : (ed > 0 ? estep : -estep);
             layoutDirty = true;
+          }
+          if(activeEnvironment==='garage'){
+            ['front','rear'].forEach(function(which){
+              var door=garageDoors[which];
+              if(door.cur===door.target)return;
+              var difference=door.target-door.cur;
+              var step=reduceMotion?Math.abs(difference):dt*1.2;
+              door.cur+=Math.abs(difference)<=step?difference:(difference>0?step:-step);
+              updateGarageShutter(which);
+            });
+            if(garageLightCurrent&&garageLightTarget){
+              var delta=Math.max(
+                Math.abs(garageLightCurrent.r-garageLightTarget.r),
+                Math.abs(garageLightCurrent.g-garageLightTarget.g),
+                Math.abs(garageLightCurrent.b-garageLightTarget.b)
+              );
+              if(delta>0.002){
+                if(reduceMotion)garageLightCurrent.copy(garageLightTarget);
+                else garageLightCurrent.lerp(garageLightTarget,Math.min(1,dt*5));
+                updateGarageLighting();
+              }
+          }
           }
           if (layoutDirty) layoutAll();
           if (controls) controls.update();
