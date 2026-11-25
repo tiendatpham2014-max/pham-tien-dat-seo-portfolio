@@ -1070,9 +1070,10 @@
             else if (p.id === 'taillight') dir.set(side * 0.3, 0.17, -0.62);
             else if (p.id === 'mirror') dir.set(side * 0.48, 0.28, 0);
             else if (p.id === 'seat') dir.set(side * 0.22, 0.88, -0.08);
-            else if (p.id === 'suspension') dir.set(side * 0.35, -0.42, frontRear * 0.12);
-            else if (p.id === 'diff') dir.set(0, -0.28, frontRear * 0.52);
-            else if (p.id === 'gearbox') dir.set(0, -0.48, center.z > 0.4 ? 0.2 : -0.12);
+            else if (p.id === 'suspension') dir.set(side ? side * 0.58 : -0.68, 0.24, frontRear * 0.12);
+            else if (p.id === 'diff') dir.set(-1.12, 0.27, frontRear * 0.35);
+            else if (p.id === 'gearbox') dir.set(1.12, 0.32, center.z > 0.4 ? 0.12 : -0.08);
+            else if (p.id === 'exhaust') dir.set(0.78, 0.25, -0.3);
             else if (p.id === 'grille') {
               dir.set(0, /splitter/.test(o.name) ? -0.12 : 0.08, /grille/.test(o.name) ? 0.88 : /splitter/.test(o.name) ? 1.05 : 0.6);
             }
@@ -1233,9 +1234,14 @@
         movable = new Map();
         carRoot.updateMatrixWorld(true);
         function toLocalOffset(o, worldDir){
+          // All display floors sit at world Y=0. Keep the lowest vertex of
+          // every separated group above them throughout the animation.
+          var bounds = new THREE.Box3().setFromObject(o);
+          var safeDir = worldDir.clone();
+          safeDir.y = Math.max(safeDir.y, (0.12 - bounds.min.y) / 1.5);
           var pq = new THREE.Quaternion(); o.parent.getWorldQuaternion(pq);
           var ps = new THREE.Vector3(); o.parent.getWorldScale(ps);
-          var v = worldDir.clone().multiplyScalar(1.5).applyQuaternion(pq.invert());
+          var v = safeDir.multiplyScalar(1.5).applyQuaternion(pq.invert());
           v.x /= (ps.x || 1); v.y /= (ps.y || 1); v.z /= (ps.z || 1);
           return v;
         }
@@ -1607,6 +1613,8 @@
       };
       var REVEAL_PARTS = {cooling:1, gearbox:1, diff:1, exhaust:1, brake:1, suspension:1, seat:1, cockpit:1};
       var HOOD_PARTS = {engine:1, strutbrace:1, cooling:1};
+      var UNDERBODY_PARTS = {gearbox:1, diff:1, exhaust:1, suspension:1, diffuser:1};
+      var pendingExplodedFocus = null;
       function setSelectionViewState(id){
         var reveal = !!REVEAL_PARTS[id], openHood = !!HOOD_PARTS[id];
         if (selectionAutoXray && !reveal){ xray = false; selectionAutoXray = false; }
@@ -1623,9 +1631,27 @@
         fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
       }
       function flyToView(name){ flyToCamera(VIEWS[name]); }
+      function explodedPartView(id){
+        var part = partCenter(id);
+        if (!part) return PART_VIEWS[id];
+        var target = part.center.clone();
+        target.y = Math.max(0.35, target.y);
+        var distance = Math.max(3.1, Math.min(5.1, part.size.length() * 1.25 + 1.5));
+        if (camera.aspect < 1) distance *= 1.2;
+        var side = id === 'diff' || id === 'suspension' ? -1 : 1;
+        var position = target.clone().add(new THREE.Vector3(side * distance * 0.82, distance * 0.53, distance * (id === 'exhaust' || id === 'diff' ? -0.3 : 0.34)));
+        return {p:position.toArray(), t:target.toArray()};
+      }
       function flyToPart(id){
         document.querySelectorAll('.viewbtn').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
-        flyToCamera(PART_VIEWS[id]);
+        if (UNDERBODY_PARTS[id] && explodeTarget > 0.05){
+          if (Math.abs(explodeCur - explodeTarget) > 0.01){ pendingExplodedFocus = id; return; }
+          pendingExplodedFocus = null;
+          flyToCamera(explodedPartView(id));
+        } else {
+          pendingExplodedFocus = null;
+          flyToCamera(PART_VIEWS[id]);
+        }
       }
       document.querySelectorAll('.viewbtn').forEach(function(b){
         b.addEventListener('click', function(){
@@ -1719,6 +1745,7 @@
          nắp vừa khó nhận ra đã ăn hay chưa). */
       function applyExplode(f){
         explodeTarget = f;
+        if (selected && UNDERBODY_PARTS[selected]) pendingExplodedFocus = selected;
         var lbl = document.getElementById('explodeval');
         if (lbl) lbl.textContent = Math.round(f * 100) + '%';
         var eb = document.getElementById('explodebtn');
@@ -1775,6 +1802,7 @@
           var amount=Math.max(0,Math.min(1,state.explode));
           document.getElementById('explode').value=Math.round(amount*100);
           explodeCur=amount; applyExplode(amount); layoutAll();
+          pendingExplodedFocus=null;
         }
         if (state.view && VIEWS[state.view] && !selected){
           document.querySelectorAll('.viewbtn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.view===state.view?'true':'false');});
@@ -1862,6 +1890,11 @@
           }
           }
           if (layoutDirty) layoutAll();
+          if (pendingExplodedFocus && explodeCur === explodeTarget){
+            var focusId = pendingExplodedFocus;
+            pendingExplodedFocus = null;
+            if (selected === focusId) flyToPart(focusId);
+          }
           if (controls) controls.update();
           if(environmentShell && environmentShell.userData.overhead){
             var overhead=environmentShell.userData.overhead;
