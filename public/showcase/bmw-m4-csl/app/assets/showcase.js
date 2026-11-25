@@ -46,7 +46,7 @@
          desc:'Diffuser carbon dưới cản sau, ôm cụm ống xả và ổn định luồng gió gầm.',
          fn:'Giảm nhiễu gió gầm, tăng ổn định tốc độ cao', mat:'CFRP', spec:'Đi cùng lip trước + ducktail thành gói aero CSL', note:'Thấp và sắc — cẩn thận khi lùi sát lề cao.'},
         {id:'engine', sys:'Động cơ & truyền động', name:'Động cơ S58 — 3.0L I6 Twin-Turbo', en:'S58 engine',
-         patterns:[/M4xNME_engine$/,/_engine_M4/,/enginebay/,/intake/], explode:[0,0.7,0.3],
+         patterns:[/M4xNME_engine$/,/_engine_M4/,/intake/], explode:[0,0.7,0.3],
          desc:'Trái tim của CSL: S58 6 xi-lanh thẳng hàng 3,0 lít, hai turbo đơn cuộn, phun áp suất 350 bar. Mạnh hơn M4 Competition 40 hp nhờ tăng áp suất turbo.',
          fn:'Sinh công suất kéo xe', mat:'Khối nhôm, trục khuỷu rèn, lõi block in 3D', spec:'2.993 cc · 550 hp @ 6.250 rpm · 650 Nm @ 2.750–5.950 rpm', note:'Chỉ chạy xăng chỉ số octane cao theo khuyến cáo.'},
         {id:'strutbrace', sys:'Động cơ & truyền động', name:'Giằng tháp phuộc nhôm đúc', en:'Strut brace',
@@ -866,6 +866,7 @@
         controls.autoRotate = !reduceMotion && !softwareGL; controls.autoRotateSpeed = 0.7;
         document.getElementById('spin').setAttribute('aria-pressed', controls.autoRotate ? 'true' : 'false');
         controls.addEventListener('change', function(){ needsRender = true; });
+        controls.addEventListener('end', saveViewState);
 
         loadModel();
         resize();
@@ -930,6 +931,7 @@
           document.getElementById('loadveil').style.display='none';
           document.getElementById('environment').disabled = false;
           setPaint(0);
+          restoreViewState();
         }
         function onProgress(ev){
           if (ev.total) {
@@ -1052,19 +1054,30 @@
           partObjects[p.id] = objs;
           objs.forEach(function(o){ if(!basePos.has(o)) basePos.set(o, o.position.clone()); });
         });
-        // Bánh xe & phanh: explode hướng ra NGOÀI theo trục ngang X.
-        // Bản cũ lấy dấu theo z nên bánh trước bị đẩy về phía đầu xe và
-        // bánh sau về phía đuôi xe thay vì tách ra hai bên hông.
-        ['wheel','brake'].forEach(function(pid){
-          (partObjects[pid]||[]).forEach(function(o){
-            var wp = new THREE.Vector3(); o.getWorldPosition(wp);
-            o.userData.explodeDir = new THREE.Vector3(wp.x >= 0 ? 1 : -1, 0, 0).multiplyScalar(pid === 'brake' ? 1.3 : 0.8);
-          });
-        });
+        // The GLB stores many mesh vertices away from each group's origin.
+        // Use the visible geometry centre, so left and right assemblies
+        // actually separate to their own side of the vehicle.
+        carRoot.updateMatrixWorld(true);
         PARTS.forEach(function(p){
-          if (p.id==='wheel'||p.id==='brake') return;
           (partObjects[p.id]||[]).forEach(function(o){
-            o.userData.explodeDir = new THREE.Vector3(p.explode[0], p.explode[1], p.explode[2]);
+            var center = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
+            var side = center.x < -0.12 ? -1 : center.x > 0.12 ? 1 : 0;
+            var frontRear = center.z >= 0 ? 1 : -1;
+            var dir = new THREE.Vector3(p.explode[0], p.explode[1], p.explode[2]);
+            if (p.id === 'wheel') dir.set(side * 0.82, 0.06, 0);
+            else if (p.id === 'brake') dir.set(side * 1.16, 0.12, 0);
+            else if (p.id === 'headlight') dir.set(side * 0.26, 0.16, 0.57);
+            else if (p.id === 'taillight') dir.set(side * 0.3, 0.17, -0.62);
+            else if (p.id === 'mirror') dir.set(side * 0.48, 0.28, 0);
+            else if (p.id === 'seat') dir.set(side * 0.22, 0.88, -0.08);
+            else if (p.id === 'suspension') dir.set(side * 0.35, -0.42, frontRear * 0.12);
+            else if (p.id === 'diff') dir.set(0, -0.28, frontRear * 0.52);
+            else if (p.id === 'gearbox') dir.set(0, -0.48, center.z > 0.4 ? 0.2 : -0.12);
+            else if (p.id === 'grille') {
+              dir.set(0, /splitter/.test(o.name) ? -0.12 : 0.08, /grille/.test(o.name) ? 0.88 : /splitter/.test(o.name) ? 1.05 : 0.6);
+            }
+            else if (p.id === 'cockpit') dir.set(side * 0.18, /steer|dash/.test(o.name) ? 0.77 : 0.58, 0.02);
+            o.userData.explodeDir = dir;
           });
         });
       }
@@ -1238,8 +1251,8 @@
                  trông như xe gãy làm đôi. Chỉ cánh cửa tách ra hông,
                  vè trước tách nhẹ theo phía của nó. */
               if (o.name === 'M4xNME_body') return;
-              var wp = new THREE.Vector3(); o.getWorldPosition(wp);
-              var side = wp.x >= 0 ? 1 : -1;
+              var center = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
+              var side = center.x >= 0 ? 1 : -1;
               var amt = /door_F/.test(o.name) ? 0.85 : 0.4;
               d = new THREE.Vector3(side * amt, 0.05, 0);
             }
@@ -1255,9 +1268,18 @@
             if (o.parent && !movable.has(o)) movable.set(o, {base: o.position.clone(), off: toLocalOffset(o, d)});
           });
         });
+        // Inner door trim belongs to the moving door even though its name
+        // does not match the public "Doors / body" handbook category.
+        (setByWhich.doors || []).forEach(function(s){
+          s.objs.forEach(function(o){
+            if (!/doorpanel/.test(o.name) || movable.has(o)) return;
+            var center = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
+            movable.set(o, {base:o.position.clone(), off:toLocalOffset(o,new THREE.Vector3(center.x >= 0 ? 0.85 : -0.85,0.05,0))});
+          });
+        });
       }
       /* Nơi DUY NHẤT ghi position/quaternion cho cụm di chuyển được:
-         vị trí = gốc + nổ tung, rồi (nếu thuộc cụm mở) quay quanh bản lề.
+         quay quanh bản lề trước, rồi cộng độ tách theo hướng cố định.
          Nhờ vậy mở nắp và nổ tung cộng dồn đúng, không ghi đè nhau —
          gốc lỗi "nổ tung không ăn" của bản cũ là hai cơ chế cùng ghi
          position theo hai hệ basePos khác nhau. */
@@ -1266,7 +1288,7 @@
         var setOf = new Map();
         openerSets.forEach(function(s){ s.objs.forEach(function(o){ setOf.set(o, s); }); });
         movable.forEach(function(rec, o){
-          tmp.copy(rec.off).multiplyScalar(explodeCur).add(rec.base);
+          tmp.copy(rec.base);
           var s = setOf.get(o);
           if (s){
             var orig = s.orig.get(o);
@@ -1278,6 +1300,9 @@
               o.quaternion.copy(orig.q);
             }
           }
+          // Apply separation after hinge rotation. Otherwise opening a door,
+          // hood or trunk rotates its exploded offset around the old hinge.
+          tmp.addScaledVector(rec.off, explodeCur);
           o.position.copy(tmp);
         });
         // Tấm kính đèn hậu trong GLB là một mesh liền ngang cả hai bên.
@@ -1707,6 +1732,77 @@
         applyExplode(on ? 1 : 0);
       });
 
+      /* Keep the current showroom setup when moving between VI and EN.
+         The theme button changes the page in place; saving the same setup
+         also makes a later language switch preserve the selected part. */
+      var VIEW_STATE_KEY = 'bmw-m4-csl-view-v1';
+      function saveViewState(){
+        if (!carRoot || !controls) return;
+        var paint = Array.prototype.findIndex.call(swEl.children,function(b){return b.getAttribute('aria-pressed')==='true';});
+        var view = document.querySelector('.viewbtn[aria-pressed="true"]');
+        var state = {
+          version:1, paint:paint, environment:environmentSelect.value,
+          garageDoorsClosed:garageDoors.front.target>0.5, garageLight:garageLightPreset,
+          selected:selected, selectionAutoXray:selectionAutoXray, selectionOpenedHood:selectionOpenedHood,
+          xray:xray, lights:lightsOn, spin:controls.autoRotate, explode:explodeTarget,
+          open:{doors:(setByWhich.doors||[]).some(function(s){return s.target!==0;}),
+            hood:!!(setByWhich.hood&&setByWhich.hood.target),
+            trunk:!!(setByWhich.trunk&&setByWhich.trunk.target)},
+          view:view ? view.dataset.view : null,
+          camera:camera.position.toArray(), target:controls.target.toArray()
+        };
+        try { sessionStorage.setItem(VIEW_STATE_KEY,JSON.stringify(state)); } catch(e){}
+      }
+      function restoreViewState(){
+        var state;
+        try { state=JSON.parse(sessionStorage.getItem(VIEW_STATE_KEY)); } catch(e){ return; }
+        if (!state || state.version!==1) return;
+        if (Number.isInteger(state.paint) && state.paint>=0 && state.paint<PAINTS.length) setPaint(state.paint);
+        if (state.selected && PARTS.some(function(p){return p.id===state.selected;})) selectPart(state.selected,false);
+        xray=!!state.xray;
+        selectionAutoXray=!!state.selectionAutoXray && !!selected;
+        selectionOpenedHood=!!state.selectionOpenedHood && !!selected;
+        document.getElementById('xray').setAttribute('aria-pressed',xray?'true':'false');
+        applyXrayVisuals();
+        lightsOn=!!state.lights;
+        document.getElementById('lights').setAttribute('aria-pressed',lightsOn?'true':'false');
+        applyLights();
+        if (state.open){
+          ['doors','hood','trunk'].forEach(function(which){setOpen(which,!!state.open[which]);});
+          layoutAll();
+        }
+        if (Number.isFinite(state.explode)){
+          var amount=Math.max(0,Math.min(1,state.explode));
+          document.getElementById('explode').value=Math.round(amount*100);
+          explodeCur=amount; applyExplode(amount); layoutAll();
+        }
+        if (state.view && VIEWS[state.view] && !selected){
+          document.querySelectorAll('.viewbtn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.view===state.view?'true':'false');});
+        }
+        if (Array.isArray(state.camera) && Array.isArray(state.target) &&
+            state.camera.length===3 && state.target.length===3 &&
+            state.camera.concat(state.target).every(Number.isFinite)){
+          camera.position.fromArray(state.camera);
+          controls.target.fromArray(state.target);
+        }
+        controls.autoRotate=!!state.spin && !reduceMotion;
+        document.getElementById('spin').setAttribute('aria-pressed',controls.autoRotate?'true':'false');
+        controls.update();
+        setGarageDoorsClosed(!!state.garageDoorsClosed);
+        garageDoors.front.cur=garageDoors.front.target;
+        garageDoors.rear.cur=garageDoors.rear.target;
+        setGarageLight(state.garageLight);
+        if (state.environment && (state.environment==='none' || ENVIRONMENTS[state.environment])){
+          environmentSelect.value=state.environment;
+          setEnvironment(state.environment);
+        }
+        needsRender=true;
+      }
+      document.addEventListener('click',saveViewState);
+      document.addEventListener('input',saveViewState);
+      document.addEventListener('change',saveViewState);
+      window.addEventListener('pagehide',saveViewState);
+
       /* Vòng lặp — RENDER THEO YÊU CẦU: model 1,24 triệu đỉnh vẽ lại mỗi
          khung hình sẽ chiếm hết CPU (nhất là WebGL phần mềm) khiến trang
          nghẽn, trình duyệt không xử lý nổi cuộn/chụp hình. Chỉ vẽ khi có
@@ -1723,7 +1819,7 @@
             var k = fly.t>=1 ? 1 : (1-Math.pow(1-fly.t,3));
             camera.position.lerpVectors(fly.fromP, fly.toP, k);
             controls.target.lerpVectors(fly.fromT, fly.toT, k);
-            if (fly.t>=1) fly = null;
+            if (fly.t>=1){ fly = null; saveViewState(); }
             needsRender = true;
           }
           // Animation mở/đóng cửa, ca-pô, cốp + nổ tung: tiến dần về
