@@ -258,7 +258,9 @@
       var bayMeshes = []; var bayGroup = null; var hoodOpen = false;
       var selected = null, xray = false, cslWeightMode = false, lightsOn = false, aeroOn = false;
       var wheelCorners = [], steerWheelObjs = [], steerCur = 0, steerTarget = 0;
-      var aeroGroup = null, aeroStreams = [];
+      var aeroGroup = null, aeroStreams = [], aeroParticleMesh = null, aeroDummy = null;
+      var layoutCache = null, shadowDirty = false, lastShadowTime = 0;
+      var qualityMax = 1.25, qualityRatio = 1, qualityFrames = 0, qualityMean = 0, qualityWasActive = false;
       var tourActive = false, tourStep = 0, tourTimer = 0;
       var selectionReveal = false, selectionAutoXray = false, selectionOpenedHood = false;
       var fly = null;
@@ -676,7 +678,7 @@
         shutter.curtain.position.y=shutter.clearance*(1-progress/2);
         shutter.bottomRail.position.y=shutter.clearance*(1-progress)+0.045;
         shutter.texture.repeat.y=Math.max(0.01,18*progress);
-        if(renderer)renderer.shadowMap.needsUpdate=true;
+        shadowDirty=true;
         needsRender=true;
       }
       function setGarageDoorsClosed(closed){
@@ -854,7 +856,9 @@
           var rname = dbg ? String(glCtx.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || '') : '';
           softwareGL = /swiftshader|llvmpipe|softpipe/i.test(rname);
         } catch(e){ softwareGL = false; }
-        renderer.setPixelRatio(softwareGL ? 1 : Math.min(window.devicePixelRatio||1, 1.25));
+        qualityMax = softwareGL ? 1 : Math.min(window.devicePixelRatio||1, 1.25);
+        qualityRatio = qualityMax;
+        renderer.setPixelRatio(qualityRatio);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.0;
@@ -912,12 +916,14 @@
         resize();
         window.addEventListener('resize', resize);
         renderer.domElement.addEventListener('pointerdown', function(ev){
+          fly = null; pendingExplodedFocus = null;
           controls.autoRotate=false; document.getElementById('spin').setAttribute('aria-pressed','false');
           stopTour();
           document.querySelectorAll('.viewbtn').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
           downPos = {x:ev.clientX, y:ev.clientY};
         });
         renderer.domElement.addEventListener('click', onCanvasClick);
+        renderer.domElement.addEventListener('wheel', function(){ fly = null; pendingExplodedFocus = null; stopTour(); }, {passive:true});
         animate();
       }
       function resize(){
@@ -1335,6 +1341,7 @@
       function setupWheelSystem(){
         wheelCorners = [];
         steerWheelObjs = [];
+        layoutCache = null;
         carRoot.updateMatrixWorld(true);
         var flNodes = [], frNodes = [], seen = new Set();
         (partObjects.wheel || []).concat(partObjects.brake || []).forEach(function(o){
@@ -1382,16 +1389,18 @@
          Nhờ vậy mở nắp và nổ tung cộng dồn đúng, không ghi đè nhau —
          gốc lỗi "nổ tung không ăn" của bản cũ là hai cơ chế cùng ghi
          position theo hai hệ basePos khác nhau. */
-      function layoutAll(){
-        var q = new THREE.Quaternion(), tmp = new THREE.Vector3();
-        var setOf = new Map();
-        openerSets.forEach(function(s){ s.objs.forEach(function(o){ setOf.set(o, s); }); });
-        var wheelNodeSet = new Set();
-        wheelCorners.forEach(function(c){ c.nodes.forEach(function(n){ wheelNodeSet.add(n.obj); }); });
-        movable.forEach(function(rec, o){
-          if (wheelNodeSet.has(o)) return;
+      function layoutAll(steeringOnly){
+        if (!layoutCache){
+          var setOf = new Map(), wheelNodes = new Set();
+          openerSets.forEach(function(s){ s.objs.forEach(function(o){ setOf.set(o, s); }); });
+          wheelCorners.forEach(function(c){ c.nodes.forEach(function(n){ wheelNodes.add(n.obj); }); });
+          layoutCache = {setOf:setOf,wheelNodes:wheelNodes,q:new THREE.Quaternion(),tmp:new THREE.Vector3(),qSteer:new THREE.Quaternion(),qSW:new THREE.Quaternion(),axis:new THREE.Vector3(0,1,0)};
+        }
+        var q = layoutCache.q, tmp = layoutCache.tmp;
+        if (!steeringOnly) movable.forEach(function(rec, o){
+          if (layoutCache.wheelNodes.has(o)) return;
           tmp.copy(rec.base);
-          var s = setOf.get(o);
+          var s = layoutCache.setOf.get(o);
           if (s){
             var orig = s.orig.get(o);
             if (s.cur !== 0){
@@ -1407,7 +1416,7 @@
           tmp.addScaledVector(rec.off, explodeCur);
           o.position.copy(tmp);
         });
-        var qSteer = new THREE.Quaternion();
+        var qSteer = layoutCache.qSteer;
         wheelCorners.forEach(function(c){
           c.nodes.forEach(function(n){
             tmp.copy(n.basePos);
@@ -1423,16 +1432,16 @@
             n.obj.position.copy(tmp);
           });
         });
-        var qSW = new THREE.Quaternion();
-        qSW.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -steerCur * 4.5);
+        var qSW = layoutCache.qSW;
+        qSW.setFromAxisAngle(layoutCache.axis, -steerCur * 4.5);
         steerWheelObjs.forEach(function(sw){
           sw.obj.quaternion.copy(sw.baseQuat).multiply(qSW);
         });
         // Tấm kính đèn hậu trong GLB là một mesh liền ngang cả hai bên.
         // Khi mở cốp, phần giữa mesh này sẽ lơ lửng trong miệng cốp;
         // giữ các cụm đèn hai bên và ẩn riêng tấm kính không chia được.
-        if (trunkGlass && setByWhich.trunk) trunkGlass.visible = setByWhich.trunk.cur <= 0.01;
-        if (renderer) renderer.shadowMap.needsUpdate = true;
+        if (!steeringOnly && trunkGlass && setByWhich.trunk) trunkGlass.visible = setByWhich.trunk.cur <= 0.01;
+        shadowDirty = true;
         needsRender = true;
       }
 
@@ -1610,6 +1619,11 @@
           [-0.36, 0.16, 2.7, -0.36, 0.14, 0.8, -0.36, 0.14, -1.2, -0.38, 0.28, -2.4, -0.40, 0.44, -3.2],
           [ 0.36, 0.16, 2.7,  0.36, 0.14, 0.8,  0.36, 0.14, -1.2,  0.38, 0.28, -2.4,  0.40, 0.44, -3.2]
         ];
+        aeroParticleMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.030,8,8), new THREE.MeshBasicMaterial({color:0xffffff,toneMapped:false}), curves.length * 6);
+        aeroParticleMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        aeroParticleMesh.frustumCulled = false;
+        aeroDummy = new THREE.Object3D();
+        aeroGroup.add(aeroParticleMesh);
         curves.forEach(function(coords, idx){
           var pts = [];
           for (var i = 0; i < coords.length; i += 3) pts.push(new THREE.Vector3(coords[i], coords[i+1], coords[i+2]));
@@ -1620,12 +1634,12 @@
           );
           aeroGroup.add(tube);
           for (var k = 0; k < 6; k++){
-            var particle = new THREE.Mesh(
-              new THREE.SphereGeometry(0.030, 8, 8),
-              new THREE.MeshBasicMaterial({color: idx >= 3 ? 0xff4d60 : 0x38b6ff, toneMapped: false})
-            );
-            aeroGroup.add(particle);
-            aeroStreams.push({curve: curve, mesh: particle, t: k / 6, speed: idx >= 3 ? 0.58 : 0.46});
+            var index = idx * 6 + k;
+            curve.getPointAt(k / 6, aeroDummy.position);
+            aeroDummy.updateMatrix();
+            aeroParticleMesh.setMatrixAt(index, aeroDummy.matrix);
+            aeroParticleMesh.setColorAt(index, new THREE.Color(idx >= 3 ? 0xff4d60 : 0x38b6ff));
+            aeroStreams.push({curve:curve,index:index,t:k/6,speed:idx>=3?0.58:0.46});
           }
         });
         scene.add(aeroGroup);
@@ -1882,6 +1896,8 @@
       function flyToCamera(v){
         if (!v) return;
         controls.autoRotate = false;
+        var damping = controls.enableDamping;
+        controls.enableDamping = false; controls.update(); controls.enableDamping = damping;
         document.getElementById('spin').setAttribute('aria-pressed','false');
         fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
       }
@@ -2233,12 +2249,44 @@
          nghẽn, trình duyệt không xử lý nổi cuộn/chụp hình. Chỉ vẽ khi có
          thay đổi: tự xoay đang bật, camera đang bay, hoặc needsRender được
          đặt bởi một thao tác (chọn part, đổi sơn, nổ tung, resize…). */
+      // Exponential settling remains consistent across refresh rates and
+      // can be retargeted while dragging a slider without restarting a tween.
+      function settle(current, target, dt, speed, epsilon){
+        if (reduceMotion || Math.abs(target-current) < epsilon) return target;
+        var next = current + (target-current) * (1-Math.exp(-speed*dt));
+        return Math.abs(target-next) < epsilon ? target : next;
+      }
+      function updateQuality(active, frameTime){
+        if (!renderer) return;
+        if (!active){
+          qualityFrames=0; qualityMean=0;
+          if (qualityWasActive && qualityRatio !== qualityMax){
+            qualityRatio=qualityMax; renderer.setPixelRatio(qualityRatio); resize();
+          }
+          qualityWasActive=false;
+          return;
+        }
+        if (!qualityWasActive){ qualityFrames=0; qualityMean=0; }
+        qualityWasActive=true;
+        if (frameTime <= 0 || frameTime > 0.15) return;
+        qualityMean += (frameTime-qualityMean) / Math.min(++qualityFrames,30);
+        var next=qualityRatio;
+        if (qualityFrames>=45 && qualityMean>0.028) next=Math.max(0.75,qualityRatio-0.125);
+        else if (qualityFrames>=180 && qualityMean<0.019) next=Math.min(qualityMax,qualityRatio+0.125);
+        if (next!==qualityRatio){
+          qualityRatio=next; qualityFrames=0; qualityMean=0;
+          renderer.setPixelRatio(qualityRatio); resize();
+        }
+      }
       var clock = new THREE.Clock();
       var needsRender = true;
       function animate(){
         requestAnimationFrame(animate);
         try {
-          var dt = Math.min(clock.getDelta(), 0.05);
+          var frameTime = clock.getDelta();
+          if (document.hidden) return;
+          var dt = Math.min(frameTime, 0.05);
+          var cameraFlying = !!fly;
           if (fly){
             fly.t += dt/1.1;
             var k = fly.t>=1 ? 1 : (1-Math.pow(1-fly.t,3));
@@ -2258,34 +2306,27 @@
           }
           // Animation mở/đóng cửa, ca-pô, cốp + nổ tung: tiến dần về
           // đích rồi ghi transform qua layoutAll() (đường ghi duy nhất)
-          var layoutDirty = false;
+          var layoutDirty = false, steeringDirty = false, shuttersMoving = false;
           openerSets.forEach(function(s){
             if (s.cur !== s.target){
-              var d = s.target - s.cur;
-              var step = reduceMotion ? Math.abs(d) : dt * 2.4;
-              s.cur += Math.abs(d) <= step ? d : (d > 0 ? step : -step);
+              s.cur = settle(s.cur, s.target, dt, 7, 0.001);
               layoutDirty = true;
             }
           });
           if (explodeCur !== explodeTarget){
-            var ed = explodeTarget - explodeCur;
-            var estep = reduceMotion ? Math.abs(ed) : dt * 1.8;
-            explodeCur += Math.abs(ed) <= estep ? ed : (ed > 0 ? estep : -estep);
+            explodeCur = settle(explodeCur, explodeTarget, dt, 7, 0.001);
             layoutDirty = true;
           }
           if (Math.abs(steerCur - steerTarget) > 0.0005){
-            var sd = steerTarget - steerCur;
-            var sstep = reduceMotion ? Math.abs(sd) : dt * 2.8;
-            steerCur += Math.abs(sd) <= sstep ? sd : (sd > 0 ? sstep : -sstep);
-            layoutDirty = true;
+            steerCur = settle(steerCur, steerTarget, dt, 10, 0.0005);
+            steeringDirty = true;
           }
           if(activeEnvironment==='garage'){
             ['front','rear'].forEach(function(which){
               var door=garageDoors[which];
               if(door.cur===door.target)return;
-              var difference=door.target-door.cur;
-              var step=reduceMotion?Math.abs(difference):dt*1.2;
-              door.cur+=Math.abs(difference)<=step?difference:(difference>0?step:-step);
+              door.cur=settle(door.cur,door.target,dt,6,0.001);
+              shuttersMoving=true;
               updateGarageShutter(which);
             });
             if(garageLightCurrent&&garageLightTarget){
@@ -2301,12 +2342,15 @@
               }
           }
           }
-          if (layoutDirty) layoutAll();
+          if (layoutDirty || steeringDirty) layoutAll(!layoutDirty);
           if (aeroOn && aeroStreams.length){
             aeroStreams.forEach(function(st){
               st.t = (st.t + dt * st.speed) % 1;
-              st.curve.getPointAt(st.t, st.mesh.position);
+              st.curve.getPointAt(st.t, aeroDummy.position);
+              aeroDummy.updateMatrix();
+              aeroParticleMesh.setMatrixAt(st.index, aeroDummy.matrix);
             });
+            aeroParticleMesh.instanceMatrix.needsUpdate = true;
             needsRender = true;
           }
           if (pendingExplodedFocus && explodeCur === explodeTarget){
@@ -2314,11 +2358,17 @@
             pendingExplodedFocus = null;
             if (selected === focusId) flyToPart(focusId);
           }
-          if (controls) controls.update();
+          if (cameraFlying) camera.lookAt(controls.target);
+          else if (controls) controls.update();
           if(environmentShell && environmentShell.userData.overhead){
             var overhead=environmentShell.userData.overhead;
             var showOverhead=camera.position.y<environmentShell.userData.overheadHeight;
             if(overhead.visible!==showOverhead){overhead.visible=showOverhead;needsRender=true;}
+          }
+          var active = cameraFlying || !!fly || layoutDirty || steeringDirty || shuttersMoving || aeroOn || tourActive || (controls && controls.autoRotate) || needsRender;
+          updateQuality(active, frameTime);
+          if (shadowDirty && (!layoutDirty && !steeringDirty && !shuttersMoving || clock.elapsedTime-lastShadowTime>=0.08)){
+            renderer.shadowMap.needsUpdate=true; shadowDirty=false; lastShadowTime=clock.elapsedTime; needsRender=true;
           }
           if (renderer && (needsRender || (controls && controls.autoRotate))){
             renderer.render(scene, camera);
