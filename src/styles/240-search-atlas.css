@@ -110,11 +110,12 @@ html[data-theme="light"] .atlas-waypoints button.is-active::before { background:
   .atlas-station {
     grid-area: 1 / 1;
     position: relative;
+    isolation: isolate;
     top: auto;
     width: 100%;
     max-width: 570px;
     transform-origin: left center;
-    transform: translate3d(calc(var(--atlas-orbit-x, 0px) * .2), calc(var(--atlas-rise) * .18 + var(--atlas-orbit-y, 0px) * .2), calc(var(--atlas-depth) * .55)) rotateY(var(--atlas-orbit-rot, 0deg)) scale(var(--atlas-scale));
+    transform: translate3d(calc(var(--atlas-orbit-x, 0px) * .2), calc(var(--atlas-rise) * .65 + var(--atlas-orbit-y, 0px) * .2), calc(var(--atlas-depth) * .55)) rotateY(var(--atlas-orbit-rot, 0deg)) scale(var(--atlas-scale));
     text-shadow: none;
   }
   .atlas-station.is-left, .atlas-station.is-right { left: auto; }
@@ -141,6 +142,13 @@ html[data-theme="light"] .atlas-waypoints button.is-active::before { background:
   html[data-theme="light"] .atlas-visual::after { background: linear-gradient(90deg, rgba(231,239,236,.77) 0, rgba(231,239,236,.3) 48%, transparent 82%); }
 }
 @media (max-width: 520px) {
+  .atlas-station::before {
+    inset: -22px -18px;
+    background: radial-gradient(ellipse at 42% 50%, rgba(9,21,33,.88) 0, rgba(9,21,33,.7) 58%, transparent 86%);
+  }
+  html[data-theme="light"] .atlas-station::before {
+    background: radial-gradient(ellipse at 42% 50%, rgba(231,239,236,.9) 0, rgba(231,239,236,.72) 58%, transparent 86%);
+  }
   .atlas-controls > p { font-size: 10px; line-height: 1.5; }
   .atlas-waypoints button span:last-child { font-size: 9px; }
   .atlas-mobile { grid-template-columns: 1fr; margin-top: 45px; }

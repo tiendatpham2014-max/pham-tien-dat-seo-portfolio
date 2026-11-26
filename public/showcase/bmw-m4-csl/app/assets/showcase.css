@@ -113,7 +113,7 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
       #detail dd{margin:0}
       #selbar{position:absolute;left:10px;right:10px;bottom:10px;z-index:4;display:flex;gap:8px;align-items:center;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:13px}
       #selbar[hidden]{display:none}
-      #selbar strong{white-space:nowrap}
+      #selbar strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
       #selbar span{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
       #selbar button{flex:none;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:32px}
       #selbar #sb-clear{width:32px;padding:0;background:var(--panel2);color:var(--ink);border:1px solid var(--line);font-size:20px;line-height:1}
@@ -169,6 +169,11 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
         .sw{width:30px;height:30px;min-height:30px}
         .tostage{display:inline-flex;margin-bottom:10px}
         #toDetail:not([hidden]){display:block;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 18px;font-size:14px;font-weight:600;box-shadow:var(--shadow);cursor:pointer;max-width:92vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      }
+      @media (max-width: 520px){
+        #selbar strong{flex:1}
+        #selbar span{display:none}
+        .viewtabs button{min-width:0;padding:9px 2px;font-size:12px;white-space:nowrap}
       }
       .hero-tag{display:inline-block;background:var(--accent);color:#fff;border-radius:99px;padding:3px 12px;font-size:12.5px;font-weight:600;letter-spacing:.02em;margin-bottom:10px}
       @media (prefers-reduced-motion: reduce){

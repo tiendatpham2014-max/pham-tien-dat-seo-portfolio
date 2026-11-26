@@ -44,7 +44,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         const hardware = navigator as Navigator & { deviceMemory?: number };
         const constrained = (navigator.hardwareConcurrency || 8) <= 4 || (hardware.deviceMemory || 8) <= 4;
         let lowEnd = constrained || host.clientWidth <= 520;
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !lowEnd, powerPreference: "low-power" });
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !lowEnd, powerPreference: "low-power", preserveDrawingBuffer: true });
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         host.appendChild(renderer.domElement);
 
@@ -245,6 +245,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         let slowFrames = 0;
         let qualityReduced = false;
         let restoreTimer = 0;
+        let ambientTimer = 0;
         let viewportWidth = host.clientWidth;
         let rendered = false;
         let contextLost = false;
@@ -253,10 +254,26 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         raycaster.layers.set(1);
         const pointerPoint = new THREE.Vector2();
         const desktopLanes = [2.1, -2.1, 2.1, -1.8, 2.1];
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const isHostInViewport = () => {
+          const rect = host?.getBoundingClientRect();
+          return !!rect && !document.hidden && rect.bottom > 0 && rect.top < window.innerHeight && rect.right > 0 && rect.left < window.innerWidth;
+        };
 
         function scheduleDraw() {
+          visible = isHostInViewport();
+          if (ambientTimer) { clearTimeout(ambientTimer); ambientTimer = 0; }
           if (restoreTimer) { clearTimeout(restoreTimer); restoreTimer = 0; }
           if (visible && !contextLost && !frame) frame = requestAnimationFrame(draw);
+        }
+        function scheduleAmbient() {
+          visible = isHostInViewport();
+          if (reducedMotion.matches || !visible || contextLost || ambientTimer || frame) return;
+          ambientTimer = window.setTimeout(() => {
+            ambientTimer = 0;
+            visible = isHostInViewport();
+            if (visible && !contextLost && !frame) frame = requestAnimationFrame(draw);
+          }, lowEnd ? 34 : 24);
         }
         requestFrameRef.current = scheduleDraw;
 
@@ -283,12 +300,12 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         const onVisibility = () => {
           visible = !document.hidden;
           if (visible) scheduleDraw();
-          else { cancelAnimationFrame(frame); frame = 0; previousRender = 0; }
+          else { cancelAnimationFrame(frame); clearTimeout(ambientTimer); ambientTimer = 0; frame = 0; previousRender = 0; }
         };
         const onIntersect = new IntersectionObserver(([entry]) => {
-          visible = entry.isIntersecting && !document.hidden;
+          visible = !document.hidden && (entry.isIntersecting || isHostInViewport());
           if (visible) scheduleDraw();
-          else { cancelAnimationFrame(frame); frame = 0; previousRender = 0; }
+          else { cancelAnimationFrame(frame); clearTimeout(ambientTimer); ambientTimer = 0; frame = 0; previousRender = 0; }
         }, { threshold: 0 });
         onIntersect.observe(host);
 
@@ -343,11 +360,18 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           event.preventDefault();
           contextLost = true;
           cancelAnimationFrame(frame);
+          clearTimeout(ambientTimer);
+          ambientTimer = 0;
           frame = 0;
           rendered = false;
           setReady(false);
         };
         const onContextRestored = () => { contextLost = false; scheduleDraw(); };
+        const onReducedMotionChange = () => {
+          if (reducedMotion.matches) { clearTimeout(ambientTimer); ambientTimer = 0; }
+          scheduleDraw();
+        };
+        reducedMotion.addEventListener("change", onReducedMotionChange);
         renderer.domElement.addEventListener("webglcontextlost", onContextLost);
         renderer.domElement.addEventListener("webglcontextrestored", onContextRestored);
 
@@ -389,7 +413,9 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
             0,
           );
           model.scale.setScalar(THREE.MathUtils.lerp(baseScale, targetScale, measurementStrength));
-          model.rotation.set(.12 + currentPitch, currentYaw, 0);
+          const idleYaw = reducedMotion.matches ? 0 : Math.sin(time * .00045) * .055;
+          const idlePitch = reducedMotion.matches ? 0 : Math.cos(time * .00035) * .018;
+          model.rotation.set(.12 + currentPitch + idlePitch, currentYaw + idleYaw, 0);
 
           for (let i = 0; i < nodeCount; i++) {
             blendedPosition.copy(stagePositions[from][i]).lerp(stagePositions[to][i], blend);
@@ -474,6 +500,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
               slowFrames = 0;
               resize();
             }, 650);
+            scheduleAmbient();
           }
         }
 
@@ -482,10 +509,12 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         cleanup = () => {
           cancelAnimationFrame(frame);
           clearTimeout(restoreTimer);
+          clearTimeout(ambientTimer);
           requestFrameRef.current = () => {};
           renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
           renderer.domElement.removeEventListener("webglcontextrestored", onContextRestored);
           document.removeEventListener("visibilitychange", onVisibility);
+          reducedMotion.removeEventListener("change", onReducedMotionChange);
           host.removeEventListener("pointerdown", onPointerDown);
           host.removeEventListener("pointermove", onPointerMove);
           host.removeEventListener("pointerup", onPointerUp);
