@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="/showcase/bmw-m4-csl/app/assets/showcase.css" />
   </head>
   <body>
-    <nav class="showcase-nav" aria-label="Car showcase navigation"><a href="/en/">← Back to portfolio</a><div class="showcase-nav-controls"><a href="/showcase/bmw-m4-csl/" lang="vi" >VI</a><a href="/en/showcase/bmw-m4-csl/" lang="en" aria-current="page">EN</a><button type="button" id="theme-toggle" aria-label="Toggle light and dark theme">◐</button></div></nav>
+    <nav class="showcase-nav" aria-label="Car showcase navigation"><a href="/en/">← Back to portfolio</a><div class="showcase-nav-controls"><button type="button" id="snapshot-btn" title="Capture 3D PNG">Snapshot PNG</button><a href="/showcase/bmw-m4-csl/" lang="vi" >VI</a><a href="/en/showcase/bmw-m4-csl/" lang="en" aria-current="page">EN</a><button type="button" id="theme-toggle" aria-label="Toggle light and dark theme">◐</button></div></nav>
     <div class="wrap">
       <header class="top">
         <div>
@@ -90,7 +90,13 @@
       <main class="layout">
         <section class="stagebox" aria-label="Dat’s 3D garage — BMW M4 CSL viewer">
           <div id="stage" data-environment="none">
-            <div class="hint">Drag to rotate · Scroll or pinch to zoom · Select a part</div>
+            <div class="stage-top">
+              <div class="hint">Drag to rotate · Scroll or pinch to zoom · Select a part</div>
+              <div class="stage-badges">
+                <div class="hud-badge" id="hud-weight" hidden><strong>-100 kg CSL:</strong> CFRP hood &amp; roof · Bucket seats (-24 kg) · Ceramic brakes (-14.3 kg) · Titanium exhaust (-4.3 kg) · Alloy brace (-1.5 kg)</div>
+                <div class="hud-badge" id="hud-aero" hidden><strong>Aero flow:</strong> Front splitter → Roof → Carbon ducktail &amp; underbody diffuser</div>
+              </div>
+            </div>
             <div id="selbar" hidden><strong id="sb-name"></strong><span id="sb-spec"></span><button type="button" id="sb-detail">Details ↓</button><button type="button" id="sb-clear" aria-label="Deselect part" title="Deselect">×</button></div>
             <div id="loadveil">
               <p><strong>Loading the M4 CSL model…</strong></p>
@@ -108,6 +114,7 @@
               <button class="btn viewbtn" data-view="front" aria-pressed="false">Front</button>
               <button class="btn viewbtn" data-view="top" aria-pressed="false">Top</button>
               <button class="btn viewbtn" data-view="engine" aria-pressed="false">Engine bay</button>
+              <button class="btn viewbtn" data-view="cockpit" aria-pressed="false">Cockpit</button>
             </div>
             <div class="grp" role="group" aria-label="Car controls">
               <span class="lbl">Controls</span>
@@ -116,12 +123,25 @@
               <button class="btn" id="opentrunk" aria-pressed="false">Trunk</button>
               <button class="btn" id="lights" aria-pressed="false">Lights</button>
               <button class="btn" id="spin" aria-pressed="true">Auto rotate</button>
+              <button class="btn" id="tour" aria-pressed="false">Cinematic tour</button>
               <button class="btn" id="reset" >Reset</button>
+            </div>
+            <div class="grp" role="group" aria-label="Front wheel steering">
+              <span class="lbl">Steering</span>
+              <input type="range" id="steer" min="-28" max="28" value="0" style="width:108px" aria-label="Front wheel steering angle" /><span class="range-val" id="steerval">0°</span>
             </div>
             <div class="grp" role="group" aria-label="Paint colours">
               <span class="lbl">Paint</span>
               <div class="swatches" id="swatches"></div>
               <span class="muted" id="paintname" style="font-size:13px"></span>
+            </div>
+            <div class="grp" role="group" aria-label="Wheels and brake calipers">
+              <span class="lbl">827M wheels</span>
+              <div class="swatches" id="wheel-swatches"></div>
+              <span class="muted" id="wheelname" style="font-size:12.5px"></span>
+              <span class="lbl" style="margin-left:4px">Calipers</span>
+              <div class="swatches" id="caliper-swatches"></div>
+              <span class="muted" id="calipername" style="font-size:12.5px"></span>
             </div>
             <div class="grp environment-group" role="group" aria-label="Environment">
               <label class="lbl" for="environment">Scene</label>
@@ -143,11 +163,13 @@
                 <button class="garage-light-swatch" type="button" data-garage-light="blue" aria-pressed="false" style="--bulb:#5685ff"><span>Blue</span></button>
               </div>
             </div>
-            <div class="grp" role="group" aria-label="Advanced controls" style="flex:1;min-width:230px">
+            <div class="grp" role="group" aria-label="Advanced controls" style="flex:1;min-width:250px">
               <span class="lbl">Advanced</span>
               <button class="btn accent" id="xray" aria-pressed="false">Body X-ray</button>
+              <button class="btn accent" id="csl-weight" aria-pressed="false">-100 kg CSL</button>
+              <button class="btn accent" id="aero-flow" aria-pressed="false">Aero flow</button>
               <span class="lbl">Exploded view</span>
-              <input type="range" id="explode" min="0" max="100" value="0" style="flex:1" aria-label="Exploded view amount" /><span id="explodeval" style="font-size:12.5px;color:var(--muted);min-width:34px">0%</span><button class="btn" id="explodebtn" type="button">Explode all</button>
+              <input type="range" id="explode" min="0" max="100" value="0" style="flex:1;min-width:80px" aria-label="Exploded view amount" /><span id="explodeval" style="font-size:12.5px;color:var(--muted);min-width:34px">0%</span><button class="btn" id="explodebtn" type="button">Explode all</button>
             </div>
           </div>
         </section>

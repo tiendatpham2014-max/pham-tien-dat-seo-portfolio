@@ -157,6 +157,20 @@
         {name:'Sao Paulo Yellow', hex:0xc6d92e, rough:.32, metal:.1}
       ];
 
+      var WHEEL_FINISHES = [
+        {name:'Đen nhám (Zin)', en:'Matte Black (OEM)', hex:0x26292e, rough:0.36, metal:0.55},
+        {name:'Vàng đồng 827M', en:'Gold Bronze 827M', hex:0xc49545, rough:0.30, metal:0.78},
+        {name:'Bạc sáng', en:'Bright Silver', hex:0xd8dde4, rough:0.24, metal:0.85},
+        {name:'Xám Gunmetal', en:'Gunmetal Grey', hex:0x5b626b, rough:0.28, metal:0.76}
+      ];
+      var CALIPER_COLORS = [
+        {name:'Đỏ M (Zin)', en:'M Red (OEM)', hex:0xb81224, rough:0.28, metal:0.35},
+        {name:'Vàng Carbon-Ceramic', en:'Carbon-Ceramic Gold', hex:0xd69a1e, rough:0.26, metal:0.45},
+        {name:'Xanh M Blue', en:'M Blue', hex:0x1659b8, rough:0.28, metal:0.38},
+        {name:'Đen Stealth', en:'Stealth Black', hex:0x1b1e22, rough:0.36, metal:0.30}
+      ];
+      var CSL_WEIGHT_IDS = {hood:1, roof:1, trunk:1, seat:1, exhaust:1, brake:1, strutbrace:1};
+
       /* ============ DỰNG DANH SÁCH ============ */
       var groupsEl = document.getElementById('groups');
       var sysOrder = [];
@@ -236,13 +250,16 @@
       var pmremGenerator = null, defaultEnvironment = null, environmentRoot = null, environmentShell = null, garageShellCache = null;
       var keyLight = null, fillLight = null, rimLight = null, ambientLight = null;
       var activeEnvironment = 'none', environmentRequest = 0, environmentModels = {};
-      var paintMats = [], glassMats = [], frontLightMats = [], rearLightMats = [], allMeshes = [];
-      var beamL = null, beamR = null, tailGlow = null, bayLight = null;
+      var paintMats = [], wheelRimMats = [], caliperMats = [], glassMats = [], frontLightMats = [], rearLightMats = [], allMeshes = [];
+      var beamL = null, beamR = null, beamCones = [], tailGlow = null, bayLight = null;
       var openers = [], doorOps = [], hoodOp = null, trunkOp = null;
       var partObjects = {};   // id -> [Object3D group nodes]
       var basePos = new Map();
       var bayMeshes = []; var bayGroup = null; var hoodOpen = false;
-      var selected = null, xray = false, lightsOn = false;
+      var selected = null, xray = false, cslWeightMode = false, lightsOn = false, aeroOn = false;
+      var wheelCorners = [], steerWheelObjs = [], steerCur = 0, steerTarget = 0;
+      var aeroGroup = null, aeroStreams = [];
+      var tourActive = false, tourStep = 0, tourTimer = 0;
       var selectionReveal = false, selectionAutoXray = false, selectionOpenedHood = false;
       var fly = null;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -883,7 +900,7 @@
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target.set(0, 0.62, 0);
         controls.enableDamping = true; controls.dampingFactor = 0.06;
-        controls.minDistance = 2.2; controls.maxDistance = 16;
+        controls.minDistance = 0.45; controls.maxDistance = 16;
         controls.maxPolarAngle = Math.PI * 0.52;
         controls.autoRotate = !reduceMotion && !softwareGL; controls.autoRotateSpeed = 0.7;
         defaultAutoRotate = controls.autoRotate;
@@ -896,6 +913,8 @@
         window.addEventListener('resize', resize);
         renderer.domElement.addEventListener('pointerdown', function(ev){
           controls.autoRotate=false; document.getElementById('spin').setAttribute('aria-pressed','false');
+          stopTour();
+          document.querySelectorAll('.viewbtn').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
           downPos = {x:ev.clientX, y:ev.clientY};
         });
         renderer.domElement.addEventListener('click', onCanvasClick);
@@ -944,16 +963,17 @@
           scene.add(carRoot);
           indexModel();
           try { dyeEngineBay(); } catch(e){ showErr('Không nhuộm được khoang máy: ' + (e && e.message ? e.message : e)); }
-          try { setupOpeners(); setupMovable(); } catch(e){ showErr('Không dựng được cơ chế mở nắp / nổ tung: ' + (e && e.message ? e.message : e)); }
+          try { setupOpeners(); setupMovable(); setupWheelSystem(); } catch(e){ showErr('Không dựng được cơ chế mở nắp / nổ tung: ' + (e && e.message ? e.message : e)); }
           if (!openerSets.length || !movable.size) showErr('Cơ chế mở cửa/ca-pô/cốp và nổ tung chưa sẵn sàng (openers=' + openerSets.length + ', movable=' + movable.size + ').');
           try { setupSpoiler(); } catch(e){ showErr('Không dựng được cánh gió ducktail: ' + (e && e.message ? e.message : e)); }
           try { setupBeams(); } catch(e){ }
+          try { setupAeroStreams(); } catch(e){ }
           window.__bmwShowcase = { openers: openerSets.length, movable: movable.size, meshes: allMeshes.length };
           renderer.shadowMap.needsUpdate = true;
           needsRender = true;
           document.getElementById('loadveil').style.display='none';
           document.getElementById('environment').disabled = false;
-          setPaint(0);
+          setPaint(0); setWheelFinish(0); setCaliperColor(0);
           restoreViewState();
         }
         function onProgress(ev){
@@ -1013,16 +1033,15 @@
                và tappi cửa (giữ đỏ ở mọi màu sơn), Colorable1 = nội thất,
                Carbon1 = carbon, Black = nhựa đen. */
             if (n === 'M4xNME_Paint') paintMats.push(m);
+            if (/^M4xNME_Black/.test(n) && /wheels_enkeif/.test(o.name||'')) wheelRimMats.push(m);
+            if (/caliper/.test(n)) caliperMats.push(m);
             if (/GlassClear/.test(n)) glassMats.push(m);
-            /* Đèn: tách trước/sau và LƯU emissive gốc của model. Bản cũ gom
-               tất cả vào một mảng rồi tô vàng đồng loạt — bắt cả vật liệu
-               amdb11_brake của ĐĨA PHANH (đĩa phát sáng) và đèn hậu (sáng
-               vàng thay vì đỏ). amdb11_* là cụm phanh, không phải đèn. */
+            /* Đèn: không nhuộm M4xNME_Lights (chóa tối) và fogred — chỉ sáng DRL vàng & thấu kính bi cầu */
             if (m.emissive){
-              if (/Lights|runningY|highbeam/.test(n)){
+              if (/runningY|highbeam/.test(n)){
                 m.userData._e0 = m.emissive.getHex(); m.userData._ei0 = m.emissiveIntensity;
                 frontLightMats.push(m);
-              } else if (/taillight|LS8|fogred|lowhighbeam/.test(n) || (/brake/.test(n) && n.indexOf('amdb11')!==0)){
+              } else if (/taillight|LS8|lowhighbeam/.test(n) || (/brake/.test(n) && n.indexOf('amdb11')!==0)){
                 m.userData._e0 = m.emissive.getHex(); m.userData._ei0 = m.emissiveIntensity;
                 rearLightMats.push(m);
               }
@@ -1313,6 +1332,51 @@
           }
         });
       }
+      function setupWheelSystem(){
+        wheelCorners = [];
+        steerWheelObjs = [];
+        carRoot.updateMatrixWorld(true);
+        var flNodes = [], frNodes = [], seen = new Set();
+        (partObjects.wheel || []).concat(partObjects.brake || []).forEach(function(o){
+          if (!o || !o.parent || seen.has(o)) return;
+          seen.add(o);
+          var c = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
+          if (c.z <= 0.5) return;
+          if (c.x >= 0) flNodes.push(o);
+          else frNodes.push(o);
+        });
+        [flNodes, frNodes].forEach(function(group){
+          if (!group.length) return;
+          var combinedBox = new THREE.Box3(), hasWheel = false;
+          group.forEach(function(o){
+            if (/wheels_enkeif|^Object_4/i.test(o.name || '')){
+              combinedBox.union(new THREE.Box3().setFromObject(o));
+              hasWheel = true;
+            }
+          });
+          if (!hasWheel) group.forEach(function(o){ combinedBox.union(new THREE.Box3().setFromObject(o)); });
+          var pivotWorld = combinedBox.getCenter(new THREE.Vector3());
+          var nodes = group.map(function(o){
+            var pq = new THREE.Quaternion(); o.parent.getWorldQuaternion(pq);
+            return {
+              obj: o,
+              basePos: o.position.clone(),
+              baseQuat: o.quaternion.clone(),
+              pivotLocal: o.parent.worldToLocal(pivotWorld.clone()),
+              steerAxisLocal: new THREE.Vector3(0, 1, 0).applyQuaternion(pq.clone().invert()).normalize()
+            };
+          });
+          wheelCorners.push({nodes: nodes});
+        });
+        carRoot.traverse(function(o){
+          if (o.name && /^M4xNME_steer_stitch(?:_|\.|$|\d)/.test(o.name) && o.children && o.children.length){
+            if (!/^M4xNME_steer_stitch.*_M4xNME_/.test(o.name)){
+              steerWheelObjs.push({obj: o, baseQuat: o.quaternion.clone()});
+            }
+          }
+        });
+      }
+
       /* Nơi DUY NHẤT ghi position/quaternion cho cụm di chuyển được:
          quay quanh bản lề trước, rồi cộng độ tách theo hướng cố định.
          Nhờ vậy mở nắp và nổ tung cộng dồn đúng, không ghi đè nhau —
@@ -1322,7 +1386,10 @@
         var q = new THREE.Quaternion(), tmp = new THREE.Vector3();
         var setOf = new Map();
         openerSets.forEach(function(s){ s.objs.forEach(function(o){ setOf.set(o, s); }); });
+        var wheelNodeSet = new Set();
+        wheelCorners.forEach(function(c){ c.nodes.forEach(function(n){ wheelNodeSet.add(n.obj); }); });
         movable.forEach(function(rec, o){
+          if (wheelNodeSet.has(o)) return;
           tmp.copy(rec.base);
           var s = setOf.get(o);
           if (s){
@@ -1339,6 +1406,27 @@
           // hood or trunk rotates its exploded offset around the old hinge.
           tmp.addScaledVector(rec.off, explodeCur);
           o.position.copy(tmp);
+        });
+        var qSteer = new THREE.Quaternion();
+        wheelCorners.forEach(function(c){
+          c.nodes.forEach(function(n){
+            tmp.copy(n.basePos);
+            if (steerCur !== 0){
+              qSteer.setFromAxisAngle(n.steerAxisLocal, steerCur);
+              tmp.sub(n.pivotLocal).applyQuaternion(qSteer).add(n.pivotLocal);
+              n.obj.quaternion.copy(qSteer).multiply(n.baseQuat);
+            } else {
+              n.obj.quaternion.copy(n.baseQuat);
+            }
+            var rec = movable.get(n.obj);
+            if (rec) tmp.addScaledVector(rec.off, explodeCur);
+            n.obj.position.copy(tmp);
+          });
+        });
+        var qSW = new THREE.Quaternion();
+        qSW.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -steerCur * 4.5);
+        steerWheelObjs.forEach(function(sw){
+          sw.obj.quaternion.copy(sw.baseQuat).multiply(qSW);
         });
         // Tấm kính đèn hậu trong GLB là một mesh liền ngang cả hai bên.
         // Khi mở cốp, phần giữa mesh này sẽ lơ lửng trong miệng cốp;
@@ -1421,24 +1509,83 @@
         needsRender = true;
       }
 
-      /* Chùm sáng thật khi bật đèn: 2 spotlight từ vị trí đèn pha chiếu về
-         phía trước (+Z) và 1 point light đỏ ở đuôi. Vị trí lấy từ tâm cụm
-         đèn thật của model sau khi đã chuẩn hóa. */
+      function makeBeamConeTexture(){
+        var c = document.createElement('canvas'); c.width = 64; c.height = 256;
+        var ctx = c.getContext('2d');
+        var g = ctx.createLinearGradient(0, 0, 0, 256);
+        g.addColorStop(0.0, 'rgba(255, 248, 228, 0.28)');
+        g.addColorStop(0.25, 'rgba(255, 245, 218, 0.12)');
+        g.addColorStop(0.65, 'rgba(255, 242, 206, 0.03)');
+        g.addColorStop(1.0, 'rgba(255, 242, 206, 0.0)');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, 64, 256);
+        var tex = new THREE.CanvasTexture(c);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        return tex;
+      }
+
+      /* Chùm sáng thật khi bật đèn: 2 spotlight + 4 nón sáng từ 4 bi cầu chiếu về
+         phía trước (+Z) và 1 point light đỏ ở đuôi. */
       function setupBeams(){
-        var hc = partCenter('headlight');
-        if (hc){
-          [-0.62, 0.62].forEach(function(off, idx){
-            var sp = new THREE.SpotLight(0xffe2ae, 90, 22, 0.46, 0.55, 1.4);
-            sp.position.set(hc.center.x + off, hc.center.y, hc.center.z + 0.05);
-            sp.target.position.set(hc.center.x + off, 0.1, hc.center.z + 10);
-            sp.visible = false;
-            scene.add(sp); scene.add(sp.target);
-            if (idx === 0) beamL = sp; else beamR = sp;
+        beamCones = [];
+        var sideCenters = [], projectorOrigins = [];
+        carRoot.updateMatrixWorld(true);
+        allMeshes.forEach(function(m){
+          var nm = m.name || '';
+          if (!/headlight_[LR].*highbeam/i.test(nm) || !m.geometry || !m.geometry.attributes.position) return;
+          var fullBox = new THREE.Box3().setFromObject(m);
+          var fullCenter = fullBox.getCenter(new THREE.Vector3());
+          sideCenters.push(fullCenter);
+          var b1 = new THREE.Box3(), b2 = new THREE.Box3();
+          var pos = m.geometry.attributes.position, v = new THREE.Vector3();
+          for (var i = 0; i < pos.count; i++){
+            v.fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld);
+            if (v.x < fullCenter.x) b1.expandByPoint(v);
+            else b2.expandByPoint(v);
+          }
+          if (!b1.isEmpty()) projectorOrigins.push(b1.getCenter(new THREE.Vector3()));
+          if (!b2.isEmpty()) projectorOrigins.push(b2.getCenter(new THREE.Vector3()));
+        });
+        if (!sideCenters.length){
+          var hc = partCenter('headlight');
+          if (hc){
+            sideCenters.push(new THREE.Vector3(hc.center.x + 0.62, hc.center.y, hc.center.z + 0.05));
+            sideCenters.push(new THREE.Vector3(hc.center.x - 0.62, hc.center.y, hc.center.z + 0.05));
+          }
+        }
+        if (!projectorOrigins.length){
+          sideCenters.forEach(function(c){
+            projectorOrigins.push(new THREE.Vector3(c.x - 0.06, c.y, c.z));
+            projectorOrigins.push(new THREE.Vector3(c.x + 0.06, c.y, c.z));
+          });
+        }
+        sideCenters.forEach(function(orig, idx){
+          var sp = new THREE.SpotLight(0xfff1d4, 145, 24, 0.38, 0.72, 1.35);
+          sp.position.set(orig.x, orig.y, orig.z + 0.04);
+          sp.target.position.set(orig.x, 0.05, orig.z + 10);
+          sp.visible = false; scene.add(sp); scene.add(sp.target);
+          if (idx === 0) beamL = sp; else if (idx === 1) beamR = sp;
+        });
+        if (projectorOrigins.length){
+          var coneTex = makeBeamConeTexture();
+          var coneGeo = new THREE.CylinderGeometry(0.032, 0.22, 3.2, 20, 1, true);
+          coneGeo.translate(0, -1.6, 0);
+          coneGeo.rotateX(-Math.PI / 2);
+          var coneMat = new THREE.MeshBasicMaterial({
+            map: coneTex, transparent: true, blending: THREE.AdditiveBlending,
+            depthWrite: false, side: THREE.FrontSide
+          });
+          projectorOrigins.forEach(function(orig){
+            var cone = new THREE.Mesh(coneGeo, coneMat);
+            cone.position.set(orig.x, orig.y, orig.z + 0.02);
+            cone.rotation.x = 0.08;
+            cone.visible = false;
+            scene.add(cone);
+            beamCones.push(cone);
           });
         }
         var tc = partCenter('taillight');
         if (tc){
-          tailGlow = new THREE.PointLight(0xff2a22, 6, 5, 1.6);
+          tailGlow = new THREE.PointLight(0xff2a22, 4.5, 4.5, 1.6);
           tailGlow.position.set(tc.center.x, tc.center.y, tc.center.z - 0.25);
           tailGlow.visible = false;
           scene.add(tailGlow);
@@ -1453,23 +1600,59 @@
         }
       }
 
-      /* Áp trạng thái đèn lên vật liệu: pha/DRL sáng trắng ấm + vàng,
-         đèn hậu sáng đỏ, tắt thì khôi phục emissive gốc của model.
-         Vật liệu đang được highlight (_hl) thì bỏ qua — clearHighlight
-         sẽ gọi lại hàm này sau khi khôi phục để trạng thái luôn khớp. */
+      function setupAeroStreams(){
+        aeroGroup = new THREE.Group();
+        aeroGroup.visible = false;
+        var curves = [
+          [0, 0.36, 3.0,  0, 0.62, 2.25,  0, 0.96, 1.35,  0, 1.40, 0.35,  0, 1.38, -0.75,  0, 1.08, -1.95,  0, 1.24, -2.55,  0, 1.32, -3.25],
+          [-0.58, 0.34, 2.95, -0.62, 0.60, 2.2, -0.60, 0.92, 1.3, -0.52, 1.33, 0.2, -0.55, 1.25, -0.9, -0.60, 1.02, -2.05, -0.62, 1.18, -2.9],
+          [ 0.58, 0.34, 2.95,  0.62, 0.60, 2.2,  0.60, 0.92, 1.3,  0.52, 1.33, 0.2,  0.55, 1.25, -0.9,  0.60, 1.02, -2.05,  0.62, 1.18, -2.9],
+          [-0.36, 0.16, 2.7, -0.36, 0.14, 0.8, -0.36, 0.14, -1.2, -0.38, 0.28, -2.4, -0.40, 0.44, -3.2],
+          [ 0.36, 0.16, 2.7,  0.36, 0.14, 0.8,  0.36, 0.14, -1.2,  0.38, 0.28, -2.4,  0.40, 0.44, -3.2]
+        ];
+        curves.forEach(function(coords, idx){
+          var pts = [];
+          for (var i = 0; i < coords.length; i += 3) pts.push(new THREE.Vector3(coords[i], coords[i+1], coords[i+2]));
+          var curve = new THREE.CatmullRomCurve3(pts);
+          var tube = new THREE.Mesh(
+            new THREE.TubeGeometry(curve, 64, 0.014, 6, false),
+            new THREE.MeshBasicMaterial({color: idx >= 3 ? 0xe0203a : 0x0088ff, transparent: true, opacity: 0.48, depthWrite: false})
+          );
+          aeroGroup.add(tube);
+          for (var k = 0; k < 6; k++){
+            var particle = new THREE.Mesh(
+              new THREE.SphereGeometry(0.030, 8, 8),
+              new THREE.MeshBasicMaterial({color: idx >= 3 ? 0xff4d60 : 0x38b6ff, toneMapped: false})
+            );
+            aeroGroup.add(particle);
+            aeroStreams.push({curve: curve, mesh: particle, t: k / 6, speed: idx >= 3 ? 0.58 : 0.46});
+          }
+        });
+        scene.add(aeroGroup);
+      }
+
+      /* Áp trạng thái đèn lên vật liệu: DRL vàng + 4 bi cầu pha,
+         đèn hậu sáng đỏ, tắt thì khôi phục emissive gốc của model. */
       function applyLights(){
         frontLightMats.forEach(function(m){
           if (m.userData._hl) return;
-          if (lightsOn){ m.emissive.setHex(/runningY/.test(m.name||'') ? 0xffc21f : 0xffe9b0); m.emissiveIntensity = 2.0; }
-          else { m.emissive.setHex(m.userData._e0 || 0); m.emissiveIntensity = (m.userData._ei0 != null ? m.userData._ei0 : 1); }
+          if (lightsOn){
+            var isDrl = /runningY/.test(m.name||'');
+            m.emissive.setHex(isDrl ? 0xffc21f : 0xfff5de);
+            m.emissiveIntensity = isDrl ? 1.25 : 1.55;
+          } else {
+            m.emissive.setHex(m.userData._e0 || 0);
+            m.emissiveIntensity = (m.userData._ei0 != null ? m.userData._ei0 : 1);
+          }
         });
         rearLightMats.forEach(function(m){
           if (m.userData._hl) return;
-          if (lightsOn){ m.emissive.setHex(0xff2020); m.emissiveIntensity = 1.8; }
+          if (lightsOn){ m.emissive.setHex(0xff2020); m.emissiveIntensity = 1.15; }
           else { m.emissive.setHex(m.userData._e0 || 0); m.emissiveIntensity = (m.userData._ei0 != null ? m.userData._ei0 : 1); }
         });
         if (beamL) beamL.visible = lightsOn;
         if (beamR) beamR.visible = lightsOn;
+        beamCones.forEach(function(c){ c.visible = lightsOn; });
         if (tailGlow) tailGlow.visible = lightsOn;
         needsRender = true;
       }
@@ -1598,6 +1781,54 @@
         needsRender = true;
       }
 
+      var wheelSwEl = document.getElementById('wheel-swatches');
+      WHEEL_FINISHES.forEach(function(w, i){
+        var b = document.createElement('button'); b.className='sw sm';
+        var hexStr = '#'+w.hex.toString(16).padStart(6,'0').toUpperCase();
+        b.style.background = hexStr;
+        var label = english ? w.en : w.name;
+        b.title = msg('Mâm: ','Wheels: ')+label+' ('+hexStr+')';
+        b.setAttribute('aria-label', msg('Mâm: ','Wheels: ')+label);
+        b.setAttribute('aria-pressed', i===0?'true':'false');
+        b.addEventListener('click', function(){ setWheelFinish(i); });
+        wheelSwEl.appendChild(b);
+      });
+      function setWheelFinish(i){
+        var w = WHEEL_FINISHES[i];
+        wheelRimMats.forEach(function(m){
+          if (m.color) m.color.setHex(w.hex);
+          m.roughness = w.rough; m.metalness = w.metal;
+          if ('envMapIntensity' in m) m.envMapIntensity = 0.85;
+          m.needsUpdate = true;
+        });
+        document.getElementById('wheelname').textContent = english ? w.en : w.name;
+        Array.prototype.forEach.call(wheelSwEl.children, function(b, j){ b.setAttribute('aria-pressed', j===i?'true':'false'); });
+        needsRender = true;
+      }
+
+      var calSwEl = document.getElementById('caliper-swatches');
+      CALIPER_COLORS.forEach(function(c, i){
+        var b = document.createElement('button'); b.className='sw sm';
+        var hexStr = '#'+c.hex.toString(16).padStart(6,'0').toUpperCase();
+        b.style.background = hexStr;
+        var label = english ? c.en : c.name;
+        b.title = msg('Kẹp phanh: ','Calipers: ')+label+' ('+hexStr+')';
+        b.setAttribute('aria-label', msg('Kẹp phanh: ','Calipers: ')+label);
+        b.setAttribute('aria-pressed', i===0?'true':'false');
+        b.addEventListener('click', function(){ setCaliperColor(i); });
+        calSwEl.appendChild(b);
+      });
+      function setCaliperColor(i){
+        var c = CALIPER_COLORS[i];
+        caliperMats.forEach(function(m){
+          if (m.color) m.color.setHex(c.hex);
+          m.roughness = c.rough; m.metalness = c.metal; m.needsUpdate = true;
+        });
+        document.getElementById('calipername').textContent = english ? c.en : c.name;
+        Array.prototype.forEach.call(calSwEl.children, function(b, j){ b.setAttribute('aria-pressed', j===i?'true':'false'); });
+        needsRender = true;
+      }
+
       /* Góc nhìn — theo trục thật của model: đầu xe +Z, đuôi −Z, hông ±X.
          Bản cũ đặt "Hông" ở +Z (ra hình đầu xe) và "Đầu xe" ở +X (ra hình
          hông xe) — hai nút hoán đổi cho nhau; "Khoang máy" lại nhắm vào
@@ -1608,7 +1839,8 @@
         rear:  {p:[0,1.35,-5.8],  t:[0,0.7,0]},
         front: {p:[0,1.3,5.8],    t:[0,0.65,0]},
         top:   {p:[0.7,11.7,0.7], t:[0,0.62,0]},
-        engine:{p:[1.9,3.5,3.55], t:[0,0.8,1.5]}
+        engine:{p:[1.9,3.5,3.55], t:[0,0.8,1.5]},
+        cockpit:{p:[0.42,1.15,-0.32], t:[0.38,0.92,0.72]}
       };
       // Tọa độ xe sau chuẩn hóa: đầu +Z, đuôi -Z, bên trái +X.
       // Mỗi mục Sổ tay có một hướng riêng; các cụm lặp lại ở hai bên
@@ -1653,7 +1885,11 @@
         document.getElementById('spin').setAttribute('aria-pressed','false');
         fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
       }
-      function flyToView(name){ flyToCamera(VIEWS[name]); }
+      function flyToView(name){
+        if (name === 'engine') setOpen('hood', true);
+        if (name === 'cockpit') setOpen('doors', true);
+        flyToCamera(VIEWS[name]);
+      }
       function explodedPartView(id){
         var box = new THREE.Box3(), found = false;
         (partObjects[id] || []).forEach(function(o){
@@ -1713,12 +1949,10 @@
       }
       document.querySelectorAll('.viewbtn').forEach(function(b){
         b.addEventListener('click', function(){
+          stopTour();
           if (selected) clearSelection();
           document.querySelectorAll('.viewbtn').forEach(function(x){x.setAttribute('aria-pressed','false');});
           b.setAttribute('aria-pressed','true');
-          if (b.dataset.view === 'engine'){
-            setOpen('hood', true); // xem khoang máy thì tự mở ca-pô
-          }
           flyToView(b.dataset.view);
         });
       });
@@ -1731,41 +1965,120 @@
          nguyên khi tắt (bản cũ ép kính về opacity 0,45 bất kể gốc). */
       var XRAY_KEEP = {engine:1, strutbrace:1, cooling:1, gearbox:1, diff:1, exhaust:1, suspension:1, brake:1, wheel:1, seat:1, cockpit:1};
       function applyXrayVisuals(){
+        var anyGhost = xray || cslWeightMode;
         allMeshes.forEach(function(m){
           var pid=m.userData.partId;
           var selectedMesh=selected && pid===selected && !(selected==='engine' && m.userData.bay);
-          var ghost=xray && !selectedMesh && (selectionReveal || !XRAY_KEEP[pid] || m.userData.bay);
+          var isCslWeight=cslWeightMode && !!CSL_WEIGHT_IDS[pid];
+          var ghost=false;
+          if (cslWeightMode){
+            ghost=!isCslWeight && !selectedMesh;
+          } else if (xray){
+            ghost=!selectedMesh && (selectionReveal || !XRAY_KEEP[pid] || m.userData.bay);
+          }
           var mats=Array.isArray(m.material)?m.material:[m.material];
           mats.forEach(function(mm){
-            if (xray && !mm.userData._xr) mm.userData._xr={t:mm.transparent,o:mm.opacity,d:mm.depthWrite};
+            if (anyGhost && !mm.userData._xr) mm.userData._xr={t:mm.transparent,o:mm.opacity,d:mm.depthWrite};
             var original=mm.userData._xr;
-            if (!xray){
+            if (!anyGhost){
               if (original){
                 mm.transparent=original.t; mm.opacity=original.o; mm.depthWrite=original.d;
                 delete mm.userData._xr; mm.needsUpdate=true;
               }
-            } else if (selectedMesh){
+              if (mm.userData._csl){
+                mm.emissive && mm.emissive.setHex(mm.userData._ce || 0);
+                mm.emissiveIntensity = mm.userData._cei || 1;
+                delete mm.userData._csl;
+              }
+            } else if (selectedMesh || isCslWeight){
               mm.transparent=false; mm.opacity=1; mm.depthWrite=true; mm.needsUpdate=true;
+              if (isCslWeight && !selectedMesh && mm.emissive && !mm.userData._hl){
+                if (!mm.userData._csl){ mm.userData._csl=true; mm.userData._ce=mm.emissive.getHex(); mm.userData._cei=mm.emissiveIntensity; }
+                mm.emissive.setHex(0xe5323e); mm.emissiveIntensity = 0.42;
+              }
             } else if (ghost){
               mm.transparent=true;
               mm.opacity=/GlassClear/.test(mm.name||'') ? 0.06 : 0.15;
               mm.depthWrite=false; mm.needsUpdate=true;
+              if (mm.userData._csl){
+                mm.emissive && mm.emissive.setHex(mm.userData._ce || 0);
+                mm.emissiveIntensity = mm.userData._cei || 1;
+                delete mm.userData._csl;
+              }
             } else if (original){
               mm.transparent=original.t; mm.opacity=original.o; mm.depthWrite=original.d;
               mm.needsUpdate=true;
             }
           });
         });
+        var wBadge = document.getElementById('hud-weight');
+        if (wBadge) wBadge.hidden = !cslWeightMode;
         needsRender=true;
+      }
+      function syncAero(){
+        var ab = document.getElementById('aero-flow');
+        if (ab) ab.setAttribute('aria-pressed', aeroOn ? 'true' : 'false');
+        var hb = document.getElementById('hud-aero');
+        if (hb) hb.hidden = !aeroOn;
+        if (aeroGroup) aeroGroup.visible = aeroOn;
+        needsRender = true;
+      }
+      var TOUR_STOPS = [
+        {dur:3.4, fn:function(){ setOpen('hood',false); setOpen('doors',false); aeroOn=false; syncAero(); flyToView('hero'); }},
+        {dur:3.6, fn:function(){ setOpen('hood',true); flyToCamera(VIEWS.engine); }},
+        {dur:3.6, fn:function(){ setOpen('hood',false); lightsOn=true; document.getElementById('lights').setAttribute('aria-pressed','true'); applyLights(); aeroOn=true; syncAero(); flyToCamera({p:[-3.9,1.55,3.8], t:[0,0.68,0]}); }},
+        {dur:3.4, fn:function(){ flyToCamera({p:[2.2,1.35,-4.3], t:[0,0.62,-1.1]}); }},
+        {dur:3.6, fn:function(){ aeroOn=false; syncAero(); setOpen('doors',true); flyToCamera(VIEWS.cockpit); }}
+      ];
+      function stopTour(){
+        if (!tourActive) return;
+        tourActive = false;
+        var tb = document.getElementById('tour');
+        if (tb) tb.setAttribute('aria-pressed','false');
+      }
+      function startTour(){
+        clearSelection();
+        tourActive = true; tourStep = 0; tourTimer = 0;
+        var tb = document.getElementById('tour');
+        if (tb) tb.setAttribute('aria-pressed','true');
+        TOUR_STOPS[0].fn();
+        needsRender = true;
       }
       document.getElementById('xray').addEventListener('click', function(){
         selectionAutoXray = false; // thao tác tay giữ quyền quyết định sau khi bỏ chọn
-        xray=!xray; this.setAttribute('aria-pressed',xray?'true':'false');
+        xray=!xray;
+        if (xray && cslWeightMode){ cslWeightMode=false; document.getElementById('csl-weight').setAttribute('aria-pressed','false'); }
+        this.setAttribute('aria-pressed',xray?'true':'false');
         applyXrayVisuals();
       });
+      document.getElementById('csl-weight').addEventListener('click', function(){
+        cslWeightMode=!cslWeightMode;
+        if (cslWeightMode && xray){ xray=false; selectionAutoXray=false; document.getElementById('xray').setAttribute('aria-pressed','false'); }
+        this.setAttribute('aria-pressed',cslWeightMode?'true':'false');
+        applyXrayVisuals();
+      });
+      document.getElementById('aero-flow').addEventListener('click', function(){ aeroOn=!aeroOn; syncAero(); });
       document.getElementById('spin').addEventListener('click', function(){
+        stopTour();
         controls.autoRotate = !controls.autoRotate;
         this.setAttribute('aria-pressed', controls.autoRotate?'true':'false');
+      });
+      document.getElementById('tour').addEventListener('click', function(){
+        if (tourActive) stopTour(); else startTour();
+      });
+      document.getElementById('steer').addEventListener('input', function(){
+        var deg = Number(this.value);
+        steerTarget = (deg * Math.PI) / 180;
+        document.getElementById('steerval').textContent = (deg > 0 ? '+' : '') + deg + '°';
+        needsRender = true;
+      });
+      document.getElementById('snapshot-btn').addEventListener('click', function(){
+        if (!renderer || !scene || !camera) return;
+        renderer.render(scene, camera);
+        var a = document.createElement('a');
+        a.download = 'bmw-m4-csl.png';
+        a.href = renderer.domElement.toDataURL('image/png');
+        a.click();
       });
       document.getElementById('lights').addEventListener('click', function(){
         lightsOn = !lightsOn; this.setAttribute('aria-pressed', lightsOn?'true':'false');
@@ -1779,13 +2092,17 @@
         });
       });
       document.getElementById('reset').addEventListener('click', function(){
+        stopTour();
         clearSelection();
         selectionAutoXray = false; selectionOpenedHood = false; selectionReveal = false;
         document.getElementById('explode').value = 0; applyExplode(0);
+        document.getElementById('steer').value = 0; steerTarget = 0; document.getElementById('steerval').textContent = '0°';
         if (xray) document.getElementById('xray').click();
+        if (cslWeightMode){ cslWeightMode = false; document.getElementById('csl-weight').setAttribute('aria-pressed','false'); applyXrayVisuals(); }
+        aeroOn = false; syncAero();
         if (lightsOn) document.getElementById('lights').click();
         setOpen('doors', false); setOpen('hood', false); setOpen('trunk', false);
-        setPaint(0);
+        setPaint(0); setWheelFinish(0); setCaliperColor(0);
         environmentSelect.value = 'none'; setEnvironment('none');
         setGarageDoorsClosed(false);
         setGarageLight('warm');
@@ -1831,12 +2148,15 @@
       function saveViewState(){
         if (!carRoot || !controls) return;
         var paint = Array.prototype.findIndex.call(swEl.children,function(b){return b.getAttribute('aria-pressed')==='true';});
+        var wheel = Array.prototype.findIndex.call(wheelSwEl.children,function(b){return b.getAttribute('aria-pressed')==='true';});
+        var cal = Array.prototype.findIndex.call(calSwEl.children,function(b){return b.getAttribute('aria-pressed')==='true';});
         var view = document.querySelector('.viewbtn[aria-pressed="true"]');
         var state = {
-          version:1, paint:paint, environment:environmentSelect.value,
+          version:1, paint:paint, wheel:wheel, caliper:cal, environment:environmentSelect.value,
           garageDoorsClosed:garageDoors.front.target>0.5, garageLight:garageLightPreset,
           selected:selected, selectionAutoXray:selectionAutoXray, selectionOpenedHood:selectionOpenedHood,
-          xray:xray, lights:lightsOn, spin:controls.autoRotate, explode:explodeTarget,
+          xray:xray, cslWeight:cslWeightMode, aero:aeroOn, steer:Number(document.getElementById('steer').value||0),
+          lights:lightsOn, spin:controls.autoRotate, explode:explodeTarget,
           open:{doors:(setByWhich.doors||[]).some(function(s){return s.target!==0;}),
             hood:!!(setByWhich.hood&&setByWhich.hood.target),
             trunk:!!(setByWhich.trunk&&setByWhich.trunk.target)},
@@ -1850,12 +2170,24 @@
         try { state=JSON.parse(sessionStorage.getItem(VIEW_STATE_KEY)); } catch(e){ return; }
         if (!state || state.version!==1) return;
         if (Number.isInteger(state.paint) && state.paint>=0 && state.paint<PAINTS.length) setPaint(state.paint);
+        if (Number.isInteger(state.wheel) && state.wheel>=0 && state.wheel<WHEEL_FINISHES.length) setWheelFinish(state.wheel);
+        if (Number.isInteger(state.caliper) && state.caliper>=0 && state.caliper<CALIPER_COLORS.length) setCaliperColor(state.caliper);
         if (state.selected && PARTS.some(function(p){return p.id===state.selected;})) selectPart(state.selected,false);
         xray=!!state.xray;
+        cslWeightMode=!!state.cslWeight && !xray;
         selectionAutoXray=!!state.selectionAutoXray && !!selected;
         selectionOpenedHood=!!state.selectionOpenedHood && !!selected;
         document.getElementById('xray').setAttribute('aria-pressed',xray?'true':'false');
+        document.getElementById('csl-weight').setAttribute('aria-pressed',cslWeightMode?'true':'false');
         applyXrayVisuals();
+        aeroOn=!!state.aero; syncAero();
+        if (Number.isFinite(state.steer)){
+          var deg=Math.max(-28,Math.min(28,Math.round(state.steer)));
+          document.getElementById('steer').value=deg;
+          steerTarget=steerCur=(deg*Math.PI)/180;
+          document.getElementById('steerval').textContent=(deg>0?'+':'')+deg+'°';
+          layoutAll();
+        }
         lightsOn=!!state.lights;
         document.getElementById('lights').setAttribute('aria-pressed',lightsOn?'true':'false');
         applyLights();
@@ -1915,6 +2247,15 @@
             if (fly.t>=1){ fly = null; saveViewState(); }
             needsRender = true;
           }
+          if (tourActive){
+            tourTimer += dt;
+            if (tourTimer >= TOUR_STOPS[tourStep].dur){
+              tourTimer = 0;
+              tourStep = (tourStep + 1) % TOUR_STOPS.length;
+              TOUR_STOPS[tourStep].fn();
+            }
+            needsRender = true;
+          }
           // Animation mở/đóng cửa, ca-pô, cốp + nổ tung: tiến dần về
           // đích rồi ghi transform qua layoutAll() (đường ghi duy nhất)
           var layoutDirty = false;
@@ -1930,6 +2271,12 @@
             var ed = explodeTarget - explodeCur;
             var estep = reduceMotion ? Math.abs(ed) : dt * 1.8;
             explodeCur += Math.abs(ed) <= estep ? ed : (ed > 0 ? estep : -estep);
+            layoutDirty = true;
+          }
+          if (Math.abs(steerCur - steerTarget) > 0.0005){
+            var sd = steerTarget - steerCur;
+            var sstep = reduceMotion ? Math.abs(sd) : dt * 2.8;
+            steerCur += Math.abs(sd) <= sstep ? sd : (sd > 0 ? sstep : -sstep);
             layoutDirty = true;
           }
           if(activeEnvironment==='garage'){
@@ -1955,6 +2302,13 @@
           }
           }
           if (layoutDirty) layoutAll();
+          if (aeroOn && aeroStreams.length){
+            aeroStreams.forEach(function(st){
+              st.t = (st.t + dt * st.speed) % 1;
+              st.curve.getPointAt(st.t, st.mesh.position);
+            });
+            needsRender = true;
+          }
           if (pendingExplodedFocus && explodeCur === explodeTarget){
             var focusId = pendingExplodedFocus;
             pendingExplodedFocus = null;

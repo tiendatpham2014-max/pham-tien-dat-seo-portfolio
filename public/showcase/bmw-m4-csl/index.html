@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="/showcase/bmw-m4-csl/app/assets/showcase.css" />
   </head>
   <body>
-    <nav class="showcase-nav" aria-label="Điều hướng trang xe"><a href="/">← Về portfolio</a><div class="showcase-nav-controls"><a href="/showcase/bmw-m4-csl/" lang="vi" aria-current="page">VI</a><a href="/en/showcase/bmw-m4-csl/" lang="en" >EN</a><button type="button" id="theme-toggle" aria-label="Đổi giao diện sáng tối">◐</button></div></nav>
+    <nav class="showcase-nav" aria-label="Điều hướng trang xe"><a href="/">← Về portfolio</a><div class="showcase-nav-controls"><button type="button" id="snapshot-btn" title="Chụp ảnh 3D PNG">Chụp ảnh PNG</button><a href="/showcase/bmw-m4-csl/" lang="vi" aria-current="page">VI</a><a href="/en/showcase/bmw-m4-csl/" lang="en" >EN</a><button type="button" id="theme-toggle" aria-label="Đổi giao diện sáng tối">◐</button></div></nav>
     <div class="wrap">
       <header class="top">
         <div>
@@ -90,7 +90,13 @@
       <main class="layout">
         <section class="stagebox" aria-label="Garage 3D của Đạt — khung xem BMW M4 CSL">
           <div id="stage" data-environment="none">
-            <div class="hint">Kéo: xoay · Cuộn / pinch: zoom · Bấm lên xe: chọn bộ phận</div>
+            <div class="stage-top">
+              <div class="hint">Kéo: xoay · Cuộn / pinch: zoom · Bấm lên xe: chọn bộ phận</div>
+              <div class="stage-badges">
+                <div class="hud-badge" id="hud-weight" hidden><strong>-100 kg CSL:</strong> Ca-pô &amp; trần CFRP · Ghế bucket (-24 kg) · Phanh gốm (-14,3 kg) · Pô titan (-4,3 kg) · Giằng nhôm (-1,5 kg)</div>
+                <div class="hud-badge" id="hud-aero" hidden><strong>Luồng khí Aero:</strong> Splitter trước → Mui → Ducktail carbon &amp; Diffuser gầm</div>
+              </div>
+            </div>
             <div id="selbar" hidden><strong id="sb-name"></strong><span id="sb-spec"></span><button type="button" id="sb-detail">Chi tiết ↓</button><button type="button" id="sb-clear" aria-label="Bỏ chọn bộ phận" title="Bỏ chọn">×</button></div>
             <div id="loadveil">
               <p><strong>Đang tải model M4 CSL…</strong></p>
@@ -108,6 +114,7 @@
               <button class="btn viewbtn" data-view="front" aria-pressed="false">Đầu xe</button>
               <button class="btn viewbtn" data-view="top" aria-pressed="false">Trên xuống</button>
               <button class="btn viewbtn" data-view="engine" aria-pressed="false">Khoang máy</button>
+              <button class="btn viewbtn" data-view="cockpit" aria-pressed="false">Khoang lái</button>
             </div>
             <div class="grp" role="group" aria-label="Thao tác với xe">
               <span class="lbl">Thao tác</span>
@@ -116,12 +123,25 @@
               <button class="btn" id="opentrunk" aria-pressed="false">Cốp sau</button>
               <button class="btn" id="lights" aria-pressed="false">Bật đèn</button>
               <button class="btn" id="spin" aria-pressed="true">Tự xoay</button>
+              <button class="btn" id="tour" aria-pressed="false">Tour điện ảnh</button>
               <button class="btn" id="reset" >Đặt lại</button>
+            </div>
+            <div class="grp" role="group" aria-label="Đánh lái bánh trước">
+              <span class="lbl">Đánh lái</span>
+              <input type="range" id="steer" min="-28" max="28" value="0" style="width:108px" aria-label="Góc đánh lái bánh trước" /><span class="range-val" id="steerval">0°</span>
             </div>
             <div class="grp" role="group" aria-label="Màu sơn">
               <span class="lbl">Màu sơn</span>
               <div class="swatches" id="swatches"></div>
               <span class="muted" id="paintname" style="font-size:13px"></span>
+            </div>
+            <div class="grp" role="group" aria-label="Mâm và kẹp phanh">
+              <span class="lbl">Mâm 827M</span>
+              <div class="swatches" id="wheel-swatches"></div>
+              <span class="muted" id="wheelname" style="font-size:12.5px"></span>
+              <span class="lbl" style="margin-left:4px">Kẹp phanh</span>
+              <div class="swatches" id="caliper-swatches"></div>
+              <span class="muted" id="calipername" style="font-size:12.5px"></span>
             </div>
             <div class="grp environment-group" role="group" aria-label="Bối cảnh">
               <label class="lbl" for="environment">Bối cảnh</label>
@@ -143,11 +163,13 @@
                 <button class="garage-light-swatch" type="button" data-garage-light="blue" aria-pressed="false" style="--bulb:#5685ff"><span>Xanh</span></button>
               </div>
             </div>
-            <div class="grp" role="group" aria-label="Tùy chỉnh nâng cao" style="flex:1;min-width:230px">
+            <div class="grp" role="group" aria-label="Tùy chỉnh nâng cao" style="flex:1;min-width:250px">
               <span class="lbl">Nâng cao</span>
               <button class="btn accent" id="xray" aria-pressed="false">X-ray thân xe</button>
+              <button class="btn accent" id="csl-weight" aria-pressed="false">-100 kg CSL</button>
+              <button class="btn accent" id="aero-flow" aria-pressed="false">Luồng khí Aero</button>
               <span class="lbl">Nổ tung</span>
-              <input type="range" id="explode" min="0" max="100" value="0" style="flex:1" aria-label="Mức nổ tung các cụm" /><span id="explodeval" style="font-size:12.5px;color:var(--muted);min-width:34px">0%</span><button class="btn" id="explodebtn" type="button">Tách hết</button>
+              <input type="range" id="explode" min="0" max="100" value="0" style="flex:1;min-width:80px" aria-label="Mức nổ tung các cụm" /><span id="explodeval" style="font-size:12.5px;color:var(--muted);min-width:34px">0%</span><button class="btn" id="explodebtn" type="button">Tách hết</button>
             </div>
           </div>
         </section>
