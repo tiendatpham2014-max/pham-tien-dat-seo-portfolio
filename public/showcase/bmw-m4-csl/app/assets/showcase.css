@@ -88,7 +88,6 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
       .sysgroup details:not([open]) summary::after{transform:rotate(-90deg)}
       .sysgroup .plist{margin-top:5px}
       .tostage{display:none}
-      #toDetail{display:none}
       .credit-corner{position:fixed;right:12px;bottom:12px;z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
       .licbtn{appearance:none;width:36px;height:36px;min-height:36px;padding:0;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 82%,transparent);color:var(--muted);font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:700;font-size:16px;line-height:1;cursor:pointer;opacity:.62;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}
       .licbtn:hover,.licbtn:focus-visible{opacity:1;color:var(--ink);border-color:var(--muted)}
@@ -168,7 +167,6 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
         .stagebar .btn{padding:6px 9px;font-size:12.5px}
         .sw{width:30px;height:30px;min-height:30px}
         .tostage{display:inline-flex;margin-bottom:10px}
-        #toDetail:not([hidden]){display:block;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 18px;font-size:14px;font-weight:600;box-shadow:var(--shadow);cursor:pointer;max-width:92vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       }
       @media (max-width: 520px){
         #selbar strong{flex:1}

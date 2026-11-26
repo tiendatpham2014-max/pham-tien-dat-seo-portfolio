@@ -91,6 +91,33 @@
          fn:'Điều khiển xe, hiển thị thông tin', mat:'Carbon, Alcantara, da', spec:'Không có hàng ghế sau — khoang 2 chỗ', note:'Cụm nút M1/M2 trên vô-lăng gán nhanh chế độ vận hành.'}
       ];
       var EN_SYSTEMS = {'Ngoại thất':'Exterior','Động cơ & truyền động':'Engine & drivetrain','Gầm, phanh & lốp':'Chassis, brakes & tyres','Nội thất':'Interior'};
+      // These are separate root groups in the GLB but are absent from the
+      // handbook's twenty named assemblies. Keep the body/tub/engine bay as
+      // the fixed chassis; detach the remaining visible pieces with their
+      // nearest assembly so "Explode" does not leave panels behind.
+      var EXTRA_GROUPS = [
+        {name:'M4xNME_fenderint', part:'door', dir:[-0.65,0.24,0.45]},
+        {name:'M4xNME_bumperbar_F', part:'grille', dir:[0,0.22,1.08]},
+        {name:'M4xNME_reinforcement_R', part:'door', dir:[0,0.3,-1.15]},
+        {name:'M4xNME_fueltank', part:null, dir:[-0.85,0.35,-0.3]},
+        {name:'M4xNME_heatshield', part:'exhaust', dir:[-0.7,0.28,-0.45]},
+        {name:'M4xNME_hub_F', part:'suspension', dir:[0.75,0.22,0.16]},
+        {name:'M4xNME_hub_R', part:'suspension', dir:[0.75,0.22,-0.16]},
+        {name:'M4xNME_undertray', part:'diffuser', dir:[0.55,0.24,-0.45]},
+        {name:'M4xNME_windshield', part:'door', dir:[0,1.02,0.35]},
+        {name:'M4xNME_turn_signal_stalk', part:'cockpit', dir:[0.4,0.78,0.12]},
+        {name:'M4xNME_sideskirt', part:'door', dir:[0.78,0.24,0]},
+        {name:'M4xNME_sideglass_R', part:'door', dir:[-0.78,0.48,0]},
+        {name:'M4xNME_sideglass_L', part:'door', dir:[0.78,0.48,0]},
+        {name:'M4xNME_doorglass_FR', part:'door', dir:[-0.85,0.1,0]},
+        {name:'M4xNME_doorglass_FL', part:'door', dir:[0.85,0.1,0]},
+        {name:'M4xNME_bumper_R', part:'door', dir:[0,0.35,-1.15]},
+        {name:'M4xNME_backlight', part:'door', dir:[0,0.9,-0.45]},
+        {name:'M4xNME_bumperline_R_csl', part:'door', dir:[0,0.35,-1.15]},
+        {name:'M4xNME_sideskirtline_csl', part:'door', dir:[0.78,0.24,0]}
+      ];
+      var extraByName = {};
+      EXTRA_GROUPS.forEach(function(group){ extraByName[group.name] = group; });
       var EN_PARTS = {
         grille:['The CSL front combines red outlined kidney grilles with a carbon bumper and splitter to direct cooling air and add front downforce.','Cooling airflow and front downforce','Carbon fibre reinforced plastic and matte black polymer','Carbon front splitter in the CSL aero package','The low splitter can scrape on steep ramps.'],
         headlight:['Yellow BMW Laserlight illumination gives the CSL a distinctive motorsport inspired signature.','Road lighting and CSL identification','Polycarbonate lens, LED and laser elements','BMW quoted range of up to about 600 m','The sealed unit is replaced as an assembly.'],
@@ -168,13 +195,8 @@
       });
 
       /* ============ ĐIỀU HƯỚNG NHANH TRÊN MOBILE + NÚT GIẤY PHÉP ============
-         Chọn bộ phận KHÔNG tự cuộn trang nữa (bản cũ scrollIntoView đẩy
-         xe khỏi màn hình điện thoại). Thay vào đó hiện chip cố định dưới
-         màn hình để người dùng chủ động nhảy xuống bảng chi tiết, và nút
-         "Về mô hình 3D" trong bảng chi tiết để nhảy ngược lên. */
-      document.getElementById('toDetail').addEventListener('click', function(){
-        document.getElementById('detail').scrollIntoView({behavior: reduceMotion?'auto':'smooth', block:'start'});
-      });
+         Tabs sticky và nút Chi tiết trong khung xe đảm nhiệm điều hướng;
+         không dùng chip fixed che các điều khiển ở đáy màn hình. */
       document.getElementById('sb-detail').addEventListener('click', function(){
         document.getElementById('detail').scrollIntoView({behavior: reduceMotion?'auto':'smooth', block:'start'});
       });
@@ -189,7 +211,6 @@
       });
       document.getElementById('toStage').addEventListener('click', function(){
         document.getElementById('stage').scrollIntoView({behavior: reduceMotion?'auto':'smooth', block:'start'});
-        document.getElementById('toDetail').hidden = true;
       });
       (function(){
         var btn = document.getElementById('licbtn');
@@ -225,6 +246,7 @@
       var selectionReveal = false, selectionAutoXray = false, selectionOpenedHood = false;
       var fly = null;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var defaultAutoRotate = false;
 
       function isDark(){ var t=document.documentElement.dataset.theme; return t ? t==='dark' : window.matchMedia('(prefers-color-scheme: dark)').matches; }
       var themeToggle=document.getElementById('theme-toggle');
@@ -864,6 +886,7 @@
         controls.minDistance = 2.2; controls.maxDistance = 16;
         controls.maxPolarAngle = Math.PI * 0.52;
         controls.autoRotate = !reduceMotion && !softwareGL; controls.autoRotateSpeed = 0.7;
+        defaultAutoRotate = controls.autoRotate;
         document.getElementById('spin').setAttribute('aria-pressed', controls.autoRotate ? 'true' : 'false');
         controls.addEventListener('change', function(){ needsRender = true; });
         controls.addEventListener('end', saveViewState);
@@ -1015,7 +1038,7 @@
             if (node.name === 'M4xNME_intake') o.userData.intake = true;
             if (/strutbrace/.test(node.name||'')) o.userData.brace = true;
             if (node.name === 'M4xNME_trunk_csl') o.userData.trunkOwner = true;
-            if (!pid) pid = matchPart(node.name||'');
+            if (!pid) pid = matchPart(node.name||'') || (extraByName[node.name] && extraByName[node.name].part);
             node = node.parent;
           }
           o.userData.partId = pid;
@@ -1196,10 +1219,10 @@
         // Cửa: bản lề = mép trước của cánh cửa, trục dọc Y. Trái (+X) quay
         // −1,02 rad để mép sau văng ra +X; phải đối xứng.
         var bl = boxOf('M4xNME_door_FL'), cl = bl.getCenter(new THREE.Vector3());
-        regSafe('doors', ['M4xNME_door_FL','M4xNME_doorpanel_FL','M4xNME_mirror_L'], new THREE.Vector3(0,1,0), -1.02,
+        regSafe('doors', ['M4xNME_door_FL','M4xNME_doorpanel_FL','M4xNME_doorglass_FL','M4xNME_mirror_L'], new THREE.Vector3(0,1,0), -1.02,
             new THREE.Vector3(cl.x, cl.y, bl.max.z - 0.03));
         var br = boxOf('M4xNME_door_FR'), cr = br.getCenter(new THREE.Vector3());
-        regSafe('doors', ['M4xNME_door_FR','M4xNME_doorpanel_FR','M4xNME_mirror_R'], new THREE.Vector3(0,1,0), 1.02,
+        regSafe('doors', ['M4xNME_door_FR','M4xNME_doorpanel_FR','M4xNME_doorglass_FR','M4xNME_mirror_R'], new THREE.Vector3(0,1,0), 1.02,
             new THREE.Vector3(cr.x, cr.y, br.max.z - 0.03));
         // Ca-pô: bản lề = mép sau sát kính lái, ở chiều cao mặt trên nắp;
         // quay −0,62 quanh trục X (đầu xe +Z) nhấc mép trước lên.
@@ -1282,6 +1305,12 @@
             var center = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
             movable.set(o, {base:o.position.clone(), off:toLocalOffset(o,new THREE.Vector3(center.x >= 0 ? 0.85 : -0.85,0.05,0))});
           });
+        });
+        EXTRA_GROUPS.forEach(function(group){
+          var o = findNode(group.name);
+          if (o && o.parent && !movable.has(o)) {
+            movable.set(o, {base:o.position.clone(), off:toLocalOffset(o,new THREE.Vector3(group.dir[0],group.dir[1],group.dir[2]))});
+          }
         });
       }
       /* Nơi DUY NHẤT ghi position/quaternion cho cụm di chuyển được:
@@ -1482,7 +1511,6 @@
           setOpen('hood', false); selectionOpenedHood = false;
         }
         Object.keys(btnById).forEach(function(k){ btnById[k].setAttribute('aria-pressed','false'); });
-        document.getElementById('toDetail').hidden = true;
         document.getElementById('selbar').hidden = true;
         document.getElementById('d-sys').textContent = msg('Chưa chọn bộ phận','No part selected');
         document.getElementById('d-name').textContent = msg('Bấm vào một bộ phận trên xe','Select a part of the car');
@@ -1516,11 +1544,7 @@
         setSelectionViewState(id);
         applyXrayVisuals();
         if (flyCam) flyToPart(id);
-        // Không tự cuộn xuống bảng chi tiết nữa (xe bị đẩy khỏi màn hình
-        // điện thoại) — hiện chip "Chi tiết" cố định để người dùng tự nhảy
-        var chip = document.getElementById('toDetail');
-        chip.querySelector('span').textContent = partLabel(p);
-        chip.hidden = false;
+        // Không tự cuộn xuống bảng chi tiết: xe vẫn ở trong tầm nhìn.
         var sb = document.getElementById('selbar');
         document.getElementById('sb-name').textContent = partLabel(p);
         document.getElementById('sb-spec').textContent = partField(p,'spec');
@@ -1613,7 +1637,6 @@
       };
       var REVEAL_PARTS = {cooling:1, gearbox:1, diff:1, exhaust:1, brake:1, suspension:1, seat:1, cockpit:1};
       var HOOD_PARTS = {engine:1, strutbrace:1, cooling:1};
-      var UNDERBODY_PARTS = {gearbox:1, diff:1, exhaust:1, suspension:1, diffuser:1};
       var pendingExplodedFocus = null;
       function setSelectionViewState(id){
         var reveal = !!REVEAL_PARTS[id], openHood = !!HOOD_PARTS[id];
@@ -1632,7 +1655,16 @@
       }
       function flyToView(name){ flyToCamera(VIEWS[name]); }
       function explodedPartView(id){
-        var part = partCenter(id);
+        var box = new THREE.Box3(), found = false;
+        (partObjects[id] || []).forEach(function(o){
+          if (movable.has(o)) { box.union(new THREE.Box3().setFromObject(o)); found = true; }
+        });
+        EXTRA_GROUPS.forEach(function(group){
+          if (group.part !== id) return;
+          var o = findNode(group.name);
+          if (o && movable.has(o)) { box.union(new THREE.Box3().setFromObject(o)); found = true; }
+        });
+        var part = found ? {center:box.getCenter(new THREE.Vector3()),size:box.getSize(new THREE.Vector3())} : partCenter(id);
         if (!part) return PART_VIEWS[id];
         var target = part.center.clone();
         target.y = Math.max(0.35, target.y);
@@ -1642,15 +1674,41 @@
         var position = target.clone().add(new THREE.Vector3(side * distance * 0.82, distance * 0.53, distance * (id === 'exhaust' || id === 'diff' ? -0.3 : 0.34)));
         return {p:position.toArray(), t:target.toArray()};
       }
+      function clearSceneSightline(view){
+        if (activeEnvironment !== 'station' || !environmentRoot || !view) return view;
+        var target = new THREE.Vector3().fromArray(view.t);
+        var original = new THREE.Vector3().fromArray(view.p);
+        var offset = original.clone().sub(target);
+        var radius = Math.hypot(offset.x, offset.z);
+        var angle = Math.atan2(offset.x, offset.z);
+        var ray = new THREE.Raycaster();
+        var best = view, fewest = Infinity;
+        [0,-Math.PI/6,Math.PI/6,-Math.PI/3,Math.PI/3].forEach(function(turn){
+          var candidate = target.clone().add(new THREE.Vector3(
+            Math.sin(angle + turn) * radius, offset.y, Math.cos(angle + turn) * radius
+          ));
+          var direction = target.clone().sub(candidate);
+          ray.set(candidate, direction.clone().normalize());
+          ray.far = Math.max(0, direction.length() - 0.3);
+          var hits = ray.intersectObjects(environmentRoot.children, true).filter(function(hit){
+            return hit.object.visible && hit.object.name !== 'Object_4';
+          });
+          if (hits.length < fewest){
+            fewest = hits.length;
+            best = {p:candidate.toArray(),t:view.t};
+          }
+        });
+        return best;
+      }
       function flyToPart(id){
         document.querySelectorAll('.viewbtn').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
-        if (UNDERBODY_PARTS[id] && explodeTarget > 0.05){
+        if (explodeTarget > 0.05){
           if (Math.abs(explodeCur - explodeTarget) > 0.01){ pendingExplodedFocus = id; return; }
           pendingExplodedFocus = null;
-          flyToCamera(explodedPartView(id));
+          flyToCamera(clearSceneSightline(explodedPartView(id)));
         } else {
           pendingExplodedFocus = null;
-          flyToCamera(PART_VIEWS[id]);
+          flyToCamera(clearSceneSightline(PART_VIEWS[id]));
         }
       }
       document.querySelectorAll('.viewbtn').forEach(function(b){
@@ -1722,12 +1780,19 @@
       });
       document.getElementById('reset').addEventListener('click', function(){
         clearSelection();
+        selectionAutoXray = false; selectionOpenedHood = false; selectionReveal = false;
         document.getElementById('explode').value = 0; applyExplode(0);
         if (xray) document.getElementById('xray').click();
         if (lightsOn) document.getElementById('lights').click();
         setOpen('doors', false); setOpen('hood', false); setOpen('trunk', false);
+        setPaint(0);
+        environmentSelect.value = 'none'; setEnvironment('none');
         setGarageDoorsClosed(false);
         setGarageLight('warm');
+        document.getElementById('search').value = '';
+        document.getElementById('search').dispatchEvent(new Event('input'));
+        controls.autoRotate = defaultAutoRotate;
+        document.getElementById('spin').setAttribute('aria-pressed', controls.autoRotate ? 'true' : 'false');
         document.getElementById('selbar').hidden = true;
         var v = VIEWS.hero;
         fly = {t:0, fromP:camera.position.clone(), toP:new THREE.Vector3(v.p[0],v.p[1],v.p[2]), fromT:controls.target.clone(), toT:new THREE.Vector3(v.t[0],v.t[1],v.t[2])};
@@ -1745,7 +1810,7 @@
          nắp vừa khó nhận ra đã ăn hay chưa). */
       function applyExplode(f){
         explodeTarget = f;
-        if (selected && UNDERBODY_PARTS[selected]) pendingExplodedFocus = selected;
+        if (selected) pendingExplodedFocus = selected;
         var lbl = document.getElementById('explodeval');
         if (lbl) lbl.textContent = Math.round(f * 100) + '%';
         var eb = document.getElementById('explodebtn');
