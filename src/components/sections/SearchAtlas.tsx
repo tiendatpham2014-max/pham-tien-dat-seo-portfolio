@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { AtlasNodeGuide } from "./AtlasNodeGuide";
 import { searchAtlasCopy } from "@/content/search-atlas";
 import { SearchAtlasCanvas } from "@/components/visuals/SearchAtlasCanvas";
 import { useSitePreferences } from "@/components/site-preferences";
@@ -10,11 +11,14 @@ export function SearchAtlas() {
   const { language, theme } = useSitePreferences();
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
+  const [inspected, setInspected] = useState<number | null>(null);
   const [reduced, setReduced] = useState(false);
   const words = searchAtlasCopy[language];
   const sceneProgress = progress;
   const stageProgress = sceneProgress * 4;
   const active = Math.min(4, Math.max(0, Math.round(stageProgress)));
+
+  useEffect(() => setInspected(null), [active]);
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -77,7 +81,7 @@ export function SearchAtlas() {
           <div className="atlas-fallback">
             {words.steps.map((step, index) => <span key={index} className={index === active ? "is-active" : ""}>{String(index + 1).padStart(2, "0")}</span>)}
           </div>
-          {!reduced && <SearchAtlasCanvas progress={sceneProgress} theme={theme} language={language} onStageSelect={goTo} onOrbit={moveWithScene} />}
+          {!reduced && <SearchAtlasCanvas progress={sceneProgress} theme={theme} language={language} onStageSelect={goTo} onOrbit={moveWithScene} onInspectNode={setInspected} />}
         </div>
         <div className="shell atlas-scene-header">
           <h2 id="atlas-title">{words.title}</h2>
@@ -102,6 +106,7 @@ export function SearchAtlas() {
             );
           })}
         </div>
+        {!reduced && <AtlasNodeGuide stage={active} node={inspected} language={language} onSelect={setInspected} />}
         <div className="shell atlas-controls">
           <p>{words.instruction}</p>
           <nav className="atlas-waypoints" aria-label={language === "vi" ? "Các lớp phân tích SEO" : "SEO analysis layers"}>

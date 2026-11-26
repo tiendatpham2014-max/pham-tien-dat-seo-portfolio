@@ -10,19 +10,22 @@ type AtlasProps = {
   language: Language;
   onStageSelect: (index: number) => void;
   onOrbit: (yaw: number, pitch: number) => void;
+  onInspectNode: (index: number | null) => void;
 };
 
 /** One diagram changes shape as the visitor moves through five SEO decisions. */
-export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, onOrbit }: AtlasProps) {
+export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, onOrbit, onInspectNode }: AtlasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(progress);
   const selectRef = useRef(onStageSelect);
   const orbitRef = useRef(onOrbit);
+  const inspectRef = useRef(onInspectNode);
   const requestFrameRef = useRef<() => void>(() => {});
   const [ready, setReady] = useState(false);
   progressRef.current = progress;
   selectRef.current = onStageSelect;
   orbitRef.current = onOrbit;
+  inspectRef.current = onInspectNode;
 
   useEffect(() => { requestFrameRef.current(); }, [progress]);
 
@@ -253,6 +256,15 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
         const raycaster = new THREE.Raycaster();
         raycaster.layers.set(1);
         const pointerPoint = new THREE.Vector2();
+        const nodeRaycaster = new THREE.Raycaster();
+        let lastInspected: number | null = null;
+        const inspectNode = (event: PointerEvent) => {
+          const rect = host.getBoundingClientRect();
+          pointerPoint.set((event.clientX-rect.left)/rect.width*2-1, -(event.clientY-rect.top)/rect.height*2+1);
+          nodeRaycaster.setFromCamera(pointerPoint,camera);
+          const node = nodeRaycaster.intersectObject(nodes)[0]?.instanceId ?? null;
+          if (node !== lastInspected) { lastInspected=node; inspectRef.current(node); }
+        };
         const desktopLanes = [2.1, -2.1, 2.1, -1.8, 2.1];
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
         const isHostInViewport = () => {
@@ -316,7 +328,8 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           host.classList.add("is-dragging");
         };
         const onPointerMove = (event: PointerEvent) => {
-          if (pointer?.id !== event.pointerId) return;
+          if (!pointer) { if (event.pointerType === "mouse") inspectNode(event); return; }
+          if (pointer.id !== event.pointerId) return;
           const dx = event.clientX - pointer.x;
           const dy = event.clientY - pointer.y;
           const totalX = event.clientX - pointer.startX;
@@ -343,6 +356,7 @@ export function SearchAtlasCanvas({ progress, theme, language, onStageSelect, on
           raycaster.setFromCamera(pointerPoint, camera);
           const hits = raycaster.intersectObjects(markers.map(({ pick }) => pick));
           if (hits.length) selectRef.current(hits[0].object.userData.stageIndex as number);
+          else inspectNode(event);
         };
         const onPointerCancel = (event: PointerEvent) => {
           if (pointer?.id !== event.pointerId) return;

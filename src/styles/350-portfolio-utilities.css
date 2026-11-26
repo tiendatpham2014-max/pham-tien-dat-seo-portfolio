@@ -1,0 +1,124 @@
+/* Compact, optional controls retain the existing chapter rhythm. */
+.skill-shortcuts { display:flex; flex-wrap:wrap; gap:5px 12px; margin-top:20px; }
+.skill-shortcuts button { display:flex; gap:7px; min-height:36px; padding:5px 0; color:inherit; background:none; border:0; border-bottom:1px solid transparent; font:inherit; font-size:12px; text-align:left; cursor:pointer; }
+.skill-shortcuts button span { opacity:.65; }
+.skill-shortcuts button[aria-current] { color:var(--diagram-accent); border-color:currentColor; }
+.diagram-label { fill:var(--ink); font:500 15px "Be Vietnam Pro",sans-serif; }
+.case-reading-note { max-width:54ch; margin:20px 0 10px; font-size:13px; line-height:1.65; color:inherit; }
+.copy-email { display:inline-flex; flex-direction:column; align-items:flex-start; max-width:100%; }
+.copy-email .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.copy-email button, .workflow-tool button { min-height:36px; padding:7px 12px; color:inherit; font:inherit; font-size:13px; border:1px solid currentColor; border-radius:5px; background:none; cursor:pointer; }
+.copy-email-fallback { max-width:100%; font-size:12px; }
+.copy-email-fallback input { display:block; width:100%; min-width:230px; color:inherit; background:none; border:1px solid currentColor; padding:8px; font:inherit; }
+.contact-editorial-links { flex-wrap:wrap; align-items:center; }
+.workflow-tool { margin-top:10px; font-size:12px; line-height:1.5; }
+.workflow-tool summary { width:fit-content; min-height:36px; padding:7px 0; cursor:pointer; text-decoration:underline; text-underline-offset:5px; }
+.workflow-tool p { margin:5px 0 8px; font-size:12px; }
+.workflow-tool label { display:block; font-size:12px; }
+.workflow-tool textarea { display:block; width:100%; resize:vertical; min-height:64px; max-height:110px; padding:9px; margin-top:4px; border:1px solid var(--quiet); border-radius:4px; color:inherit; background:transparent; font:12px/1.5 "Be Vietnam Pro",sans-serif; }
+.workflow-actions { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+.workflow-tool small { display:block; margin-top:6px; font-size:11px; line-height:1.5; }
+.workflow-results { max-height:130px; overflow:auto; overscroll-behavior:contain; }
+.workflow-results ul { padding:0; margin:0; list-style:none; }
+.workflow-results li { display:grid; grid-template-columns:85px minmax(0,1fr); gap:8px; padding:6px 0; border-bottom:1px solid var(--diagram-line); }
+.workflow-results code { overflow-wrap:anywhere; font-size:11px; }
+.skill-sequence-item:has(.workflow-tool[open]) :is(.skill-sequence-visual,dl,.skill-sequence-tools) { display:none; }
+.atlas-node-guide { position:absolute; z-index:5; left:50%; bottom:110px; width:min(380px,calc(100% - 40px)); transform:translateX(-50%); color:#edf8f5; font-size:12px; }
+.atlas-guide-toggle { display:flex; justify-content:space-between; gap:16px; margin-left:auto; border:1px solid #759a9d; color:inherit; background:#103039; border-radius:5px; padding:7px 10px; min-height:36px; cursor:pointer; font:inherit; }
+.atlas-node-note { padding:12px; margin-top:6px; background:#103039; border:1px solid #759a9d; border-radius:6px; }
+.atlas-node-note p { margin:8px 0 0; line-height:1.6; }
+.atlas-guide-options { display:flex; flex-wrap:wrap; gap:5px; }
+.atlas-guide-options button { min-height:30px; border:1px solid #759a9d; background:transparent; color:inherit; padding:4px 7px; border-radius:4px; font:inherit; cursor:pointer; }
+.atlas-guide-options button[aria-pressed="true"] { color:#103039; background:#c7eee2; }
+html[data-theme="light"] .atlas-node-guide { color:#183f47; }
+html[data-theme="light"] :is(.atlas-guide-toggle,.atlas-node-note) { background:#edf7f3; border-color:#679496; }
+html[data-theme="light"] .atlas-guide-options button[aria-pressed="true"] { color:#fff; background:#245f66; }
+@media(max-width:1240px) and (min-width:1081px) { .desktop-nav { gap:14px; } .desktop-nav a { font-size:12px; } }
+@media(max-width:900px) {
+ .skill-shortcuts { margin-top:10px; gap:4px 14px; }
+ .skill-shortcuts button { min-height:32px; font-size:11px; }
+ .skills.is-scroll-enhanced .skill-sequence-list { height:min(470px,calc(100svh - 330px)); }
+}
+@media(max-width:720px) {
+ .atlas-node-guide { bottom:98px; width:min(340px,calc(100% - 36px)); }
+}
+@media(max-width:520px) {
+ .skill-shortcuts { gap:3px 12px; margin-top:6px; }
+ .skill-shortcuts button { font-size:10px; min-height:30px; }
+ .skills.is-scroll-enhanced .skill-sequence-list { height:calc(100svh - 310px); }
+ .workflow-tool { margin-top:4px; }
+ .workflow-tool p,.workflow-tool label { font-size:11px; }
+ .workflow-results { max-height:90px; }
+ .workflow-tool small { font-size:10px; }
+ .workflow-tool textarea { max-height:80px; }
+ .atlas-node-guide { bottom:123px; }
+}
+@media(max-height:700px) and (max-width:900px) {
+ .skills.is-scroll-enhanced .skill-sequence-intro p { display:none; }
+ .skills.is-scroll-enhanced .skill-sequence-list { height:calc(100svh - 235px); }
+ .skill-sequence-item:has(.workflow-tool[open]) { justify-content:flex-start; overflow:auto; overscroll-behavior:contain; }
+ .atlas-node-guide { bottom:90px; }
+}
+@media(prefers-reduced-motion:reduce) { .atlas-node-guide { display:none; } }
+
+/* An English document view uses the site's typography, with its own reading width. */
+.resume-page { --resume-bg:#101b2b; --resume-fg:#edf1f5; --resume-muted:#b6c5d4; --resume-line:#405268; min-height:100vh; color:var(--resume-fg); background:var(--resume-bg); padding:0 28px 50px; }
+html[data-theme="light"] .resume-page { --resume-bg:#f7f9fb; --resume-fg:#172b3b; --resume-muted:#4e6172; --resume-line:#bac8d1; }
+.resume-page a { color:inherit; text-underline-offset:4px; }
+.resume-nav { max-width:1080px; margin:auto; display:flex; flex-wrap:wrap; gap:12px 25px; padding:24px 0; border-bottom:1px solid var(--resume-line); font-size:13px; }
+.resume-nav a:first-child { margin-right:auto; }
+.resume-sheet { max-width:1080px; margin:45px auto 0; }
+.resume-header { display:flex; justify-content:space-between; gap:30px; align-items:flex-start; }
+.resume-header h1 { margin:0 0 8px; font-size:clamp(38px,6vw,64px); font-weight:600; line-height:1.1; letter-spacing:-.035em; }
+.resume-title { font-size:18px; }
+.resume-header p { margin:6px 0; }
+.resume-contact { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:16px; font-size:13px; }
+.resume-actions { display:flex; flex-wrap:wrap; align-items:flex-start; gap:8px; max-width:280px; justify-content:flex-end; }
+.resume-actions :is(a,button) { display:inline-block; min-height:38px; padding:8px 12px; color:inherit; background:none; border:1px solid var(--resume-line); border-radius:5px; font:inherit; font-size:12px; text-decoration:none; cursor:pointer; }
+.resume-actions>a:first-child { background:var(--resume-fg); color:var(--resume-bg); }
+.resume-profile { max-width:74ch; margin:30px 0 38px; font-size:16px; line-height:1.8; }
+.resume-columns { display:grid; grid-template-columns:minmax(0,2.3fr) minmax(220px,1fr); gap:65px; align-items:start; }
+.resume-sheet section { padding:0; margin:0 0 36px; scroll-margin-top:20px; }
+.resume-sheet h2 { margin:0 0 18px; font-size:21px; font-weight:600; }
+.resume-sheet h3 { margin:0; font-size:15px; font-weight:600; }
+.resume-company { margin:0 0 18px; color:var(--resume-muted); }
+.resume-entry { margin-bottom:26px; }
+.resume-entry-heading { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:4px 12px; }
+.resume-entry-heading span,.resume-project-field { color:var(--resume-muted); font-size:12px; }
+.resume-project-field { margin:4px 0 0; }
+.resume-sheet ul { padding-left:18px; margin:10px 0 0; }
+.resume-sheet li { padding-left:3px; margin:7px 0; font-size:13px; line-height:1.8; }
+.resume-sheet aside { border-left:1px solid var(--resume-line); padding-left:26px; }
+.resume-sheet dl { margin:0; }
+.resume-sheet dt { margin:0 0 5px; font-size:13px; font-weight:600; }
+.resume-sheet dd { margin:0 0 20px; color:var(--resume-muted); font-size:13px; line-height:1.8; }
+.resume-sheet aside p { font-size:13px; line-height:1.8; color:var(--resume-muted); }
+.resume-footer { display:flex; justify-content:space-between; flex-wrap:wrap; gap:15px; padding-top:22px; margin-top:30px; border-top:1px solid var(--resume-line); font-size:12px; }
+.resume-skip { position:fixed; left:15px; top:-100px; z-index:20; }
+.resume-skip:focus { top:12px; padding:12px; background:var(--resume-bg); }
+@media(max-width:700px) {
+ .resume-page { padding:0 20px 30px; }
+ .resume-sheet { margin-top:28px; }
+ .resume-header { flex-direction:column; gap:20px; }
+ .resume-actions { justify-content:flex-start; max-width:none; }
+ .resume-columns { grid-template-columns:1fr; gap:0; }
+ .resume-sheet aside { border:0; padding:0; }
+ .resume-profile { font-size:14px; }
+}
+@media print {
+ @page { size:A4; margin:14mm; }
+ html:has(.resume-page),body:has(.resume-page),.resume-page { background:#fff!important; color:#000!important; }
+ .resume-page { --resume-fg:#000; --resume-muted:#333; --resume-line:#aaa; padding:0; }
+ .resume-nav,.resume-actions,.resume-skip { display:none!important; }
+ .resume-sheet { margin:0; }
+ .resume-header h1 { font-size:30px; }
+ .resume-profile { font-size:10pt; margin:16px 0; line-height:1.5; }
+ .resume-columns { display:block; }
+ .resume-sheet aside { padding:0; border:0; }
+ .resume-sheet section { margin-bottom:16px; }
+ .resume-sheet li,.resume-sheet dd,.resume-sheet aside p { font-size:9pt; line-height:1.4; }
+ .resume-entry,.resume-sheet dl>div { break-inside:avoid; }
+ .resume-entry { margin-bottom:13px; }
+ .resume-sheet h2 { font-size:14pt; break-after:avoid; }
+ .resume-footer { font-size:8pt; }
+}

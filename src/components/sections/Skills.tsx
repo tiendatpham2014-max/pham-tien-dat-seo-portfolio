@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { copy } from "@/content/portfolio";
 import { useSitePreferences } from "@/components/site-preferences";
+import { getLenis } from "@/components/portfolio/smooth-scroll";
+import { WorkflowTool } from "./WorkflowTool";
 import { SkillDiagram } from "./SkillDiagram";
 
 const skills = [
@@ -70,28 +72,50 @@ export function Skills() {
     };
   }, [enhanced]);
 
+  const goToSkill = (index: number) => {
+    const section = sectionRef.current;
+    if (!section) return;
+    if (!enhanced) {
+      section.querySelectorAll<HTMLElement>(".skill-sequence-item")[index]?.scrollIntoView({ behavior: "instant", block: "start" });
+      return;
+    }
+    const stageHeight = section.querySelector<HTMLElement>(".skill-sequence")?.offsetHeight ?? 0;
+    const travel = Math.max(0, section.offsetHeight - stageHeight);
+    // Aim inside the selected quarter, away from the transition boundary.
+    const target = scrollY + section.getBoundingClientRect().top - 78 + travel * (index + .35) / skills.length;
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(target, { duration: .65 });
+    else window.scrollTo({ top: target, behavior: "smooth" });
+  };
+
   return (
     <section className={`skills section-space${enhanced ? " is-scroll-enhanced" : ""}${reverse ? " is-reverse" : ""}`} id="skills" aria-labelledby="skills-title" ref={sectionRef}>
       <div className="shell skill-sequence">
         <div className="skill-sequence-intro">
           <h2 className="display-heading" id="skills-title">{words.skillsTitle}</h2>
           <p>{words.skillsIntro}</p>
+          <nav className="skill-shortcuts" aria-label={language === "vi" ? "Chọn nhóm chuyên môn" : "Choose a skill area"}>
+            {skills.map((skill, index) => <button type="button" key={skill.id} aria-current={active === index ? "step" : undefined} onClick={() => goToSkill(index)}>
+              <span aria-hidden="true">0{index + 1}</span>{words[skill.label]}
+            </button>)}
+          </nav>
         </div>
         <div className="skill-sequence-list">
           {skills.map((skill, index) => (
-            <article className={`skill-sequence-item${active === index ? " is-current" : ""}${leaving === index && active !== index ? " is-leaving" : ""}`} aria-hidden={enhanced && active !== index} key={skill.id}>
+            <article className={`skill-sequence-item${active === index ? " is-current" : ""}${leaving === index && active !== index ? " is-leaving" : ""}`} aria-hidden={enhanced && active !== index} inert={enhanced && active !== index} key={skill.id}>
               <div className="skill-sequence-heading">
                 <span className="skill-sequence-index">0{index + 1} / 04</span>
                 <span className="skill-sequence-label">{words[skill.label]}</span>
                 <h3>{words[skill.headline]}</h3>
               </div>
-              <div className="skill-sequence-visual"><SkillDiagram kind={skill.id} /></div>
+              <div className="skill-sequence-visual"><SkillDiagram kind={skill.id} language={language} /></div>
               <dl>
                 <div><dt>{words.problem}</dt><dd>{words[skill.problem]}</dd></div>
                 <div><dt>{words.approach}</dt><dd>{words[skill.approach]}</dd></div>
                 <div><dt>{words.output}</dt><dd>{words[skill.output]}</dd></div>
               </dl>
               <p className="skill-sequence-tools">{skill.tools}</p>
+              {skill.id === "workflow" && <WorkflowTool language={language} />}
             </article>
           ))}
         </div>

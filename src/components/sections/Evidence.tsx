@@ -71,6 +71,9 @@ export function Evidence() {
                 ))}
               </div>
             </div>
+            <p className="case-reading-note">{language === "vi"
+              ? "Lượt hiển thị giảm 5,0%, nhưng lượt nhấp tăng 27,1% và CTR tăng từ 1,02% lên 1,36%. Website nhận được nhiều lượt nhấp hơn dù xuất hiện ít hơn; cần xem thêm theo truy vấn và trang để xác định nguyên nhân."
+              : "Impressions fell 5.0%, while clicks rose 27.1% and CTR increased from 1.02% to 1.36%. The site received more clicks despite fewer appearances; query and page breakdowns are needed to explain why."}</p>
             <p className="case-signal-context">{words.workScope}</p>
           </div>
         </div>

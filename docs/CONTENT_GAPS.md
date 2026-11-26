@@ -52,3 +52,8 @@ Bản public hiện có case GSC của Altus Entertainment, phần công việc 
 Để xuất bản thêm một case, vui lòng gửi một bản ngắn gồm: (1) tên công khai hoặc cách ẩn danh; (2) vấn đề và phạm vi trang; (3) việc Đạt trực tiếp làm so với đề xuất của đội; (4) trạng thái đề xuất / đã triển khai / đã đo lường; (5) đầu ra hoặc URL/ảnh đã được che thông tin và có quyền đăng; (6) kỳ đo và cách lấy số nếu có KPI. Case không có KPI vẫn có thể dùng nếu các sự kiện trên được xác nhận.
 
 Với ảnh dashboard, crawl hoặc worksheet, cần bản đã xóa domain, account, dữ liệu truy vấn nhạy cảm và thông tin khách hàng; xác nhận quyền dùng công khai. Với testimonial hoặc ảnh cá nhân, cần nội dung/ảnh gốc và sự đồng ý đăng tải. Chưa có các tài liệu này thì giữ nguyên trạng thái không xuất bản.
+
+## Mô phỏng công khai và Resume English
+
+- Workflow có mini-tool chuẩn hóa URL dùng dữ liệu mẫu, xử lý hoàn toàn trong trình duyệt. Đây là minh họa logic, không phải bằng chứng đã triển khai Apps Script ở khách hàng. `CASE_03` vẫn chưa xác minh.
+- Trang `/resume/` và PDF công khai lấy từ `CV_Pham_Tien_Dat_SEO_EN.docx`, bản cập nhật 18/11/2026. Bỏ số điện thoại; dùng email và LinkedIn đã công khai. Thời gian công việc/dự án giữ theo tài liệu nguồn, không tự chuyển thành “Present”.

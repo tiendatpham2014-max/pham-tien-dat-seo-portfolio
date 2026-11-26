@@ -1,6 +1,9 @@
+import type { Language } from "@/content/portfolio";
+
 type SkillKind = "technical" | "content" | "analytics" | "workflow";
 
-export function SkillDiagram({ kind }: { kind: SkillKind }) {
+export function SkillDiagram({ kind, language = "en" }: { kind: SkillKind; language?: Language }) {
+  const labels = { technical: language === "vi" ? ["Thu thập", "Kiểm tra", "Lập chỉ mục"] : ["Crawl", "Audit", "Index"], content: language === "vi" ? ["Truy vấn", "Chủ đề", "Nội dung"] : ["Queries", "Topic", "Content"], analytics: ["GSC", "GA4", language === "vi" ? "Đối chiếu" : "Compare"], workflow: language === "vi" ? ["Dữ liệu vào", "Quy tắc", "Kết quả"] : ["Input", "Rules", "Output"] }[kind];
   return (
     <svg className={`skill-diagram skill-diagram-${kind}`} viewBox="0 0 600 150" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       {kind === "technical" && <>
@@ -32,6 +35,7 @@ export function SkillDiagram({ kind }: { kind: SkillKind }) {
         <circle className="diagram-node diagram-node-focus" cx="315" cy="75" r="16" />
         {[0, 1, 2].map((row) => <g key={row}><rect className="diagram-frame" x="410" y={17 + row * 42} width="155" height="28" rx="4" /><path className="diagram-hairline" d={`M443 ${31 + row * 42}H543`} /><path className="diagram-check" d={`M419 ${31 + row * 42}l5 5 9-11`} /></g>)}
       </>}
+      {labels.map((label, index) => <text className="diagram-label" key={label} x={[90, 300, 510][index]} y={146} textAnchor="middle">{label}</text>)}
     </svg>
   );
 }
