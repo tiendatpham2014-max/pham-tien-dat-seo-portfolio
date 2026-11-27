@@ -50,7 +50,12 @@ export function Skills() {
       const travel = Math.max(1, section.offsetHeight - stageHeight);
       const progress = Math.max(0, Math.min(1, (offset - section.getBoundingClientRect().top) / travel));
       section.style.setProperty("--skill-progress", String(progress));
-      const next = Math.min(skills.length - 1, Math.floor(progress * skills.length));
+      // Input focus may scroll the viewport on mobile. Keep the form in place
+      // while editing; shortcuts or leaving the section resume scroll selection.
+      const bounds = section.getBoundingClientRect();
+      const editingWorkflow = activeRef.current === 3 && bounds.bottom > offset && bounds.top < window.innerHeight &&
+        section.querySelector(".workflow-tool[open]")?.contains(document.activeElement);
+      const next = editingWorkflow ? 3 : Math.min(skills.length - 1, Math.floor(progress * skills.length));
       if (next === activeRef.current) return;
       window.clearTimeout(leaveTimeout);
       setReverse(next < activeRef.current);

@@ -11,6 +11,7 @@
     "verify": "npm run check && npm run build && npm run audit:site",
     "preview": "node scripts/preview-export.mjs",
     "test:browser": "playwright test",
+    "test:utilities": "playwright test --config=playwright.utilities.config.mjs",
     "perf:audit": "node scripts/audit-performance.mjs",
     "commit:after-live": "node scripts/commit-after-live.mjs"
   },

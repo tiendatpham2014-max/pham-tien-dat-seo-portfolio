@@ -345,7 +345,7 @@ html[data-theme="light"] .hero .hero-tagline {
   gap: 16px;
 }
 
-.contact-editorial-links a {
+.contact-editorial-links :is(a, .copy-email button) {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -361,7 +361,7 @@ html[data-theme="light"] .hero .hero-tagline {
   transition: all .2s ease;
 }
 
-.contact-editorial-links a:hover {
+.contact-editorial-links :is(a, .copy-email button):hover {
   background: #38bdf8;
   color: #050814;
   border-color: #38bdf8;
@@ -394,13 +394,13 @@ html[data-theme="light"] .work .metric-stage {
   border-top-color: rgba(15, 23, 42, .12);
 }
 
-html[data-theme="light"] .contact-editorial-links a {
+html[data-theme="light"] .contact-editorial-links :is(a, .copy-email button) {
   background: #0f172a;
   border-color: #0f172a;
   color: #fff;
 }
 
-html[data-theme="light"] .contact-editorial-links a:hover {
+html[data-theme="light"] .contact-editorial-links :is(a, .copy-email button):hover {
   background: #0284c7;
   border-color: #0284c7;
   color: #fff;

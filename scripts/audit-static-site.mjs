@@ -81,6 +81,50 @@ for (const { language, path, titleName } of [
   }
 }
 
+
+const resumePath = resolve(outputDir, "resume/index.html");
+assert(existsSync(resumePath), "Resume: static HTML is missing.");
+if (existsSync(resumePath)) {
+  const html = readFileSync(resumePath, "utf8");
+  const tags = (name) => [...html.matchAll(new RegExp(`<${name}\\b[^>]*>`, "gi"))].map(([tag]) => tag);
+  const meta = tags("meta"), links = tags("link");
+  assert(attribute(tags("html")[0] ?? "", "lang") === "en", "Resume: HTML language must be English.");
+  assert(tags("h1").length === 1 && /Dat Pham/.test(html.match(/<h1[^>]*>(.*?)<\/h1>/)?.[1] ?? ""), "Resume: expected one named H1.");
+  assert(links.some(tag => attribute(tag,"rel")==="canonical" && attribute(tag,"href")===siteOrigin+"/resume/"), "Resume: canonical URL is wrong.");
+  for (const name of ["description","robots","googlebot","theme-color"]) assert(meta.some(tag=>attribute(tag,"name")===name && attribute(tag,"content")), `Resume: missing ${name} metadata.`);
+  assert(meta.some(tag=>attribute(tag,"property")==="og:description" && attribute(tag,"content")), "Resume: Open Graph description is missing.");
+  assert(meta.some(tag=>attribute(tag,"name")==="googlebot" && (attribute(tag,"content")??"").includes("max-image-preview:none")), "Resume: Google image preview policy is missing.");
+  assert(links.some(tag=>attribute(tag,"rel")==="apple-touch-icon"), "Resume: Apple touch icon is missing.");
+  assert(links.some(tag=>attribute(tag,"rel")==="icon" && attribute(tag,"type")==="image/png"), "Resume: PNG icon fallback is missing.");
+  const data = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  let profileFound=false;
+  for (const [,value] of data) {
+    try {
+      const schema=JSON.parse(value);
+      if(schema["@type"]==="ProfilePage") profileFound=schema.url===siteOrigin+"/resume/" && schema.inLanguage==="en" && schema.mainEntity?.["@type"]==="Person" && schema.mainEntity?.name==="Phạm Tiến Đạt";
+    } catch { issues.push("Resume: invalid structured data."); }
+  }
+  assert(profileFound,"Resume: a named Person mainEntity is required.");
+  const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match=>match[1]));
+  for(const tag of [...tags("a"),...links,...tags("script")]) {
+    const raw=attribute(tag,"href")??attribute(tag,"src");
+    if(!raw||/^(mailto:|tel:|data:)/i.test(raw))continue;
+    const target=new URL(raw.replaceAll("&amp;","&"),siteOrigin+"/resume/");
+    if(target.origin!==siteOrigin)continue;
+    if(target.pathname==="/resume/" && target.hash)assert(ids.has(target.hash.slice(1)),`Resume: missing anchor ${target.hash}.`);
+    const asset=resolve(outputDir,decodeURIComponent(target.pathname).replace(/^\/+/,""));
+    assert(asset.startsWith(outputDir+sep), "Resume: reference escapes static output.");
+    if(asset.startsWith(outputDir+sep))assert(existsSync(asset)||existsSync(resolve(asset,"index.html")),`Resume: missing reference ${target.pathname}.`);
+  }
+  assert(html.includes('href="/resume/dat-pham-resume-en.pdf"'),"Resume: PDF download link is missing.");
+}
+const resumePdf=resolve(outputDir,"resume/dat-pham-resume-en.pdf");
+assert(existsSync(resumePdf),"Resume: public PDF is missing.");
+if(existsSync(resumePdf)) {
+  const bytes=readFileSync(resumePdf);
+  assert(bytes.length>1000 && bytes.subarray(0,5).toString()==="%PDF-" && bytes.subarray(-64).toString().includes("%%EOF"),"Resume: invalid or truncated PDF.");
+}
+
 const robotsPath = resolve(outputDir, "robots.txt");
 const sitemapPath = resolve(outputDir, "sitemap.xml");
 assert(existsSync(robotsPath), "robots.txt is missing.");
@@ -90,7 +134,7 @@ if (existsSync(robotsPath)) {
 }
 if (existsSync(sitemapPath)) {
   const sitemap = readFileSync(sitemapPath, "utf8");
-  for (const path of ["/", "/en/", "/showcase/bmw-m4-csl/", "/en/showcase/bmw-m4-csl/"]) {
+  for (const path of ["/", "/en/", "/showcase/bmw-m4-csl/", "/en/showcase/bmw-m4-csl/", "/resume/"]) {
     assert(sitemap.includes(`<loc>${siteOrigin}${path}</loc>`), `sitemap.xml is missing ${path}.`);
   }
   for (const language of ["vi", "en"]) {
@@ -102,4 +146,4 @@ if (issues.length) {
   console.error(`Static site audit failed (${issues.length}):\n${issues.map((issue) => `  - ${issue}`).join("\n")}`);
   process.exit(1);
 }
-console.log(`Static site audit passed: VI/EN metadata, structured data, sitemap, robots, ${checkedAnchors} anchors and ${checkedAssets} local references.`);
+console.log(`Static site audit passed: VI/EN + Resume/PDF metadata, structured data, sitemap, robots, ${checkedAnchors} anchors and ${checkedAssets} local references.`);

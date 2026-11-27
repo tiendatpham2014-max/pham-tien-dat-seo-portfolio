@@ -6,8 +6,12 @@ export const metadata:Metadata = {
   description:"English resume of Dat Pham: SEO experience at Primas, selected projects, technical SEO, content and analytics skills.",
   alternates:{canonical:"/resume/"},
   robots:{index:true,follow:true,googleBot:{index:true,follow:true,"max-image-preview":"none"}},
-  openGraph:{type:"profile",title:"Dat Pham — English Resume",url:"/resume/",locale:"en_US"},
-  icons:{icon:"/favicon.svg"}
+  openGraph:{type:"profile",title:"Dat Pham — English Resume",description:"English resume of Dat Pham: SEO experience at Primas, selected projects, technical SEO, content and analytics skills.",url:"/resume/",locale:"en_US"},
+  icons:{
+    icon:[{url:"/favicon.svg",type:"image/svg+xml"},{url:"/favicon-32x32.png",sizes:"32x32",type:"image/png"},{url:"/favicon-48x48.png",sizes:"48x48",type:"image/png"},{url:"/favicon.ico"}],
+    apple:[{url:"/apple-touch-icon.png",sizes:"180x180",type:"image/png"}],
+    shortcut:"/favicon.ico"
+  }
 };
 export default function ResumePage(){
   return <div className="resume-page">
